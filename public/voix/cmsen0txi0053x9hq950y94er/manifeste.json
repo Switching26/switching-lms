@@ -1,0 +1,842 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0txi0053x9hq950y94er",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Puces ou numéros"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1160,
+  "duree_totale_s": 75.0,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un document qui contient les deux natures de liste: une procédure, où l'ordre commande, et un inventaire, où il est indifférent. À vous de choisir la bonne marque pour chacune.",
+   "empreinte_texte_dit": "2de25f2e2f0367991df2c4325cf9e1cb88bf93b4b4d4ef58a93e9bb87921abaf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 164302,
+   "duree_s": 10.2,
+   "caracteres_dits": 176,
+   "caracteres_factures": 176,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un document qui contient les deux natures de liste, une\n procédure, ou l'ordre commande, et un inventaire où il est\n indifférent.\n A vous de choisir la bonne marque pour chacune.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "un document qui contient les deux natures de liste,\n une procédure où l'ordre commande,\n et un inventaire où il est indifférent.\n À vous de choisir la bonne marque pour chacune.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M06-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "La procédure d'ouverture se fait dans un ordre précis. À vous : marquez la première opération en conséquence.",
+   "empreinte_texte_dit": "944c787e1162897d42c51e2f05dfd98b0ccdfd5f0b343e4d0b3f79cd1df8591c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 113728,
+   "duree_s": 7.04,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La procédure d'ouverture se fait dans un ordre précis.\n À vous, marquez la première opération en conséquence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La procédure d'ouverture se fait dans un ordre précis.\n À vous ! Marquez la première opération en conséquence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M06-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Quand l'ordre compte, on numérote.",
+   "empreinte_texte_dit": "eb4b4cf4c52fe4385c72818ede86ff1458ad4d64a7d0dc5c8d693f3a31832ca4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 32644,
+   "duree_s": 1.96,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Quand l'ordre compte, on numérote.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Quand l'ordre compte, on numérote.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M06-E02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Première opération numérotée.",
+   "empreinte_texte_dit": "ca9dd9f05bc4d2c02c11409463091078706b8139f4a13fbd6c5b562041560262",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 32644,
+   "duree_s": 1.96,
+   "caracteres_dits": 29,
+   "caracteres_factures": 29,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Première opération numérotée",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Première opération numérotée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M06-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "À vous : traitez la deuxième opération de la même façon.",
+   "empreinte_texte_dit": "00770cf4398a50ab0a25513726e3a9bf5c9dea84f17d5ad050913d8bfff7e6fc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "A vous, traitez la deuxième opération de la même façon.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "À vous ! Traitez la deuxième opération de la même façon.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M06-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Bouton Numéros, groupe Paragraphe.",
+   "empreinte_texte_dit": "9a8adcbb9c10d790fb93226bbe227232761a87162f1cbbded09223a6096c1da4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton numéro, groupe paragraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton numéro. Groupe paragraphes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M06-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Deuxième opération.",
+   "empreinte_texte_dit": "9e1e5517849246319160a7c9f57e1dac294b45b250a23faf441d97d77a60992c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 15926,
+   "duree_s": 0.92,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "2e opération",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deuxième opération.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M06-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "À vous : traitez la troisième opération.",
+   "empreinte_texte_dit": "924c7ed4d91d09224b4f455d7c0eb7816573cc0afe66b8e81f4c623a2966c5b9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "A vous, traitez la troisième opération.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "À vous ! Traitez la troisième opération.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M06-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le même bouton Numéros.",
+   "empreinte_texte_dit": "8a3d4df780946551c5b681e67d6d0db3898339caf77c6fe583af85f2db69d020",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 26793,
+   "duree_s": 1.6,
+   "caracteres_dits": 23,
+   "caracteres_factures": 46,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le même bouton numéro.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le même bouton Numéros.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M06-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Procédure ordonnée.",
+   "empreinte_texte_dit": "826d49567421210e1f0820b3f0fc1a1c4213f9e7596f5cf2845e19bcfa72762b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 23031,
+   "duree_s": 1.36,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Procédure ordonnée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Procédure ordonnée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M06-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Les points à vérifier n'ont pas d'ordre imposé. À vous : marquez le premier avec la bonne nature de liste.",
+   "empreinte_texte_dit": "90fbe050fde135c14d340f4c6270a4873567ba80f0f4df5983e731d9d843bb11",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les points à vérifier n'ont pas d'ordre imposé.\n À vous, marquez le premier avec la bonne nature de liste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les points à vérifier n'ont pas d'ordre imposé.\n À vous ! Marquez le premier avec la bonne nature de liste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M06-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Bouton Puces: sans ordre imposé, la puce suffit.",
+   "empreinte_texte_dit": "e2cb0eddcde93e59b0094c5d60ab4e6a60c7e9066cc082753b7eb7e10ab9214e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.069,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton pucesse, sans ordre imposé, la puce suffit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.069,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton pucesse, sans ordre imposé, la puce suffit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M06-E02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le contrôle se distingue de la procédure.",
+   "empreinte_texte_dit": "a059b8601f977e943fb56906e41cb7ab80a14c2e1c36e5d6ab74cfe04374d1b5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le contrôle se distingue de la procédure.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le contrôle se distingue de la procédure.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M06-E02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "À vous : traitez le second point de contrôle.",
+   "empreinte_texte_dit": "b63ee983620939339c22ef4a8cc6bf0c6898d17a57c3a7e074a12106a33a13d2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "A vous, traitez le second point de contrôle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "À vous ! Traitez le second point de contrôle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M06-E02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Le même bouton Puces.",
+   "empreinte_texte_dit": "7d37d6159b6874732ee89d8fd09a3bfc5ebaf0def4c71fd2af73564e9254e2ac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 29719,
+   "duree_s": 1.8,
+   "caracteres_dits": 21,
+   "caracteres_factures": 21,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.167,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le même bouton pucesse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.167,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le même bouton pucesse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M06-E02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Les deux listes ont chacune une nature différente.",
+   "empreinte_texte_dit": "597fffaaf1f4ed9fa67f3841b2e52ede84ad8caf92664b2de4be24d409f1baa8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les deux listes ont chacune une nature différente.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les deux listes ont chacune une nature différente.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M06-E02-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Donnez le style Titre 1 à l'intertitre À vérifier chaque matin pour séparer les deux blocs.",
+   "empreinte_texte_dit": "aafe12de6377b00cd632eeed8214c0881f83f5e08d5122a4b62a9b493a1349cc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez le style titrain à l'intertitre à vérifier chaque\n matin pour séparer les deux blocs.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez le style \"titre 1\" à l'intertitre, à vérifier chaque\n matin pour séparer les deux blocs.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M06-E02-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Bouton Titre 1 dans la galerie des styles, curseur dans l'intertitre.",
+   "empreinte_texte_dit": "1af9d198ba2a572a7ab678ca0fb0000d5abf27ddb39c7b9968d79bc072214cfe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton Titres 1 dans la galerie des styles, curseur dans l'\nintertitre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton titre 1 dans la galerie des styles, curseur dans l'\nintertitre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M06-E02-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Document structuré en deux sections.",
+   "empreinte_texte_dit": "76b4bf592294c0af22acc42febe522e490219c59fa3e4a66dfaaa2a673c989eb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Documents structurés en deux sections.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Documents structurés en deux sections.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Numéro quand l'ordre compte, puce sinon. Le lecteur comprend la nature de la liste avant d'en lire le premier mot.",
+   "empreinte_texte_dit": "decde2391245252a72277cc17299d77f254d2d8b249baaf59b203859d930ad93",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Numéro quand l'ordre compte, puce sinon.\n Le lecteur comprend la nature de la liste avant d'en lire\n le premier mot.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Numéro quand l'ordre compte, puce sinon.\n Le lecteur comprend la nature de la liste avant d'en lire\n le premier mot.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

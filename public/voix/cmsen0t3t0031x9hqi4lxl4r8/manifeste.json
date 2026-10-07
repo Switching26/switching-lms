@@ -1,0 +1,763 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0t3t0031x9hqi4lxl4r8",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Remplacer un passage"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 1034,
+  "duree_totale_s": 72.4,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un devis dont trois informations ont changé. À vous de les remplacer, sans effacer d'abord: rappelez-vous que taper alors qu'un texte est sélectionné suffit.",
+   "empreinte_texte_dit": "87cb97408b277b2ec90d083b0e3d762c969d1f8c995b533eaf332c2fea820b59",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 151345,
+   "duree_s": 9.4,
+   "caracteres_dits": 157,
+   "caracteres_factures": 471,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un devide ont trois informations ont changé.\n A vous de les remplacer sans effacer d'abord.\n Rappelez-vous que taper à l'or qu'un texte est sélectionné\n suffit.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un devis dont trois informations ont changé.\n A vous de les remplacer, sans effacer d'abord.\n Rappelez-vous que taper alors qu'un texte est sélectionné\n suffit.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M03-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Portez la quantité à dix-huit: Fourniture de dix-huit établis d'atelier.",
+   "empreinte_texte_dit": "7331d07231f9ac7e2a73e4baeb95282cd14c0c23659a71ca07cdd4639b1aa34b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Portez la quantité à 18.\n Fourniture de 18 établis d'atelier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Portez la quantité à 18.\n Fourniture de 18 établis d'ateliers.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M03-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Sélectionnez le mot à remplacer, puis tapez le nouveau.",
+   "empreinte_texte_dit": "ff528d0afc48fb8b456cc84b452ad609c49d36bb1b66128b1cd323a7b9b406db",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez le mot à remplacer, puis tapez le nouveau.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez le mot à remplacer, puis tapez le nouveau.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M03-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Quantité corrigée.",
+   "empreinte_texte_dit": "52438faaf0186ffdf6ae23afd5e80725c1a84fea86e3a5ac2ab944d0a2a3ec9f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 27211,
+   "duree_s": 1.64,
+   "caracteres_dits": 18,
+   "caracteres_factures": 18,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Quantité corriger.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Quantité corrigée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M03-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ramenez le délai à trois semaines: Délai de livraison: trois semaines.",
+   "empreinte_texte_dit": "0ecb3a63f7e7748f9db4bac43eeab37e5f065587e561c900bf3f7403b8f21829",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ramenez le délai à trois semaines.\n Délai de livraison, trois semaines.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ramenez le délai à trois semaines.\n Délai de livraison, trois semaines.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M03-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Sélectionnez la durée à remplacer, puis tapez la nouvelle.",
+   "empreinte_texte_dit": "c0cf14838dbd7929e0ff01c0c6ee508d5d61b041e77a95adb903e81fb76fc697",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez la durée à remplacer, puis tapez la nouvelle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez la durée à remplacer, puis tapez la nouvelle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M03-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le délai indiqué est maintenant corrigé.",
+   "empreinte_texte_dit": "c144d6426a25bb9eaaee5570ca25bc8fcb0f7b814429aaf6014bd7948f80c27f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 36824,
+   "duree_s": 2.24,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le délai indiqué est maintenant corrigé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le délai indiqué est maintenant corrigé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M03-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Portez la validité à trente jours: Validité de l'offre: trente jours.",
+   "empreinte_texte_dit": "375774c963f4520f5b50b9df534e7ff73df433d5c94e82f302f2dc1e1d632939",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Portez la validité à 30 jours. Validité de l'offre, 30\n jours.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Portez la validité à 30 jours.\n Validité de l'offre, 30 jours.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M03-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Sélectionnez la durée de validité, puis tapez la nouvelle.",
+   "empreinte_texte_dit": "9ab67ffaf28e9727bb45cca034e1f254e2e7035ccb1b4724a39a478b781c542b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez la durée de validité, puis tapez la nouvelle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez la durée de validité, puis tapez la nouvelle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M03-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Validité corrigée.",
+   "empreinte_texte_dit": "610b450b6ae68ca965d0a1628077f0a3062fd044f72e2b70028a9c31e25a308a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 26793,
+   "duree_s": 1.6,
+   "caracteres_dits": 18,
+   "caracteres_factures": 18,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Validité corrigeée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Validité corrigée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M03-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Réécrivez le numéro du devis en entier, la série ayant changé: Devis n° 2026-107.",
+   "empreinte_texte_dit": "a8f100a98edefc7778ef5a406c339a44b7b16d75e6360ef37d9928787bdb4a29",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 127103,
+   "duree_s": 7.88,
+   "caracteres_dits": 81,
+   "caracteres_factures": 162,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.21,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [],
+      "entendus": [
+       "2",
+       "2026",
+       "107"
+      ]
+     },
+     "sigles": null,
+     "references": {
+      "attendus": [
+       "refburoannee2026107"
+      ],
+      "entendus": []
+     },
+     "raccourcis": null,
+     "ok": false,
+     "transcription": "Réécrivez le numéro du devis en entier, la série ayant changé. Deux vies numéro 2026 à 107.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.242,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [],
+       "entendus": [
+        "2",
+        "2",
+        "2026",
+        "107"
+       ]
+      },
+      "sigles": null,
+      "references": {
+       "attendus": [
+        "refburoannee2026107"
+       ],
+       "entendus": []
+      },
+      "raccourcis": null,
+      "ok": false,
+      "transcription": "Réécrivez le numéro du Deux-Vies en entier, la série ayant\n changé.\n Deux-Vies numéro 2026 à 107."
+     }
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Réécrivez le numéro du devis en entier, la série ayant changé. Devis numéro 2026-107",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "f23fdd3a4da86e6c2e986ee40be7df471f2f06c96f608091d14e2d70e9e7fa3c",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Réécrivez le numéro du devis en entier, la série ayant changé. Devis numéro 2026-107",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": true,
+      "transcription": "Réécrivez le numéro du devis en entier, la série ayant changé. Devis numéro 2026-107",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:48.198034",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-word.json"
+    }
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M03-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Un triple-clic prend le paragraphe entier.",
+   "empreinte_texte_dit": "82a194769245940d39cae67272e28256cf77f3f77b179fed8573aa0397e90439",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 40168,
+   "duree_s": 2.44,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un triple clic prend le paragraphe entier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un triple clic prend le paragraphe entier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M03-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Numéro à jour.",
+   "empreinte_texte_dit": "70fb8ec892ec2b23be73612648bbc4c1b34086b0b8c732e339aa87abb60ee75b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 23449,
+   "duree_s": 1.4,
+   "caracteres_dits": 14,
+   "caracteres_factures": 14,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Numéro à jour.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Numéro à jour",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M03-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Mettez en gras la quantité dix-huit. Cette quantité a changé et doit se voir au premier coup d'œil.",
+   "empreinte_texte_dit": "5d5ec37fd7fb5e23a1e3d33cf63c7a9eea8e6ad1586fc7743622b948d23b3f49",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 114982,
+   "duree_s": 7.12,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Mettez en gras la quantité 18. Cette quantité a changé et\n doit se voir au premier coup, des œils.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Mettez en gras la quantité 18.\n Cette quantité a changé et doit se voir au premier coup D,\n œil.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M03-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Glissez la souris sur dix-huit, puis le G du groupe Police.",
+   "empreinte_texte_dit": "3aee0c74375557c6dfebb85f13cb9ad7637278aa8ed1948ae6128a235e05d4e2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glisser la souris sur 18, puis le jet du groupe Police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glissez la souris sur 18, puis le G du groupe police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M03-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Le devis est maintenant à jour et lisible.",
+   "empreinte_texte_dit": "2213afb037a1e9c9268235b7c590ab99442d64a5885c1a8c5d7dfa213d63f2c1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.037,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le devis est maintenant à jour élisible.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le devis est maintenant à jour et lisible.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Trois remplacements, trois sélections. Le devis est à jour sans avoir été réécrit.",
+   "empreinte_texte_dit": "895c48f2943983bdd2db727011a3108fe28f0550a3285ad2b210e2244fff961a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 99100,
+   "duree_s": 6.12,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois remplacements, trois sélections.\n Le devis est à jour sans avoir été réécrit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois remplacements, trois sélections.\n Le devis est à jour sans avoir été réécrit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

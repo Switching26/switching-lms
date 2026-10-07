@@ -1,0 +1,852 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0sz5002px9hqp3d505lk",
+  "app": "WORD",
+  "section": "",
+  "titre": "Remplacer un passage par un autre"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1974,
+  "duree_totale_s": 118.8,
+  "segments_valides": 19,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Modifier un document, ce n'est pas le réécrire: c'est remplacer des morceaux. Le geste tient en deux temps, désigner ce qui doit partir, taper ce qui le remplace. Vous allez reprendre un courrier dont les informations ont changé.",
+   "empreinte_texte_dit": "70a9ec28891647fa57ffc2f6a6b93074c8fae69bd2cbdbd167e80e3c83990f5d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 211113,
+   "duree_s": 13.12,
+   "caracteres_dits": 229,
+   "caracteres_factures": 229,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Modifier un document, ce n'est pas le réécrire.\n C'est remplacer des morceaux.\n Le geste tient en deux temps, désignez ce qui doit partir,\n tapez ce qui le remplace.\n Vous allez reprendre un courrier dont les informations ont\n changé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Modifier un document, ce n'est pas le réécrire. C'est rempl\nacer des morceaux.\n Le geste tient en deux temps. Désignez ce qui doit partir.\n Tapez ce qui le remplace.\n Vous allez reprendre un courrier dont les informations ont\n changé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M03-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Retenez le principe avant le geste: dans Word, taper alors qu'un texte est sélectionné remplace ce texte. Vous n'avez donc jamais à effacer d'abord puis à écrire ensuite, la sélection fait les deux. C'est ce qui rend la correction si rapide une fois le réflexe pris.",
+   "empreinte_texte_dit": "19ed0a54f606e10bf0a29073b0881e73d25d46e44a083664c2290cc5aec5b4d2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 243714,
+   "duree_s": 15.16,
+   "caracteres_dits": 266,
+   "caracteres_factures": 266,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retenez le principe avant le geste.\n Dans Word, taper alors qu'un texte est sélectionné, rem\nplace ce texte.\n Vous n'avez donc jamais effacé d'abord, puis à écrire\n ensuite, la sélection fait les deux.\n C'est ce qui rend la correction si rapide, une fois le réf\nlexe pris.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retenez le principe avant le geste. Dans Word, taper alors\n qu'un texte est sélectionné\n remplace ce texte. Vous n'avez donc jamais à effacer d'\nabord, puis à écrire ensuite,\n la sélection fait les deux. C'est ce qui rend la correction\n si rapide, une fois le\n réflexe pris.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M03-L01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Sélectionnez la date, puis tapez la nouvelle par-dessus, sans effacer d'abord.",
+   "empreinte_texte_dit": "6fd3c10c6c01a1b8bf582c753030bdc1d58114ac2e44f292175ac682ac2f3e89",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez la date, puis tapez la nouvelle part dessus,\n sans effacer d'abord.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez la date, puis tapez la nouvelle part dessus,\n sans effacer d'abord.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M03-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Sélectionner, c'est déjà effacer: la frappe fait le reste.",
+   "empreinte_texte_dit": "7d7ce9b6659f967cb2ad48e8973a48c60f3e987b17c19b72c19dac375277baeb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez « C'est déjà effacé ».\n La frappe fait le reste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionné, c'est déjà effacé.\n La frappe fait le reste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M03-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Remplacez la nouvelle date par le 26 mars dans le deuxième paragraphe, qui doit se lire: La visite prévue le 12 mars est reportée au 26 mars.",
+   "empreinte_texte_dit": "803eecc222e4f008e89100a663f9ba2fb857c9a171b570a08d58f5d6349596ce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 146329,
+   "duree_s": 9.08,
+   "caracteres_dits": 141,
+   "caracteres_factures": 141,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Remplacez la nouvelle date par le 26 mars dans le deuxième\n paragraph, qui doit se lire.\n La visite prévue le 12 mars est reportée au 26 mars.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Remplacer la nouvelle date par le 26 mars dans le deuxième\n paragraphe, qui doit se\n lire ? La visite prévue le 12 mars est reportée au 26 mars.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M03-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Sélectionnez 19 d'un double-clic, puis tapez directement 26.",
+   "empreinte_texte_dit": "30fc36cd7560c39c93ea872091cc29e86c1f2229dd3cd8994719cb2db7e9df85",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez 19 d'un double clic, puis tapez directement 26\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez 19 d'un double clic, puis tapez directement 26\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M03-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Deux caractères remplacés, le reste de la phrase intact.",
+   "empreinte_texte_dit": "e1e2b0bc190025555fdf0dfd1ee2ed1c240fa0bb55b7036e9a9d116a55717ef5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux caractères remplacés, le reste de la phrase intacte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.033,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux caractères remplacés, le reste de la phrase intacte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M03-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Remplacez l'heure par 14 heures dans le troisième paragraphe: Le technicien Ligéria se présentera à 14 heures.",
+   "empreinte_texte_dit": "6f3e0c7cf15df10b0a21c773c431d0a275b50a93572a8f6e873bcc97654c0f24",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 116236,
+   "duree_s": 7.2,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Remplacez l'heure par 14 heures dans le troisième paragrap\nhe.\n Le technicien Ligéria se présentera à 14 heures.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Remplacez-leur par 14 heures dans le troisième paragraphe.\n Le technicien Ligéria se présentera à 14 heures.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M03-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Double-clic sur le 9, puis tapez 14.",
+   "empreinte_texte_dit": "0282019e9c553ceb328b60157e93112f83e49b982effa1412d0eae2ad99acd73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Double clic sur le 9 puis tapez 14.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Double-clic sur le 9, puis tapez 14.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M03-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "L'horaire est à jour.",
+   "empreinte_texte_dit": "00cb5a0717683a237709c32997937b88693a1103802fb991cebd9d65c3ef6fce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 26793,
+   "duree_s": 1.6,
+   "caracteres_dits": 21,
+   "caracteres_factures": 21,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'horaire est à jour.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'horaire est à jour.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M03-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Remplacez local technique par local des compresseurs dans le dernier paragraphe. Un remplacement porte aussi bien sur plusieurs mots que sur un seul.",
+   "empreinte_texte_dit": "02d40ef7b98cf17cca2fe689c3793c657afefb6a7510ab5327a5a09c57c5d432",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 134208,
+   "duree_s": 8.32,
+   "caracteres_dits": 149,
+   "caracteres_factures": 149,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Remplacez local technique par local des compresseurs dans\n le dernier paragraphe.\n Un remplacement porte aussi bien sur plusieurs mots que sur\n un seul.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Remplacez « local technique » par « local des compresseurs\n » dans le dernier paragraphe.\n Un remplacement porte aussi bien sur plusieurs mots que sur\n un seul.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M03-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Faites glisser la souris sur les deux mots avant de taper.",
+   "empreinte_texte_dit": "d5a00382a3ac6de30e3ba84b1b295c833e94c498724a2bd41b949cf16a159419",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faites glisser la souris sur les deux mots avant de taper.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faites glisser la souris sur les deux mots avant de taper.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M03-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Deux mots remplacés par trois: la longueur n'a aucune importance.",
+   "empreinte_texte_dit": "0bc2023f7ab391563b00b71b0b6688217be1a4182193a0304ccb9dc6b27f8ff5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 65,
+   "caracteres_factures": 195,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.079,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "2",
+       "3"
+      ],
+      "entendus": [
+       "3"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "Demo remplacé par 3, la longueur n'a aucune importance.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.079,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "2",
+        "3"
+       ],
+       "entendus": [
+        "3"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Demo remplacé par 3, la longueur n'a aucune importance."
+     }
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux mots remplacés par trois, la longueur n'a aucune importance.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "9bab2d39774f955bfed0ff5d0a69bf6ea2bcfc3a379922e826c86a4ef6be94a0",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Deux mots remplacés par trois, la longueur n'a aucune importance.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Deux mots remplacés par trois, la longueur n'a aucune importance.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T06:26:13.617202",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-word.json"
+    }
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M03-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Réécrivez l'objet du courrier en entier, puisque son sens a changé: Objet: nouvelle date de visite technique.",
+   "empreinte_texte_dit": "b7b449e8437a160e35c6a3aea77fcc94dbff205f8425acbf14729504afe1e528",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Réécrivez l'objet du courrier en entier, puisque son sens a\n changé.\n Objet, nouvelle date de visite technique.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Réécrivez l'objet du courrier en entier, puisque son sens a\n changé.\n Objet, nouvelle date de visite technique.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M03-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Un triple-clic prend le paragraphe entier; tapez ensuite sans rien effacer.",
+   "empreinte_texte_dit": "251ad217d222ff682b641fb02f473fc349e5e66eb200de67744fc7005309fc0a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un triple clic prend le paragraphe entier.\n Tapper ensuite sans rien effacer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un triple clic prend le paragraphe entier.\n Tapez ensuite sans rien effacer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M03-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Un paragraphe entier remplacé d'un seul geste.",
+   "empreinte_texte_dit": "7e3d1ebbff73327c1e8b5cc451049ef7d134152a77d8b8dbd7136becadebabf1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un paragraphe entier remplacé d'un seul geste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un paragraphe entier remplacé d'un seul geste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M03-L01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Épaississez la nouvelle date 26 mars: quand un courrier corrige une information, celle qui change doit se voir.",
+   "empreinte_texte_dit": "ace92256ed8d4dde8c378e5c5a40264a8f5aa10e14ce129dfcfc62d4d6edc65c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Épécissez la nouvelle date 26 mars.\n Quand un courrier corrige une information, celle qui change\n doit se voir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Épaississez la nouvelle date 26 mars.\n Quand un courrier corrige une information, celle qui change\n doit se voir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M03-L01-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Glissez la souris sur 26 mars, puis le G du groupe Police.",
+   "empreinte_texte_dit": "61e15212a9c67db8048802f6e925a7d182b51e32656a5ceeaf02a0dd0b01602e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glisser la souris sur 26 mars, puis le G du groupe Police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glissez la souris sur 26 mars puis le jet du groupe police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M03-L01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Le destinataire verra la nouvelle date avant de lire la phrase.",
+   "empreinte_texte_dit": "7f2ff03a50fa637bdc8fc53dcfd8dd741ba2ed3df04634967b96dcf1b113e9dd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le destinataire verra la nouvelle date avant de lire la\n phrase.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le destinataire verra la nouvelle date avant de lire la\n phrase.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Sélectionner puis taper: la sélection disparaît et laisse place à la frappe. C'est le geste de correction le plus rapide de Word, et il vaut pour un mot comme pour un paragraphe entier.",
+   "empreinte_texte_dit": "3722d3c3d0e08f13caf775fcccb872d27d4afd77793c6eb695e035a455b00359",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 170571,
+   "duree_s": 10.6,
+   "caracteres_dits": 185,
+   "caracteres_factures": 185,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez, puis tapez, la sélection disparaît et laisse\n place à la frappe.\n C'est le geste de correction le plus rapide de Word et il v\naut pour un mot comme pour un paragraphe entier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionner, puis taper, la sélection disparaît et laisse\n place à la frappe.\n C'est le geste de correction le plus rapide de Word, et il\n vaut pour un mot, comme pour un paragraphe entier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

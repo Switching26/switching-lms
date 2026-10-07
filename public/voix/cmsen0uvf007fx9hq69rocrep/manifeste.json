@@ -1,0 +1,724 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0uvf007fx9hq69rocrep",
+  "app": "WORD",
+  "section": "",
+  "titre": "Préparer un tirage de réunion"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 747,
+  "duree_totale_s": 54.6,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Huit participants, un ordre du jour à distribuer sur place, du papier à économiser. Réglez l'impression sans rien imprimer de trop.",
+   "empreinte_texte_dit": "efb6205a5045a7d74570f6aa7df2c4cb2deaf8583461a7c6f08ca9fbf8429630",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 127103,
+   "duree_s": 7.88,
+   "caracteres_dits": 131,
+   "caracteres_factures": 131,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "8 participants, un ordre du jour à distribuer sur place, du\n papier à économiser.\n Régler l'impression sans rien imprimer de trop.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Huit participants, un ordre du jour à distribuer sur place,\n du papier à économiser.\n Réglez l'impression sans rien imprimer de trop.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez l'écran Imprimer. Onglet Fichier.",
+   "empreinte_texte_dit": "6514e94d0439607a6d9154ca6326b29740bd762d568802edec584ce50375e3ee",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 40,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez l'écran imprimé.\n Ongles fichiers.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez l'écran imprimé.\n Ongles fichiers.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M10-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Onglet Fichier, bouton Imprimer.",
+   "empreinte_texte_dit": "1daed8bd8d18df821cc4bd8ba9fc931bad0b908318fa188fc2b22269a43b6fe8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.053,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Anglais fichiers, bouton imprimé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Onglets fichiers, boutons imprimés.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M10-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Écran ouvert.",
+   "empreinte_texte_dit": "b1d7fa8d66997b14d35861bbf97a8d0639a7b8388f141a2e7cc72331943039f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 24285,
+   "duree_s": 1.44,
+   "caracteres_dits": 13,
+   "caracteres_factures": 13,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Écran ouvert.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Écrans ouverts",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Réglez 8 copies, une par participant.",
+   "empreinte_texte_dit": "9e3b8c66863e387082f624fbebfadb5621c7dd63bffb1fc4ad426ae22fe7d530",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 37,
+   "caracteres_factures": 37,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Réglez 8 copies, une par participant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Réglez huit copies, une par participant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M10-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Champ Copies.",
+   "empreinte_texte_dit": "48a4418854668616f7026b0103df2985a193e306532d72dda884bd6b238225f9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 23031,
+   "duree_s": 1.36,
+   "caracteres_dits": 13,
+   "caracteres_factures": 13,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Chant copies.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Chant copies.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M10-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Huit exemplaires demandés.",
+   "empreinte_texte_dit": "5bc1a487966ee332f912bf7eceba4d731aea72d2ad105557bec931ed0602f850",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 26,
+   "caracteres_factures": 26,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "8 exemplaires demandées",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Huit exemplaires demandés.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Activez le recto verso pour diviser le papier par deux.",
+   "empreinte_texte_dit": "a071fc4346f2848ce3a761c2beb722cca3ed304d562ba8f8c673116fe0c2135f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Activez le recto verso pour diviser le papier par 2.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Activez le recto verso pour diviser le papier par deux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M10-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Case Recto verso.",
+   "empreinte_texte_dit": "3fe934f7e0fb24be6c86079771ae6a26af78388ae4b0062c096ad06cb5c8d042",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 26793,
+   "duree_s": 1.6,
+   "caracteres_dits": 17,
+   "caracteres_factures": 17,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.083,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Caserecto verso.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Casé recto verso.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M10-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Papier économisé.",
+   "empreinte_texte_dit": "ee80088aada777fac219e804b9f843cd36a808ab4f1992aae829c9172dabf484",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 38078,
+   "duree_s": 2.32,
+   "caracteres_dits": 17,
+   "caracteres_factures": 17,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Papiers économisés",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Papiers économisés.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Un membre veut relire seulement la page à l'écran. Basculez la plage sur Page courante. La plage restreint l'impression à ce que montre l'aperçu.",
+   "empreinte_texte_dit": "a3fd44f6f13ed16962a7ea89fb76351308f399e0536ff49dae15821f473de72c",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 145,
+   "caracteres_factures": 206,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un membre veut relire seulement la page à l'écran. Basculer\n la plage sur page courante.\n La plage restreint l'impression à ce que montre la perçu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un membre veut relire seulement la page à l'écran.\n Basculez la plage sur page courante.\n La plage restreint l'impression à ce que montre l'aperçu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M10-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Bouton Page courante, dans Pages à imprimer.",
+   "empreinte_texte_dit": "9b953cb83b86923526778636180b8a9babf859b7ed2eee44f8828222e7ede507",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "bouton page courante dans page à imprimer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton Page courante dans Pages à imprimer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M10-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Seule la page affichée sortira.",
+   "empreinte_texte_dit": "b8db66d10cd9cb813d1f26dcc1fb32548660277dbb1e49906155a86d38cfb8ff",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 31,
+   "caracteres_factures": 31,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Seule la page affichée sortira.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Seule la page affichée sortira.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Refermez l'aperçu. Le tirage est prêt à être lancé.",
+   "empreinte_texte_dit": "119e1e57527e2b50b3ee4a1390ca9aa569657c4ef7b1a2439670af84b24a62d1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Refermer la perçu. Le tirage est prêt à être lancé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Refermez l'aperçu. Le tirage est prêt à être lancé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M10-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Bouton Fermer l'aperçu.",
+   "empreinte_texte_dit": "4d98ef0320e3cb63e72d3a0906a98fb08825cdb99f5f98b20d378bab3f467216",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 35152,
+   "duree_s": 2.12,
+   "caracteres_dits": 23,
+   "caracteres_factures": 23,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton \"Fermez la perçue\".",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton fermer l'aperçu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M10-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Réglages conservés.",
+   "empreinte_texte_dit": "e1c03fd9e8946875ac624254b8f7101935cb30467482c5981dc40444cbbc77f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 27211,
+   "duree_s": 1.64,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Réglage conservé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Réglages conservés.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un tirage bien réglé se lance une fois et sort juste.",
+   "empreinte_texte_dit": "6c578dbb592d116c3a412757b27ae00be6ab3283edae72384a26d23bf5cc62f4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un tirage bien réglé se lance une fois et sort juste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un tirage bien réglé se lance une fois et sort juste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

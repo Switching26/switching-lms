@@ -1,0 +1,798 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0vkd0095x9hqtnkeiud9",
+  "app": "WORD",
+  "section": "",
+  "titre": "Retirer ce qui est en trop"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 18,
+  "caracteres_dits": 1598,
+  "duree_totale_s": 96.6,
+  "segments_valides": 18,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Vider les cellules laisse une ligne vide qui décale tout et se réimprime. Supprimer la ligne retire la structure elle-même. Les deux gestes se ressemblent à l'écran et n'ont rien à voir dans un document qui circule.",
+   "empreinte_texte_dit": "e9417a0fb48a13029eb935b46b53876d4ece38f084df4d38fc0f73f47f361dc1",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/intro.mp3",
+   "octets": 200246,
+   "duree_s": 12.44,
+   "caracteres_dits": 215,
+   "caracteres_factures": 276,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vider les cellules, laisse une ligne vide qui décale tout\n et se réimprime.\n Supprimer la ligne, retire la structure elle-même.\n Les deux gestes se ressemblent à l'écran et n'ont rien à\n voir dans un document qui circule.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vider les cellules laisse une ligne vide qui décale tout et\n se réimprime.\n Supprimer la ligne retire la structure elle-même.\n Les deux gestes se ressemblent à l'écran et n'ont rien à\n voir dans un document qui\n circule.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M13-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Insérez un tableau de 5 lignes sur 4 colonnes. C'est la grille que vous allez réduire.",
+   "empreinte_texte_dit": "e220f5ea41e7caf67fa79d4ac64e13255989a590115ad051d72206714aab113f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez un tableau de cinq lignes sur quatre colonnes. C'\nest la grille que vous allez réduire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez un tableau de cinq lignes sur quatre colonnes.\n C'est la grille que vous allez réduire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M13-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Onglet Insertion, bouton Tableau, puis 5 et 4.",
+   "empreinte_texte_dit": "72340a1c6fdf4c21d7caef8c3eac8a3e9128bd533d9b223fb22ff25a03b98b3e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet insertion, bouton tableau, puis 5 et 4.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet insertion, bouton tableau, puis 5 et 4.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M13-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Cinq lignes, quatre colonnes.",
+   "empreinte_texte_dit": "ee50e3e18704324aadf8dd7aef30885cc68217eb64d9d1b3e5748cb2cdfbb30d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 34316,
+   "duree_s": 2.08,
+   "caracteres_dits": 29,
+   "caracteres_factures": 29,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "5 lignes, 4 colonnes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "5 lignes, 4 colonnes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M13-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Le contrôle ne portera finalement que sur trois postes de matériel, et la colonne des références ne sera pas remplie. Une ligne et une colonne sont donc en trop: il faut les retirer, pas les laisser vides.",
+   "empreinte_texte_dit": "4801733c5dc82c02dd46694463d59f6e25716dce8aba8b4830da1e3231eb4d5f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 177258,
+   "duree_s": 11.0,
+   "caracteres_dits": 205,
+   "caracteres_factures": 205,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le contrôle ne portera finalement que sur trois postes de\n matériel\n et la colonne des références ne sera pas remplie.\n Une ligne et une colonne sont donc en trop.\n Il faut les retirer, pas les laisser vides.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le contrôle ne portera finalement que sur trois postes de\n matériel et la colonne des références ne sera pas remplie.\n Une ligne et une colonne sont donc en trop. Il faut les\n retirer, pas les laisser vides.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle1",
+   "etape_lms": "M13-L02-02",
+   "role": "Étape 2 · bulle 1",
+   "texte_dit": "Le contrôle ne portera que sur trois postes de matériel, et les références ne seront pas remplies.",
+   "empreinte_texte_dit": "2109ed13132231b2b671b08231c107a031d73723b8dd9dcb4b34ec20648b7926",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle1.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le contrôle ne portera que sur trois postes de matériel, et\n les références ne seront pas remplies.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le contrôle ne portera que sur trois postes de matériel et\n les références ne seront pas remplies.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle2",
+   "etape_lms": "M13-L02-02",
+   "role": "Étape 2 · bulle 2",
+   "texte_dit": "Une ligne et une colonne sont donc EN trop: il faut les retirer, pas les laisser vides.",
+   "empreinte_texte_dit": "c357a76bf83269abb6ae748f95f18dde71ea0cfce3449a0f5ec506baac7db8d6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle2.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une ligne et une colonne sont donc EN trop.\n Il faut les retirer, pas les laisser vides.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une ligne et une colonne sont donc EN trop.\n Il faut les retirer, pas les laisser vides.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M13-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Une grille juste vaut mieux qu'une grille pleine de vide.",
+   "empreinte_texte_dit": "9dcc50f601a804f755ab585f28a8de0531ef9274ed44d788a804b582b41a0b75",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une grille juste vaut mieux qu'une grille pleine de vide.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une grille juste vaut mieux qu'une grille pleine de vide.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M13-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Cliquez dans une cellule, puis supprimez la ligne. La grille passe à quatre lignes: l'en-tête et trois postes.",
+   "empreinte_texte_dit": "389e08a1ffadfb8a0bbdb51a0ebc07176bf7682892b5c878258dad3c2b8e1ee6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 122506,
+   "duree_s": 7.6,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez dans une cellule, puis supprimez la ligne.\n La grille passe à quatre lignes, l'en tête et trois postes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez dans une cellule, puis supprimez la ligne.\n La grille passe à quatre lignes, l'en-tête et trois postes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M13-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Clic dans le tableau, puis Supprimer la ligne.",
+   "empreinte_texte_dit": "c9cc684ea746e7ee1c63b523ef46bf34e7ed8ec3effb9ebfced434eb64705c13",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans le tableau, puis supprimez la ligne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans le tableau, puis supprimez la ligne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M13-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "La ligne a disparu, la grille s'est refermée.",
+   "empreinte_texte_dit": "c202b3e3394c1e833705580bb8d200ebbe1a757b54b3fa4b54413e38c5254c20",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La ligne a disparu, la grille s'est refermée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La ligne a disparu, la grille s'est refermée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M13-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Supprimez la colonne où se trouve le curseur. Il reste trois colonnes: désignation, quantité, état.",
+   "empreinte_texte_dit": "2edb651d3c33d0efed9630a6a259dd16043c55b324d8643206cbe32b4714d920",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 120834,
+   "duree_s": 7.48,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Suprimez la colonne où se trouve le curseur.\n Il reste trois colonnes.\n Désignation, Quantité, État.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Supprimer la colonne où se trouve le curseur.\n Il reste trois colonnes.\n Désignation, quantité, état.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M13-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Clic dans le tableau, puis Supprimer la colonne.",
+   "empreinte_texte_dit": "6a0990e30f4935884e31c36723851266ff5400e92b1d0e342b71202c0b465f73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans le tableau, puis supprimez la colonne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans le tableau, puis supprimez la colonne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M13-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Trois colonnes: la grille correspond enfin au besoin réel.",
+   "empreinte_texte_dit": "a0aca4c01e38d93a5fba90ddfc4e703cd65df7255a4109abd925cd9194757d11",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois colonnes. La grille correspond enfin aux besoins ré\nels.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois colonnes. La grille correspond enfin aux besoins ré\nels.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M13-L02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Le responsable ajoute un poste. Ajoutez une ligne en dessous pour revenir à cinq lignes.",
+   "empreinte_texte_dit": "547f8120aa3b4d68b4a0ade96d6c70ab4ba54c041acc783dddb11768b5614fa8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le responsable ajoute un poste.\n Ajoutez une ligne en dessous pour revenir à cinq lignes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le responsable ajoute un poste.\n Ajoutez une ligne en dessous pour revenir à cinq lignes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M13-L02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Clic dans le tableau, puis Ligne en dessous.",
+   "empreinte_texte_dit": "045e64733dcb028ed7e0f15889f05fd3ef314d8d445ee5d1afc8126cad1f2e9d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans le tableau, puis ligne en dessous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans le tableau, puis ligne en dessous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M13-L02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Une grille se remanie autant de fois qu'il le faut, sans jamais tout refaire.",
+   "empreinte_texte_dit": "5dff5d3e6b4d166e0da49744f96eaeea755c6bd4ae4f099e4bb39c05883f4a18",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une grille se remanie autant de fois qu'il le faut, sans\n jamais tout refaire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une grille se remanie autant de fois qu'il le faut, sans\n jamais tout refaire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Effacer le contenu laisse un trou; supprimer la ligne referme la grille. Sur un tableau destiné à être imprimé ou transmis, la différence se voit immédiatement.",
+   "empreinte_texte_dit": "dc0d4bd1aa8ff155707ec7c17a8b2f591c5b418d33ca33bd44f7ef54a61c7def",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 155524,
+   "duree_s": 9.64,
+   "caracteres_dits": 160,
+   "caracteres_factures": 160,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Éfacer le contenu laisse un trou, supprimer la ligne ref\nerme la grille.\n Sur un tableau destiné à être imprimé ou transmis, la\n différence se voit immédiatement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Effacer le contenu laisse un trou, supprimer la ligne refer\nme la grille.\n Sur un tableau destiné à être imprimé ou transmis, la\n différence se voit immédiatement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

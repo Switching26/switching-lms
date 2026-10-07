@@ -1,0 +1,800 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0s85000tx9hq4g0gsebk",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Saisir du texte"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1624,
+  "duree_totale_s": 98.0,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une convocation laissée en chantier. Vous allez la terminer: compléter une phrase interrompue, puis ajouter les paragraphes qui manquent. Rappelez-vous que la touche Entrée ne sert qu'à commencer un nouveau paragraphe.",
+   "empreinte_texte_dit": "f66424a72eda1e3216f00b3f0f6582c2efda74e70053381cfd778e1d7fac0b1b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 182274,
+   "duree_s": 11.32,
+   "caracteres_dits": 218,
+   "caracteres_factures": 218,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une convoquation laissée en chantier.\n Vous allez la terminer.\n Complétez une phrase interrompu,\n puis ajoutez les paragraphes qui manquent.\n Rappelez-vous que la touche entrée ne sert que\n à commencer un nouveau paragraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une convocation laissée en chantier.\n Vous allez la terminer.\n Complétez une phrase interrompue, puis ajoutez les\n paragraphes qui manquent.\n Rappelez-vous que la touche Entrée ne sert que\n à commencer un nouveau paragraphe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M01-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "La première phrase s'arrête au milieu. Terminez-la par: 14 heures, salle Loire.",
+   "empreinte_texte_dit": "6fc64581f9ea89d1f1a521de35146063ed58beaf9c1db346af05dad3d345aff0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 94502,
+   "duree_s": 5.84,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La première phrase s'arrête au milieu. Terminez la part. 14\nh, salle Loire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La première phrase s'arrête au milieu.\n Terminé la part.\n 14 heures, salle-loir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M01-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Cliquez à la fin de la ligne avant de taper: ne créez pas de nouveau paragraphe.",
+   "empreinte_texte_dit": "42daa62e0472e4f89c36d8a66391f2e8b42db69c8315e2c5b8f193987423d762",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez à la fin de la ligne avant de taper. Ne créez pas\n de nouveaux paragraphes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez à la fin de la ligne avant de taper. Ne créez pas\n de nouveaux paragraphes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M01-E02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "La phrase est terminée, et le document compte toujours trois paragraphes.",
+   "empreinte_texte_dit": "8d05be0bf853f079492c455141024221efc397224e79b874feea83cd2f44d2e4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La phrase est terminée et le document compte toujours trois\n paragraphes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La phrase est terminée et le document compte toujours trois\n paragraphes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M01-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ajoutez le premier point de l'ordre du jour: Approbation du compte rendu précédent.",
+   "empreinte_texte_dit": "768178cff0e57432e6fa04681560aedbae463cc33bbb82ff778242390baaf846",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez le premier point de l'ordre du jour.\n Approbation du compte rendu précédent.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez le premier point de l'ordre du jour.\n Approbation du compte rendu précédent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M01-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Placez-vous à la fin de Ordre du jour, puis Entrée.",
+   "empreinte_texte_dit": "912c96d4122b9a8b6321d98acec802b3099c00b9eac34da6c9102cb54825f93a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Placez-vous à la fin de ordre du jour, puis entrez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Placez-vous à la fin de ordre du jour, puis entrez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M01-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Premier point ajouté.",
+   "empreinte_texte_dit": "89e9bf79de70ee1121a2dd5fa88ed559249fcd7055c3f991e625ddc367c7e27b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 21,
+   "caracteres_factures": 21,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Premier point ajouté.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Premier point ajouté.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M01-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Ajoutez le deuxième point: Point d'avancement du chantier de Nantes.",
+   "empreinte_texte_dit": "27252b29796afa8fe7a3225b8923deedc51f10257aa38448d3ad422002995f35",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez le deuxième point, point d'avancement du chantier\n de Nantes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez le deuxième point.\n Point d'avancement du chantier de Nantes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M01-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Entrée à la fin de la ligne précédente, puis le texte.",
+   "empreinte_texte_dit": "e50473f788264e56b5bec0e00dd43f4efa1cfac804cabd75df5601d4489108d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Entrez à la fin de la ligne précédente, puis le texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Entrez à la fin de la ligne précédente, puis le texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M01-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Deuxième point ajouté.",
+   "empreinte_texte_dit": "c9bfcf1ad1adb839d44eb2faac60801907de7ab794a18a2b4881a57af4abf197",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 25539,
+   "duree_s": 1.52,
+   "caracteres_dits": 22,
+   "caracteres_factures": 22,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "deuxième point ajouté.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deuxième point ajouté.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M01-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Ajoutez le troisième point: Questions diverses.",
+   "empreinte_texte_dit": "6c9fbd14d61060a2c1ca1c1669b77a9a49b846ae1f1c3bd0f1f928464eeef7f4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez le troisième point.\n Question diverse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez le troisième point.\n Question diverse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M01-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Entrée, puis le texte: l'enchaînement est toujours le même.",
+   "empreinte_texte_dit": "520d0defe4b33caabfe219a2ebbfbd003b14f418bc1c7f3224368cf3872b5be2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Entrez, puis le texte. L'enchaînement est toujours le même.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Entrée, puis le texte, l'enchaînement est toujours le même.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M01-E02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "L'ordre du jour compte trois points, chacun dans son propre paragraphe.",
+   "empreinte_texte_dit": "d09b665125366bc589a3da327116278f02709c2975df850d57e3603168452a9d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'ordre du jour compte trois points, chacun dans son propre\n paragraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'ordre du jour compte trois points, chacun dans son propre\n paragraphe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M01-E02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Ajoutez la phrase de clôture en tapant les deux-points normalement, Word se chargera de l'espace: Merci de confirmer votre présence: le quorum en dépend.",
+   "empreinte_texte_dit": "a4ce1e2533e1d1294785a628ebe69a927c9761eef5c98716f3dfd7f048490402",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 132955,
+   "duree_s": 8.24,
+   "caracteres_dits": 153,
+   "caracteres_factures": 153,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez la phrase de clôture en tapant les deux points\n normalement, Word se chargera de l'espace.\n Merci de confirmer votre présence.\n Le Corom en dépend.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez la phrase de clôture en tapant les deux points\n normalement, Word se chargera de l'espace.\n Merci de confirmer votre présence. Le corum en dépend.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M01-E02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Tapez avec une espace ordinaire devant les deux-points.",
+   "empreinte_texte_dit": "c41ca629e2f3adcdfd8357cf50b156cbb97ea2ed390dd42bc3b1bbcc7bd31649",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tapez avec une espace ordinaire devant les deux points.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tapez avec une espace ordinaire devant les deux points.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M01-E02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "L'espace devant les deux-points a été remplacée par une insécable, sans que vous ayez rien à faire.",
+   "empreinte_texte_dit": "bdfd44f05ab13ec853b824984519c4395e5590b939007bb3eaf3499f462a7997",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'espace devant les deux points a été remplacé par une ins\nécable, sans que vous ayez rien à faire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'espace devant les deux points a été remplacé par une ins\nécable, sans que vous ayez rien à faire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M01-E02-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Dernier ajout, avec des guillemets droits au clavier: saisissez: Le dossier chantier de Nantes sera distribué en séance.",
+   "empreinte_texte_dit": "ff4fc51a6758b7524b438cf8d9788453b8412eeb1963fa06ecbc3a3d79e1fd0a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 124595,
+   "duree_s": 7.72,
+   "caracteres_dits": 120,
+   "caracteres_factures": 120,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dernier ajout, avec des guillemets droits aux claviers,\n saisissés.\n Le dossier chantier de Nantes sera distribué en séance.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dernier ajout, avec des guillemets droit au clavier, sais\nissez.\n Le dossier chantier de Nantes sera distribué en séance.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M01-E02-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Tapez le guillemet droit du clavier: les chevrons apparaissent seuls.",
+   "empreinte_texte_dit": "b75faa4475e54fabe9454b5024d075a24e2dd0b1ddab38beb9d7f5136d2c7748",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tapez le guillemets droit du clavier.\n Les chevrons apparaissent seuls.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tapez le guillemets droit du clavier.\n Les chevrons apparaissent seuls.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M01-E02-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Convocation terminée, typographie française comprise.",
+   "empreinte_texte_dit": "148cb88b294d2e0ba469c65e11c60866c3be071cd19549caa45bb9da4c188749",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Convocation terminée, typographie française comprise.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Convocation terminée, typographie française comprise.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "La convocation est complète. Vous avez complété un texte existant, créé des paragraphes, et laissé Word poser la ponctuation française à votre place.",
+   "empreinte_texte_dit": "263ce9ef551c16e9fe71b1f01d2b06290e9244c3b3b84267ca8de96580b36ba1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 158032,
+   "duree_s": 9.8,
+   "caracteres_dits": 149,
+   "caracteres_factures": 149,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La convocation est complète.\n Vous avez complété un texte existant, créé des paragraphs\n et laissé Word poser la ponctuation française à votre place\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La convocation est complète.\n Vous avez complété un texte existant,\n créé des paragraphes,\n et laissez Word poser la ponctuation française à votre\n place.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

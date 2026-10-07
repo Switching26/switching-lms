@@ -1,0 +1,879 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0wla00brx9hq5pj6s586",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Réparer une hiérarchie"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1485,
+  "duree_totale_s": 91.1,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un document dont la structure a été posée à la va-vite: un niveau sauté, une phrase promue en titre. Repérez les deux défauts et corrigez-les, sans toucher à ce qui est juste.",
+   "empreinte_texte_dit": "c18c9e7e64c62e480c92080737a428ede3b547d62d25497d393bff18f0496acd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 158032,
+   "duree_s": 9.8,
+   "caracteres_dits": 175,
+   "caracteres_factures": 175,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un document dont la structure a été posée à la va-vite.\n Un niveau sauté, une phrase promue en titre.\n Repérez les deux défauts et corrigez-les,\n sans toucher à ce qui est juste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "un document dont la structure a été posée à la va vite,\n un niveau sauté, une phrase promue en titre.\n Repérez les deux défauts et corrigez-les, sans toucher à ce\n qui est juste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M18-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Corrigez le rang de Remise du matériel. C'est une section directement sous la partie Premiers jours, or elle porte un Titre 3: un niveau est sauté.",
+   "empreinte_texte_dit": "db50578cf3e3e3e7ecf0b1ea8257473566ed588a30189e6f04ff4364cbd6c568",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 132955,
+   "duree_s": 8.24,
+   "caracteres_dits": 147,
+   "caracteres_factures": 441,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Corrigez le rang de remise du matériel. C'est une section\n directement sous la partie 1er jour,\n or elle porte un titre 3, un niveau est sauté."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Corriger le rang de remise du matériel. C'est une section directement sous la partie premier jour, or elle porte un titre 3, un niveau est sauté.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M18-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Une section sous une partie porte le niveau immédiatement inférieur.",
+   "empreinte_texte_dit": "8560da1a4a59ef3956348b52ee353c71d8d4af0687b3f1565239a3764873fa0b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une section sous une partie porte le niveau immédiatement\n inférieur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une section sous une partie porte le niveau immédiatement\n inférieur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M18-E02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Le niveau sauté est réparé.",
+   "empreinte_texte_dit": "848c26e4d907829a88d64c78c0e94ab0845c5d2dc77006191e02c0ffbf5453d8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 28465,
+   "duree_s": 1.72,
+   "caracteres_dits": 27,
+   "caracteres_factures": 27,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le niveau sauté est réparé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le niveau sauté est réparé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M18-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Le paragraphe du badge est actuellement mis en titre de deuxième niveau. Remettez-le en texte courant : il ne désigne aucune section.",
+   "empreinte_texte_dit": "abf0f9bef912ee3fc52a387ca0c8eeff4fb8c210d28b06f3046b62dd748dfc8d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le paragraphe du badge est actuellement mis en titre de\n deuxième niveau.\n Remettez-le en texte courant, il ne désigne aucune section.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le paragraphe du badge est actuellement mis en titre de\n deuxième niveau.\n Remettez-le en texte courant, il ne désigne aucune section.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M18-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le premier bouton du groupe Styles.",
+   "empreinte_texte_dit": "f9fd31cd71065c13840d64c72b039c1752287e6abb6a84c67df66d5b20be65f6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 37660,
+   "duree_s": 2.28,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le premier bouton du groupe Styles.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le premier bouton du groupe Styles.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M18-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le titre de trop a disparu: la hiérarchie ne promet plus de section inexistante.",
+   "empreinte_texte_dit": "0f94c4b3c6373e471bdec69728705d2a02964bf7af6e8b8050eef291534b235b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le titre de Tro a disparu.\n La hiérarchie ne promet plus de sections inexistantes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le titre de trop a disparu.\n La hiérarchie ne promet plus de section inexistante.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M18-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Justifiez ce paragraphe redevenu texte courant.",
+   "empreinte_texte_dit": "d12c9f1ad1caff979391c0b0a628cfbbfa88c6ad5c186730b0d04a6b36747358",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Justifiez ce paragraphe redevenu Texte courant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Justifiez ce paragraphe redevenu texte courant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M18-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Bouton Justifier, groupe Paragraphe.",
+   "empreinte_texte_dit": "dd101c3b49d37486bd4b4d5cf96dff625c93e13924709395ca6d94136e327ee9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Boutons Justifiés, groupe paragraph.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton justifié, groupe paragraphes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M18-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le paragraphe se comporte comme un corps de texte.",
+   "empreinte_texte_dit": "55e69668b5eefeaed2a33d33b2552c37bce23a53881c9656f169a786d13c46c1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le paragraphe se comporte comme un corps de texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le paragraphe se comporte comme un corps de texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M18-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "À vous : justifiez également le paragraphe sur le matériel remis.",
+   "empreinte_texte_dit": "659dca46bb8612e5dc07fc39c1a470afd3be79b26ffcc6e03a03921a26c153b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "A vous, justifiez également le paragraphe sur le matériel\n remis.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous, justifiez également le paragraphe sur le matériel\n remis.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M18-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le même bouton Justifier.",
+   "empreinte_texte_dit": "abdb52ba351654b7900c0bb039e2c0955b6180525a4ba8256f8d6b9ce5eb83d8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 32644,
+   "duree_s": 1.96,
+   "caracteres_dits": 25,
+   "caracteres_factures": 25,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le même bouton Justifié.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le même bouton justifié.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M18-E02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Corps de texte homogène.",
+   "empreinte_texte_dit": "9e39cc3e57ca86fa6b53f3aec75fa25356aa9f07a2ecf73eec5d88d9c4cb02e0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 24,
+   "caracteres_factures": 24,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "corps de texte homogène.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "corps de texte homogène.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M18-E02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Formation au poste est bien une partie: vérifiez son rang en lui réappliquant le Titre 1, pour prendre l'habitude de contrôler une structure entière.",
+   "empreinte_texte_dit": "09655fdf7f78f74804d1761d8e2f503f4699ac5eec87454cd193c54ae4cced68",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 150091,
+   "duree_s": 9.32,
+   "caracteres_dits": 149,
+   "caracteres_factures": 149,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.072,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Formation au poste est bien une partie.\n Vérifiez son rang en lui R.E. accent aigu,\n appliquant le titre 1 pour prendre l'habitude de contrôler\n une structure entière.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.062,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Formation au poste est bien une partie.\n Vérifiez son rang en lui RE accent aigu appliquant le titre\n 1 pour prendre l'habitude de contrôler une structure ent\nière.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M18-E02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Bouton Titre 1: recliquez-le même si le rang semble déjà bon.",
+   "empreinte_texte_dit": "8b1a903de62351b8176805d27b76ea7a39ce1b491063fca157c80da1063d42f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "bouton titre 1. Recliquez-le même si le rang semble déjà\n bon.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton titre 1. Re-cliquez-le même si le rang semble déjà\n bon.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M18-E02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Deuxième partie confirmée.",
+   "empreinte_texte_dit": "f6534aa0883e777960bbba3b15ba94ace9618bb939391dc28c19d7b23870d063",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 26793,
+   "duree_s": 1.6,
+   "caracteres_dits": 26,
+   "caracteres_factures": 26,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deuxième partie confirmée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deuxième partie confirmée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M18-E02-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Épaississez deux semaines dans le dernier paragraphe: la durée d'accompagnement est l'information que le nouvel arrivant retiendra.",
+   "empreinte_texte_dit": "d094abddd6d2a2cc303839c783316172869fad0d1e0426310592c79b56eb6f97",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 131,
+   "caracteres_factures": 131,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Épécisez deux semaines dans le dernier paragraphe.\n La durée d'accompagnement est l'information que le nouvel\n arrivant retiendra.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Épaississez deux semaines dans le dernier paragraphe.\n La durée d'accompagnement est l'information que le nouvel\n arrivant retiendra.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M18-E02-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Sélectionnez deux semaines, puis le G du groupe Police.",
+   "empreinte_texte_dit": "6cec8f629d691eded4aca2e7827d4ec583d39f14cdf0cf8d1677122b8376b5c5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez deux semaines, puis le G du groupe Police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.065,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez deux semaines, puis leger du groupe police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M18-E02-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Guide réparé et lisible.",
+   "empreinte_texte_dit": "e92d79c4efbaaac0240b63d5e9c6b13f467c4b3ced65d725a4ca1e417038cbcc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 28047,
+   "duree_s": 1.68,
+   "caracteres_dits": 24,
+   "caracteres_factures": 24,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Guide réparé et lisible.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Guide réparé et lisible.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Réparer une hiérarchie, c'est surtout savoir la lire: un niveau sauté et un titre de trop se voient au rang, pas à l'apparence.",
+   "empreinte_texte_dit": "04909526b400493cce9fa2d82c853eafffc6890c4290e8d67a64d5f90cd124f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 127,
+   "caracteres_factures": 127,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Réparer une hiérarchie, c'est surtout savoir la lire.\n Un niveau sauter et un titre de trop se voit au rang, pas à\n l'apparence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Réparer une hiérarchie, c'est surtout savoir la lire.\n Un niveau sauté et un titre de trop se voient au rang, pas\n à l'apparence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

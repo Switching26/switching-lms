@@ -1,0 +1,914 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0sgu001fx9hq8y1z50fq",
+  "app": "WORD",
+  "section": "",
+  "titre": "Saisir, insérer et corriger du texte"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 23,
+  "caracteres_dits": 2581,
+  "duree_totale_s": 157.8,
+  "segments_valides": 23,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un document se corrige plus souvent qu'il ne s'écrit. Vous allez apprendre à intervenir dans un texte existant: glisser un mot au milieu d'une phrase, réparer une coquille, prolonger un paragraphe. Le geste commun à tout cela tient en un mot: placer le point d'insertion au bon endroit.",
+   "empreinte_texte_dit": "7945d44f8f0788eee606c4e2cde699909af81c558b43278a46eae592e2e8c3b8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 275479,
+   "duree_s": 17.16,
+   "caracteres_dits": 286,
+   "caracteres_factures": 286,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un document se corrige plus souvent qu'il ne est écrit.\n Vous allez apprendre à intervenir dans un texte existant.\n Glisser un mot au milieu d'une phrase, réparer une coquille\n, prolonger un paragraphe.\n Le geste commun à tout cela tient en un mot.\n Placez le point d'insertion au bon endroit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un document se corrige plus souvent qu'il ne s, écrit.\n Vous allez apprendre à intervenir dans un texte existant.\n Glissez un mot au milieu d'une phrase, réparer une coquille\n, prolonger un paragraphe.\n Le geste commun à tout cela tient en un mot.\n Placez le point d'insertion au bon endroit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M02-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Le trait clignotant qui parcourt votre document s'appelle le point d'insertion. Il indique où le prochain caractère s'écrira, et il obéit à un seul geste: le clic. Retenez la conséquence pratique: pour écrire au milieu d'un texte, on ne cherche pas une commande, on clique à l'endroit voulu.",
+   "empreinte_texte_dit": "781bb8113ae3f1c848d608b896666ce8c7ca8079a1bc487bf226f522a2f80ab6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 288435,
+   "duree_s": 17.96,
+   "caracteres_dits": 291,
+   "caracteres_factures": 291,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le tréclignotant qui parcourt votre document s'appelle le\n point d'insertion.\n Il indique où le prochain caractère S écrira et il obéit à\n un seul geste. Le clique.\n Retenez la conséquence pratique.\n Pour écrire au milieu d'un texte, on ne cherche pas une\n commande.\n On clique à l'endroit voulu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le trait clignotant qui parcourt votre document s'appelle\n le point d'insertion.\n Il indique où le prochain caractère S écrira et il obéit à\n un seul geste, le clic.\n Retenez la conséquence pratique.\n Pour écrire au milieu d'un texte, on ne cherche pas une\n commande.\n On clique à l'endroit voulu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M02-L01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Un clic pose le point d'insertion : le prochain caractère s'écrira ici.",
+   "empreinte_texte_dit": "9540b2716c1f8df9a6531e3326895b3d9ce97b098df7236bb82677fb995f2ea5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un clic pose le point d'insertion. Le prochain caractère S\n écrira ici.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un clic pose le point d'insertion. Le prochain caractère S\n écrira ici.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M02-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Cliquer, c'est déjà écrire: le reste n'est que frappe.",
+   "empreinte_texte_dit": "98b796120b2f9d1a414e03602df4c14f4c1803d7a30fde79e23b275cc68649c6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquer, c'est déjà écrire. Le reste n'est que frappe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquer, c'est déjà écrire. Le reste n'est que frappe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M02-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Le titre porte une coquille: l'apostrophe manque à dintervention. Cliquez entre le d et le i, puis tapez l'apostrophe, pour que le titre se lise Compte rendu d'intervention.",
+   "empreinte_texte_dit": "89f3ad340d1d371b5ef19474e1d23f314ff2aad5b837273422fc6437045ab1b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 162212,
+   "duree_s": 10.08,
+   "caracteres_dits": 173,
+   "caracteres_factures": 173,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le titre porte une coquille.\n L'apostrophe manque à d'intervention.\n Cliquez entre le D et le I, puis tapez l'apostrophe pour\n que le titre se lise contre-rendu d'intervention.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le titre porte une coquille.\n L'apostrophe manque à d'intervention.\n Cliquez entre le D et le I,\n puis tapez l'apostrophe pour que le titre se lise contre-\nendu d'intervention.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M02-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Un clic précis suffit: inutile de retaper le titre entier.",
+   "empreinte_texte_dit": "027848b0d4e5c30461cf622114442e3b48cd0a2170353461c3d56da4b345bbbc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un clic précis suffit, inutile de retaper le titre entier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un clic précis suffit.\n Inutile de retaper le titre entier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M02-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Une lettre ajoutée au bon endroit, et rien d'autre n'a bougé.",
+   "empreinte_texte_dit": "a03f90af96ccf095ef26397e1944e1935dfe672a8254d4b7dd86934cd1ca7976",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une lettre ajoutée au bon endroit et rien d'autre n'a bougé\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une lettre ajoutée au bon endroit et rien d'autre n'a bougé\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M02-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Une intervention se date. Insérez ce matin entre intervenu et sur dans le deuxième paragraphe, pour qu'il se lise: Le technicien est intervenu ce matin sur la ligne de conditionnement.",
+   "empreinte_texte_dit": "16690d6091539f0d4c0b58b77c12149e022812c990686443f4b52c98830c9e97",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 174333,
+   "duree_s": 10.84,
+   "caracteres_dits": 184,
+   "caracteres_factures": 184,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une intervention se date.\n Insérer ce matin entre intervenu et sûr dans le deuxième\n paragraphe pour qu'il se lise.\n Le technicien est intervenu ce matin sur la ligne de\n conditionnement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une intervention se date.\n Insérez ce matin entre intervenus et sûrs dans le deuxième\n paragraphe pour qu'il se lise.\n Le technicien est intervenu ce matin sur la ligne de\n conditionnement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M02-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Cliquez juste après intervenu, tapez une espace puis les deux mots.",
+   "empreinte_texte_dit": "b9c3457ad832d922e6a3a6e831971ca8c8bd55c667e0c58c73c6d140a3e56838",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez juste après intervenu,\n tapez une espace, puis les deux mots.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez juste après intervenu, tapez une espace puis les\n deux mots.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M02-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le texte suivant s'est décalé tout seul: Word recompose la ligne à chaque frappe.",
+   "empreinte_texte_dit": "eb4b30b16181c56aaa994cc5c10b979736f75ccf14bd8bbd1f4eaecf8bc876cd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.06,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le texte suivant s'est décalé tout seul,\n où ordre recompose la ligne à chaque frappe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le texte suivant s'est décalé tout seul. Word recompose la\n ligne à chaque frappe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M02-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Prolongeons le compte rendu. Placez-vous à la fin du dernier paragraphe, appuyez sur Entrée et saisissez: La pièce a été remplacée en trente minutes.",
+   "empreinte_texte_dit": "683e775fc83e520f29d149bc6b0dc31fa5312c89a6fd6ce2b7520cb2d51e96dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 141314,
+   "duree_s": 8.76,
+   "caracteres_dits": 149,
+   "caracteres_factures": 149,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Prolongeons le compte rendu. Placez-vous à la fin du\n dernier paragraphe, appuyez sur Entrée et saisissez.\n La pièce a été remplacée en 30 minutes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Prolongeons le compte rendu.\n Placez-vous à la fin du dernier paragraphe, appuyez sur\n entrer et saisissez.\n La pièce a été remplacée en 30 minutes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M02-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Curseur à la fin du dernier paragraphe, Entrée, puis la phrase.",
+   "empreinte_texte_dit": "291dd223c0512693dafa18887e88b8e5a54cc8f3da3ace9835f7481ea25389aa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Curseur à la fin du dernier paragraphe, entrée, puis la\n phrase.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Curseur à la fin du dernier paragraphe, entrée, puis la\n phrase.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M02-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Un quatrième paragraphe, créé par la seule touche Entrée.",
+   "empreinte_texte_dit": "85215f15dc6eb9590ba0d8985209fe41b1ed86a00e8480dd055c344e2a122e5a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un quatrième paragraphe créé par la seule touche entrée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "un quatrième paragraphe créé par la seule touche entrée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M02-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Appuyez sur Entrée et saisissez, en capitales: remplacement sous quarante-huit heures. Deux chemins pour les capitales: Maj maintenue pour une lettre, Verrouillage Maj pour une mention entière.",
+   "empreinte_texte_dit": "3602384a57db91c5c4a5f69f8bb4ccb4e290bce86804956ed8131f83e5ecb000",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 161794,
+   "duree_s": 10.04,
+   "caracteres_dits": 193,
+   "caracteres_factures": 193,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Appuyez sur Entrée et Saisissez en capital, remplacement\n sous 48 heures.\n Deux chemins pour les capitales.\n Mage maintenu pour une lettre.\n Verrouillage Mage pour une mention entière.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Appuyez sur \"Entrer\" et saisissez \"En capital\", rempl\nacement sous 48 heures.\n Deux chemins pour les capitales.\n Mage maintenu pour une lettre.\n Verrouillage mage pour une mention entière.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M02-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Verrouillage Maj, puis la phrase, et relâchez-le ensuite.",
+   "empreinte_texte_dit": "e03d5644743a986589443aa4609650242baae921aab56d735ef7a771215e2eee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Verrouillage mage, puis la phrase et relâchez-le ensuite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Verrouillage mage, puis la phrase, et relâchez-le ensuite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M02-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Cette étape exige les vraies capitales: c'est la seule du module où la casse compte.",
+   "empreinte_texte_dit": "5d71ff7dc548e1bc67ad611f8bdf76145205d3e4af030ed38e1e67b79685827f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cette étape exige les vrais capitales. C'est la seule du\n module où la casse compte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cette étape exige les vrais capitales.\n C'est la seule du module où la casse compte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M02-L01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Une correction se fait aussi en fin de phrase. Complétez le troisième paragraphe pour qu'il se lise: La panne provenait du capteur de fin de course, désormais hors service.",
+   "empreinte_texte_dit": "80fbed4b39bf2d2e93be4c06259c928368f78b2cfb95cb7fd3eee96c32b8458c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 157196,
+   "duree_s": 9.76,
+   "caracteres_dits": 172,
+   "caracteres_factures": 172,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une correction se fait aussi en fin de phrase.\n Complétez le troisième paradrave pour qu'il se lise.\n La panne provenait du capteur de fin de course, désormais\n hors service.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une correction se fait aussi en fin de phrase.\n Complétez le troisième paragraphe pour qu'il se lise.\n La panne provenait du capteur de fin de course, désormais\n hors service.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M02-L01-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Cliquez après course, effacez le point, puis écrivez la suite.",
+   "empreinte_texte_dit": "676c75c28fe038fd8bc6682d930ba18b62dc0ac2667c52a729045768da06db94",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez après course et facez le point, puis écrivez la\n suite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez après course, effacez le point, puis écrivez la\n suite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M02-L01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Effacer puis réécrire: c'est le geste de correction le plus courant.",
+   "empreinte_texte_dit": "ef19128774f0774adfcfac6bd9450b9627e32f9c149b2e4ca6af27cb270161c0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Éfacer puis réécrire, c'est le geste de correction le plus\n courant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Effacer puis réécrire, c'est le geste de correction le plus\n courant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M02-L01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Le délai est l'information que le lecteur cherche. À vous : sélectionnez trente minutes et mettez-le en gras.",
+   "empreinte_texte_dit": "d9c9e415b95f940d12c852bd5e5285764f09a8c16934aa084868b231953079d4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le délai est l'information que le lecteur cherche.\n À vous, sélectionnez 30 minutes et mettez-le en gras.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le délai est l'information que le lecteur cherche.\n À vous, sélectionnez 30 minutes et mettez-le en gras.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M02-L01-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Glissez la souris sur les deux mots, puis le bouton G.",
+   "empreinte_texte_dit": "a63ea8d50c6f1863469d91728a1f0a9a89ec4a2d9023100a7d9d6b0548adae84",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "glissez la souris sur les deux mots, puis le bouton G.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glissez la souris sur les deux mots, puis le bouton G.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M02-L01-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Le délai ressort d'un coup d'œil.",
+   "empreinte_texte_dit": "fc43fa706cbe32088934be6c54df42c1b3df7914b12d99d999a4fb927e1a32e2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 33,
+   "caracteres_factures": 33,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le délai ressort d'un coup d'œil.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le délai ressort d'un coup d'œil.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Insérer, corriger, prolonger: trois gestes qui reposent tous sur la position du point d'insertion. C'est le clic qui compte, la frappe ne fait que suivre.",
+   "empreinte_texte_dit": "718abfbe36b7123c1689047291b4f6006d99f34a3872317a62e5aa84eaec5583",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 169317,
+   "duree_s": 10.52,
+   "caracteres_dits": 154,
+   "caracteres_factures": 154,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Insérer, corriger, prolonger.\n Trois gestes qui reposent tous sur la position du point d'\ninsertion.\n C'est le clic qui compte, la frappe ne fait que suivre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Insérer, corriger, prolonger.\n Trois gestes qui reposent tous sur la position du point d'\ninsertion.\n C'est le clic qui compte, la frappe ne fait que suivre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

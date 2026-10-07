@@ -1,0 +1,844 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0utv007bx9hqg64lk2im",
+  "app": "WORD",
+  "section": "",
+  "titre": "Copies, plage et recto verso"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1511,
+  "duree_totale_s": 94.2,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Imprimer, ce n'est presque jamais tout, une fois. C'est souvent une page précise, plusieurs exemplaires, ou les deux côtés de la feuille. Ces trois réglages sont côte à côte dans l'écran Imprimer, et ce sont eux qu'on oublie.",
+   "empreinte_texte_dit": "f430cbddc75b8a02c4bb01310cb39f9d4e0c9b415601a3a478f4c630a718b467",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/intro.mp3",
+   "octets": 201918,
+   "duree_s": 12.56,
+   "caracteres_dits": 225,
+   "caracteres_factures": 286,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Imprimer, ce n'est presque jamais tout, une fois.\n C'est souvent une page précise, plusieurs exemplaires, ou\n les deux côtés de la feuille.\n Ces trois réglages sont côte à côte dans l'écran imprimé et\n ce sont eux qu'on oublie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Imprimé, ce n'est presque jamais tout, une fois.\n C'est souvent une page précise, plusieurs exemplaires, ou\n les deux côtés de la feuille.\n Ces trois réglages sont côte à côte dans l'écran imprimé,\n et ce sont eux qu'on oublie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez l'écran Imprimer depuis l'onglet Fichier.",
+   "empreinte_texte_dit": "7a40e3748a8eb86ed712a74315e9e6b8f7d39ccc39dbc941e87069a86ce61f9b",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 48,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez l'écran imprimaire depuis l'onglet fichier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez l'écran imprimaire depuis l'onglet Fichier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M10-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Onglet Fichier, bouton Imprimer.",
+   "empreinte_texte_dit": "1daed8bd8d18df821cc4bd8ba9fc931bad0b908318fa188fc2b22269a43b6fe8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.053,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Anglais fichiers, bouton imprimé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Onglets fichiers, boutons imprimés.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M10-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Les réglages sont à gauche de l'aperçu.",
+   "empreinte_texte_dit": "0e97690917dc9afbd7f8d1fcef48cab6eec1a580d42118b711f8de87e5654c4a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 38078,
+   "duree_s": 2.32,
+   "caracteres_dits": 39,
+   "caracteres_factures": 39,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les réglages sont à gauche de la perçue.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les réglages sont à gauche de l'aperçu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "La convocation part à douze membres. Portez le nombre de copies à 12. Une seule impression multiple vaut mieux que douze impressions lancées à la suite.",
+   "empreinte_texte_dit": "ba0f9b5ad8e6a5623243c281341f880c2f2edb38f82543bf5962c341cf433c83",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 135044,
+   "duree_s": 8.36,
+   "caracteres_dits": 152,
+   "caracteres_factures": 152,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La Convocation para 12 membres.\n Portez le nombre de copies à 12.\n Une seule impression multiple vaut mieux que 12 impressions\n lancées à la suite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La convocation part à 12 membres. Portez le nombre de\n copies à 12.\n Une seule impression multiple vaut mieux que 12 impressions\n lancées à la suite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M10-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Champ Copies, en haut des réglages.",
+   "empreinte_texte_dit": "416b6d9d23d24c6711c1190f606f2182b2d8c40a22eb1078c7d94735049ffad0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Chant copie en haut des réglages.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "champs copie, en haut des réglages.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M10-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Douze exemplaires en un seul lancement.",
+   "empreinte_texte_dit": "063ee161bd979b8bd10c951b656221bd26d838f0906b63f35b23ac771ec0b76d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 39,
+   "caracteres_factures": 39,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "12 exemplaires en un seul lancement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "12 exemplaires en un seul lancement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Activez le recto verso. Sur douze exemplaires d'un document de deux pages, c'est la moitié du papier économisée, et un envoi postal moins lourd.",
+   "empreinte_texte_dit": "6d3b835be297bf6819ed8a55474eace0eb4270a6801dfa711895ab26c7aa8035",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 140060,
+   "duree_s": 8.68,
+   "caracteres_dits": 144,
+   "caracteres_factures": 144,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Activer le recto verso. Sur 12 exemplaires d'un document de\n 2 pages,\n c'est la moitié du papier économisé et un envoi postal\n moins lourd.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Activez le recto verso. Sur 12 exemplaires d'un document de\n deux pages, c'est la moitié du papier économisé et un envoi\n postal moins lourd.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M10-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Case Recto verso, sous les boutons de plage.",
+   "empreinte_texte_dit": "a4373f7316dc24d2e07e7c83ef4f307a9bd8c85180654c832586399e53a0b789",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Casrecto verso sous les boutons de plage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cases recto verso, sous les boutons de plage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M10-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Les deux faces seront utilisées.",
+   "empreinte_texte_dit": "3073cd88fbba49d35daabaf838fd31b9824573b260320597597cf27cd48261d5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 30555,
+   "duree_s": 1.84,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les deux faces seront utilisées.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les deux faces seront utilisées.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Un membre réclame seulement la page affichée. Choisissez Page courante. La plage limite l'impression à ce que vous voyez.",
+   "empreinte_texte_dit": "53347a6cd4c65a814b1eac9d1e4b9f84cd7416bca2b385fb1ececc0dea3c2684",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 111221,
+   "duree_s": 6.88,
+   "caracteres_dits": 121,
+   "caracteres_factures": 121,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un membre réclame seulement la page affichée.\n Choisissez \"pages courantes\".\n La plage limite l'impression à ce que vous voyez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un membre réclame seulement la page affichée.\n Choisissez « Pages courantes ».\n La plage limite l'impression à ce que vous voyez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M10-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Bouton Page courante, dans Pages à imprimer.",
+   "empreinte_texte_dit": "9b953cb83b86923526778636180b8a9babf859b7ed2eee44f8828222e7ede507",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "bouton page courante dans page à imprimer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton Page courante dans Pages à imprimer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M10-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Seule la page affichée sortira.",
+   "empreinte_texte_dit": "b8db66d10cd9cb813d1f26dcc1fb32548660277dbb1e49906155a86d38cfb8ff",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 34316,
+   "duree_s": 2.08,
+   "caracteres_dits": 31,
+   "caracteres_factures": 31,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Seule la page affichée sortira.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Seule la page affichée sortira.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-L02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "L'envoi complet reprend. Revenez sur Tout le document. Une plage oubliée est la cause la plus fréquente d'un document imprimé incomplet.",
+   "empreinte_texte_dit": "52b52d09499011acdae8a7d67752baf777b52b7c7b1009a5ea90aa80d46fd011",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 125849,
+   "duree_s": 7.8,
+   "caracteres_dits": 136,
+   "caracteres_factures": 136,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'envoi complet reprend. Revenez sur tout le document.\n Une plage oubliée est la cause la plus fréquente d'un\n document imprimé incomplet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'envoi complet reprend.\n Revenez sur tout le document.\n Une plage oubliée est la cause la plus fréquente d'un\n document imprimé incomplet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M10-L02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Bouton Tout le document.",
+   "empreinte_texte_dit": "cc790e5c6385c4be8ec04bde05deaf28a14f15964087b381cc3b2e7210383438",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 23449,
+   "duree_s": 1.4,
+   "caracteres_dits": 24,
+   "caracteres_factures": 24,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "boutons tout le document.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton \"Tout le document\".",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M10-L02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Le document entier repart à l'impression.",
+   "empreinte_texte_dit": "1fde9ebfaaea5162c155023109b11517febfd57977e7ad3bc68032e829e0e0f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le document entier repart à l'impression.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le document entier repart à l'impression.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M10-L02-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Ramenez le nombre de copies à 1. Un réglage de copies reste en place: la fois suivante, on réimprime douze exemplaires sans s'en apercevoir.",
+   "empreinte_texte_dit": "954af991c2a403283a24d817b99568e11341b103e45eded2d0c2f074c833bcf8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 148419,
+   "duree_s": 9.2,
+   "caracteres_dits": 140,
+   "caracteres_factures": 280,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ramenez le nombre de copies à 1.\n Un réglage de copies reste en place.\n La fois suivante, on réimprime 12 exemplaires sans s'en\n apercevoir.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ramenez le nombre de copies à 1.\n Un réglage de copies reste en place.\n La fois suivante, on réimprime 12 exemplaires sans s'en\n apercevoir.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M10-L02-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Champ Copies.",
+   "empreinte_texte_dit": "48a4418854668616f7026b0103df2985a193e306532d72dda884bd6b238225f9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 13,
+   "caracteres_factures": 26,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Champ copie.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Champ-Copies.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M10-L02-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Réglages remis au neutre, le réflexe qui évite les surprises.",
+   "empreinte_texte_dit": "7a2b714a23d62af9aacf7f0bd5a21facf35536cc69ec7fbe40fe7f9b713171a0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Réglage remise au neutre. Le réflexe qui évite les\n surprises.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Réglage remise au neutre. Le réflexe qui évite les\n surprises.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Copies, plage, recto verso: les trois réglages qui séparent une impression utile d'une pile de papier à jeter.",
+   "empreinte_texte_dit": "ddd41a5a1c6eb58bd82e01c9a3941cd27c147cfa9c0e5d545044411001ae145f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 116236,
+   "duree_s": 7.2,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Copie, plage, recto verso, les trois réglages qui séparent\n une impression utile d'une pile de papier à jeter.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Copie, plage, recto verso.\n Les trois réglages qui séparent une impression utile d'une\n pile de papier à jeter.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

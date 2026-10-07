@@ -1,0 +1,960 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0tle0049x9hqoihhuvzm",
+  "app": "WORD",
+  "section": "",
+  "titre": "Un code de trames pour un document long"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 23,
+  "caracteres_dits": 2146,
+  "duree_totale_s": 124.8,
+  "segments_valides": 23,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "La règle un surlignage par document vaut pour un document court. Dans un document long, plusieurs couleurs deviennent utiles à une condition: que chacune signifie toujours la même chose. Vous allez poser un code de deux couleurs et le tenir jusqu'au bout.",
+   "empreinte_texte_dit": "63d100f23ea920a4074ab03d52034a6c11fb329fce09342302272f3db1c9491c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 206515,
+   "duree_s": 12.84,
+   "caracteres_dits": 255,
+   "caracteres_factures": 255,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La règle insurlinége par document vaut pour un document\n court.\n Dans un document long, plusieurs couleurs deviennent utiles\n à une condition.\n Que chacune signifie toujours la même chose.\n Vous allez poser un code de deux couleurs et le tenir jusqu\n'au bout.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La règle \"un surlignage par document\" vaut pour un document\n court.\n Dans un document long, plusieurs couleurs deviennent utiles\n à une condition,\n que chacune signifie toujours la même chose.\n Vous allez poser un code de deux couleurs et le tenir jusqu\n'au bout.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M05-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Fixez le code avant de poser le premier surlignage: le jaune signalera ce qui engage la sécurité, le vert ce qui relève de l'organisation courante. Ce qui compte n'est pas le choix des couleurs, c'est de ne plus en changer une fois posé.",
+   "empreinte_texte_dit": "a08dd02e3a14b0e3cb3fd1014baeff1df0dd286403d561a4ef27f7984bf4a31d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 204008,
+   "duree_s": 12.68,
+   "caracteres_dits": 237,
+   "caracteres_factures": 237,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Fixez le code avant de poser le premier sur-lignage.\n Le jaune signalera ce qui engage la sécurité,\n le vert, ce qui relève de l'organisation courante.\n Ce qui compte n'est pas le choix des couleurs,\n c'est de ne plus en changer une fois posé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Fixez le code avant de poser le premier surlignage.\n Le jaune signalera ce qui engage la sécurité, le vert ce\n qui relève de l'organisation courante.\n Ce qui compte n'est pas le choix des couleurs, c'est de ne\n plus en changer une fois posé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M05-L02-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Ce paragraphe recevra la couleur du danger, identique dans tout le livret.",
+   "empreinte_texte_dit": "bc85df95a49eed830f94f6e96334dd6e078126d5c9d68628cc8b2551818ad7e3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce paragraphe recevra la couleur du danger identique dans\n tout le livret.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce paragraphe recevra la couleur du danger identique dans\n tout le livret.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M05-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Le code se décide avant, jamais en cours de route.",
+   "empreinte_texte_dit": "aae4967e91cb6ad13cc0f0942454792cd558bd0952947b09333b30d7073f8f40",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le code se décide avant, jamais en cours de route.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le code se décide avant, jamais en cours de route.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M05-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Surlignez en jaune la consigne sur les équipements de protection. C'est une obligation de sécurité: elle entre dans la première catégorie du code.",
+   "empreinte_texte_dit": "bfd6965413ed578d2e8e32471e072c09ef7f224268a08e548c25ac5e6f58d2cb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 135462,
+   "duree_s": 8.4,
+   "caracteres_dits": 146,
+   "caracteres_factures": 146,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sur l'ignée en jaune, la consigne sur les équipements de\n protection.\n C'est une obligation de sécurité.\n Elle entre dans la première catégorie du code.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surlignée en jaune, la consigne sur les équipements de\n protection.\n C'est une obligation de sécurité. Elle entre dans la\n première catégorie du code.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M05-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Liste Surlignage du groupe Police, puis le jaune.",
+   "empreinte_texte_dit": "4b0a835d14aa09563e1bfa90bb9b8e75be4b7d7be0e91d96f8051a7aaa996ce5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Listes sur l'ignage du groupe police, puis le jaune.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Liste surlignage du groupe polis, puis le jaune.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M05-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Première entrée du code.",
+   "empreinte_texte_dit": "c40ca7389895de169a90e0ed3ce56835a88a7b8c027a4051b1a1f569ea1dbedf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 25539,
+   "duree_s": 1.52,
+   "caracteres_dits": 24,
+   "caracteres_factures": 24,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Première entrée du code.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Première entrée du code.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M05-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Surlignez en vert l'information sur les horaires: elle relève de l'organisation, pas du danger.",
+   "empreinte_texte_dit": "55c1dc59711ba823fcf5bbf28b0eaec9da159c5d9bb0b80731b3ea5868532d38",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surliniez envers l'information sur les horaires.\n Elles relèvent de l'organisation, pas du danger.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surlignez en vert l'information sur les horaires.\n Elle relève de l'organisation, pas du danger.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M05-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Même liste Surlignage, puis le vert.",
+   "empreinte_texte_dit": "5a0dcb3c7b0f2376606373d3460fcea19eefb237baeefad6491be9b4a9bd8fd1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.1,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Même liste sur l'ignage, puis le verre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.1,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Même liste sur lignage, puis le verre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M05-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le code tient sur deux entrées.",
+   "empreinte_texte_dit": "2db2775e0753842c551e0ebcb0b6c8b02e5595d67ab6d2c390f79fd238243e0b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 32644,
+   "duree_s": 1.96,
+   "caracteres_dits": 31,
+   "caracteres_factures": 31,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le code tient sur deux entrées.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le code tient sur deux entrées.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M05-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Surlignez l'interdiction d'accès aux nacelles selon la même règle que la première consigne traitée.",
+   "empreinte_texte_dit": "346b23a22302741dc60111d3b86fd595496b6fc955663184259e8edde68f3d54",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surlignez l'interdiction d'accès au nacelle selon la même r\nègle que la première consigne traité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surlignez l'interdiction d'accès au nacelle selon la même r\nègle que la première consigne traitée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M05-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Surlignage: une interdiction protège des personnes.",
+   "empreinte_texte_dit": "6c29c4303e0c36219eed294d987055e60f0dc5d95a442b9975271b9158d3ead9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sur l'ignage, une interdiction protège des personnes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sur lignage, une interdiction protège des personnes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M05-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Deux passages jaunes: la sécurité se repère d'un balayage du regard.",
+   "empreinte_texte_dit": "aec1c6696fa2641243d21587f34771666faf98acee1d632a3a1f47f11d23d610",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "2 passages jaunes. La sécurité se repère d'un balayage du\n regard.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux passages jaunes.\n La sécurité se repère dans balayage du regard.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M05-L02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Surlignez la procédure de congés. C'est le dernier paragraphe, et il appartient clairement à l'une des deux catégories.",
+   "empreinte_texte_dit": "7cc64afbe0716eff18512eda266d5f28a6acb021349c1330b9bc852b5ede5173",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 101608,
+   "duree_s": 6.28,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.028,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surlignez la procédure de congé. C'est le dernier paragrap\nhe et il appartient clairement à l'une des deux catégories.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surlignez la procédure de congé.\n C'est le dernier paragraphe, et il appartient clairement à\n l'une des deux catégories.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M05-L02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Surlignage: une procédure de congés relève de l'organisation.",
+   "empreinte_texte_dit": "1bd27215ccb6cd93c0905cafd5ec6953a1471952f9324e3a61d7a3f67a9c7eb5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sur l'ignage. Une procédure de congé relève de l'organ\nisation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surlignage. Une procédure de congé relève de l'organisation\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M05-L02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Le livret se lit désormais en deux temps selon ce qu'on cherche.",
+   "empreinte_texte_dit": "dadde0a04b10efdb3db6477e712fef70bb4fdd7ed3eb6b6971bdd2621e998d30",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le livret se lit désormais en deux temps selon ce qu'on\n cherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le livret se lit désormais en deux temps selon ce qu'on\n cherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M05-L02-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Épaississez obligatoire dans la première consigne: à l'intérieur d'un bloc surligné, la graisse sert encore à désigner le mot qui engage.",
+   "empreinte_texte_dit": "236313bc3846e42b831839597cf1a21a6678824e88a66713376b5eaf20f8306b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 114982,
+   "duree_s": 7.12,
+   "caracteres_dits": 137,
+   "caracteres_factures": 137,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "épécissez obligatoire dans la première consigne.\n A l'intérieur d'un bloc surligné,\n la graisse sert encore à désigner le mot qui engage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épaississez obligatoire dans la première consigne.\n À l'intérieur d'un bloc surligné, la graisse sert encore à\n désigner le mot qui engage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M05-L02-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Sélectionnez le seul mot obligatoire, puis le G du groupe Police.",
+   "empreinte_texte_dit": "1f8fadbf5557e325270477d9b4f54621a8f8e6471fe0a8ce2ebe18033b677cff",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le seul mot obligatoire, puis le G du groupe\n police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le seul mot obligatoire, puis le G du groupe\n police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M05-L02-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Surlignage pour la catégorie, graisse pour le mot décisif: chaque signal a son rôle.",
+   "empreinte_texte_dit": "e7ae87442ee3c09e3406343191cac3cbb8e33e280bf8a6403d0965edd915908a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surligne-âge pour la catégorie « Grèce pour le mot décisif\n ».\n Chaque signe à la son rôle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surlignage pour la catégorie, graisse pour le mot décisif.\n Chaque signal a son rôle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M05-L02-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Épaississez le titre du livret pour terminer, sans le surligner: un titre n'appartient à aucune des deux catégories du code.",
+   "empreinte_texte_dit": "4af92631fb5d26862ae4d7e5252ff67cccd5334e42400d2e119da5f94220e5be",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 111221,
+   "duree_s": 6.88,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épécissez le titre du livret pour terminer sans le surl\nigner.\n Un titre n'appartient à aucune des deux catégories du code.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épaississez le titre du livret pour terminer, sans le surl\nigner.\n Un titre n'appartient à aucune des deux catégories du code.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M05-L02-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le G du groupe Police, curseur dans le titre, pas de surlignage ici.",
+   "empreinte_texte_dit": "eaef4706915fba2e9805f0ac6e8acb84acacf6970e2e70494252685f2f54262d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le G du groupe Police curseur dans le titre pas de surlign\nage ici.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.049,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Legé du groupe Police, curseur dans le titre, pas de surl\nignages ici.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M05-L02-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Livret cohérent: deux couleurs, un code, aucune exception.",
+   "empreinte_texte_dit": "c2e86b625c24611401a516b9bc3a24a299c9540451d2e481a5e1e339e219dca4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.061,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Livres et cohérents, deux couleurs, un code, aucune\n exception.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.091,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Livre est cohérent. Deux couleurs, un code, aucune\n exception.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un code de couleurs ne vaut que par sa constance. Deux couleurs tenues sur cinquante pages valent mieux que cinq couleurs employées au gré de l'humeur.",
+   "empreinte_texte_dit": "cc10f19d6a8ba8bda8a7ffdcef363f69fe010f2c0fc3ddfcc41522c244af8055",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 128357,
+   "duree_s": 7.96,
+   "caracteres_dits": 151,
+   "caracteres_factures": 151,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un code de couleur ne vaut que par sa constance.\n Deux couleurs tenues sur 50 pages valent mieux que cinq\n couleurs employées au gré de l'humeur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un code de couleur ne vaut que par sa constance.\n Deux couleurs tenues sur 50 pages valent mieux que cinq\n couleurs employées au gré de l'humeur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

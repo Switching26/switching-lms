@@ -1,0 +1,840 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0toi004hx9hqsv3erooc",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Tenir un code de trames"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1432,
+  "duree_totale_s": 94.6,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un règlement à baliser. Le code est le même que dans la leçon: jaune pour la sécurité, vert pour l'organisation. Tenez-le sans exception, y compris quand la tentation est de varier.",
+   "empreinte_texte_dit": "c5ad1cec653c032f06fdf3efc7fb209600ebc7135b7b4f0b3333351032484a14",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 188125,
+   "duree_s": 11.68,
+   "caracteres_dits": 181,
+   "caracteres_factures": 181,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un règlement à baliser. Le code est le même que dans la le\nçon.\n Jaune pour la sécurité, vert pour l'organisation.\n Tenez le sans exception, y compris quand la tentation est\n de varier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un règlement à baliser.\n Le code est le même que dans la leçon.\n Jaune pour la sécurité,\n vert pour l'organisation.\n Tenez le sans exception,\n y compris quand la tentation est de varier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M05-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Balisez la règle sur les allées de circulation: elle conditionne l'évacuation, donc la sécurité.",
+   "empreinte_texte_dit": "72bdbd279534f48563e7e4fec204355b71a3fc707d2ecce36dd5b42d35747bd0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 112893,
+   "duree_s": 7.0,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ballisez la règle sur les allées de circulation.\n Elles conditionnent L,évacuation, donc la sécurité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Balisez la règle sur les allées de circulation.\n Elle conditionne L, évacuation, donc la sécurité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M05-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Liste Surlignage, puis la couleur que le code réserve à la sécurité.",
+   "empreinte_texte_dit": "581358c10885c587425798abf31f62d2f066fd1ff874dae12c4c5f1fb50f29dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.05,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "List sur l'ignage, puis la couleur que le code réserve à la\n sécurité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.05,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "List surlignage, puis la couleur que le code réserve à la\n sécurité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M05-E02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Première règle balisée.",
+   "empreinte_texte_dit": "13394cb7a3d6643bcb5deaedb1af4ea4c550ae27b19f051500ec70612ce517ee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 23,
+   "caracteres_factures": 23,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Première règle balisée",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Première règle balisée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M05-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Balisez l'enregistrement des mouvements de stock selon la catégorie qui lui revient.",
+   "empreinte_texte_dit": "79b38093143b92ba6df6ef6e54f166bb2c0f52798e8fa91736147ad6e3e676c6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ballisez l'enregistrement des mouvements de stock selon la\n catégorie qui lui revient.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Balisez l'enregistrement des mouvements de stock selon la\n catégorie qui lui revient.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M05-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Même liste Surlignage, mais l'autre couleur du code.",
+   "empreinte_texte_dit": "6d4539f9805889f0df623ffc85213e180523c1512eed983e0b470c8dfa21ea65",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Même liste sur l'ignage, mais l'autre couleur du code.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Même liste sur lignage, mais l'autre couleur du code.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M05-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Organisation courante: la seconde couleur du code.",
+   "empreinte_texte_dit": "539de2059fa498ac1cf17578ab9889bc4d6fbb45ded4cb350728430565b6f8d1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 63991,
+   "duree_s": 3.92,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Organisation courante, la seconde couleur du code.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Organisation courante, la seconde couleur du code.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M05-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Balisez l'interdiction de gerbage. Relisez le code avant de choisir: une limite de hauteur relève du risque d'écrasement.",
+   "empreinte_texte_dit": "b2d39ad0e69d7e35a2b0270a6276433437e74c7b4a09bdf589137bbfd758f55e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 146329,
+   "duree_s": 9.08,
+   "caracteres_dits": 121,
+   "caracteres_factures": 121,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Balisez l'interdiction de gerbage.\n Relisez le code avant de choisir.\n Une limite de hauteur.\n Relève du risque D.\n Écrase-ment.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Balisez l'interdiction de gerbage.\n Relisez le code avant de choisir.\n Une limite de hauteur relève du risque D.\n Écrasement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M05-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Surlignage: une limite de hauteur protège des personnes, pas l'organisation.",
+   "empreinte_texte_dit": "7ba1dc023fd6fbf6f55868d1931477dc8eaac2fd078254c0a1d922cc9b28bd38",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sur l'ignage, une limite de hauteur protège des personnes\n pas l'organisation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surlignage. Une limite de hauteur protège des personnes,\n pas l'organisation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M05-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Deux règles jaunes: la sécurité forme un ensemble.",
+   "empreinte_texte_dit": "3b6d0626bebc0dcd23ae967fe06085a5e0f4e188df4704f88ea1782d21c98da2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux règles jaunes. La sécurité forme un ensemble.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux règles jaunes. La sécurité forme un ensemble.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M05-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "À vous : balisez l'inventaire tournant.",
+   "empreinte_texte_dit": "396d76fd5cac908a672f8d0e44e779abec4399d265562c5334896031c623d484",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 39,
+   "caracteres_factures": 39,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "À vous, balisez l'inventaire tournant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "À vous ! Balisez l'inventaire tournant !",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M05-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Surlignage: un inventaire relève de l'organisation courante.",
+   "empreinte_texte_dit": "0c2b82013f0056a268da5ca2efd5ea3d645be386624b5430ab5c94f173aa32a2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surlignage. Un inventaire relève de l'organisation courante\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surlignage. Un inventaire relève de l'organisation courante\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M05-E02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le règlement se lit en deux temps.",
+   "empreinte_texte_dit": "2c12d99d2c0c577e0b1051cf351da0a0d134a60106aaa9ec552fbf88451e0c70",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 28465,
+   "duree_s": 1.72,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le règlement se lit en deux temps.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le règlement se lit en deux temps.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M05-E02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Épaississez interdit dans la règle de gerbage: à l'intérieur d'un bloc balisé, la graisse désigne le mot qui engage.",
+   "empreinte_texte_dit": "abea6fe2dccfb9d60f0703b9a2654228d9a3f33baba3fa9e482b2fc70d7bca18",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 124177,
+   "duree_s": 7.68,
+   "caracteres_dits": 116,
+   "caracteres_factures": 116,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épécissez interdit dans la règle de gerbage.\n A l'intérieur d'un bloc balisé, la graisse désigne le mot\n qui engage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épaississez interdit dans la règle de gerbage.\n À l'intérieur d'un bloc balisé, la graisse désigne le mot\n qui engage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M05-E02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Sélectionnez le seul mot interdit, puis le G du groupe Police.",
+   "empreinte_texte_dit": "d4ba9016678a8d2d426e2d0fa94a214b711e51adbbfe4258bac29285d5310bc1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le seul mot interdit, puis le G du groupe\n police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le seul mot interdit, puis le G du groupe\n police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M05-E02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Le mot décisif ressort dans son bloc.",
+   "empreinte_texte_dit": "631de4cb175befb0e65b501d39ab09f6cbc7a7f2863cde4e37561780a5d6e174",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 37,
+   "caracteres_factures": 74,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le mot décisif ressort dans son bloc.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le mot « décisif » ressort dans son bloc.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M05-E02-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Épaississez le titre, sans surlignage: il n'appartient à aucune des deux catégories.",
+   "empreinte_texte_dit": "5067d2a64e4e88d51b77c36a562af9859665e20013b46671542b485e02f1130b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épécissez le titre, sans surlignage, il n'appartient à\n aucune des deux catégories.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épaississez le titre. Sans surlignage, il n'appartient à\n aucune des deux catégories.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M05-E02-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Le G du groupe Police, curseur dans le titre, sans toucher au surlignage.",
+   "empreinte_texte_dit": "9988243a501c1af06b689a3240bf7390e5d412981b6f4ce714af732b0ad73f1f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le G du groupe Police curseur dans le titre sans toucher au\n surlignage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le jet du groupe Police, curseur dans le titre, sans touch\ner au surlignage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M05-E02-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Règlement balisé, code tenu.",
+   "empreinte_texte_dit": "9c1dc432f1c67ab78651e8763de06b09170e6b457f6b345de1aded82a35e072c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 37660,
+   "duree_s": 2.28,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Règlement balisé, code tenu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Règlement balisé, code tenu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un code tenu jusqu'au bout se lit sans légende. Un code avec une exception ne se lit plus du tout.",
+   "empreinte_texte_dit": "90a5c95755eab45e9a5ea0d044235992864a03465affacd79564281888ba9c67",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un code tenu jusqu'au bout se lit sans légende.\n Un code avec une exception ne se lit plus du tout.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un code tenu jusqu'au bout se lit sans légende.\n Un code avec une exception ne se lit plus du tout.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

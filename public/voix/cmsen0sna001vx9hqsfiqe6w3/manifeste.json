@@ -1,0 +1,1028 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0sna001vx9hqsfiqe6w3",
+  "app": "WORD",
+  "section": "",
+  "titre": "Combiner les attributs sans surcharger"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 26,
+  "caracteres_dits": 2710,
+  "duree_totale_s": 167.1,
+  "segments_valides": 26,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Vous disposez maintenant de sept attributs. La compétence qui reste à acquérir n'est pas d'en poser davantage, c'est d'en poser moins: chaque attribut employé affaiblit tous les autres. Vous allez mettre en forme une fiche produit en vous fixant une limite.",
+   "empreinte_texte_dit": "cb214156d47e3d9427a36ee2203a5974bd328d2e717fff526a8fdeccddfc946b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 216964,
+   "duree_s": 13.48,
+   "caracteres_dits": 257,
+   "caracteres_factures": 257,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous disposez maintenant de 7 attributs.\n La compétence qui reste à acquérir n'est pas d'imposer dav\nantage, c'est d'imposer moins.\n Chaque attribut employé affaiblit tous les autres.\n Vous allez mettre en forme une fiche produit, en vous fix\nant une limite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous disposez maintenant de sept attributs.\n La compétence qui reste à acquérir n'est pas d'en poser dav\nantage, c'est d'en poser moins.\n Chaque attribut employé affaiblit tous les autres.\n Vous allez mettre en forme une fiche produit en vous fixant\n une limite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M02-L05-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Fixez-vous une règle avant de commencer: un attribut par intention. Le titre doit se voir, taille et graisse suffisent. Une seule information doit ressortir dans le corps, ce sera le prix. Tout le reste doit rester neutre, sinon le lecteur ne saura plus où regarder.",
+   "empreinte_texte_dit": "d45ea0b6c6f8df96291351c852e0cc75232b696d55409b8d2d1c2b26e382ac67",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 241206,
+   "duree_s": 15.0,
+   "caracteres_dits": 266,
+   "caracteres_factures": 266,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Fixez-vous une règle avant de commencer, un attribut par\n intention.\n Le titre doit se voir, taille et graisse suffisent.\n Une seule information doit ressortir dans le corps, ce sera\n le prix.\n Tout le reste doit rester neutre, sinon le lecteur ne saura\n plus où regarder.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Fixez-vous une règle avant de commencer, un attribut par\n intention.\n Le titre doit se voir, taille et graisse suffisent.\n Une seule information doit ressortir dans le corps, ce sera\n le prix.\n Tout le reste doit rester neutre, sinon le lecteur ne saura\n plus où regarder.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M02-L05-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Taille et graisse rendent le titre visible en premier. Gardez ces attributs pour lui.",
+   "empreinte_texte_dit": "86a3782401540fb0be04699c246998fbf0622b924151b7eb205c6760b7ea62a8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Taille et Grèce rendent le titre visible en premier.\n Gardez ses attributs pour lui.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Taille et graisse rendent le titre visible en premier.\n Gardez ces attributs pour lui.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M02-L05-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Décider avant de cliquer: c'est ce qui distingue une mise en forme d'un empilement.",
+   "empreinte_texte_dit": "803442b91667ed2e6abcd340368dc72cdfa3bcfc582f113ed1846d67f5f6bf91",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Décidez avant de cliquer, c'est ce qui distingue une mise\n en forme d'un empilement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Décider avant de cliquer, c'est ce qui distingue une mise\n en forme d'un empilement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M02-L05-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Le titre d'abord. Sélectionnez-le et portez-le à la taille 18. Une seule taille au-dessus du corps suffit à le faire lire en premier.",
+   "empreinte_texte_dit": "7919d60bbe437cccfe9a2684cca3a83b968b1e0dd74dbe3292a8674948d13b8b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 132955,
+   "duree_s": 8.24,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le titre d'abord, sélectionnez-le et portez-le à la taille\n 18.\n Une seule taille au-dessus du corps suffit à le faire lire\n en premier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le titre d'abord.\n Sélectionnez-le et portez-le à la taille 18.\n Une seule taille au-dessus du corps, suffit à le faire lire\n en premier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M02-L05-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Liste Taille du groupe Police, valeur 18.",
+   "empreinte_texte_dit": "a4be346d62d9337f05cfd9177cdcacbfcb82ca5b4750ddd8b78ba25757411a4d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste taille du groupe Police, valeur 18.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste taille du groupe police, valeur 18.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M02-L05-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le titre prend la première place.",
+   "empreinte_texte_dit": "e452924f0f37dac74962c5ed355ad1cf7f872d94b42e8988d81b58687f041bbd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 32644,
+   "duree_s": 1.96,
+   "caracteres_dits": 33,
+   "caracteres_factures": 33,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le titre prend la première place.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le titre prend la première place.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M02-L05-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Ajoutez-lui le gras. Taille et graisse sur le même passage, c'est un cumul justifié: les deux disent la même chose, commencez ici.",
+   "empreinte_texte_dit": "2354f2103a9063c9bdac6040c24d9a650faf64fcabb8300e8ef61cb4f18eea20",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 130,
+   "caracteres_factures": 130,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez-lui le gras. Taillez graisse sur le même passage. C\n'est un cumul justifié.\n Les deux disent la même chose. Commencez ici.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez-lui le gras. Taillez Grèce sur le même passage, c'\nest un cumul justifié.\n Les deux disent la même chose. Commencez ici.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M02-L05-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le G du groupe Police, titre toujours sélectionné.",
+   "empreinte_texte_dit": "1f2f854f4f51a5074f07595623dc76509ca4d7d861c30e68fe44652e715e4f7b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le G du groupe Police, titre toujours sélectionné.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le G du groupe Police, titre toujours sélectionné.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M02-L05-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Deux attributs, une seule intention. C'est un cumul qui se défend.",
+   "empreinte_texte_dit": "a9a110db42d9aff6d6e2720414c264dcb406aff9097ef1be44735e0e545a6492",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "2 attributs, une seule intention. C'est un cumul qui se dé\nfend.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux attributs, une seule intention. C'est un cumul qui se\n défend.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M02-L05-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "L'information décisive d'une fiche produit, c'est le prix. Mettez le montant 1240 euros en gras, et rien d'autre dans ce paragraphe.",
+   "empreinte_texte_dit": "508dae41af992f07b5a898791caaf867b06adff7f51732669ce1b122e83aa815",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 146329,
+   "duree_s": 9.08,
+   "caracteres_dits": 132,
+   "caracteres_factures": 132,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'information décisive d'une fiche produit, c'est le prix.\n Mettez le montant 1240 € en gras et rien d'autre dans ce\n paragraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'information décisive d'une fiche produit, c'est le prix.\n Mettez le montant 1240 € en gras et rien d'autre dans ce\n paragraphe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M02-L05-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Sélectionnez les trois mots du montant, sans le reste de la phrase.",
+   "empreinte_texte_dit": "6d25c107671e8d3597cce764bcf055c210708ec453c4e004793d788d1a66e2b6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez les trois mots du montant sans le reste de la\n phrase.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez les trois mots du montant sans le reste de la\n phrase.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M02-L05-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le prix accroche l'œil parce qu'il est le seul passage épaissi du corps.",
+   "empreinte_texte_dit": "d99bba50009d78d8fe990c023ce31760fd77500c6bf9b111dae34742aa31e4c3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.095,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le prix accrochelle, oie parce qu'il est le seul passage ép\naisse du corps.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le prix à crochet, œil parce qu'il est le seul passage épa\nissi du corps.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M02-L05-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Le délai est une réserve, pas une accroche: il se nuance au lieu de crier. À vous : mettez trois semaines en italique.",
+   "empreinte_texte_dit": "b5505e2a82d85cefd09813b587cb6664ed9c90eef9e89bfba5b62070ae0f1024",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 135462,
+   "duree_s": 8.4,
+   "caracteres_dits": 118,
+   "caracteres_factures": 118,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le délai est une réserve, pas une accroche.\n Il se nuance au lieu de crier.\n À vous, mettez trois semaines en Italique.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le délai est une réserve, pas une accroche.\n Il se nuance au lieu de crier.\n À vous, mettez trois semaines en italique.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M02-L05-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Sélectionnez trois semaines, puis le I du groupe Police.",
+   "empreinte_texte_dit": "fb6331ebc3c2cacf6789efcf38a6767c8dcb5d12178730150ef3113fe054496f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez 3 semaines, puis le \"i\" du groupe \"Police\".",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez trois semaines, puis le i du groupe police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M02-L05-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "L'italique dit attention, le gras dit regardez: deux registres différents.",
+   "empreinte_texte_dit": "03becb6aec24a75baab14b31a2d4fdef4281c1e6e054f6e0e90b3e641be8b75d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 74,
+   "caracteres_factures": 148,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.048,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'Italique dit attention, le gradi, regarder, deux regist\nres différents.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'italique dit \"attention\". Le gras dit \"regardez\". Deux\n registres différents.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M02-L05-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Cette fiche part chez un client: elle doit être sobre. Mettez le titre en Georgia et vérifiez le résultat d'ensemble, une police pour tout le document, deux attributs en tout.",
+   "empreinte_texte_dit": "1744fe19d953435790f206c662b3ded3e3764ccf699ccec1df53996a2346717a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 162212,
+   "duree_s": 10.08,
+   "caracteres_dits": 175,
+   "caracteres_factures": 175,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cette fiche part chez un client. Elle doit être sobre. M\nettez le titre en Georgia et vérifiez le résultat d'ensemble\n.\n Une police pour tout le document, deux attributs en tout.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cette fiche part chez un client.\n Elle doit être sobre.\n Mettez le titre en Georgia et vérifiez le résultat d'\nensemble.\n Une police pour tout le document, deux attributs en tout.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M02-L05-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Liste Police du groupe Police, valeur Georgia.",
+   "empreinte_texte_dit": "8f803cbbfa932720b083ad6f25a75a2752ec5d878a38e1a5d053f9ba1d74a896",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Listes police du groupe police, Valeurs Georgia.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste police du groupe police Valeur Georgia",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M02-L05-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Trois signaux au total sur cinq paragraphes: la fiche se lit d'un coup d'œil.",
+   "empreinte_texte_dit": "5aa2b83931b97e99a4f017cd6d91e38ff69f423b51a3ea2a3d906f13a6100c3d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois signaux au total sur cinq paragraphes.\n La fiche se lit d'un coup, des œils.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "3 signaux au total sur 5 paragraphes.\n L'affiche se lit d'un coup, D, œil.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M02-L05-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Faites l'expérience inverse pour comprendre la règle. Surlignez en jaune la ligne des dimensions et observez ce qui arrive au prix: en ajoutant un signal, vous venez d'en affaiblir un autre.",
+   "empreinte_texte_dit": "59f568db75cde3d292f4f7c92c53c542a1f6276c04184e9e8a056a7c487555b9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 165137,
+   "duree_s": 10.24,
+   "caracteres_dits": 190,
+   "caracteres_factures": 190,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faites l'expérience inverse pour comprendre la règle.\n Surlignez en jaune la ligne des dimensions et observez ce\n qui arrive au prix.\n En ajoutant un signal, vous venez d'en affaiblir un autre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faites l'expérience inverse pour comprendre la règle.\n Surlignez en jaune la ligne des dimensions et observez ce\n qui arrive au prix.\n En ajoutant un signal, vous venez d'en affaiblir un autre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M02-L05-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Liste Surlignage, puis le jaune, sur la ligne des dimensions.",
+   "empreinte_texte_dit": "3c902480c770a9efd12585681a112b1464ebf31a0e7c5e4dd39da52af7658df7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste sur l'ignage, puis le jaune sur la ligne des\n dimensions.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste sur lignage, puis le jaune sur la ligne des\n dimensions.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M02-L05-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Le prix ne ressort plus autant. C'est exactement ce qu'il fallait constater.",
+   "empreinte_texte_dit": "39cc262da665f2160ef9947e6c8e5e9b527ef653e458759716f6cf5b4a34ec1b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le prix ne ressort plus autant. C'est exactement ce qu'il\n fallait constater.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le prix ne ressort plus autant.\n C'est exactement ce qu'il fallait constater.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M02-L05-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Revenez à la version sobre: annulez ce dernier surlignage avec le bouton Annuler, sans retoucher le paragraphe à la main.",
+   "empreinte_texte_dit": "f820372c7935d766830302f85ffd1b9c04b64a44600f9cce0644c00037b6ac79",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 121,
+   "caracteres_factures": 121,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Revenez à la version sobre.\n Annulez ce dernier surligniage avec le bouton Annuler sans\n retoucher le paragraphe à la main.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Revenez à la version sobre.\n Annulez ce dernier surlignage avec le bouton Annuler sans\n retoucher le paragraphe à la main.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M02-L05-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Bouton Annuler, en haut à gauche de la fenêtre.",
+   "empreinte_texte_dit": "b1d82f931232b3a95ead0c35b78c1f8ced54eae4c2514c08cdd6c4ea36c82edd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Bouton annulé en haut à gauche de la fenêtre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Bouton annulé, en haut à gauche de la fenêtre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M02-L05-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "La fiche retrouve sa hiérarchie. Retenez la démarche: on ajoute, on regarde, et on retire ce qui nuit.",
+   "empreinte_texte_dit": "00d55d54997dc484ed836772c37793c4fb1b5732392844cd824291362066b72a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 114982,
+   "duree_s": 7.12,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.066,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La fiche retrouve sa hiérarchie.\n Retenez la démarche, on ajoute, on regarde et on retire\n ceux qui nuient.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La fiche retrouve sa hiérarchie.\n Retenez la démarche, on ajoute, on regarde et on retire ce\n qui nuit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une hiérarchie se construit avec deux ou trois signaux, pas sept. Quand tout ressort, plus rien ne ressort, c'est la seule règle à retenir de ce module.",
+   "empreinte_texte_dit": "297d6930be9ba4be83c0d0703a5db9ea5962c03ae39f7c8ac8286aed22c536cb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 135044,
+   "duree_s": 8.36,
+   "caracteres_dits": 152,
+   "caracteres_factures": 152,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.012,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une hiérarchie se construit avec deux ou trois signaux, pas\n sept.\n Quand tout ressort, plus rien ne ressort, c'est la seule rè\ngle à retenir de ce module.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.012,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une hiérarchie se construit avec deux ou trois signaux, pas\n sept.\n Quand tout ressort, plus rien ne ressort, c'est la seule rè\ngle à retenir de ce module.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

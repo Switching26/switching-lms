@@ -1,0 +1,841 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0u4z005lx9hqovmotzky",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Les caractères introuvables"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1355,
+  "duree_totale_s": 96.4,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une fiche produit à composer. Chaque ligne réclame un caractère absent du clavier: degré, pourcentage, euro, tiret long, ligature. Tapez-les correctement, une approximation se verrait.",
+   "empreinte_texte_dit": "3cdb3e3e6584649c9a5d6d630e18ce3b65bc79198790ac7358f1c2d721786e37",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 217382,
+   "duree_s": 13.52,
+   "caracteres_dits": 184,
+   "caracteres_factures": 184,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une fiche produit à composer.\n Chaque ligne réclame un caractère absent du clavier.\n Degré, pourcentage, euro, tirer long, ligature.\n Tapper les correctements, une approximation se verrait.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une fiche produit à composer. Chaque ligne réclame un car\nactère absent du clavier.\n Degrés, pourcentage, euros, tiret long, ligature.\n Tapez-les correctement, une approximation se verrait.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M07-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Saisissez la première caractéristique: Résistance à l'eau conforme à la norme D3.",
+   "empreinte_texte_dit": "25a04e5426f8455f667e3d48f173ec8ebbd1240a4ae5fdd68533c2f2a27acc35",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.109,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la première caractéristique. Résistance à l'eau\n conforme à la norme d'étroits.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la première caractéristique. Résistance à l'eau\n conforme à la norme D3.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M07-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Aucun caractère inhabituel ici: Entrée, puis la phrase telle quelle.",
+   "empreinte_texte_dit": "3787d4b8429f5902c93e087220ab886997f6086b07e64e9490b9cf296275fd47",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Aucun caractère inhabituel ici.\n Entrez, puis la frasse tel qu'elle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Aucun caractère inhabituel ici. Entrez, puis la phrase tell\ne quelle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M07-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Première ligne.",
+   "empreinte_texte_dit": "b4d803981ed713ac96aee09003c92a6bb040258771214a43a2321560f17ff2f4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 28465,
+   "duree_s": 1.72,
+   "caracteres_dits": 15,
+   "caracteres_factures": 15,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Première ligne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Première ligne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M07-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Saisissez la température de mise en œuvre, avec le symbole degré: Mise en œuvre entre 12 °C et 30 °C.",
+   "empreinte_texte_dit": "b8bc750e37d7a3b669d0b030cc65c6246254fb756850fb96b4f143ca59834d05",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 129611,
+   "duree_s": 8.04,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la température de mise en œuvre avec le symbole\n degré.\n Mise en œuvre entre 12°C et 30°C.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la température de mise en œuvre avec le symbole\n degré.\n Mise en œuvre entre 12°C et 30°C.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M07-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le symbole degré, et la ligature œ dans œuvre.",
+   "empreinte_texte_dit": "28becce3df7b54a06503ad9c2f2a0cc827a443cf4dbcb0684a4aa93ccda8590c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le symbole degré est la ligature E dans œuvre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le symbole de gré et la ligature E dans œuvre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M07-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Deux caractères spéciaux sur une seule ligne.",
+   "empreinte_texte_dit": "3fd7dbc9a181fa98988b73f838ac7566e99c5c46dc9b7a00a7ffe09881382416",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux caractères spéciaux sur une seule ligne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux caractères spéciaux sur une seule ligne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M07-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Saisissez le taux d'humidité: Humidité du bois inférieure à 12 %.",
+   "empreinte_texte_dit": "63880193a6d50e13f70534558557c6052832feffdb095a5ce4c07213af3574f2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez le taux d'humidité.\n Humidité du bois inférieur à 12%.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez le taux d'humidité.\n Humidité du bois inférieur à 12 %.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M07-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le pourcentage se sépare du nombre par une espace: 12 %.",
+   "empreinte_texte_dit": "ed6b0eed72f30c7a00301d762e595ad47bc2ec2814b092ced422ff7b280b60e2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le pourcentage se sépare du nombre par une espace, 12%.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le pourcentage se sépare du nombre par une espace, 12 %.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M07-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Espace avant le signe pourcentage: c'est la règle française.",
+   "empreinte_texte_dit": "63da895cef5e92d4f1748c8e28280fcae8aba8ecb91e5108428451462e173abf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Espace avant le signe pourcentage, c'est la règle française\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Espace avant le signe pourcentage, c'est la règle française\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M07-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Saisissez la ligne de conditionnement, avec un tiret long: Conditionnement, flacon de 750 grammes, usage intérieur.",
+   "empreinte_texte_dit": "c292cc55d9cb97458e82015c844872066eb8e92ff25c1b71503694a67c484fbc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 147165,
+   "duree_s": 9.12,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.08,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la ligne de conditionnement avec un tir et long.\n Conditionnement, flacon de 750 g, usage intérieur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la ligne de conditionnement avec un tiré long.\n Conditionnement, flacon de 750 grammes, usage intérieur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M07-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le tiret long est plus large qu'un trait d'union; il encadre l'incise.",
+   "empreinte_texte_dit": "0bddce67149439cc87af3cbf2c3c4323fe491c7b2afa63aa2a82f7643496f92e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.093,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le tir est long et plus large qu'un trait d'union.\n Il encadre l'incise.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.093,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le tir est long et plus large qu'un trait d'union.\n Il encadre l'incise.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M07-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le tiret long encadre l'incise.",
+   "empreinte_texte_dit": "2f06eaf49c1c06b6953e6d924a1dddd6ce222002eb3064f7a3af2e8e0df3b178",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 31,
+   "caracteres_factures": 93,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le tir est long, encadre l'incise."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le tir est long, encadre l'incise.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M07-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Saisissez le tarif: Prix public conseillé: 9 euros et 80 centimes le flacon.",
+   "empreinte_texte_dit": "50c714fc4a82e995d37c2f32c948f11426bbfe305404935cbf675e72a9119ff1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.067,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez le tarif.\n Prépubliez conseiller, 9 euros et 80 centimes le flacon.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez le tarif.\n Prix public conseillé, 9,80 € le flacon.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M07-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Virgule pour les décimales, et le symbole euro après le montant.",
+   "empreinte_texte_dit": "76e94e379ba05dd023d4f3916e1318d08cf67733ac68208ec61746af2dbb6221",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "virgule pour les décimales et le symbole euro après le mont\nant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "virgule pour les décimales et le symbole euro après le mont\nant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M07-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Virgule décimale et euro après le montant.",
+   "empreinte_texte_dit": "82b3c6251d16ab538258c04f8d900fdd54196166e32693e26636543fb54fdcfe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "virgule décimale et euro après le montant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "virgule décimale et euro après le montant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M07-E01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Épaississez le prix pour terminer.",
+   "empreinte_texte_dit": "4f1e83a6fb3ffd3a382c2fbb5e2d0b65a456b18e88fd5a4d50f05e45c1bea591",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 35570,
+   "duree_s": 2.16,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épécissez le prix pour terminer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épécissez le prix pour terminer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M07-E01-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Sélectionnez 9 euros et 80 centimes, symbole compris, puis le G du groupe Police.",
+   "empreinte_texte_dit": "ad3d47dbd73ab83cd29bc5f0a1370839bcc01de5e86cf346f2911b1c6383e5c6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez 9 euros et 80 centimes, symbole compris, puis\n le G du groupe police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez 9,80 €, symbole compris, puis le G du groupe\n police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M07-E01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Fiche produit complète.",
+   "empreinte_texte_dit": "c0a4922dce350398a700037064d8c2c4f03a541324a87d27da8470f0ae99979f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 27211,
+   "duree_s": 1.64,
+   "caracteres_dits": 23,
+   "caracteres_factures": 23,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Fiche produit complète.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Fiche produit complète.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Cinq caractères, cinq usages. Un document qui les respecte se lit comme un document professionnel.",
+   "empreinte_texte_dit": "dc7ed9a8c4af39175881c85edfecca9c2c25d8ac6d99f57409ed0a97f510d689",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "5 caractères, 5 usages.\n Un document qui les respecte, se lit comme un document\n professionnel.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "5 caractères, 5 usages.\n Un document qui les respecte se lit comme un document\n professionnel.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

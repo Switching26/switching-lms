@@ -1,0 +1,544 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0we500b9x9hq5xlfqqk6",
+  "app": "WORD",
+  "section": "",
+  "titre": "Évaluation — correction d'un document"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 12,
+  "caracteres_dits": 1125,
+  "duree_totale_s": 70.2,
+  "segments_valides": 12,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une convention de partenariat part à la signature. Quatre signalements: trois fondés, un qui vise le nom du partenaire. Chaque décision est notée.",
+   "empreinte_texte_dit": "1af7fb6d57fef24e65f0fdd15fa2a444d881568490b6e04b71617a40c84c8e97",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 155942,
+   "duree_s": 9.68,
+   "caracteres_dits": 146,
+   "caracteres_factures": 146,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une convention de partenariat part à la signature.\n Quatre signalements, trois fondés, un qui vise le nom du\n partenaire.\n Chaque décision est notée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une convention de partenariat part à la signature.\n Quatre signalements, trois fondés, un qui vise le nom du\n partenaire.\n Chaque décision est notée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M17-EV01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Cette convention part à la signature: elle doit être relue. Le correcteur signale quatre passages, mais l'un d'eux n'est pas une faute, c'est à vous de trancher, entrée par entrée. Un mot trop vague reste aussi à préciser.",
+   "empreinte_texte_dit": "4cf0f76b2ada8b2a31f4e9e8be399c0b332f4a07c883f692b2115a3d0cdbdf3e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 189797,
+   "duree_s": 11.8,
+   "caracteres_dits": 222,
+   "caracteres_factures": 222,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cette convention para la signature, elle doit être relue.\n Le correcteur signale quatre passages, mais l'un d'eux n'\nest pas une faute, c'est à vous de trancher, entrer par entr\ner.\n Un mot trop vague reste aussi à préciser.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cette convention part à la signature, elle doit être relue.\n Le correcteur signale quatre passages, mais l'un d'eux n'\nest pas une faute, c'est\n à vous de trancher, entrer par entrer.\n Un mot trop vague reste aussi à préciser.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M17-EV01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Ce nom propre sera signalé: le dictionnaire ne le connaît pas. Ce n'est pas une faute.",
+   "empreinte_texte_dit": "b35fbc9597ebc8c9504918d57d10338d8c1a7276e4bad41d4d7e8d08b20055e1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce nom propre sera signalé.\n Le dictionnaire ne le connaît pas.\n Ce n'est pas une faute.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce nom propre sera signalé.\n Le dictionnaire ne le connaît pas.\n Ce n'est pas une faute.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M17-EV01-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "Ce sigle s'écrit en capitales, une vraie faute, elle.",
+   "empreinte_texte_dit": "ca7365bf7fcaa9188fb4490e2831cdb7c2ef3ecdcf3710463b06346b2b6e1b32",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce sigle S écrit en capital une vraie faute, L.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce sigle S écrit en capitale une vraie faute. L.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M17-EV01-01",
+   "role": "Étape 1 · bulle 3",
+   "texte_dit": "Et ce mot-là est trop vague pour un contrat: il devra être précisé.",
+   "empreinte_texte_dit": "b42c69b401979c2f0b2f6c86d424d30bead49b82942363c2d139053941a080a8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Et ce mot-là est trop vague pour un contrat. Il se devra\n être précisé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Et ce mot-là est trop vague pour un contrat.\n Il devra être précisé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M17-EV01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ouvrez le panneau Vérification depuis l'onglet Révision.",
+   "empreinte_texte_dit": "b823c1ee843be377ecc96f11315c152fe59f3426ca793781613ec6521751e692",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le panneau vérification depuis l'onglet Révisions.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le panneau vérification depuis l'onglet Révision.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M17-EV01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "À vous : corrigez la faute du titre.",
+   "empreinte_texte_dit": "3fe1321799987ace7a9545cc759fef463446c24d92c0083d22dedeaa32d88f09",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous.\n Corrigez la faute du titre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous ! Corrigez la faute du titre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M17-EV01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "À vous : corrigez la faute de la clause d'acceptation.",
+   "empreinte_texte_dit": "7b93b3fef039cfa802d833122dc0d7f2590518f6c9796e3b368946cf8cb621dd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous. Corrigez la faute de la clause d'acceptation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous ! Corrigez la faute de la clause d'acceptation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M17-EV01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Corrigez le sigle, il s'écrit en capitales. Laissez le nom de la société tel quel: le correcteur le signale, mais il est juste.",
+   "empreinte_texte_dit": "48782c46a288f156ae39f4b39928331bbf4ed7eb85d2d4529434ecf21bd953a3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 143822,
+   "duree_s": 8.92,
+   "caracteres_dits": 127,
+   "caracteres_factures": 127,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Corriger le sigle, il est écrit en capital.\n Laissez le nom de la société telle qu'elle.\n Le correcteur le signale, mais il est juste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Corrigez le sigle \"IL-S\" écrit en capital.\n Laissez le nom de la société telle qu'elle.\n Le correcteur le signale, mais il est juste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M17-EV01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Ouvrez l'onglet Synonymes du panneau.",
+   "empreinte_texte_dit": "c29d2c56ce46d8435ba5bc988a1b1858128c53c9e46ad248534657d613057bcd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 37,
+   "caracteres_factures": 37,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.048,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez l'anglais synonyme du panneau.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez l'onglet synonyme du panneau.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M17-EV01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Dans un contrat, important ne dit rien: le point est-il indispensable, ou seulement prépondérant? À vous : remplacez-le par le synonyme qui dit indispensable.",
+   "empreinte_texte_dit": "e7b5c52226ec20bfd6e9ac72c6ff427ae4ba13e6a5552efc5b546e8a80536d90",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 160958,
+   "duree_s": 10.0,
+   "caracteres_dits": 158,
+   "caracteres_factures": 158,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Dans un contrat, important ne dit rien.\n Le point est-il indispensable ou seulement prépondérant ?\n À vous, remplacez-le par le synonyme qui dit indispensable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Dans un contrat, important ne dit rien. Le point est-il\n indispensable ou seulement prépondérant ?\n À vous, remplacez-le par le synonyme qui dit indispensable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez lire une suggestion avant de l'accepter, et refuser celles qui ont tort.",
+   "empreinte_texte_dit": "8aef02e9a8c9e65b2f3bcd667c8a33bb493ab57ed4d9103a4cb7e39fe834f38e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.062,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous savez lire une suggestion avant de l'accepter et\n refusez celle qui entorte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.042,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous savez lire une suggestion avant de l'accepter et ref\nuser celle qui entore.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

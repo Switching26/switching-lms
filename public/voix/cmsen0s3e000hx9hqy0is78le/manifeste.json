@@ -1,0 +1,1164 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0s3e000hx9hqy0is78le",
+  "app": "WORD",
+  "section": "",
+  "titre": "Mettre en évidence : gras, italique, souligné"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 28,
+  "caracteres_dits": 3237,
+  "duree_totale_s": 201.6,
+  "segments_valides": 27,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Gras, italique, souligné: trois façons de faire ressortir un passage, et deux manières de les poser, le ruban à la souris, ou le raccourci clavier. Le raccourci n'est pas un gadget: c'est ce qui vous fera gagner du temps quand vous mettrez en forme un document entier.",
+   "empreinte_texte_dit": "0a2205d77bd0d6fceb97efc95353834071d155df99343b51d2304f99f32f9048",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 254999,
+   "duree_s": 15.88,
+   "caracteres_dits": 268,
+   "caracteres_factures": 268,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Gra, Italique, soulignée.\n Trois façons de faire ressortir un passage et deux manières\n de les poser.\n Le ruban à la souris ou le raccourci clavier.\n Le raccourci n'est pas un gadget.\n C'est ce qui vous fera gagner du temps quand vous mettrer\n en forme un document entier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Gras, italique, souligné.\n Trois façons de faire ressortir un passage et deux manières\n de les poser.\n Le ruban à la souris ou le raccourci clavier.\n Le raccourci n'est pas un gadget.\n C'est ce qui vous fera gagner du temps quand vous mettez en\n forme un document entier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M01-L04-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Trois attributs à distinguer, parce qu'ils ne servent pas au même usage. Le gras signale ce qui compte, une échéance, un montant. L'italique marque un mot étranger, un titre d'ouvrage, une nuance. Le souligné est rare dans un document professionnel: à l'écran, il se confond avec un lien. Chacun a son raccourci: Contrôle B, Contrôle I, Contrôle U.",
+   "empreinte_texte_dit": "73764fa79ab7ea25c28f1fc88c40a90429a9f5ad583b7cd026e27a3d8b1b693e",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 379133,
+   "duree_s": 23.64,
+   "caracteres_dits": 348,
+   "caracteres_factures": 409,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois attributs à distinguer parce qu'ils ne servent pas au\n même usage.\n Le gras signale ce qui compte, une échéance, un montant.\n L'Italie qui marque un mot étranger, un titre d'ouvrage,\n une nuance.\n Le souligner est rare dans un document professionnel.\n À l'écran, il se confond avec un lien.\n Chacun à son raccourci.\n Contrôle B, Controli, Controlu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.056,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois attributs à distinguer, parce qu'ils ne servent pas\n au même usage.\n Le gras signale ce qui compte, une échéance, un montant.\n L'italique marque un mot étranger, un titre d'ouvrage, une\n nuance.\n Le souligné est rare dans un document professionnel.\n À l'écran, ils se confondent avec un lien.\n Chacun a son raccourci.\n Ctrl+B, Ctrl+I, Ctrl+U.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M01-L04-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Le gras signale ce qui compte: une échéance, un montant. Raccourci Contrôle B.",
+   "empreinte_texte_dit": "175ab0f04fff33fa25bd9abf8a15ba2da70f612ea21b69fb05340054cdde6099",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": {
+      "attendus": [
+       "b"
+      ],
+      "entendus": []
+     },
+     "ok": false,
+     "transcription": "Le gras signale ce qui compte. Une échéance, un montant. Racourci contre le B.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.021,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": {
+       "attendus": [
+        "b"
+       ],
+       "entendus": []
+      },
+      "ok": false,
+      "transcription": "Le gras signale ce qui compte. Une échéance, un montant.\n Racourci contre le B."
+     }
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Le gras signale ce qui compte, une échéance, un montant. Raccourci contrôle B.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "1a4359741ad8c2dce6dffee576daf9a7cf0ded7a702dc60c151ac6f6de5e505c",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Le gras signale ce qui compte, une échéance, un montant. Raccourci contrôle B.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": true,
+      "transcription": "Le gras signale ce qui compte, une échéance, un montant. Raccourci contrôle B.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:09:43.845725",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-word.json"
+    }
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M01-L04-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "L'italique marque un mot étranger, un titre d'ouvrage. Contrôle I.",
+   "empreinte_texte_dit": "726c8989c235b2f146873e71b61ea2bddbbf192bc4da45aeb604d07f607f09b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'Italique marque un mot étranger, un titre d'ouvrage.\n Contrôlit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'italique marque un mot étranger, un titre d'ouvrage.\n Controllie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle3",
+   "etape_lms": "M01-L04-01",
+   "role": "Étape 1 · bulle 3",
+   "texte_dit": "Le souligné est rare en document professionnel: à l'écran, il se confond avec un lien.",
+   "empreinte_texte_dit": "d07aae23cf3200f8cdc1d4801b1f10d8fa2afc44afa1aadbe33392cd4eb603e9",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-bulle3.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 86,
+   "caracteres_factures": 147,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.069,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le soulignier est rare en documents professionnels.\n À l'écran, ils se confondent avec un lien.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.052,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le souligné est rare en documents professionnels.\n À l'écran, ils se confondent avec un lien.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M01-L04-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "B comme bold, I comme italic, U comme underline: les raccourcis viennent de l'anglais.",
+   "empreinte_texte_dit": "b1aa8ab44d49f429b7e8cc66ecbb6a14af65bbf454484134ea792b41b24cc3c4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Des comme bold, y comme italique, u comme underline.\n Les raccourcis viennent de l'anglais.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "D comme bold, I comme italique, U comme underline.\n Les raccourcis viennent de l'anglais.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M01-L04-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Commencez par désigner ce que vous voulez mettre en avant: sélectionnez le titre Offre d'emploi, d'un triple-clic dedans.",
+   "empreinte_texte_dit": "bcbf1ea270330adfe8831268060747dc3a5b777cd3dfe166146920ba9ff03b28",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 121,
+   "caracteres_factures": 121,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Commencez par désigner ce que vous voulez mettre en avant.\n Sélectionnez le titre Offre d'emploi, d'un triple clic\n dedans.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Commencez par désigner ce que vous voulez mettre en avant.\n Sélectionnez le titre « Offre d'emploi » d'un triple clic\n dedans.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M01-L04-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Trois clics rapprochés dans le titre.",
+   "empreinte_texte_dit": "5e30bf8a5d2f85aa7be486be07e84b8a2212380ea4e13db0e001e333576e402f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 30973,
+   "duree_s": 1.88,
+   "caracteres_dits": 37,
+   "caracteres_factures": 37,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois clics rapprochés dans le titre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois clics rapprochés dans le titre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M01-L04-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le titre est désigné. Le raccourci de l'étape suivante ne touchera que lui.",
+   "empreinte_texte_dit": "28303ce06ccc4b2430019e9fa318e200bcbe135382fdb7cf8e0481022ea827d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.07,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le titre est désigné. Le raccourci de l'âle et tape suiv\nante ne touchera que lui.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.047,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le titre est désigné.\n Le raccourci de l'al, étape suivante, ne touchera que lui.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M01-L04-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Sans lâcher la sélection, appuyez sur Contrôle B pour poser le gras au clavier. Comparez mentalement avec la leçon précédente: c'est le même effet que le bouton G, obtenu sans quitter le clavier des yeux.",
+   "empreinte_texte_dit": "6c32e63b89df6bfce502a8796b250caa5049878ac675df01f204775143cb7d16",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 186871,
+   "duree_s": 11.6,
+   "caracteres_dits": 204,
+   "caracteres_factures": 204,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sans lâcher la sélection, appuyez sur Ctrl+B pour poser le\n gras au clavier.\n Comparé mentalement avec la leçon précédente, c'est le même\n effet que le bouton G, obtenu sans quitter le clavier des\n yeux.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sans lâcher la sélection, appuyez sur CTRL+B pour poser le\n gras au clavier.\n Comparé mentalement avec la leçon précédente, c'est le même\n effet que le bouton G, obtenu sans quitter le clavier des\n yeux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M01-L04-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Maintenez Ctrl enfoncé et appuyez sur B.",
+   "empreinte_texte_dit": "296182b6790044b071da5ee30f7b3afbf39af87c0c5423feb372dc28ed30faf0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.08,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Maintenez cette RL en foncé et appuyez sur B.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.04,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Maintenez ces TRL enfoncé et appuyez sur B.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M01-L04-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le titre s'épaissit, sans un seul déplacement de souris.",
+   "empreinte_texte_dit": "887e55ce8059bdddfcd71997b54bedf7ff7a10724ad4379b83047923525ab4fd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le titre S, épaisse-y sans un seul déplacement de souris.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le titre S, épaissi, sans un seul déplacement de souris.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M01-L04-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Contrôlez que l'attribut est bien inscrit dans le document, et pas seulement affiché: le titre doit être en gras. Si ce n'est pas le cas, resélectionnez-le et recommencez.",
+   "empreinte_texte_dit": "19ede8d0f6d360a7537a7951a52b9c2132eb0548f6edace44ca7cd0d5ff7cbde",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 155524,
+   "duree_s": 9.64,
+   "caracteres_dits": 171,
+   "caracteres_factures": 171,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Contrôlez que l'attribut est bien inscrit dans le document\n et pas seulement affiché.\n Le titre doit être en gras.\n Si ce n'est pas le cas, reselectionnez-le et recommencez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Contrôlez que l'attribut est bien inscrit dans le document\n et pas seulement affiché.\n Le titre doit être en gras.\n Si ce n'est pas le cas, reselectionnez-le et recommencez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M01-L04-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Si le gras n'a pas pris, resélectionnez le titre et recliquez sur G.",
+   "empreinte_texte_dit": "10b92143495a28cf077c931f5e025ecce4ed81ef22d617eeaea89c803d7a231e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Si le grain n'a pas pris, reselectionnez le titre et recl\niquez sur G.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Si le gras n'a pas pris, re-sélectionnez le titre et recl\niquez sur G.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M01-L04-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le gras est bien enregistré dans le document lui-même.",
+   "empreinte_texte_dit": "884f521ebacd127db0633c766c6cf13f616512d29908058d6bf97c1a9cb08bd3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le gras est bien enregistré dans le document lui-même.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le gras est bien enregistré dans le document lui-même.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M01-L04-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Passons à l'italique, qui sert à nuancer. Sélectionnez le passage technicien de maintenance dans le deuxième paragraphe, en faisant glisser la souris.",
+   "empreinte_texte_dit": "20a8278f74679d1cbe1cfbbfb60892a0bee71c173574cb2586a126575e99e969",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 132955,
+   "duree_s": 8.24,
+   "caracteres_dits": 150,
+   "caracteres_factures": 300,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Passons à l'Italique qui sert à nuancer.\n Sélectionnez le passage technicien de maintenance dans le\n deuxième paragraphe en faisant glisser la souris.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Passons à l'Italic, qui sert à nuancer.\n Sélectionnez le passage technicien de maintenance dans le\n deuxième paragraphe, en faisant glisser la souris.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M01-L04-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Cliquez avant technicien, glissez jusqu'après maintenance, relâchez. Visez un passage qui tient sur une seule ligne: un glissement qui saute d'une ligne à l'autre est bien plus difficile à contrôler.",
+   "empreinte_texte_dit": "453e7fdc78c687c9bde03bc59cc3136e30b66307234d4eb4f017fe1a5cb7e69d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 186871,
+   "duree_s": 11.6,
+   "caracteres_dits": 199,
+   "caracteres_factures": 199,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez avant techniciens, glissez jusqu'à pré-maintenance\n relâché.\n Visez un passage qui tient sur une seule ligne.\n Un glissement qui saute d'une ligne à l'autre est bien plus\n difficile à contrôler.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez avant technicien, glissez jusqu'après maintenance\n relâcher.\n Visez un passage qui tient sur une seule ligne.\n Un glissement qui saute d'une ligne à l'autre est bien plus\n difficile à contrôler.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M01-L04-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Trois mots désignés au milieu de la phrase.",
+   "empreinte_texte_dit": "2ab6cfe5c4719796f9a91d22a1b5c3bffa643f4166a6212293cf7d4c591ab343",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois mots désignés au milieu de la phrase.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois mots désignés au milieu de la phrase.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M01-L04-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Appuyez sur Contrôle I pour mettre ce passage en italique. Vous venez d'employer deux raccourcis: ils fonctionnent tous sur le même principe, Ctrl plus l'initiale anglaise de l'attribut.",
+   "empreinte_texte_dit": "f9d2b4220addd119524dd832a2ffe1552263a2a4561fd4318ce9046b31e73b8a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 174333,
+   "duree_s": 10.84,
+   "caracteres_dits": 186,
+   "caracteres_factures": 186,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.063,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Appuyez sur Ctrl+I pour mettre ce passage en Italique.\n Vous venez d'employer deux raccourcis.\n Ils fonctionnent tous sur le même principe, CTRL + l'init\nial anglaise de la tribu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.063,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Appuyez sur CTRL + I pour mettre ce passage en italique.\n Vous venez d'employer deux raccourcis.\n Ils fonctionnent tous sur le même principe, CTRL + l'init\niale anglaise de la tribu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M01-L04-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Maintenez Ctrl enfoncée et appuyez sur I, passage sélectionné.",
+   "empreinte_texte_dit": "70f73389c389823cc8c18fc4aebc3b8bf3d20a28808f4167481b7b4b44cba6f6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Maintenez CTRL enfoncé et appuyez sur « I » Passage sé\nlectionné.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Maintenez CTRL enfoncé et appuyez sur I, Passage sélection\nné.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M01-L04-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Le passage penche: la nuance est posée.",
+   "empreinte_texte_dit": "bdf445de49b9a79f503bbb9d81c0bd9323254d2b24975284fbb4191543bc9afe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 39,
+   "caracteres_factures": 39,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le passage penche, la nuance est posée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le passage penche, la nuance est posée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M01-L04-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Vérifiez le résultat dans le document: ce passage doit être en italique.",
+   "empreinte_texte_dit": "d2093a3ed0aad187ecf54c0828fbe77f857e5379b487e2e76a47324823c2af60",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vérifiez le résultat dans le document, ce passage doit être\n en Italique.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vérifiez le résultat dans le document, ce passage doit être\n en italique.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M01-L04-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Si l'italique n'a pas pris, resélectionnez le passage et refaites Contrôle I.",
+   "empreinte_texte_dit": "6f24a451ef4546aec50c21014791fee23f62b579bb524dad77b6044d86d66fce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Si l'Italic n'a pas pris, reselectionnez le passage et ref\naites contrôle I.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.087,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Si l'italique n'a pas pris, re-sélectionnez le passage et\n refaites CTRL+I.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M01-L04-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "L'italique est en place, et le reste de la phrase n'a pas bougé.",
+   "empreinte_texte_dit": "a846cd4ba35750ac9d4df73c634705a4049f461c1b2e9cbadaad6b70c491ff38",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.028,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'Italie qui est en place et le reste de la phrase n'a pas\n bougé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'italique est en place et le reste de la phrase n'a pas\n bougé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M01-L04-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Dernier attribut, à employer avec parcimonie. Soulignez la date 15 avril du dernier paragraphe: sélectionnez-la, puis posez le souligné, au bouton S ou au raccourci Contrôle U, les deux chemins donnent le même résultat.",
+   "empreinte_texte_dit": "ece6ef7f7de1d0081cacdec0689779de968438c5e244b2033d1a7b6e2f365edc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 225742,
+   "duree_s": 14.04,
+   "caracteres_dits": 219,
+   "caracteres_factures": 219,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dernier attribut a employé avec parsimonie.\n Souleignez la date 15 avril du dernier paragraph.\n Sélectionnez-la, puis posez le souligner au bouton S\n ou au raccourci-control U.\n Les deux chemins donnent le même résultat.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.039,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dernière attribut à employer avec parcimonie.\n Sous ligné la date 15 avril du dernier paragraphe, sé\nlectionnez-la, puis posez le souligné\n au bouton S ou au raccourci Ctrl+U, les deux chemins don\nnent le même résultat.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M01-L04-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Le S souligné du groupe Police, ou Contrôle U une fois la date sélectionnée.",
+   "empreinte_texte_dit": "45a2ebaa0d43b04eaacf960d20b51e0b4ca8aac1c468aac2638eff5b11962ba4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le S souligné du groupe Police ou contrôle U une fois la\n date sélectionnée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "le S souligné du groupe Police ou Control-U une fois la\n date sélectionnée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M01-L04-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "La date de clôture ressort. Appuyez à nouveau sur Contrôle U pour retirer le soulignement : ces attributs sont des interrupteurs.",
+   "empreinte_texte_dit": "e21bffeed9432f6836abfec65583967aa3af3bad1463f173d3f658a8afa7ce86",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 122506,
+   "duree_s": 7.6,
+   "caracteres_dits": 129,
+   "caracteres_factures": 129,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "La date de clôture ressort.\n Appuyez à nouveau sur contrôle U pour retirer le soulign\nement.\n Ces attributs sont des interrupteurs.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "La date de clôture ressort.\n Appuyez à nouveau sur CTRL+U pour retirer le soulignement.\n Ces attributs sont des interrupteurs.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Contrôle B, Contrôle I, Contrôle U, trois raccourcis qui valent pour presque tous les logiciels. Retenez aussi qu'un attribut se retire du même geste qui l'a posé.",
+   "empreinte_texte_dit": "d8cddd608e9eaffe3b0a2389fbfbe20074a1271398fb79914bd36b1512c9ed96",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 136716,
+   "duree_s": 8.48,
+   "caracteres_dits": 163,
+   "caracteres_factures": 489,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Control B, Control I, Control U, trois raccourcis qui val\nent pour presque tous les logiciels.\n Retenez aussi qu'un attribut se retire du même geste qu'il\n a posé.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.095,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ctrl+B, Ctrl+I, Ctrl+U, trois raccourcis qui valent pour\n presque tous les logiciels.\n Retenez aussi qu'un attribut se retire du même geste qu'il\n a posé.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

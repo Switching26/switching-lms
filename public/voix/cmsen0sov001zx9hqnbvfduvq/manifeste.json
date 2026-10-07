@@ -1,0 +1,689 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0sov001zx9hqnbvfduvq",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Saisir, insérer et corriger"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 1229,
+  "duree_totale_s": 78.9,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un bon de livraison rédigé trop vite. Vous allez le reprendre: réparer deux coquilles, insérer une précision, puis le compléter. Aucune consigne ne vous dira où cliquer.",
+   "empreinte_texte_dit": "96917c11178d7fa583689820bfcb23fff4d7a8180af9aa5d0059f6aaf6a824d6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 166809,
+   "duree_s": 10.36,
+   "caracteres_dits": 169,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un bond de livraison rédigé trop vite. Vous allez le rep\nrendre. Réparer deux coquilles, insérer une précision, puis\n le compléter.\n Aucune consigne vous dira où cliquer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un bond de livraison rédigé trop vite.\n Vous allez le reprendre.\n Réparer deux coquilles, insérer une précision, puis le\n compléter.\n Aucune consigne ne vous dira où cliquer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M02-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Le numéro du bon a perdu son symbole. Corrigez le titre pour qu'il se lise : Bon de livraison, numéro deux mille vingt-six, tiret quatre cent dix-huit.",
+   "empreinte_texte_dit": "8206e5c349bb208c706fc6221500d75cf573623bdb95bd881d485b9dc04dcba4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 152599,
+   "duree_s": 9.48,
+   "caracteres_dits": 151,
+   "caracteres_factures": 151,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le numéro du bon a perdu son symbole.\n Corrigez le titre pour qu'il se lise.\n Bon de livraison, numéro 2026, tiré 418."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le numéro du bon a perdu son symbole. Corrigez le titre pour qu'il se lise. Bon de livraison, numéro 2026-418.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M02-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Cliquez après le n, puis tapez le symbole degré.",
+   "empreinte_texte_dit": "44fe82dbe0fb8a93b07d844ec7fcf53fb180104f338945375a60181cf374bcb4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez après le N, puis tapez le symbole de gré.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez après le N, puis tapez le symbole de gré.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M02-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Titre corrigé.",
+   "empreinte_texte_dit": "dfac5c25ae3a456c4225834ae99e11c20f112c71491dce57eb44cf00e950c2b0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 23449,
+   "duree_s": 1.4,
+   "caracteres_dits": 14,
+   "caracteres_factures": 14,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Titre corrigé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Titres corrigés",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M02-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Le transporteur n'est pas nommé. Complétez le deuxième paragraphe pour qu'il se lise: Livraison effectuée le 12 mars par le transporteur Ligéria.",
+   "empreinte_texte_dit": "1a61fe8c373de94944557017937a7e7655ef11c11565f33a39ddb462fce13f2f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 139224,
+   "duree_s": 8.64,
+   "caracteres_dits": 145,
+   "caracteres_factures": 145,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.045,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le transporter n'est pas nommé. Complétez le deuxième parag\nraphe pour qu'il se lise.\n Livraison effectuée le 12 mars par le transporter l'Igéria.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le transporteur n'est pas nommé.\n Complétez le deuxième paragraphe pour qu'il se lise.\n Livraison effectuée le 12 mars par le transporteur Ligéria.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M02-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Cliquez après transporteur, tapez une espace puis le nom.",
+   "empreinte_texte_dit": "f731b82ab76cb174ac96c783bb1b1f3882968d9def2704069d2c69463e27b219",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez après Transporter, tapez une espace, puis le nom.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez après Transporter, tapez une espace puis le nom.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M02-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le transporteur est identifié.",
+   "empreinte_texte_dit": "569d043dd7fb34ebf344cffcbaf1be37b381a27a2fcea93e6b3d49f87cd73414",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 35152,
+   "duree_s": 2.12,
+   "caracteres_dits": 30,
+   "caracteres_factures": 30,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le transporteur est identifié.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le transporteur est identifié.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M02-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Ajoutez un paragraphe à la fin du bon: Deux palettes sur trois ont été contrôlées.",
+   "empreinte_texte_dit": "94eacf77cd82f4eafde37c02278e28388d2b4dc4154610a94861f78a62231ec0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez un paragraphe à la fin du bon.\n 2 palettes sur 3 ont été contrôlées.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez un paragraphe à la fin du bond.\n Deux palettes sur trois ont été contrôlées.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M02-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Curseur à la fin de la dernière ligne, Entrée, puis la phrase.",
+   "empreinte_texte_dit": "4c72edd5d181c052b2db8060343fceef65fbc7f4dc069d0b7008a0a64203e747",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Curseur à la fin de la dernière ligne, entrée, puis la\n phrase.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Curseur à la fin de la dernière ligne, entrée, puis la\n phrase.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M02-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le bon est complet.",
+   "empreinte_texte_dit": "645757018b6bc77c9813db35a350438593529e3400dd2c57cca3f44e719ea879",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 23031,
+   "duree_s": 1.36,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bon est complet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bon est complet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M02-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Une réserve doit être visible de loin. Ajoutez une dernière ligne, en capitales: reserve sur LA troisieme palette.",
+   "empreinte_texte_dit": "f007b087378cfab0607d50b21c8ee32160f80209e2c1581c4c32f127e872166d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 130447,
+   "duree_s": 8.08,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une réserve doit être visible de loin.\n Ajoutez une dernière ligne en capital.\n Réserve sur LAI 3e palette.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une réserve doit être visible de loin.\n Ajoutez une dernière ligne en capitale.\n Réserve sur L.A. et troisième palette.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M02-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Verrouillage Maj avant de taper.",
+   "empreinte_texte_dit": "5ce3c955b1f0d370be29a3dc448fae3cb424337e2b76f0049e27932070dc5627",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 33062,
+   "duree_s": 2.0,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.056,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vérouillage mage avant de taper.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Verrouillage mages avant de taper.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M02-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "La réserve est posée, en capitales.",
+   "empreinte_texte_dit": "85877fca4102db126515f0ae28a8da4f9b53a57f48150bd8bc0427776bcbe52b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La réserve est posée en capitale.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La réserve est posée en capitale.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M02-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Faites ressortir la date 12 mars dans le deuxième paragraphe, en l'épaississant.",
+   "empreinte_texte_dit": "863567517769bd276c1436b6712edc7f42a350d4f065b0b482729849105ca42b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 80,
+   "caracteres_factures": 160,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.044,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faites ressortir la date 12 mars dans le deuxième paragrap\nhe, en L, épaississant.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.044,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faites ressortir la date 12 mars dans le deuxième paragrap\nhe, en L, épécissant.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M02-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Glissez la souris sur 12 mars, puis le G du groupe Police.",
+   "empreinte_texte_dit": "94df8c8255d8a93b94902fb5ba1b9a155f9e64f473d5572f4d0829cec63bcfaa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glisser la souris sur 12 mars, puis le G du groupe police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glissez la souris sur 12 mars, puis le jet du groupe police\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M02-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "La date de livraison se repère immédiatement.",
+   "empreinte_texte_dit": "475100b353ee07567218b94e502fab77ed7ad2eeff81c933e6624f1b6a4718ed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La date de livraison se repère immédiatement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La date de livraison se repère immédiatement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Corriger, insérer, prolonger: vous savez intervenir n'importe où dans un texte existant.",
+   "empreinte_texte_dit": "b3ae0a2107aa8ca8fea60d0b245f42a8a20d6a0a695c39c25f5dbea0e1fc515d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 88651,
+   "duree_s": 5.48,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "corriger, insérer, prolonger.\n Vous savez intervenir n'importe où dans un texte existant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "corriger, insérer, prolonger, vous savez intervenir n'\nimporte où dans un texte existant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,712 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0wms00bvx9hqpdub9rcy",
+  "app": "WORD",
+  "section": "",
+  "titre": "Évaluation — Les styles dans Word"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 1936,
+  "duree_totale_s": 113.6,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Onze gestes notés, sans indice et sans démonstration. Un manuel de maintenance à structurer sur trois niveaux, avec un défaut à réparer. Les consignes disent le RANG de chaque section, à vous d'en déduire le style. Chaque geste compte au premier essai.",
+   "empreinte_texte_dit": "288ab97240995472f7ef71b4af1c01efe49701782b70b5d61b7a14b479b17957",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 228249,
+   "duree_s": 14.2,
+   "caracteres_dits": 252,
+   "caracteres_factures": 252,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "11 gestes notés, sans indice et sans démonstration.\n Un manuel de maintenance à structurer sur trois niveaux,\n avec un défaut à réparer.\n Les consignes disent le rangé de chaque section.\n À vous d'en déduire le style.\n Chaque geste compte au premier essai.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "11 gestes notés, sans indice et sans démonstration.\n Un manuel de maintenance à structurer sur trois niveaux,\n avec un défaut à réparer.\n Les consignes disent le rangé de chaque section.\n À vous d'en déduire le style.\n Chaque geste compte au premier essai.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M18-EV01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ce manuel n'a aucune structure, sauf un paragraphe qui porte déjà un style, et il est faux. Vous allez hiérarchiser le document sur trois niveaux, réparer ce défaut, puis le compléter. Les consignes disent le rang, jamais le bouton.",
+   "empreinte_texte_dit": "a5ebdebd9fe6c9f6541a657e518e7d970334eec60b7f95078092d2c1c50f2419",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 230339,
+   "duree_s": 14.32,
+   "caracteres_dits": 232,
+   "caracteres_factures": 232,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce manuel n'a aucune structure, sauf un paragraphe qui\n porte déjà un style et il est faux.\n Vous allez hiérarchiser le document sur trois niveaux, ré\nparer ce défaut, puis le compléter.\n Les consignes disent le rang, jamais le bouton.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce manuel n'a aucune structure, sauf un paragraphe qui\n porte déjà un style, et il est faux.\n Vous allez hiérarchiser le document sur trois niveaux, ré\nparer ce défaut, puis le compléter.\n Les consignes disent le rang, jamais le bouton.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M18-EV01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Ce paragraphe porte déjà un style, et c'est celui-là qui est faux. Repérez-le avant de hiérarchiser.",
+   "empreinte_texte_dit": "55c47ccd6060b9b4f5c77372665207b7635e603b12b17d42cd713713b1f480c4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce paragraphe porte déjà un style, et c'est celui-là qui\n est faux.\n Repérez-le avant de hiérarchiser.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce paragraphe porte déjà un style, et c'est celui-là qui\n est faux.\n Repérez-le avant de hiérarchiser.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M18-EV01-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "Le document se hiérarchise sur trois niveaux: Machines de découpe est une section.",
+   "empreinte_texte_dit": "c3078e0d3971f82239b38e388354d46789e1818abe566896457ff3db87f116a4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le document se hiérarchise sur trois niveaux.\n Machines de découpe est une section.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le document se hiérarchise sur trois niveaux.\n Machine de découpe est une section.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M18-EV01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Donnez au premier paragraphe la nature d'un titre de document.",
+   "empreinte_texte_dit": "c159140471c100b048111e55e480b18c265cb1caaa79fc90e69d81f339a1b278",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez au premier paragraphe la nature d'un titre de\n document.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez au premier paragraphe la nature d'un titre de\n document.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M18-EV01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Donnez à la ligne de version la nature qui accompagne un titre sans entrer dans la hiérarchie des parties.",
+   "empreinte_texte_dit": "51e0a3cb62951d3eabf775c0f875cdb83a898d63b9ad1f855b599ebd93eac2dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez à la ligne de version la nature qui accompagne un\n titre,\n sans entrer dans la hiérarchie des partis.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez à la ligne de version la nature qui accompagne un\n titre sans entrer dans la hiérarchie des parties.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M18-EV01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Machines de découpe est une grande partie du manuel: traitez-la en conséquence.",
+   "empreinte_texte_dit": "7cc5cf366cb16c07edccc88266cd8428ec0ed1e26e9397e18198652b55ade39e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Machines de découpe est une grande partie du manuel.\n Traitez-la en conséquence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Machine de découpe est une grande partie du manuel.\n Traitez-la en conséquence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M18-EV01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Entretien hebdomadaire est une section de cette partie.",
+   "empreinte_texte_dit": "f1389439faec675598f781296165be009f604d77ae340bcd983da96fef5e3ba2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Entretien hebdomadaire est une section de cette partie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.028,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Entre-tien hebdomadaire est une section de cette partie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M18-EV01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Graissage des glissières est un point de détail à l'intérieur de cette section.",
+   "empreinte_texte_dit": "29e1e3ab915a4701ec5aeb11570be4ccd9dd43aa5651117cbe0180fdf1bf06c7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Grissage des glissières est un point de détail à l'\nintérieur de cette section.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Gressage des glissières est un point de détail à l'\nintérieur de cette section.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M18-EV01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Entretien annuel porte un Titre 3, alors que c'est une section de même rang qu' Entretien hebdomadaire. Corrigez son rang.",
+   "empreinte_texte_dit": "984883bd0953529614ee891cb947dd9e86afc23e94f6765682bc208adc867a49",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 122,
+   "caracteres_factures": 244,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Entretien annuel porte un titre 3 alors que c'est une\n section de même rank.\n Entretien hebdomadaire. Corriger son rang.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Entre-tien annuel porte un titre 3 alors que c'est une\n section de même rank.\n Entre-tien hebdomadaire.\n Corrigez son rang.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M18-EV01-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Compresseurs est une seconde grande partie, de même rang que Machines de découpe.",
+   "empreinte_texte_dit": "84c6bbf1519731a04fe605869255de6a157a066436184118cf341969ee442a77",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Compresseur est une seconde grande partie de même rang que\n machine de découpe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Compresseur est une seconde grande partie, de même rang que\n machine de découpe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M18-EV01-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Le manuel doit indiquer qui le tient à jour. Ajoutez un paragraphe à la suite du dernier, contenant exactement: Manuel tenu à jour par le service maintenance.",
+   "empreinte_texte_dit": "f6327bfcad52116c94db2dab89f02f99ceee078ed11a62a1972d67768ec3a735",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 158450,
+   "duree_s": 9.84,
+   "caracteres_dits": 158,
+   "caracteres_factures": 158,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le manuel doit indiquer qui le tient à jour.\n Ajoutez un paragraphe à la suite du dernier, contenant\n exactement.\n Manuel tenu à jour par le service maintenance.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le manuel doit indiquer qui le tient à jour.\n Ajoutez un paragraphe à la suite du dernier, contenant\n exactement\n «Manuel tenu à jour par le service maintenance».",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M18-EV01-10",
+   "role": "Étape 10 · consigne",
+   "texte_dit": "Justifiez le paragraphe qui décrit le graissage: dans un manuel, le corps de texte se justifie.",
+   "empreinte_texte_dit": "1febb2b9e0fda11fffb389d36f970810fba45294b3aa2b30a23fc51737cafa43",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Justifiez le paragraphe qui décrit le graissage. Dans un\n manuel, le corps de texte se justifie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Justifiez le paragraphe qui décrit le graissage.\n Dans un manuel, le corps de texte se justifie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M18-EV01-11",
+   "role": "Étape 11 · consigne",
+   "texte_dit": "Vous jugez cette justification inutile sur une phrase courte. Défaites ce dernier geste sans retoucher le paragraphe à la main.",
+   "empreinte_texte_dit": "1d845e073d1b73f7b2ba8c6831c593a3996edbfde5afa8d3b3f0272431c831ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 116236,
+   "duree_s": 7.2,
+   "caracteres_dits": 127,
+   "caracteres_factures": 127,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous juger cette justification inutile sur une phrase cour\nte.\n Défaite ce dernier geste sans retoucher le paragraphe à la\n main.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous jugez cette justification inutile sur une phrase cour\nte.\n Défaite ce dernier geste sans retoucher le paragraphe à la\n main.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-consigne",
+   "etape_lms": "M18-EV01-12",
+   "role": "Étape 12 · consigne",
+   "texte_dit": "Après comparaison, le manuel gagne à être homogène: remettez la justification, toujours sans repasser par le groupe Paragraphe.",
+   "empreinte_texte_dit": "39a3346253d6a26d8acde631f18a469525e94eed95ecf5cbe35557803dcbdd54",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-consigne.mp3",
+   "octets": 130865,
+   "duree_s": 8.12,
+   "caracteres_dits": 127,
+   "caracteres_factures": 127,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Après comparaison, le manuel gagne à être homogène.\n Remettez la justification toujours sans repasser par le\n groupe paragraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Après comparaison, le manuel gagne à être homogène.\n Remettez la justification toujours sans repasser par le\n groupe paragraphes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez: seule votre meilleure note est conservée, et chaque passage repart de zéro sur un document neuf.",
+   "empreinte_texte_dit": "1e033b7c33f2790041aa11deb6fc2ce5d3c2e1de57180cabe8bc54ee4aa0b703",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 156778,
+   "duree_s": 9.72,
+   "caracteres_dits": 179,
+   "caracteres_factures": 179,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Evaluation terminée.\n Vous pouvez la repasser autant de fois que vous le souha\nitez.\n Seul votre meilleure note est conservée,\n et chaque passage repart de zéro sur un document neuf.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Évaluation terminée.\n Vous pouvez la repasser autant de fois que vous le souha\nitez.\n Seule votre meilleure note est conservée,\n et chaque passage repart de zéro sur un document neuf.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,1080 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0tsp004rx9hqk386ceii",
+  "app": "WORD",
+  "section": "",
+  "titre": "Transformer un texte en liste à puces"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 26,
+  "caracteres_dits": 2362,
+  "duree_totale_s": 146.4,
+  "segments_valides": 26,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une énumération écrite au fil du texte se lit mal: l'œil ne sait pas combien d'éléments il y a. La transformer en liste change cela d'un seul geste. Vous allez apprendre quand poser une puce, et surtout quand ne pas en poser.",
+   "empreinte_texte_dit": "f78478c9d5f4627269ffb277e4d7e0c26cf186f3c63e2559fbbe531d64fa8b7f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 221980,
+   "duree_s": 13.8,
+   "caracteres_dits": 225,
+   "caracteres_factures": 225,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une énumération écrite au fil du texte se lit mal.\n Elle, œil ne sait pas combien d'e, élément il y a.\n La transformée en liste change cela d'un seul geste.\n Vous allez apprendre qu'en poser une puce et surtout qu'en\n ne pas en poser.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une énumération écrite au fil du texte se lit mal.\n L, œil ne sait pas combien, D, élément il y a.\n La transformer en liste change cela d'un seul geste.\n Vous allez apprendre qu'en poser une puce, et surtout qu'en\n ne pas en poser.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M06-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Une liste à puces convient quand les éléments sont de même rang et que leur ordre est indifférent: du matériel, des critères, des options. Chaque paragraphe devient un élément, c'est la touche Entrée qui découpe la liste, pas la ponctuation.",
+   "empreinte_texte_dit": "d574dc2fe2c4d29c6631e062ee8b3fe8d3faf504c32c0335432ea5058c00f0d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 198992,
+   "duree_s": 12.36,
+   "caracteres_dits": 241,
+   "caracteres_factures": 241,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une liste à puce convient quand les éléments sont de même\n rang et que leur ordre est indifférent,\n du matériel, des critères, des options.\n Chaque paragraphe devient un élément, c'est la touche entr\née, qui découpe la liste pas la ponctuation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une liste à puce convient quand les éléments sont de même\n rang et que leur ordre est indifférent\n – du matériel, des critères, des options.\n Chaque paragraphe devient un élément, c'est la touche entr\née qui découpe la liste, pas la ponctuation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M06-L01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Chaque ligne est un paragraphe : chacune deviendra un élément de liste.",
+   "empreinte_texte_dit": "4185bed532bcbd20facc9e7e69d9e22dbe4c08dd9846d0cd976edd9e2d65380d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Chaque ligne est un paragraphe, chacune deviendra un él\nément de liste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Chaque ligne est un paragraphe, chacune deviendra un él\nément de liste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M06-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Un paragraphe, un élément.",
+   "empreinte_texte_dit": "51f887adc9d65c03e6e6ea863d4cfedde5c1c1fddbe71442f4dca930c1df8528",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 39332,
+   "duree_s": 2.4,
+   "caracteres_dits": 26,
+   "caracteres_factures": 26,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "un paragraphe, un élément.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "un paragraphe, un élément.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M06-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Transformez Casque de chantier en élément de liste avec le bouton Puces du groupe Paragraphe. Placez simplement le curseur dedans: comme l'alignement, la puce s'applique au paragraphe entier.",
+   "empreinte_texte_dit": "3818ab978af61db4a7da11a8cab9dbfac50b1fefe558c99459e47a11988f7077",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 188125,
+   "duree_s": 11.68,
+   "caracteres_dits": 191,
+   "caracteres_factures": 191,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Transformez casque de chantier en éléments de liste avec le\n bouton « PUS » du groupe paragraph.\n Placez simplement le curseur dedans.\n Comme l'alignement, la PUS s'applique au paragraph entier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Transformez casque de chantier en élément de liste avec le\n bouton PUSS du groupe paragraphes.\n Placez simplement le curseur dedans.\n Comme l'alignement, la PUSS s'applique au paragraphe entier\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M06-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le premier bouton du groupe Paragraphe.",
+   "empreinte_texte_dit": "d5bf4eb00aef5ae55ea0482c36bbd6560a6ddf483e7b2561b66fa59de5003191",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 39,
+   "caracteres_factures": 39,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le premier bouton du groupe Paragraph.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le premier bouton du groupe paragraph.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M06-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le paragraphe se décale et reçoit sa puce.",
+   "empreinte_texte_dit": "4df739b313a4dd7570566e5cc2a57e1e52b4090904f3000d29092e7b3cd51eaf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le paragraphe se décale et reçoit sa puce.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le paragraphe se décale et reçoit sa puce.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M06-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Faites de même pour Gants de manutention. Une liste se construit élément par élément: chaque paragraphe doit porter sa puce.",
+   "empreinte_texte_dit": "92a8e39edf650084a52d39eccf778fe903c76381baacb4ed9523b14ca8176a54",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 124595,
+   "duree_s": 7.72,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Faites de même pour gants de manutention.\n Une liste se construit élément par élément.\n Chaque paragraphe doit porter sa pousse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Faites de même pour gants de manutention.\n Une liste se construit élément par élément.\n Chaque paragraphe doit porter sa puce.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M06-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Bouton Puces, groupe Paragraphe, curseur dans le paragraphe.",
+   "empreinte_texte_dit": "0703126ee22e01ff9fcb84e329050510bce1e747bd452d0fa46f4bb219d3458a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.053,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton pucesse, groupe paragraph, curseur dans le paragraph\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.079,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "bouton Pucesse, groupe Paragraph, cursor dans le paragraphe\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M06-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Deux éléments alignés.",
+   "empreinte_texte_dit": "a2c2f89e56a56d907a0268e37577a6799904a80084b94f000214961bc5ce9b1c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 26793,
+   "duree_s": 1.6,
+   "caracteres_dits": 22,
+   "caracteres_factures": 22,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "2 éléments alignés.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux éléments alignés.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M06-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Terminez avec Chaussures de sécurité. Les trois éléments forment maintenant un bloc que l'œil compte d'un coup.",
+   "empreinte_texte_dit": "2538b97c75038734596106cbf1132b87651ca68431e9c435623ade5b3b7b2568",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.063,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Terminez avec chaussures de sécurité.\n Les trois éléments forment maintenant un bloc, que l'ail o\neil compte d'un coup.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Terminé avec chaussure de sécurité.\n Les trois éléments forment maintenant un bloc, que l'aile œ\nille compte d'un coup.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M06-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le même bouton Puces.",
+   "empreinte_texte_dit": "7d37d6159b6874732ee89d8fd09a3bfc5ebaf0def4c71fd2af73564e9254e2ac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 29719,
+   "duree_s": 1.8,
+   "caracteres_dits": 21,
+   "caracteres_factures": 21,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.167,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le même bouton pucesse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.167,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le même bouton pucesse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M06-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Trois éléments: l'énumération se voit avant d'être lue.",
+   "empreinte_texte_dit": "e6986b9b5ec32c7d7c58ac0fb346fcd7e0060033938928ea524f4e397a30ef19",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 55,
+   "caracteres_factures": 165,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.062,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Trois éléments, L, et numération se voit avander, être lu.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Trois éléments, L, énumération se voit avandée, être lu.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M06-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Retirez la puce de la phrase de conclusion: elle n'est pas un élément de la liste. Une liste qui déborde sur son commentaire perd son sens.",
+   "empreinte_texte_dit": "ed64a3d1eb169ad55e161ffbc060c0c481ba9b91fb89921be2a2e80046481e4d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 136298,
+   "duree_s": 8.44,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Retirez la puce de la phrase de conclusion.\n Elle n'est pas un élément de la liste.\n Une liste qui déborde sur son commentaire perd son sens.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Retirez la puce de la phrase de conclusion.\n Elle n'est pas un élément de la liste.\n Une liste qui déborde sur son commentaire perd son sens.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M06-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Recliquez sur Puces, curseur dans la phrase de conclusion.",
+   "empreinte_texte_dit": "76e47b0e14b4bacc1bfa506eaacc1581d69b1576c7fb553e172be2b8c803b2a9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.053,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Recliquez sur pucesse, curseurs dans la phrase de\n conclusion.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.079,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Re-cliquer sur Pucesse, curseur dans la phrase de\n conclusion.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M06-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "La conclusion redevient du texte courant: la liste s'arrête où elle doit.",
+   "empreinte_texte_dit": "46a1ca3a0a05f98aa873c93aa905100c2ebcdf487684f0d3d79f9594a27226a0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La conclusion redevient du texte courant.\n La liste s'arrête où elle doit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La conclusion redevient du texte courant.\n La liste s'arrête où elle doit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M06-L01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Une puce se retire du même geste qui la pose. Retirez celle de Gants de manutention, puis observez: le paragraphe revient à la marge.",
+   "empreinte_texte_dit": "fcf6c82ea2e1f517e99ef113f80b6d9172f14214a31e45b9ff848c5291a0c7e5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 138806,
+   "duree_s": 8.6,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une pousse se retire du même geste qu'il oppose. Retirez\n celle de gants de manutention, puis observez, le paragraphe\n revient à la marge.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une puce se retire du même geste qu'il appose.\n Retirez celle de gants de manutention, puis observez, le\n paragraphe revient à la marge.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M06-L01-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Recliquez sur le bouton Puces, curseur dans le paragraphe.",
+   "empreinte_texte_dit": "7faedf91bd8e32614cc52c206e78a87aef8ac57d0a448b249eeac0b428e577c4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.056,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Recliquez sur le bouton pucesse, curseur dans le paragraphe\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.111,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Re-cliquez sur le bouton Pucesse, cursor dans le paragraphe\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M06-L01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Le bouton Puces est un interrupteur, comme le gras.",
+   "empreinte_texte_dit": "ef6d823d018d1b64245919d4c7a2da6169b96a6d94a53a443d365a7c663f4918",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton PUSSET est un interrupteur comme le gras.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton pucez c'est un interrupteur comme le gras.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M06-L01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Remettez-la: la liste doit rester complète. Retenez qu'un élément sans puce, au milieu d'une liste, se lit comme une erreur de frappe.",
+   "empreinte_texte_dit": "7bac47a83d8093ed5c29eaa5710ad60320a1e02cf05281e4d0ebdc3a8151c925",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 131701,
+   "duree_s": 8.16,
+   "caracteres_dits": 134,
+   "caracteres_factures": 134,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Remettez-la. La liste doit rester complète.\n Retenez qu'un élément sans puce au milieu d'une liste\n se lit comme une erreur de frappe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Remettez-la. La liste doit rester complète.\n Retenez qu'un élément sans puce au milieu d'une liste se\n lit comme une erreur de frappe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M06-L01-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Recliquez encore sur Puces pour la remettre.",
+   "empreinte_texte_dit": "eb48f4d38be3666f09bee6e026d778cc5c96c4964278dbe37ded37a8f5c2874c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Recliquez encore sur Puces pour la remettre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Re-cliquer encore sur Puces pour la remettre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M06-L01-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Liste homogène. C'est l'homogénéité qui la rend lisible.",
+   "empreinte_texte_dit": "334b1c8c16b4ce92078ccc7192b0614820135d18007af924628436cfb79136d7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Liste homogène. C'est l'homogénéité qui la rend lisible.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Liste homogène. C'est l'homogénéité qui la rend lisible.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M06-L01-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Épaississez le titre pour finir: une liste a d'autant plus de force qu'elle est annoncée.",
+   "empreinte_texte_dit": "b0d0aa48e7a5a1b1c574dc78eef207b49bfcaec080d9d33f2877130cc9266b68",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épécissez le titre pour finir. Une liste a d'autant plus de\n force qu'elle est annoncée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épaississez le titre pour finir. Une liste a d'autant plus\n de force qu'elle est annoncée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M06-L01-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Le G du groupe Police, curseur dans le titre.",
+   "empreinte_texte_dit": "9071fea01cc37b0d352edfeeada3df5ffc12d62a29121dca547eb28e2267a571",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le G du groupe Police, curseur dans le titre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le G du groupe Police, curseur dans le titre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M06-L01-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Le document annonce puis énumère.",
+   "empreinte_texte_dit": "6ae8514f03d52407b0d38633ab5f488ef7a8d3aa308b6c96d534016a11927347",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 33,
+   "caracteres_factures": 33,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le document annonce, puis énumère.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le document annonce, puis énumère.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "La puce marque une énumération dont l'ordre n'a pas d'importance. Chaque paragraphe devient un élément: c'est pour cela qu'une liste se prépare en tapant Entrée entre les éléments, jamais en les séparant par des virgules.",
+   "empreinte_texte_dit": "b7d9a80043861852e9ccd010933d4bbf0acde794f4bee1f5c4f553b04c47844f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 189797,
+   "duree_s": 11.8,
+   "caracteres_dits": 221,
+   "caracteres_factures": 221,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La puce marque une énumération dont l'ordre n'a pas d'\nimportance.\n Chaque paragraphe devient un élément.\n C'est pour cela qu'une liste se prépare en tapant « Entrez\n entre les éléments », jamais en laissant par des virgules.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La puce marque une énumération dont l'ordre n'a pas d'\nimportance.\n Chaque paragraphe devient un élément.\n C'est pour cela qu'une liste se prépare en tapant \"Entrée\n entre les éléments\",\n jamais en les séparant par des virgules.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

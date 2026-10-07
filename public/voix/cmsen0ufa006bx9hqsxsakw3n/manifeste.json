@@ -1,0 +1,771 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0ufa006bx9hqsxsakw3n",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Choisir l'orientation"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 1144,
+  "duree_totale_s": 76.6,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Deux documents, deux sens de page. À vous de décider lequel convient, puis d'accorder les marges à ce choix.",
+   "empreinte_texte_dit": "7ca28ebbb87fb01ff2df1e2a5f74b58734b09d4aebeb1e41a3216e88d132a612",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 109967,
+   "duree_s": 6.8,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux documents, deux sens de page.\n À vous de décider lequel convient, puis d'accorder les mar\nges à ce choix.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux documents, deux sens de page.\n À vous de décider lequel convient, puis d'accorder les mar\nges à ce choix.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M08-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ce tableau comporte six colonnes qui ne tiennent pas en largeur. À vous : donnez à la page le sens qui convient.",
+   "empreinte_texte_dit": "a0073c89a8ae5695a4084f8946c5d473e3c4c38816ead5a024e2f968f0b20744",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 109967,
+   "duree_s": 6.8,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce tableau comporte six colonnes qui ne tiennent pas en\n largeur.\n À vous, donnez à la page le sens qui convient.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce tableau comporte six colonnes qui ne tiennent pas en\n largeur.\n À vous ! Donnez à la page le sens qui convient.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M08-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Ce qui s'étale en largeur réclame le second sens de page.",
+   "empreinte_texte_dit": "239761ea93154f5a354d19d7f926b0915f736032a79160703b379094781c0afa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce qui, S, étale en largeur, réclame le second sens de page\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce qui S, étalant largeur, réclame le second sens de page.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M08-E02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "La feuille est maintenant plus large que haute.",
+   "empreinte_texte_dit": "28e27e34831ef7f2bbe38837a0ae7f7d3f75e4aefec3194a5ccea96877133bcf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 36824,
+   "duree_s": 2.24,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La feuille est maintenant plus large que haute.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La feuille est maintenant plus large que haute.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M08-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Accordez les marges à ce choix: la largeur gagnée ne doit pas être reperdue. Réglez 1,25 cm sur les quatre côtés.",
+   "empreinte_texte_dit": "59ca090c8040ad6a81bb5c6b4fe5aa2cecb19d9954c48314a8bd6e1287947d4a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Accordez les marges à ce choix.\n La largeur gagnée ne doit pas être repérdue.\n Réglez 1, 25 cm sur les quatre côtés.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Accordez les marges à ce choix.\n La largeur gagnée ne doit pas être reperdu.\n Réglez 1,25 cm sur les 4 côtés.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M08-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Les quatre champs Marges personnalisées, 1,25 dans chacun.",
+   "empreinte_texte_dit": "c1b4ef7d4b83930995b3ded26737e9477a5c43c78e1b551708b67f45a2f17d29",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 58,
+   "caracteres_factures": 174,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les quatre champs marge personnalisés, 1, 25 dans chacun."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les quatre champs marge personnalisés, un, 25 dans chacun.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M08-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Surface utile maximale: c'est cohérent avec le choix du paysage.",
+   "empreinte_texte_dit": "2c0b321cda02fe48af99d2e2e99f9dae328d3645247d0995294204d93177b0bc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surface utile maximale, c'est cohérent avec le choix du\n paysage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Surface utile maximale, c'est cohérent avec le choix du\n paysage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M08-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Le tableau est finalement remplacé par une note explicative, pleine de texte. À vous : rendez à la page le sens qui convient à du texte.",
+   "empreinte_texte_dit": "54a377c191aa65cbcae77955dc92215e18902888c1c3a71ef277af2284a252ed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 122506,
+   "duree_s": 7.6,
+   "caracteres_dits": 136,
+   "caracteres_factures": 136,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le tableau est finalement remplacé par une note explicative\n, pleine de textes.\n À vous, rendez à la page le sens qui convient à du texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le tableau est finalement remplacé par une note explicative\n, pleine de textes.\n À vous, rendez à la page le sens qui convient à du texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M08-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Panneau Marges, bouton Portrait.",
+   "empreinte_texte_dit": "f621046662e8b687b630b4617c8de12f525592d4f73a1128f06fff8d22c92488",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 42675,
+   "duree_s": 2.6,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.056,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Panomarge, bouton Portrait.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Panneau marge, bouton portrait.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M08-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Portrait retrouvé.",
+   "empreinte_texte_dit": "fe37c23355fc376ddf75651430c98f28099c76bad42ac87c90eb6e98d9a52185",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 24285,
+   "duree_s": 1.44,
+   "caracteres_dits": 18,
+   "caracteres_factures": 18,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Portrait retrouvé",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Portrait retrouvé",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M08-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "En portrait, des marges de 1,25 cm donnent des lignes trop longues à lire. À vous : revenez aux marges normales.",
+   "empreinte_texte_dit": "70a0f75d3e3baed78dd6c0244b92deebcb136095a9bc73c9aabb9119665aa752",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 129611,
+   "duree_s": 8.04,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "En portrait, des marges de 1, 25 cm donnent des lignes trop\n longues à lire.\n À vous, revenez aux marges normales.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "En portrait, des marges de 1, 25 cm, donnent des lignes\n trop longues à lire.\n À vous, revenez aux marges normales.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M08-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le prédéfini Normales, 2,5 cm du panneau.",
+   "empreinte_texte_dit": "384462f0836e701e7151172d369731185ad5d90f08aafae08682cf861ca779d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 41,
+   "caracteres_factures": 123,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.263,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "2",
+       "5"
+      ],
+      "entendus": [
+       "5"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "Le prédéfi n'est normal de 5 cm du panneau.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.263,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "2",
+        "5"
+       ],
+       "entendus": [
+        "5"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Le prédéfi n'est normal de 5 cm du panneau."
+     }
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le pré-défini normal, 2,5 cm du panneau.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "d1c418ee92cbe881988bcbf2358544463d84de47364f21a5b2485615413626f7",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Le pré-défini normal, 2,5 cm du panneau.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.171,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Le pré-défini normal, 2,5 cm du panneau.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T06:29:44.638905",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-word.json"
+    }
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M08-E02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Longueur de ligne confortable retrouvée.",
+   "empreinte_texte_dit": "8eb966e7923b21601595cb74d02507533d40006a614d682e772686da159527df",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 40168,
+   "duree_s": 2.44,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "longueur de ligne confortable retrouvée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "longueur de ligne confortable retrouvée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M08-E02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Épaississez le titre pour terminer.",
+   "empreinte_texte_dit": "256c87b15be142fb2dcfe332deef97f589570bf013153e70482486e0aee8d719",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 36406,
+   "duree_s": 2.2,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épécissez le titre pour terminer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épécissez le titre pour terminer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M08-E02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Onglet Accueil, le G du groupe Police.",
+   "empreinte_texte_dit": "cd5c10132f14c9d4edaba8dbe5a0c2fdf08c48bcc378fd242aee5ec3b903f128",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.091,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Anglais accueille le G du groupe Police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Onglet accueil, le G du groupe police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M08-E02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Note prête.",
+   "empreinte_texte_dit": "06233f71f43a885eef61b7de397ef0841b97e8a0c638dd674e1b70b1a2311139",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 18852,
+   "duree_s": 1.12,
+   "caracteres_dits": 11,
+   "caracteres_factures": 11,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Note prête.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Note prête.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Le sens de la feuille et les marges répondent à la même question: de quelle surface utile ai-je besoin, et dans quel sens?",
+   "empreinte_texte_dit": "a8c79e12fcf9e54eb7c237d7a12d9f2f8bd3f0387a9d75e7a10d6146377a0a93",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 122,
+   "caracteres_factures": 122,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.057,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le sens de la feuille et les marges répondent à la même\n question.\n De quelle surface utile est-ce besoin et dans quel sens ?",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le sens de la feuille et les marges répondent à la même\n question.\n De quelle surface utile ai-je besoin, et dans quel sens ?",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

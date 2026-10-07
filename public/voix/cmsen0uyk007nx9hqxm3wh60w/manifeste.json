@@ -1,0 +1,881 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0uyk007nx9hqxm3wh60w",
+  "app": "WORD",
+  "section": "",
+  "titre": "Évaluation — impression"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 872,
+  "duree_totale_s": 62.5,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un dossier part en commission: quinze exemplaires, en paysage, recto verso, document complet. Puis un correctif de dernière minute. Chaque geste est noté.",
+   "empreinte_texte_dit": "00013ac41f6758c19f4212532d70149c28c369b994d02f0bb64bcd8836769006",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 173079,
+   "duree_s": 10.76,
+   "caracteres_dits": 154,
+   "caracteres_factures": 154,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un dossier par en commission. 15 exemplaires, en paysage,\n recto verso, document complet, puis un correctif de\n dernière minute.\n Chaque geste est noté.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "un dossier part en commission, 15 exemplaires, en paysage,\n recto verso, documents complets,\n puis un correctif de dernière minute. Chaque geste est noté\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-EV01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Passez le document en paysage depuis le panneau Mise en page.",
+   "empreinte_texte_dit": "2e867babe061fe4ee9af2747f5792f7b164da5ed5dc0e8164c99cc629d55a556",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passez le document en paysage depuis le panneau mis en page\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passez le document en paysage depuis le panneau mise en\n page.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M10-EV01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Orientation posée.",
+   "empreinte_texte_dit": "a6c619c42a44753a6e97308c6cf62ea6f6fb60e56cf38af2564ffa05e8d055a2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 29301,
+   "duree_s": 1.76,
+   "caracteres_dits": 18,
+   "caracteres_factures": 18,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Orientation posée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Orientation posée",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-EV01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "À vous : ouvrez l'écran Imprimer.",
+   "empreinte_texte_dit": "a2d1ba4970ef01d279f15a70a52184239e94e11c665dcfb5acf766cd7764d235",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 33,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous, ouvrez l'écran imprimé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous ! Ouvrez l'écran imprimé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M10-EV01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Écran ouvert.",
+   "empreinte_texte_dit": "b1d7fa8d66997b14d35861bbf97a8d0639a7b8388f141a2e7cc72331943039f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 23031,
+   "duree_s": 1.36,
+   "caracteres_dits": 13,
+   "caracteres_factures": 13,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écran ouvert.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrans ouverts",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-EV01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Réglez 15 copies, une par membre de la commission.",
+   "empreinte_texte_dit": "21012a53eb1830ff5f6b9e80f0530c5e193837751fa0b78879c6b228796d0553",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Réglez 15 copies, une par membre de la Commission.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Réglez 15 copies, une par membre de la Commission.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M10-EV01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Quinze exemplaires.",
+   "empreinte_texte_dit": "0f0afe74a5073d309f5c89091f90fb95d123abb03a218ffa32ac54e5ff77b569",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "15 exemplaires.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "15 exemplaires.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-EV01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "À vous : activez le recto verso.",
+   "empreinte_texte_dit": "da82077c6387c90d730d0d5687b91d8e3075cdb0a5565ed50c1d1f6080836ee3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous ! Activez le recto verso.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous ! Activez le recto verso.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M10-EV01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Papier divisé par deux.",
+   "empreinte_texte_dit": "69ad538643efceff1acaa33c7cb309654b135f1887378564dfca8afb057a5fc4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 27211,
+   "duree_s": 1.64,
+   "caracteres_dits": 23,
+   "caracteres_factures": 23,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Papier divisé par 2.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Papier divisé par deux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-EV01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Un membre demande uniquement la page affichée. À vous : restreignez la plage à Page courante.",
+   "empreinte_texte_dit": "9ccb1d34162dfae2cb48dcd17f8652c1c7e5b3c0dbf0e0f691b13ebd7278c2d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un membre demande uniquement la page affichée.\n À vous, restreignez la plage à page courante.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un membre demande uniquement la page affichée.\n À vous, restreignez la plage à page courante.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M10-EV01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Plage restreinte.",
+   "empreinte_texte_dit": "9968acb60fa2111426c7860c766055c4314c4729fc44458733de2e78ee95fdd5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 29719,
+   "duree_s": 1.8,
+   "caracteres_dits": 17,
+   "caracteres_factures": 17,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Plage restreinte",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Plage restreinte",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M10-EV01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "La commission veut finalement le dossier entier. À vous : remettez la plage sur Tout le document.",
+   "empreinte_texte_dit": "70ebb67813271df93c778abdfea9aea95b8d872398e84ea5f8ed05432558a4b4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La Commission veut finalement le dossier entier.\n À vous, remettez la plage sur tout le document.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La Commission veut finalement le dossier entier.\n À vous ! Remettez la plage sur tout le document.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M10-EV01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Dossier complet.",
+   "empreinte_texte_dit": "256deff25f7f88fd093d6d604845e7dd95266f34428422dadcee6caed52f8620",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 24285,
+   "duree_s": 1.44,
+   "caracteres_dits": 16,
+   "caracteres_factures": 16,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "dossier complet",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Dossier complet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M10-EV01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Pour un tirage de contrôle unique, ramenez le nombre de copies à 1.",
+   "empreinte_texte_dit": "8877a344c35b985e8b161484dae5349e4df5be7a872452e0f17a3e00920e8eb7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 67,
+   "caracteres_factures": 201,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Pour un tirage de contrôle unique, ramenez le nombre de\n copies à un."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Pour un tirage de contrôle unique, ramenez le nombre de copies à un.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M10-EV01-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Un seul exemplaire.",
+   "empreinte_texte_dit": "46d421f040fe1138af5a0756ef2d485f169159f9ebfdca26c9588df6cf463933",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 25957,
+   "duree_s": 1.56,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un seul exemplaire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un seul exemplaire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M10-EV01-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Désactivez le recto verso pour cette page isolée.",
+   "empreinte_texte_dit": "338bcf9feda27da61242666095fbc4e7b9a7599991c07ce665f5f20f3a4a1261",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Désactivez le recto verso pour cette page isolée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Désactivez le recto verso pour cette page isolée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M10-EV01-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Simple face.",
+   "empreinte_texte_dit": "d992e7030db4ec5b0ee7db8dc476ff8e8add80fd2cb752fa821cbcfd5b764449",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 12,
+   "caracteres_factures": 12,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Simple face.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Simple face.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M10-EV01-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "À vous : refermez l'aperçu.",
+   "empreinte_texte_dit": "58189f2abad5a03d71d546e2b73b1f3bac5f3254fa9aa7f3e822622e673970e4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 40168,
+   "duree_s": 2.44,
+   "caracteres_dits": 27,
+   "caracteres_factures": 27,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous, refermez la perçu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous ! Refermez l'aperçu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "M10-EV01-09",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "Réglages conservés.",
+   "empreinte_texte_dit": "e1c03fd9e8946875ac624254b8f7101935cb30467482c5981dc40444cbbc77f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 29719,
+   "duree_s": 1.8,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Réglage conservé",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Réglages conservés.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez régler une impression au lieu de la subir.",
+   "empreinte_texte_dit": "f066bbff0d77cbcb52bce3e142c7c4c0a34d8c0af318face2a774da6d32d1141",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous savez régler une impression au lieu de la subir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous savez régler une impression au lieu de la subir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,544 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0w0900a9x9hqk8yfvlt7",
+  "app": "WORD",
+  "section": "",
+  "titre": "Évaluation — l'habillage"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 12,
+  "caracteres_dits": 912,
+  "duree_totale_s": 56.3,
+  "segments_valides": 12,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Vous mettez en page un document illustré. Trois états vous sont décrits par l'effet attendu, jamais par le nom du réglage: à vous de choisir l'habillage qui le produit. Chaque réglage est noté.",
+   "empreinte_texte_dit": "2a8881c64ff7d69e90316247d4ad8eaab50be1189a49a38fda91ffb33f426b02",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 185617,
+   "duree_s": 11.52,
+   "caracteres_dits": 193,
+   "caracteres_factures": 193,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous mettez en page un document illustré.\n Trois états vous sont décris par les faits attendus.\n Jamais par le nom du réglage.\n À vous de choisir la billage qui le produit.\n Chaque réglage est noté.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous mettez en page un document illustré.\n Trois états vous sont décrits par l'effet attendu, jamais\n par le nom du réglage.\n À vous de choisir l'habillage qui le produit.\n Chaque réglage est noté.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M15-EV01-00",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "À vous : ouvrez la galerie d'images.",
+   "empreinte_texte_dit": "f686a7ad0e79274f647f0e44bb534c7a7c3476c430512b1f2223d1ccad97bd27",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous. Ouvrez la galerie d'image.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous ! Ouvrez la galerie d'images.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M15-EV01-00",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "La galerie est ouverte.",
+   "empreinte_texte_dit": "71e6c7911032ab050422dbb9c9b787f2724431599ce3e7eac40d54cad2e50af5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 24285,
+   "duree_s": 1.44,
+   "caracteres_dits": 23,
+   "caracteres_factures": 23,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La galerie est ouverte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La galerie est ouverte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M15-EV01-01",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "À vous : insérez le plan d'atelier.",
+   "empreinte_texte_dit": "e0633d3d0d30938d235acd585eafe0d72ce89fe42a881e41fab9177e2c3b591c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "A vous, insérez le plan d'atelier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous, insérez le plan d'atelier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M15-EV01-01",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Plan posé.",
+   "empreinte_texte_dit": "45afd59705ea20f8bc729c04508c07e2a21dd77adc4e99d4a5981c94e4f80845",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 20106,
+   "duree_s": 1.2,
+   "caracteres_dits": 10,
+   "caracteres_factures": 20,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Plan posé.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Plan posé",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M15-EV01-02",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Réglez l'habillage pour que le plan se pose par-dessus la page, sans déplacer une seule ligne du texte.",
+   "empreinte_texte_dit": "20e633464d34a9dbd29ef1da06ce83695322b6f2f55e07e1e23ce7281d294855",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 106623,
+   "duree_s": 6.6,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Réglez l'habillage pour que le plan se pose par-dessus la\n page, sans déplacer une seule ligne du texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Réglez l'habillage pour que le plan se pose par-dessus la\n page, sans déplacer une seule ligne du texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M15-EV01-02",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le plan flotte au-dessus du texte, qui n'a pas bougé.",
+   "empreinte_texte_dit": "f306cde0781037bbe20a465a6faaf84df5336b21e426d73820109f7566dcf61b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le plan flotte au-dessus du texte qui n'a pas bougé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le plan flotte au-dessus du texte, qui n'a pas bougé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M15-EV01-03",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Le plan est agrandi à la pleine largeur. Réglez l'habillage pour qu'aucun mot ne tienne à sa hauteur, mais que le texte reprenne au-dessus et en dessous.",
+   "empreinte_texte_dit": "68213467c594e5f2fab6793031c97705882f41ac0766767d5391cc6740482e32",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 132119,
+   "duree_s": 8.2,
+   "caracteres_dits": 153,
+   "caracteres_factures": 153,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le plan est agrandi à la pleine largeur. Réglez la biage\n pour qu'aucun mot ne tienne à sa hauteur, mais que le texte\n reprenne au-dessus et en dessous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le plan est agrandi à la pleine largeur.\n Réglez l'habillage pour qu'aucun mot ne tienne à sa hauteur\n, mais que le texte reprenne au-dessus et en dessous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M15-EV01-03",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Bande pleine largeur: le texte cède la place et reprend plus bas.",
+   "empreinte_texte_dit": "4d75125288be5c8ea583c4c25d2da1f2fd39f2e09cca4584966cad8a6e901e80",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bands de pleine largeur. Le texte cède la place et reprend\n plus bas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bande pleine largeur.\n Le texte cède la place et reprend plus bas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M15-EV01-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Le plan est finalement réduit. Réglez l'habillage pour que le texte vienne épouser ses bords au lieu de s'arrêter net.",
+   "empreinte_texte_dit": "fdab392836ab3475346a3efac4c8ce200d2f7330642b3983aeda9b24de4628da",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 119998,
+   "duree_s": 7.44,
+   "caracteres_dits": 118,
+   "caracteres_factures": 118,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le plan est finalement réduit. Réglez l'habillage pour que\n le texte vienne épouser ses bords au lieu de s'arrêter net.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le plan est finalement réduit.\n Réglez l'habillage pour que le texte vienne épouser ses b\nords au lieu de s'arrêter net.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M15-EV01-04",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Le texte contourne le plan.",
+   "empreinte_texte_dit": "6ca33172eb2d45c25ebb220d49c136984a7fd05b8fbf653691ae6f822a3607f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 32644,
+   "duree_s": 1.96,
+   "caracteres_dits": 27,
+   "caracteres_factures": 27,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le texte contourne le plan.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le texte contourne le plan.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez faire couler un texte autour d'une image, et choisir l'habillage selon l'effet voulu.",
+   "empreinte_texte_dit": "d7cdc8a9a84cd93afd892d9ae8a8a22df1ced399f5c4c2c3479294536e7894bc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous savez faire couler un texte autour d'une image et\n choisir l'habillage selon l'effet voulu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous savez faire couler un texte autour d'une image et\n choisir l'habillage selon l'effet voulue.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

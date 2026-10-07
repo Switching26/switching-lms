@@ -1,0 +1,964 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0vip0091x9hq7p8oirqp",
+  "app": "WORD",
+  "section": "",
+  "titre": "Ajouter une ligne, ajouter une colonne"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2208,
+  "duree_totale_s": 131.7,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "On crée un tableau à trois lignes, et il en faut cinq. C'est la règle, pas l'exception. Savoir ajouter une ligne ou une colonne après coup évite de tout refaire, et surtout évite de recopier des données à la main, là où naissent les erreurs.",
+   "empreinte_texte_dit": "39834125c9b52a723f64b251189e613bb252e367ff74149dde98b5e67acff019",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 218636,
+   "duree_s": 13.6,
+   "caracteres_dits": 241,
+   "caracteres_factures": 241,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "On crée un tableau à trois lignes et il en faut cinq.\n C'est la règle, pas l'exception.\n Savoir ajouter une ligne ou une colonne après coup évite de\n tout refaire\n et surtout évite de recopier des données à la main.\n Là où naissent les erreurs.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "On crée un tableau à trois lignes et il en faut cinq.\n C'est la règle, pas l'exception.\n Savoir ajouter une ligne ou une colonne après coup évite de\n tout refaire,\n et surtout évite de recopier des données à la main, là où\n naissent les erreurs.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M13-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Un tableau se modifie depuis l'intérieur. Word a besoin de savoir OÙ ajouter: au-dessus de quelle ligne, à droite de quelle colonne. C'est pour cela qu'on clique d'abord dans une cellule, elle sert de repère au geste suivant.",
+   "empreinte_texte_dit": "de0027b5a032c5f632167b23211aa7bd66869abf47046a8395159f75a770b183",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 211113,
+   "duree_s": 13.12,
+   "caracteres_dits": 225,
+   "caracteres_factures": 225,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un tableau se modifie depuis l'intérieur.\n Word a besoin de savoir où est ajouté, au-dessus de quelle\n ligne, à droite de quelle colonne.\n C'est pour cela qu'on clique d'abord dans une cellule, elle\n sert de repère au geste suivant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un tableau se modifie depuis l'intérieur.\n Word a besoin de savoir où est ajouté, au-dessus de quelle\n ligne, à droite de quelle colonne.\n C'est pour cela qu'on clique d'abord dans une cellule, elle\n sert de repère au geste suivant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M13-L01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Un tableau se modifie depuis l'intérieur: on clique d'abord dans une cellule.",
+   "empreinte_texte_dit": "12dab91cf2ae7fda62ea3c0bd2e1c4a9a78359b20ef099ff6043da0dbcb2847e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un tableau se modifie depuis l'intérieur. On clique d'abord\n dans une cellule.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un tableau se modifie depuis l'intérieur. On clique d'abord\n dans une cellule.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M13-L01-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "La cellule indique où ajouter une ligne. Word l'utilise comme repère.",
+   "empreinte_texte_dit": "a1acbbb1eedb55824486c162aad3bac2cbee704435d5e1839e37d4ab85545ff7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La cellule indique où ajouter une ligne.\n Word l'utilise comme repère.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La cellule indique où ajouter une ligne.\n Word l'utilise comme repère.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M13-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Cliquer dans une cellule, c'est désigner le repère.",
+   "empreinte_texte_dit": "fc377bf9d3ba9b67c2966a17ef667380c0541e6e5544b1a179fc9b941abd21b9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.077,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez dans une cellule et désignez le repère.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquer dans une cellule c'est désigner le repère.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M13-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Insérez un tableau de 3 lignes sur 3 colonnes depuis l'onglet Insertion. Il servira de base à tout le module.",
+   "empreinte_texte_dit": "446dc63c491ae159be0cf6b4123fe7b394a1deba3306dfea53ff02bac6078333",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez un tableau de trois lignes sur trois colonnes\n depuis l'onglet \"Insertion\".\n Il servira de base à tout le module.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez un tableau de trois lignes sur trois colonnes\n depuis l'onglet \"Insertion\".\n Il servira de base à tout le module.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M13-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Onglet Insertion, bouton Tableau, puis 3 et 3.",
+   "empreinte_texte_dit": "52002c2da81cced4087d4c8d03f8b17266996653c154533781304b6bc9776125",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet insertion, bouton tableau, puis 3 et 3.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglets insertion, boutons tableau, puis 3 et 3.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M13-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Trois lignes, trois colonnes: la grille de départ.",
+   "empreinte_texte_dit": "c6c2eda472cb6ac4479371f50aa62b09ef833e87d556b44f4b85e185a8b71e6f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois lignes, trois colonnes, la grille de départ.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "3 lignes, 3 colonnes, la grille de départ.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M13-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Cliquez dans la première cellule, puis ajoutez une ligne en dessous. Le tableau passe à quatre lignes. Sans le clic préalable, le bouton reste sans effet.",
+   "empreinte_texte_dit": "4d8c5b232a4db9109c7aa5c8e5977c8b04eb376078d974fd9ef70682286709e9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 144657,
+   "duree_s": 8.96,
+   "caracteres_dits": 154,
+   "caracteres_factures": 154,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez dans la première cellule, puis ajoutez une ligne en\n dessous.\n Le tableau passe à quatre lignes.\n Sans le clic préalable, le bouton reste sans effet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez dans la première cellule, puis ajoutez une ligne en\n dessous.\n Le tableau passe à quatre lignes.\n Sans le clic préalable, le bouton reste sans effet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M13-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Clic dans la cellule en haut à gauche, puis Ligne en dessous.",
+   "empreinte_texte_dit": "2bc883e9fcdf3ffa0c406d6b77fb367c8d3c7d2339caa765b15d16affeb0229c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.061,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans la cellule en haut à gauche puis ligne en dess\nous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.061,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans la cellule en haut à gauche puis ligne en dess\nous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M13-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Quatre lignes: la ligne s'est insérée sous celle du repère.",
+   "empreinte_texte_dit": "f65c5e0ec17978f79436a50cea2b60b92dec27a8917c966cfd5c520ce22c3ca7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "4 lignes.\n La ligne s'est insérée sous celle du repère.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "4 lignes. La ligne s'est insérée sous celle du repère.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M13-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Ajoutez une colonne à droite. Le curseur est toujours dans la première cellule: la nouvelle colonne se place à sa droite, donc en deuxième position.",
+   "empreinte_texte_dit": "5e42b41827e35d8ae9489d7c18df3dc2b4f32cc8721890a93eb209ef644ecf43",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 130865,
+   "duree_s": 8.12,
+   "caracteres_dits": 148,
+   "caracteres_factures": 148,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez une colonne à droite. Le curseur est toujours dans\n la première cellule.\n La nouvelle colonne se place à sa droite, donc en deuxième\n position.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez une colonne à droite. Le curseur est toujours dans\n la première cellule.\n La nouvelle colonne se place à sa droite, donc en deuxième\n position.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M13-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Clic dans une cellule, puis Colonne à droite.",
+   "empreinte_texte_dit": "aeab63f6ec460a5822b5a12defa94ffc08646b2e98d715d8533f948b735ec436",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans une cellule, puis colonne à droite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans une cellule, puis colonne à droite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M13-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Quatre colonnes. La position dépend de la cellule où était le curseur.",
+   "empreinte_texte_dit": "6f3c40027da373a1c4a9e115b84a901e0574536bd4b8e44dc59a0a87efa665f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "4 colonnes. La position dépend de la cellule où était le\n curseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Quatre colonnes. La position dépend de la cellule où était\n le curseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M13-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Ajoutez une seconde ligne en dessous pour atteindre cinq lignes: une d'en-tête et quatre de matériel.",
+   "empreinte_texte_dit": "f59adfe26240bc9ed22d9fdf51aa4d9e79611044c9983fd5d42d520ee9f14338",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez une seconde ligne en dessous pour atteindre cinq l\nignes, une dans tête et quatre de matériel.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez une seconde ligne en dessous pour atteindre cinq l\nignes, une dentette et quatre de matériel.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M13-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Clic dans une cellule, puis Ligne en dessous.",
+   "empreinte_texte_dit": "e3eccd6b199429cbcf4fbc69b5df31302ebc09e5c5dfc6bc4ad267d8b185bcba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans une cellule, puis ligne en dessous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Clique dans une cellule, puis ligne en dessous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M13-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Cinq lignes sur quatre colonnes: la grille est dimensionnée.",
+   "empreinte_texte_dit": "4d58d23a89b67bb4673c80bfd8fd76fc0e11570e12bf616649535de12a0cc503",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "5 lignes sur 4 colonnes, la grille est dimensionnée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "5 lignes sur 4 colonnes.\n La grille est dimensionnée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M13-L01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Retenez la logique: au-dessus et en dessous se comptent depuis la cellule où est le curseur, jamais depuis le bord du tableau. C'est la source de confusion la plus fréquente quand une ligne apparaît au mauvais endroit.",
+   "empreinte_texte_dit": "6c3ffb3f078cdaa0c67315afdd365dd6cf128fb20a787ae6f9318b19ed9c2649",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 191051,
+   "duree_s": 11.88,
+   "caracteres_dits": 218,
+   "caracteres_factures": 218,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Retenez la logique.\n Au-dessus et en-dessous se comptent depuis la cellule ou\n est le curseur, jamais depuis le bord du tableau.\n C'est la source de confusion la plus fréquente quand une\n ligne apparaît au mauvais endroit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Retenez la logique. Au-dessus et en-dessous se comptent\n depuis la cellule ou est le curseur, jamais depuis le bord\n du tableau.\n C'est la source de confusion la plus fréquente quand une\n ligne apparaît au mauvais endroit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-bulle1",
+   "etape_lms": "M13-L01-06",
+   "role": "Étape 6 · bulle 1",
+   "texte_dit": "Au-dessus se compte depuis la cellule où est le curseur.",
+   "empreinte_texte_dit": "8e82ebee7408ad8bc20b75683847eabf9051f22c9d4a290d24d8020f54f5607b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle1.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Au-dessus se compte depuis la cellule ou est le curseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Au-dessus se compte depuis la cellule où est le curseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-bulle2",
+   "etape_lms": "M13-L01-06",
+   "role": "Étape 6 · bulle 2",
+   "texte_dit": "Et en dessous aussi. Jamais depuis le bord du tableau: c'est la confusion la plus fréquente.",
+   "empreinte_texte_dit": "bc3718c61b9cfc0d034570b4273b84b3bdcfe699f0dac4d5826e6b7989126a15",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle2.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Et en dessous aussi.\n Jamais depuis le bord du tableau, c'est la confusion la\n plus fréquente.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "et en dessous aussi.\n Jamais depuis le bord du tableau, c'est la confusion la\n plus fréquente.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M13-L01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Le repère, c'est le curseur.",
+   "empreinte_texte_dit": "5b94e5d98304aa1fbdd9ce938d8c829ea096a60e58a5f74984c59300c95ab3c8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 35570,
+   "duree_s": 2.16,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le repère, c'est le curseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le repère, c'est le curseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Le geste qui compte n'est pas le bouton: c'est de cliquer d'abord dans la cellule qui sert de repère. Sans point d'insertion dans le tableau, aucun bouton de ligne ou de colonne ne fait quoi que ce soit.",
+   "empreinte_texte_dit": "7faf9a3cb4887d7c2c4737e778ef0c2f79168c9841f7c3f5e3dc78d1392a4b45",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 166809,
+   "duree_s": 10.36,
+   "caracteres_dits": 203,
+   "caracteres_factures": 203,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le geste qui compte n'est pas le bouton.\n C'est de cliquer d'abord dans la cellule qui sert de repère\n.\n Sans point d'insertion dans le tableau, aucun bouton de\n ligne ou de colonne ne fait quoi que ce soit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le geste qui compte n'est pas le bouton.\n C'est de cliquer d'abord dans la cellule qui sert de repère\n.\n Sans point d'insertion dans le tableau,\n aucun bouton de ligne ou de colonne ne fait quoi que ce\n soit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

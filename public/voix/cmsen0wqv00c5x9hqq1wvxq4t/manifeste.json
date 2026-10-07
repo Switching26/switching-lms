@@ -1,0 +1,800 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0wqv00c5x9hqq1wvxq4t",
+  "app": "WORD",
+  "section": "",
+  "titre": "Lier une note aux bonnes sources"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 18,
+  "caracteres_dits": 1214,
+  "duree_totale_s": 78.5,
+  "segments_valides": 18,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "La note renvoie à un texte de loi et à un service interne. Deux liens à poser sur les bons mots.",
+   "empreinte_texte_dit": "5bf2af9586c2e1aa516acf93ceac4e4264fb6f1fe645cd725774487982db8e00",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La note renvoie à un texte de loi et à un service interne.\n Deux liens à poser sur les bons mots.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La note renvoie un texte de loi et un service interne.\n Deux liens à poser sur les bons mots.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M19-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Sélectionnez le mot Légifrance dans le troisième paragraphe.",
+   "empreinte_texte_dit": "3dfbdf3b194a1db55a8a72ba2b8570b02db72c79ee41b6863da86a5248e8bfb5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le mot \"légie France\" dans le troisième parag\nraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le mot Légifrance dans le troisième paragraphe\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M19-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Double-cliquez sur le mot Légifrance.",
+   "empreinte_texte_dit": "0cc50dc38bd2f0259d4053e62bca6bc869a9f681f57fdde9fefd6c0a5974b205",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 37,
+   "caracteres_factures": 37,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "double-cliquer sur le mot \"Légifrance\".",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Double-cliquer sur le mot \"Legifrance\".",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M19-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Passage sélectionné.",
+   "empreinte_texte_dit": "52e481852311a5ad478d5f2a386f7da446beb7493a0652eee6e7ca2a2bebd88b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 29301,
+   "duree_s": 1.76,
+   "caracteres_dits": 20,
+   "caracteres_factures": 20,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passage sélectionné.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passage sélectionné.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M19-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Liez-le vers legifrance.gouv.fr, le site officiel des textes de loi.",
+   "empreinte_texte_dit": "3fba6aabd1d5712628919982c2c92d26a2d5004af3e175019a7267328c30149a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.051,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "lié le vers logifrance.gov.fr, le site officiel des textes\n de loi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.051,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Liez-le vers lejifrance.gouv.fr, le site officiel des text\nes de loi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M19-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Bouton Lien, adresse, Valider.",
+   "empreinte_texte_dit": "e58f7909720c02a39affc895fafba4e3d3c00fdcd40716ff5f1748d4b6dd52e7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 30,
+   "caracteres_factures": 30,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton lien, adresse Validaires.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "bouton lien, adresse, validaire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M19-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "La référence pointe vers la source officielle.",
+   "empreinte_texte_dit": "a6b69b00af09b605df87fff83d31faa58a5a31fdd1ec2d828f1770c385e5bd56",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La référence pointe vers la source officielle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La référence pointe vers la source officielle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M19-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Sélectionnez le mot secrétariat dans le dernier paragraphe.",
+   "empreinte_texte_dit": "ed6a672e3267fd8760d78d07a9565c9f38d8eefc96b00f9118c51abe40eed587",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le mot « secrétariat » dans le dernier\n paragraph.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le mot « secrétariat » dans le dernier parag\nraphe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M19-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Double-cliquez sur le mot secrétariat.",
+   "empreinte_texte_dit": "de13b143bc4ad8c9d288fd0abaef543e0d95904294ad0be462a4389b9f58c144",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Double-cliquer sur le mot secrétariat.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Double-cliquer sur le mot Secrétaria.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M19-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Passage sélectionné.",
+   "empreinte_texte_dit": "52e481852311a5ad478d5f2a386f7da446beb7493a0652eee6e7ca2a2bebd88b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 27211,
+   "duree_s": 1.64,
+   "caracteres_dits": 20,
+   "caracteres_factures": 20,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passage sélectionné.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passage sélectionné",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M19-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Liez-le vers l'adresse contact@rivedoux.fr. Un lien peut pointer vers un courriel: le clic ouvre alors un nouveau message.",
+   "empreinte_texte_dit": "f9cd48ffe871805769a9fff181e06bbf39af97eb2e79915e1d60c443008f756a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 140060,
+   "duree_s": 8.68,
+   "caracteres_dits": 122,
+   "caracteres_factures": 122,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Liez-le vers l'adresse contact@rivedou.fr.\n Un lien peut pointer vers un courriel. Le clic ouvre alors\n un nouveau message.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Liez-le vers l'adresse contact@rivdoux.fr.\n Un lien peut pointer vers un courriel.\n Le clic ouvre alors un nouveau message.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M19-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Bouton Lien, puis la suggestion contact@rivedoux.fr.",
+   "empreinte_texte_dit": "9dcac2968c7bb42e2f133444acf4f564a6a1e7c4cad658af17ff6230ea9b7755",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton lien puis la suggestion contact@rivedou.fr.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "boutons lien puis la suggestion contact@rivdoux.fr",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M19-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le lecteur peut écrire au service d'un seul clic.",
+   "empreinte_texte_dit": "fa51a73fd380f341648fb17a9284b100ee8f1678e0e4aecd072e8d8ff60aa545",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le lecteur peut écrire au service d'un seul clic.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le lecteur peut écrire au service d'un seul clic.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M19-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "La note ne contient aucune adresse visible, et pourtant elle mène à deux endroits précis. C'est la différence entre un document qu'on lit à l'écran et un document imprimé, et c'est pour cela qu'on ajoute parfois l'adresse en note de bas de page.",
+   "empreinte_texte_dit": "e376160680d5080856b051c81a6c71bc22175d33fa61400cc14847fdc1da9d61",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 191051,
+   "duree_s": 11.88,
+   "caracteres_dits": 245,
+   "caracteres_factures": 306,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La note ne contient aucune adresse visible et pourtant elle\n mène à deux endroits précis.\n C'est la différence entre un document qu'on lit à l'écran\n et un document imprimé,\n et c'est pour cela qu'on ajoute parfois l'adresse en note\n de bas de page.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La note ne contient aucune adresse visible et pourtant elle\n mène à deux endroits précis.\n C'est la différence entre un document qu'on lit à l'écran\n et un document imprimé,\n et c'est pour cela qu'on ajoute parfois l'adresse en note\n de bas de page.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle1",
+   "etape_lms": "M19-E01-05",
+   "role": "Étape 5 · bulle 1",
+   "texte_dit": "Aucune adresse n'est visible dans la note, et pourtant ce passage mène à Légifrance.",
+   "empreinte_texte_dit": "5fb0596b33425ac30c527c097bdc322a5317b74c9417930f8185b29e12b3be2c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle1.mp3",
+   "octets": 74022,
+   "duree_s": 4.56,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Aucune adresse n'est visible dans la note et pourtant ce\n passage mène à l'égifrance.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Aucune adresse n'est visible dans la note, et pourtant ce\n passage mène à l'EGIFRANCE.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle2",
+   "etape_lms": "M19-E01-05",
+   "role": "Étape 5 · bulle 2",
+   "texte_dit": "Sur papier, le lien ne s'ouvre pas : son adresse peut être rappelée en note.",
+   "empreinte_texte_dit": "9f6c0e4d193eb1773d414bb9002a9b746e0386c09d9aac0faf49156e49edb8b1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle2.mp3",
+   "octets": 100772,
+   "duree_s": 6.24,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur papier, le lien ne s'ouvre pas. Son adresse peut être\n rappelée en note.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur papier, le lien ne s'ouvre pas. Son adresse peut être\n rappelée en notes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M19-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Lisible à l'écran, traçable à l'impression.",
+   "empreinte_texte_dit": "8a720c6cb94aed2becc18f58d6475775105b7053ce20c2b49e04d64661f58a01",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 43,
+   "caracteres_factures": 104,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lisible à l'écran, tracable à l'impression.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lisible à l'écran, traçable à l'impression.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Deux liens bien posés remplacent quatre lignes d'adresses illisibles.",
+   "empreinte_texte_dit": "5d507de9ca64b590476fd017f5a593f715a290738b01a80eea839b1346ed65f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux liens bien posés remplacent quatre lignes d'adresses\n illisibles.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux liens bien posés remplacent quatre lignes d'adresse\n illisible.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

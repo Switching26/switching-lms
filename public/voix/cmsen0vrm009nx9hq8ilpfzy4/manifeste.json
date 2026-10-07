@@ -1,0 +1,964 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0vrm009nx9hq8ilpfzy4",
+  "app": "WORD",
+  "section": "",
+  "titre": "Poser une image dans un document"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 1962,
+  "duree_totale_s": 123.6,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Elle ne se tape pas: on l'insère, et Word lui réserve une place dans le document. Comprendre cette différence évite la moitié des ennuis de mise en page, une image mal posée déplace tout le texte qui suit.",
+   "empreinte_texte_dit": "df09dd74fd88dea4fdd03156db20348241f3e29e31370950224fc4456a1dcca8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 181020,
+   "duree_s": 11.24,
+   "caracteres_dits": 205,
+   "caracteres_factures": 205,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Elle ne se tape pas. On l'insère et Word lui réserve une\n place dans le document.\n Comprendre cette différence évite la moitié des ennuis de\n mise en page.\n Une image mal posée déplace tout le texte qui suit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Elle ne se tape pas.\n On l'insère et Word lui réserve une place dans le document.\n Comprendre cette différence évite la moitié des ennuis de\n mise en page.\n Une image mal posée déplace tout le texte qui suit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M14-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Word insère l'image là où se trouve le curseur. Elle s'installe d'abord alignée sur le texte: elle occupe une ligne à elle, comme le ferait une très grande lettre. C'est le comportement par défaut, et c'est rarement celui qu'on veut.",
+   "empreinte_texte_dit": "763b1ac308dd678e2b68d35600f04bdcba0a2ef280a7824b64627938a07cbd77",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 207351,
+   "duree_s": 12.88,
+   "caracteres_dits": 233,
+   "caracteres_factures": 233,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Word inserte l'image là où se trouve le curseur.\n Elle s'installe d'abord à l'ignée sur le texte,\n elle occupe une ligne à elle, comme le ferait une très\n grande lettre.\n C'est le comportement par défaut, et c'est rarement celui\n qu'on veut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Word insère l'image là où se trouve le curseur.\n Elle s'installe d'abord alignée sur le texte, elle occupe\n une ligne à elle, comme le ferait une très grande lettre.\n C'est le comportement par défaut, et c'est rarement celui\n qu'on veut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M14-L01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Word insère l'image LÀ OÙ SE TROUVE LE curseur: c'est donc ce paragraphe qui décidera de sa place.",
+   "empreinte_texte_dit": "314d0170176f215011717eef008e53deb62a1f1ef9810a02165c33cfea57b1ba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 111639,
+   "duree_s": 6.92,
+   "caracteres_dits": 98,
+   "caracteres_factures": 196,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.085,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Word insert image \"LaOES se trouve\" est le curseur.\n C'est donc ce paragraphe qui décidera de sa place.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.102,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Word insère l'image, lao et s se trouvent, le curseur.\n C'est donc ce paragraphe qui décidera de sa place.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M14-L01-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "Alignée sur le texte, l'image occupe sa propre ligne, comme une très grande lettre.",
+   "empreinte_texte_dit": "18953552ecff63e6bfbc09c0f094e123fdc6b9c2bbac8af20763f9e785f6e722",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Aligné sur le texte, l'image occupe sa propre ligne, comme\n une très grande lettre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Aligné sur le texte, l'image occupe sa propre ligne, comme\n une très grande lettre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M14-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Insérée au curseur, alignée sur le texte.",
+   "empreinte_texte_dit": "14f5259e393400190f8f01b7ef656b3c6991bdb2fdf137efaf966f48e0a4f9f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez au curseur, alignez sur le texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez au curseur, aligné sur le texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M14-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ouvrez la galerie d'images depuis l'onglet Insertion. Trois illustrations y sont proposées: un logo, un graphique et un plan.",
+   "empreinte_texte_dit": "6e71f9021d5664ed7f61da32894797061b7dc734b6740447e953e1a0f7ec62ee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 125,
+   "caracteres_factures": 125,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la galerie d'image depuis l'onglet « Insertion ».\n Trois illustrations y sont proposées.\n Un logo, un graphique et un plan.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la galerie d'images depuis l'onglet insertion.\n Trois illustrations y sont proposées.\n Un logo, un graphique et un plan.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M14-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Onglet Insertion, bouton Image.",
+   "empreinte_texte_dit": "7b422fadc763f125b77c63b827d1b78d05201586a64ba0c3e9688e9e8aaef5e8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 31,
+   "caracteres_factures": 31,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet insertion, bouton image.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglets insertions, boutons images.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M14-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "La galerie est ouverte.",
+   "empreinte_texte_dit": "71e6c7911032ab050422dbb9c9b787f2724431599ce3e7eac40d54cad2e50af5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 29719,
+   "duree_s": 1.8,
+   "caracteres_dits": 23,
+   "caracteres_factures": 23,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La galerie est ouverte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La galerie est ouverte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M14-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Insérez le logo d'entreprise. Il apparaît dans le document: Word le traite comme un très grand caractère, et la ligne s'agrandit à sa hauteur pour lui faire place.",
+   "empreinte_texte_dit": "241a1b40c064f0f757c015c8a1678c8fb9b196e3743bbac54390dd638ff9a335",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 159704,
+   "duree_s": 9.92,
+   "caracteres_dits": 163,
+   "caracteres_factures": 163,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez le logo d'entreprise, il apparaît dans le document.\n Word le traite comme un très grand caractère et la ligne s'\nagrandit à sa hauteur pour lui faire place.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez le logo d'entreprise, il apparaît dans le document.\n Word le traite comme un très grand caractère, et la ligne s\n'agrandit à sa hauteur pour lui faire place.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M14-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Cliquez la vignette Logo d'entreprise.",
+   "empreinte_texte_dit": "7f550f4211c07196549adef3f664796f080c8440c90d5e47d8b4a89f1a4c03f4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 38078,
+   "duree_s": 2.32,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez la vignette Logo d'entreprise.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez la vignette logo d'entreprise.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M14-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le logo est posé dans le document.",
+   "empreinte_texte_dit": "16906230642d210b66c46b3cb8067ec9224ae14c63ba3cd9cc593ddde8dd03cf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le logo est posé dans le document.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le logo est posé dans le document.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M14-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Regardez comme le texte s'est décalé vers le bas. L'image est traitée comme un caractère géant: elle pousse ce qui suit. Tant qu'elle reste alignée sur le texte, aucun paragraphe ne peut venir à côté d'elle.",
+   "empreinte_texte_dit": "1226df5f3cb8e532ff69141769d96611754507f6588bd3826158f0a4dd1fccda",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 199410,
+   "duree_s": 12.4,
+   "caracteres_dits": 207,
+   "caracteres_factures": 207,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Regardez comme le texte s'est décalé vers le bas.\n L'image est traité comme un caractère géant.\n Elle pousse ce qui suit.\n Tant qu'elle reste alignée sur le texte, aucun paragraphe\n ne peut venir à côté d'elle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Regardez comme le texte s'est décalé vers le bas.\n L'image est traitée comme un caractère géant.\n Elle pousse ce qui suit.\n Tant qu'elle reste alignée sur le texte,\n aucun paragraphe ne peut venir à côté d'elle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-bulle1",
+   "etape_lms": "M14-L01-04",
+   "role": "Étape 4 · bulle 1",
+   "texte_dit": "Regardez comme le texte s'est décalé vers le bas.",
+   "empreinte_texte_dit": "5a17449fba69432b8560c55203d536a86d9eeca808cafacea29cc1099bc8426b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle1.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Regardez comme le texte s'est décalé vers le bas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Regardez comme le texte s'est décalé vers le bas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-bulle2",
+   "etape_lms": "M14-L01-04",
+   "role": "Étape 4 · bulle 2",
+   "texte_dit": "Comme un caractère géant, l'image pousse le texte. Aucun paragraphe ne vient à côté.",
+   "empreinte_texte_dit": "3ead40911dcca0781fdf019a7cfae425195d2560b1c84b4af838aa69f5815673",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle2.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Comme un caractère géant, l'image pousse le texte.\n Aucun paragraphe ne vient à côté.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Comme un caractère géant, l'image pousse le texte.\n Aucun paragraphe ne vient à côté.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M14-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Alignée sur le texte: l'image pousse, elle ne se laisse pas contourner.",
+   "empreinte_texte_dit": "180955f0d9bfb01810358287a53715ebdbe9ebb02cb34f3e15bd4cc7d4496a07",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Alignée sur le texte, l'image pousse, elle ne se laisse pas\n contourner.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "aligné sur le texte, l'image pousse, elle ne se laisse pas\n contourner.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M14-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "L'illustration ne convient pas. Supprimez l'image: le texte se recompose immédiatement comme avant.",
+   "empreinte_texte_dit": "8cc1117865434b5ceafda97ba36ffe3ad6f09ae199ccac54e072a86a3e4b4c02",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 124177,
+   "duree_s": 7.68,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'illustration ne convient pas.\n Supprimez l'image.\n Le texte se recompose immédiatement comme avant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'illustration ne convient pas.\n Supprimez l'image.\n Le texte se recompose immédiatement comme avant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M14-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Onglet Insertion, bouton Supprimer l'image.",
+   "empreinte_texte_dit": "0a06e11297de2dbf3594e97f779b40dc2ba79485cf5e98397e8979e217452b2c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 58558,
+   "duree_s": 3.6,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet insertion. Boutons supprimer l'image.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet insertion. Bouton Supprimer l'image.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M14-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Image retirée, texte rétabli.",
+   "empreinte_texte_dit": "0cee1a7357377731f05ca28b462f675ead097cea4a6db36986efe288a36f2061",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 29,
+   "caracteres_factures": 29,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Images retirés. Texte rétabli.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Images retirées. Texte rétabli.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M14-L01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Insérez plutôt le graphique de ventes. C'est lui qui illustrera la présentation.",
+   "empreinte_texte_dit": "3ed3e68099346ec81b253195841953095d9be30ad5f84f3d80af929357275cc3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez plutôt le graphique de vente. C'est lui qui illustr\nera la présentation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez plutôt le graphique de vente. C'est lui qui illustr\nera la présentation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M14-L01-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Galerie d'images, vignette Graphique de ventes.",
+   "empreinte_texte_dit": "16b5e5825baea3e21aef600c04b6c752c5f3d5f994a09fcd3c4122e11934f9bd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Galerie d'image, vignette graphique de vente.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Galeries d'images, vignettes graphiques de vente.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M14-L01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Le graphique est en place.",
+   "empreinte_texte_dit": "f41022a3c07d243512b4baf9d3fc3e28e45b9386f5e2873a1b2a299b538a3013",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 29719,
+   "duree_s": 1.8,
+   "caracteres_dits": 26,
+   "caracteres_factures": 26,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le graphique est en place.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le graphique est en place.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une image s'insère depuis l'onglet Insertion, à l'endroit du curseur. Elle prend sa place dans le fil du texte tant qu'on ne lui a pas donné d'habillage.",
+   "empreinte_texte_dit": "9027edafcb84d27183544a67c98f399a71c6fd78e6fc8a5c5a080337afb59ca9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 132955,
+   "duree_s": 8.24,
+   "caracteres_dits": 153,
+   "caracteres_factures": 153,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une image sincère depuis l'onglet \"Insertion\" à l'endroit\n du curseur.\n Elle prend sa place dans le fil du texte tant qu'on ne lui\n a pas donné d'habillage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une image s'insère depuis l'onglet \"Insertion\" à l'endroit\n du curseur.\n Elle prend sa place dans le fil du texte tant qu'on ne lui\n a pas donné d'habillage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

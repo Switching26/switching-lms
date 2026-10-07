@@ -1,0 +1,670 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0vnj009dx9hqvewm2f2n",
+  "app": "WORD",
+  "section": "",
+  "titre": "Corriger une grille surdimensionnée"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 15,
+  "caracteres_dits": 1097,
+  "duree_totale_s": 64.0,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un collègue a créé une grille bien trop grande au cas où. Ramenez-la au strict nécessaire: quatre lignes, trois colonnes.",
+   "empreinte_texte_dit": "e6a06d9986f761ec6e83fc9b85e285fd6408627daf509d0ca2e2829b12f17ed5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 112893,
+   "duree_s": 7.0,
+   "caracteres_dits": 121,
+   "caracteres_factures": 121,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un collègue a créé une grille bien trop grande au casou.\n Ramenez-la aux strictes nécessaires.\n 4 lignes, 3 colonnes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un collègue a créé une grille bien trop grande au cas où.\n Ramenez-la au strict nécessaire.\n Quatre lignes, trois colonnes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M13-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Insérez un tableau de 6 lignes sur 5 colonnes pour reproduire la grille du collègue.",
+   "empreinte_texte_dit": "677ae3766b114758037b0e84a86cfa1385b4e5edaaba7874c869f77e5639828f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez un tableau de 6 lignes sur 5 colonnes pour reprodu\nire la grille du collègue.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez un tableau de 6 lignes sur 5 colonnes pour reprodu\nire la grille du collègue.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M13-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Onglet Insertion, bouton Tableau, puis 6 et 5.",
+   "empreinte_texte_dit": "1fcb94e4c3a5421ee3261c9e74ce7e8ce312c66e0d5417a317a09ad09243eda2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet insertion, bouton tableau, puis 6 et 5.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglets insertions, boutons tableau, puis 6 et 5.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M13-E02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "La grille trop large est là.",
+   "empreinte_texte_dit": "267aa64d724e93a95fa415a5e499e720e420ab2eb81aad262fe235674ff01dfb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 25957,
+   "duree_s": 1.56,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La grille trop large est là.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La grille trop large est là.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M13-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Supprimez deux colonnes pour n'en garder que trois.",
+   "empreinte_texte_dit": "6f167d7e534958d91e6c33fa708fbef26e70123f437c07a6c57a8110bf095033",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "supprimez deux colonnes pour n'en garder que trois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Supprimez deux colonnes pour n'en garder que trois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M13-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Deux fois Supprimer la colonne, en repartant du tableau.",
+   "empreinte_texte_dit": "2187a747925c398d5ca1c72e6a52b838c8f2a24d5381eba34349c2ca762d4f10",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux fois supprimer la colonne en repartant du tableau.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux fois supprimer la colonne en repartant du tableau.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M13-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Trois colonnes.",
+   "empreinte_texte_dit": "2e3a8d1401ac72d2f0dee58bac86f1430f8e11caf5468a257088bf9d0aaf323f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 15,
+   "caracteres_factures": 15,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "3 colonnes",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois colonnes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M13-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Supprimez deux lignes pour arriver à quatre.",
+   "empreinte_texte_dit": "c660bfcd76c43d54112e6deff11ba2cb13cac42b348652380a10256f90e9966f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Supprimez deux lignes pour arriver à 4.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Supprimez deux lignes pour arriver à quatre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M13-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Deux fois Supprimer la ligne.",
+   "empreinte_texte_dit": "70793b67de1877e273fe76ede365ef2b51f6f6e8d89d7781dce43758e6565adf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 29301,
+   "duree_s": 1.76,
+   "caracteres_dits": 29,
+   "caracteres_factures": 29,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux fois supprimer la ligne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux fois supprimer la ligne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M13-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Quatre lignes sur trois colonnes: la grille est juste.",
+   "empreinte_texte_dit": "676de7bc90d93809b96de5255ee049a21cb7927c2d89673a861a2628e1c5a90f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "4 lignes sur 3 colonnes. La grille est juste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "4 lignes sur 3 colonnes. La grille est juste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M13-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "La grille fait maintenant exactement la taille de l'information qu'elle porte. C'est ce qui rend un tableau lisible: chaque case attendue est remplie, et aucune case vide ne laisse croire qu'il manque une donnée.",
+   "empreinte_texte_dit": "fa7a428b489f66edd62f42cf945475f76d6c2a383da544f82468da7ab6b742a3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 188125,
+   "duree_s": 11.68,
+   "caracteres_dits": 212,
+   "caracteres_factures": 212,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La griffe est maintenant exactement la taille de l'\ninformation qu'elle porte.\n C'est ce qui rend un tableau lisible.\n Chaque case attendue est remplie et aucune case vide ne\n laisse croire qu'il manque une\n donnée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La grille fait maintenant exactement la taille de l'\ninformation qu'elle porte.\n C'est ce qui rend un tableau lisible.\n Chaque case attendue est remplie, et aucune case vide ne\n laisse croire qu'il manque une\n donnée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-bulle1",
+   "etape_lms": "M13-E02-04",
+   "role": "Étape 4 · bulle 1",
+   "texte_dit": "La grille fait maintenant exactement la taille de l'information qu'elle porte.",
+   "empreinte_texte_dit": "422970112d680bf62d6b75aaa1b6967342fef4a48c6a7f33b36f5b2764b497ad",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle1.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.062,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La griffe est maintenant exactement la taille de l'\ninformation qu'elle porte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La grille fait maintenant exactement la taille de l'\ninformation qu'elle porte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-bulle2",
+   "etape_lms": "M13-E02-04",
+   "role": "Étape 4 · bulle 2",
+   "texte_dit": "Aucune case vide ne laisse croire qu'il manque une donnée: c'est ce qui rend un tableau lisible.",
+   "empreinte_texte_dit": "3100781728f6197859bbfefb7bf9ea94d225ac0356f72fd8221151b80434b3ca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-bulle2.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Aucune case vide ne laisse croire qu'il manque une donnée.\n C'est ce qui rend un tableau lisible.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Aucune case vide ne laisse croire qu'il manque une donnée.\n C'est ce qui rend un tableau lisible.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M13-E02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Un tableau juste se lit sans se poser de question.",
+   "empreinte_texte_dit": "9c5584afcfe06c091ab61963fad66ba04b1cfb47c4702de87bb9dc058b3d4cba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un tableau juste se lit sans se poser de questions.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un tableau juste se lit sans se poser de questions.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une grille surdimensionnée s'imprime avec ses cases vides. Personne ne comprend si l'information manque ou si la case ne sert à rien.",
+   "empreinte_texte_dit": "9b873dabca67635deea14f9ff422c773b0667ef671b7165474ab63f0474c7804",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 113728,
+   "duree_s": 7.04,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une grille surdimensionnée s'imprime avec ses cases vides.\n Personne ne comprend si l'information manque ou si la case\n ne sert à rien.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une grille surdimensionnée s'imprime avec ses cases vides.\n Personne ne comprend si l'information manque ou si la case\n ne sert à rien.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

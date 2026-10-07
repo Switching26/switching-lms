@@ -1,0 +1,800 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0s9p000xx9hqmacwbxlg",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Sélectionner"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1469,
+  "duree_totale_s": 87.9,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une note de procédure à mettre au propre. Chaque consigne vous demande une portée de sélection différente: à vous de choisir le geste, double-clic, glissement, triple-clic ou raccourci, sans qu'on vous le nomme.",
+   "empreinte_texte_dit": "de3f5fffaee23dc32ff98b57231ecd872ead9e6a7e5dce9422ab61825fca81d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 206097,
+   "duree_s": 12.8,
+   "caracteres_dits": 211,
+   "caracteres_factures": 211,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une note de procédure à mettre au propre.\n Chaque consigne vous demande une portée de sélection diffé\nrente.\n A vous de choisir le geste, double clic, glissement, triple\n clic ou raccourci sans qu'on vous le nomme.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une note de procédure à mettre au propre.\n Chaque consigne vous demande une portée de sélection diffé\nrente.\n A vous de choisir le geste, double-clic, glissement, triple\n-clic ou raccourci, sans qu'on vous le nomme.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M01-E03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Désignez le seul mot magasinier dans le deuxième paragraphe, du geste le plus rapide.",
+   "empreinte_texte_dit": "f61ff2e99e61e80e86b28e50cfd4c7283f6f8e8792597063a1a893f76ddf2f92",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Désignez le seul mot magasinier dans le deuxième paragraph\n du geste le plus rapide.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Désignez le seul mot magazineé dans le deuxième paragraphe\n du geste le plus rapide.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M01-E03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Un mot se prend d'un double-clic, sans viser ses bords.",
+   "empreinte_texte_dit": "a45370089a3112f34492f28fb1996dbbba5ea8540bc81fc8ee689dbe927cd8b1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un mot se prend d'un double clic, sans viser ses bords.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un mot se prend d'un double clic sans viser ses bords.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M01-E03-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Mot désigné d'un seul geste.",
+   "empreinte_texte_dit": "e57b7fcce146c2a27f416988498fbdbae692be5da8bf171eaa8f7b6c77d8876b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Maux désignés d'un seul geste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Maux désignés d'un seul geste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M01-E03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Mettez ce mot en italique, puisque c'est un rôle et non une personne.",
+   "empreinte_texte_dit": "0c42fcf1df9256a0332cb0631a953a724d0bbf0df161684e3b5ffb601b947997",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Mettez ce mot en Italique puisque c'est un rôle et non une\n personne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Mettez ce mot en italique puisque c'est un rôle et non une\n personne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M01-E03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Double-cliquez sur le mot, puis le I du groupe Police.",
+   "empreinte_texte_dit": "4b65b92ac601a477e8db687ecfbce4c9b9e2a99b484c4d422e5c643a5f6f88e8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "double-cliquer sur le mot, puis le \"i\" du groupe police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Double-cliquer sur le mot, puis le i du groupe police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M01-E03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Un mot en italique, la phrase intacte.",
+   "empreinte_texte_dit": "0cae8c470dc4159b81dac4171e8c3118dee7bd3b311c6e76b47fde38f51c641d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un mot en Italique, la phrase intacte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un mot en italique, la phrase intacte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M01-E03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Désignez le passage avant signature dans le troisième paragraphe: ni un mot seul, ni le paragraphe entier.",
+   "empreinte_texte_dit": "ab30211eed2e5c37e8f839b8265ecf6daf09c4786559657e7328b1c9c99b6eeb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Désignez le passage avant signature dans le troisième parag\nraphe.\n Ni un mot seul, ni le paragraphe entier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Désignez le passage avant signature dans le troisième parag\nraphe.\n Ni un mot seul, ni le paragraphe entier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M01-E03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Faites glisser la souris du premier mot au dernier.",
+   "empreinte_texte_dit": "5476a888c423291bb339f387fa1afc970ea19381256c71a970dd22cd3ccb1884",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faites glisser la souris du premier mot au dernier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faites glisser la souris du premier mot au dernier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M01-E03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Passage désigné.",
+   "empreinte_texte_dit": "6dc39690f40939c227709479c74687bfce157d58863a49921917239c26f1b771",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 23031,
+   "duree_s": 1.36,
+   "caracteres_dits": 16,
+   "caracteres_factures": 16,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Passage désigné",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Passage désigné.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M01-E03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Faites-le ressortir en l'épaississant: c'est le point sur lequel les erreurs coûtent cher.",
+   "empreinte_texte_dit": "635504519bbdc13abdc6ff74b4f19b16884b491289667199d294c1b4c81d506c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faites-le ressortir en L et pécissant.\n C'est le point sur lequel les erreurs coûtent cher.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faites-le ressortir en L, épaississant.\n C'est le point sur lequel les erreurs coûtent cher.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M01-E03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Glissez la souris sur les deux mots, puis le G du groupe Police.",
+   "empreinte_texte_dit": "e62ce2d67e708e776c82dcfb8a5ea5edb2e099c669b5d40973dd443706b51f6b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glisser la souris sur les deux mots, puis le G du groupe\n police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.03,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glissez la souris sur les deux mots, puis le J du groupe\n police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M01-E03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "L'ordre des opérations est maintenant visible d'un coup d'œil.",
+   "empreinte_texte_dit": "0a8d9d711ebcff4a1763206f6fd9bcd9a29803cc1db7bd28c223ebf61088d6a1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'ordre des opérations est maintenant visible d'un coup d'œ\nil.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'ordre des opérations est maintenant visible d'un coup d'œ\nil.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M01-E03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Désignez le document entier en une seule frappe.",
+   "empreinte_texte_dit": "007be882ae620b2286224fbca4acc448cef7263ace0d7fb2d917c07334f73165",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Désignez le document entier en une seule frappe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Désignez le document entier en une seule frappe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M01-E03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Une touche de commande, plus l'initiale de all.",
+   "empreinte_texte_dit": "6990aaf15cae95f23cb2db96ddc4f4b22fccd1951f8574cfc298564f199c186f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.037,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une touche de commande, plus l'initiel de Hall.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une touche de commande plus l'initial de \"all\".",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M01-E03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Les quatre paragraphes sont pris d'un coup.",
+   "empreinte_texte_dit": "d0930df58f887757b5220b78dd7f909a4c888615c3d49d96a41d0afacfabfb06",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les quatre paragraphe sont pris d'un coup.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les quatre paragraphes sont pris d'un coup.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M01-E03-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Profitez-en pour donner à toute la note une allure de document officiel: alignez le texte sur les deux marges à la fois.",
+   "empreinte_texte_dit": "44cd01629210015431a79247be13e55bd32c96671d52f6c65913b5e34de4f8f0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 111221,
+   "duree_s": 6.88,
+   "caracteres_dits": 120,
+   "caracteres_factures": 120,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Profitez-en pour donner à toute la note une allure de\n documents officiels.\n Alignez le texte sur les deux marges à la fois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Profitez-en pour donner à toute la note une allure de\n documents officiels.\n Alignez le texte sur les deux marges à la fois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M01-E03-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Le quatrième bouton d'alignement du groupe Paragraphe.",
+   "empreinte_texte_dit": "567fc2131e5609e24fcfd866f623f1a6b676f4557b852f681597f7950915f9db",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le quatrième bouton d'alignement du groupe paragraph.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "le quatrième bouton d'alignement du groupe paragraphes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M01-E03-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Une commande, tous les paragraphes sélectionnés: c'est le bénéfice d'une sélection large.",
+   "empreinte_texte_dit": "310944432b00554f785416351a9bfc38ad4caea68cbb3f75631d689a6c5d8af8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une commande, tous les paragraphe sélectionnés, c'est le\n bénéfice d'une sélection large.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une commande, tous les paragraphes sélectionnés, c'est le\n bénéfice d'une sélection large.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous avez employé les quatre portées sans qu'on vous les rappelle. C'est exactement ce réflexe qui fera la différence sur un document long.",
+   "empreinte_texte_dit": "deb1983d3d1e3beffe0b640d94d65c63bf3ca450d8b3cd75b82dc1eda255f192",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 122506,
+   "duree_s": 7.6,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous avez employé les quatre portées sans qu'on vous les\n rappelle.\n C'est exactement ce réflexe qui fera la différence sur un\n document long.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous avez employé les quatre portées sans qu'on vous les\n rappelle.\n C'est exactement ce réflexe qui fera la différence sur un\n document long.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

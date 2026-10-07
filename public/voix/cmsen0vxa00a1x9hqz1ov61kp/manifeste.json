@@ -1,0 +1,966 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0vxa00a1x9hqz1ov61kp",
+  "app": "WORD",
+  "section": "",
+  "titre": "Faire couler le texte autour d'une image"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2200,
+  "duree_totale_s": 137.0,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une image posée par défaut coupe le texte en deux. L'habillage décide de la façon dont les mots se comportent autour d'elle: ils la contournent, la surplombent, ou passent derrière. C'est le réglage le plus visible d'une mise en page.",
+   "empreinte_texte_dit": "2a12d3a9bc300762dd1e55976384ae1958a31f8af469ba7d022bbda17d3c1461",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 205262,
+   "duree_s": 12.76,
+   "caracteres_dits": 234,
+   "caracteres_factures": 234,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une image posée par des faux couples textes en deux.\n L'habillage décide de la façon dont les mousses se comport\nent autour d'elles.\n Ils la contournent, la surplombent ou passent derrière.\n C'est le réglage le plus visible d'une mise en page.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.044,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une image posée par défaut coupe le texte en deux.\n L'habillage décide de la façon dont les mots se comportent\n autour d'elle.\n Il la contourne, la surplombe ou passe derrière.\n C'est le réglage le plus visible d'une mise en page.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M15-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Insérez le logo d'entreprise depuis l'onglet Insertion. Il servira à essayer les habillages.",
+   "empreinte_texte_dit": "f455557481da9dd98bed27abc4ee5cb214aa95805796f4d674f42c08d0e0617e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.056,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez le logo d'entreprise depuis l'onglet \"Insertion\".\n Il servira à laisser les abillages.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez le logo d'entreprise depuis l'onglet \"Insertion\".\n Il servira à l'essayer les habillages.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M15-L01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Onglet Insertion, bouton Image, vignette Logo.",
+   "empreinte_texte_dit": "0e74886253f778e88592d3b9276f403e634ebd619da4ceab6d7c9f335d6866d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet insertion, bouton image, vignette logo.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglets insertion, bouton images, vignettes logo.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M15-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Le logo est en place, aligné sur le texte.",
+   "empreinte_texte_dit": "b2ff5d31656eedca75ce58f3bfb860a97d9e3d0a3988819a4ed7f6a922f840d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le logo est en place, aligné sur le texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le logo est en place, aligné sur le texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M15-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Par défaut, l'image est alignée sur le texte: Word la traite comme un caractère de la ligne, qui s'agrandit à sa hauteur. C'est correct pour une illustration pleine largeur, gênant pour un petit logo.",
+   "empreinte_texte_dit": "72be8c3bd94632f94e500b9b978b1497ac0f6a7173f8043676099721a69b892b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 198992,
+   "duree_s": 12.36,
+   "caracteres_dits": 200,
+   "caracteres_factures": 200,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par défaut, l'image est alignée sur le texte.\n Word la traite comme un caractère de la ligne qui s'agrand\nit à sa hauteur.\n C'est correct pour une illustration pleine largeur, gênant\n pour un petit logo.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par défaut, l'image est alignée sur le texte.\n Word la traite comme un caractère de la ligne, qui s'agrand\nit à sa hauteur.\n C'est correct pour une illustration pleine largeur, gênant\n pour un petit logo.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle1",
+   "etape_lms": "M15-L01-02",
+   "role": "Étape 2 · bulle 1",
+   "texte_dit": "Par défaut l'image est alignée sur LE TEXTE: elle occupe sa propre ligne et pousse ce qui suit.",
+   "empreinte_texte_dit": "0f66b8890ac350905ba3170f21a586e17b95c92da2db7e765582318d36d1cab0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle1.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par défaut, l'image est alignée sur elle-le-texte.\n Elle occupe sa propre ligne et pousse ce qui suit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par défaut, l'image est alignée sur elle le texte.\n Elle occupe sa propre ligne et pousse ce qui suit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-bulle2",
+   "etape_lms": "M15-L01-02",
+   "role": "Étape 2 · bulle 2",
+   "texte_dit": "Une ligne entière convient à une grande illustration, mais gêne pour un petit logo.",
+   "empreinte_texte_dit": "c2063465dd9531e9810669be65728d1fc95a0996df6a5fd1fbba7c0e5d98fe85",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-bulle2.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une ligne entière convient à une grande illustration, mais\n gêne pour un petit logo.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une ligne entière convient à une grande illustration, mais\n gêne pour un petit logo.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M15-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Aligné sur le texte: l'image se comporte comme un caractère. Du texte peut la précéder ou la suivre sur la même ligne, mais rien ne vient se placer en colonne à côté d'elle.",
+   "empreinte_texte_dit": "87702dcf7d243fede04920bf82010ab083d74cf03e46e542f6b4fb8265529f10",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 169317,
+   "duree_s": 10.52,
+   "caracteres_dits": 173,
+   "caracteres_factures": 173,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Aligné sur le texte, l'image se comporte comme un caractère\n.\n Du texte peut la précéder ou la suivre sur la même ligne,\n mais rien ne vient se placer en colonne à côté d'elle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Aligné sur le texte, l'image se comporte comme un caractère\n.\n Du texte peut la précéder ou la suivre sur la même ligne,\n mais rien ne vient se placer en colonne à côté d'elle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M15-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Passez l'habillage en Rapproché. Le texte vient désormais épouser les bords de l'image au lieu de s'arrêter net.",
+   "empreinte_texte_dit": "c532b1b14db960ad01eb90d8d9f5b28c06ffe5714dc2e332587a1804c22b9240",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 110385,
+   "duree_s": 6.84,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passez la biage en rapprochée.\n Le texte vient désormais épouser les bords de l'image au\n lieu de s'arrêter net.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passez l'habillage en rapproché.\n Le texte vient désormais épouser les bords de l'image au\n lieu de s'arrêter net.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M15-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Onglet Insertion, bouton Rapproché.",
+   "empreinte_texte_dit": "999c73fca50e3398d094bf4e94e8db8f3ea859fcc402d08675f73c693d3b3b8a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet insertion, bouton rapproché.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet insertion, bouton rapprocher.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M15-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le texte contourne l'image: la page respire.",
+   "empreinte_texte_dit": "f7cbc1777cdd25871fcce817b1c5dcee2fcec5c93cbddc57996b57c3c61d3bdf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le texte contourne l'image.\n La page respire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le texte contourne l'image.\n La page respire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M15-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Essayez Haut et bas. Le texte passe au-dessus et en dessous, mais jamais à côté: c'est l'habillage des bandeaux et des images larges.",
+   "empreinte_texte_dit": "a1c1f059e3dc6139542d4a9557294ab8c6ec277b01e6f624a9f41947725c16df",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 136716,
+   "duree_s": 8.48,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Essayez au EBA. Le texte passe au-dessus et en-dessous,\n mais jamais à côté.\n C'est l'habillage des bandos et des images larges.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Essayez haut et bas.\n Le texte passe au-dessus et en dessous, mais jamais à côté.\n C'est l'habillage des bandos et des images larges.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M15-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Bouton Haut et bas.",
+   "empreinte_texte_dit": "d6fbb0db48dd15676822bdc2d06eeedd7d7e8784def8b22910c163caca57e2a0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "bouton haut et bas",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Boutons haut et bas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M15-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Une bande pleine largeur, texte au-dessus et en dessous.",
+   "empreinte_texte_dit": "72832108174e016adcd100c3ace6cb36d39b8f6b3c10974c6bbbbb38b9a8f59b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une bande pleine largeur, texto dessus et en dessous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une bande pleine largeur, texte au-dessus et en dessous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M15-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Terminez par Devant. L'image se pose par-dessus le texte, sans le déplacer du tout: réservé aux tampons et aux logos d'angle, à ne pas confondre avec le filigrane, qui se place lui derrière le texte.",
+   "empreinte_texte_dit": "848d60ad745bf18ac3ec962039d42c57643435a3a7fa8094834eb872479e43bd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 182274,
+   "duree_s": 11.32,
+   "caracteres_dits": 199,
+   "caracteres_factures": 199,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Terminé par devant.\n L'image se pose par-dessus le texte sans le déplacer du\n tout,\n réservé au tampon et au logo d'angle,\n à ne pas confondre avec le filigrane qui se place lui\n derrière le texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Terminé par devant.\n L'image se pose par-dessus le texte, sans le déplacer du\n tout, réservé au tampon\n et au logo d'angle, à ne pas confondre avec le filigrane,\n qui se place lui derrière\n le texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M15-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Bouton Devant.",
+   "empreinte_texte_dit": "6c1a8a023e9b91b2a620beb0210a6fa0c2ca1825eef1a46a1d446a821d271970",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 18852,
+   "duree_s": 1.12,
+   "caracteres_dits": 14,
+   "caracteres_factures": 14,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton devant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton devant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M15-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "L'image flotte au-dessus du texte, qui n'a pas bougé.",
+   "empreinte_texte_dit": "3f3cdd96be37ebe809045133700337f4bda76e2d0449208cc5646cad463b6e4e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'image flotte au-dessus du texte qui n'a pas bougé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'image flotte au-dessus du texte qui n'a pas bougé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M15-L01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Retenez le critère de choix: le texte doit-il céder la place, contourner, ou ignorer l'image? Devant est le plus spectaculaire et le plus risqué, mal placé, il masque des mots sans que personne s'en aperçoive à l'écran.",
+   "empreinte_texte_dit": "4338b2de859976884f8a6d4b36187ee55e186d65bfd99ded8f4706f87c1c5dff",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 216964,
+   "duree_s": 13.48,
+   "caracteres_dits": 219,
+   "caracteres_factures": 280,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Retenez le critère de choix. Le texte doit-il céder la\n place, contourner ou ignorer l'image ?\n Devant est le plus spectaculaire et le plus risqué. Mal\n placé, il masque des mots sans que personne s'en aperçoive\n à l'écran.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Retenez le critère de choix.\n Le texte doit-il céder la place, contourner ou ignorer l'\nimage ?\n Devant est le plus spectaculaire et le plus risqué.\n Mal placé, il masque des mots sans que personne s'en aperço\nive à l'écran.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-bulle1",
+   "etape_lms": "M15-L01-06",
+   "role": "Étape 6 · bulle 1",
+   "texte_dit": "Rapproché: le texte contourne l'image.",
+   "empreinte_texte_dit": "9d2c95a5b0137d183a0c5670a048d8dabbec9ae1d60172250b43a77d7426af73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle1.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rapprocher. Le texte contourne l'image.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rapprocher. Le texte contourne l'image.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-bulle2",
+   "etape_lms": "M15-L01-06",
+   "role": "Étape 6 · bulle 2",
+   "texte_dit": "Devant le texte, l'image peut masquer des mots : placez-la avec prudence.",
+   "empreinte_texte_dit": "99308fa2546ba751ca798c1405d3bc692908eb63c710c97f227fd51f60723114",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-bulle2.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Devant le texte, l'image peut masquer des mots. Placez-la\n avec prudence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Devant le texte, l'image peut masquer des mots.\n Placez-la avec prudence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M15-L01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Choisir l'habillage, c'est décider qui cède la place.",
+   "empreinte_texte_dit": "1cf6f70bfb6b0874c8fc69bef26ee12e52023ddaad21e35b7511f41fa137b982",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Choisir la billage, c'est décider qui cède la place.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Choisir l'habillage, c'est décider qui cède la place.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Quatre habillages, quatre usages: aligné pour une image seule sur sa ligne, rapproché pour un texte qui contourne, haut et bas pour une bande large, devant pour un tampon ou un logo posé.",
+   "empreinte_texte_dit": "5c0840c4b75cfbf7f86700c8485501e44e6c4c9e758a26cfcf45aef1bb78ab21",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 178930,
+   "duree_s": 11.12,
+   "caracteres_dits": 187,
+   "caracteres_factures": 187,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "4 habillages, 4 usages, alignés pour une image seule sur sa\n ligne,\n rapprochés pour un texte qui contourne, haut et bas pour\n une bande large,\n devant pour un tampon ou un logo posé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "4 abillages, 4 usages, alignés pour une image seule sur sa\n ligne, rapprochés pour un texte qui contourne, haut et bas\n pour une bande large, devant pour un tampon ou un logo posé\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

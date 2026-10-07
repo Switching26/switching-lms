@@ -1,0 +1,544 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0wcm00b5x9hqb0x8yrxp",
+  "app": "WORD",
+  "section": "",
+  "titre": "Corriger une relance de facture"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 12,
+  "caracteres_dits": 930,
+  "duree_totale_s": 58.2,
+  "segments_valides": 12,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une relance de règlement part à un client. Quatre signalements, et tous sont fondés cette fois, accents, lettre manquante et sigle. Un document financier mal orthographié fait douter du montant.",
+   "empreinte_texte_dit": "4a198786eb2edfef8e7f8f6f68aa4d9e9e404a8f3cf6a7b449c8662b1b2373e4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 183946,
+   "duree_s": 11.44,
+   "caracteres_dits": 194,
+   "caracteres_factures": 194,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.052,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "une relance de règlements par un client.\n Quatre signalements et tout sont fondés cette fois.\n Accent, lettrement, canté, sigle.\n Un document financier mal orthographié fait douter du mont\nant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une relance de règlement par un client.\n Quatre signalements, et tous sont fondés cette fois,\n accents, lettres manquantes et sigles.\n Un document financier mal orthographié fait douter du mont\nant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M17-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "À vous : ouvrez le panneau Vérification.",
+   "empreinte_texte_dit": "452c7f40167f13f3027a112cbea19b5cb9858fe5e51e604a3563da1dbfc593fd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous, ouvrez le panneau vérification.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "À vous ! Ouvrez le panneau vérification.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M17-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Onglet Révision, bouton Vérifier.",
+   "empreinte_texte_dit": "6a5dc2fe0d6e26c27e970fb95ccf2b1bd098aeb8501203b97d1574e649f71732",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 46437,
+   "duree_s": 2.84,
+   "caracteres_dits": 33,
+   "caracteres_factures": 33,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.045,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Anglais Révisions, bouton vérifié.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglets révision, bouton vérifier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M17-E02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Quatre entrées signalées.",
+   "empreinte_texte_dit": "2560fcb72fa69f9a591363ae40d5e3f3fa14f7ac6f8522861794873ce9ac7954",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 25539,
+   "duree_s": 1.52,
+   "caracteres_dits": 25,
+   "caracteres_factures": 25,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "4. Entrez signaler",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "4 entrées signalées",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M17-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Corrigez les quatre entrées. Les trois premières sont des fautes d'orthographe, la quatrième une convention: un sigle s'écrit en capitales.",
+   "empreinte_texte_dit": "48a2a199418feaaf745f2c7a3cd9199e5fda55b0eb1b293761c37d7816e58d9c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 145075,
+   "duree_s": 9.0,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Corrigez les quatre entrées. Les trois premières sont des\n fautes d'orthographe, la quatrième une convention, un sigle\n S écrit en capital.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Corrigez les quatre entrées.\n Les trois premières sont des fautes d'orthographe,\n la quatrième une convention,\n un sigle S écrit en capital.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M17-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Corriger sur chacune des quatre entrées.",
+   "empreinte_texte_dit": "f7caf190a73a7272be197c7c81d42555faa42f39f4440918098d3ce75f36ef78",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 33062,
+   "duree_s": 2.0,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Corrigez sur chacune des quatre entrées.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Corrigez sur chacune des quatre entrées.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M17-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "La relance est propre: elle peut partir.",
+   "empreinte_texte_dit": "910a14628cb284023212aa5114434ff8dc19ed199094e9ec8f2d11a10a6c5b1a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La relance est propre. Elle peut partir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La relance est propre.\n Elle peut partir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M17-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Notez la différence avec l'exercice précédent: ici, tout était à corriger. Un correcteur n'a pas toujours tort, et se méfier systématiquement fait perdre autant de temps que tout accepter.",
+   "empreinte_texte_dit": "18cf57a18c65386d4faaddb8163f455eea8a58809b2e8360534cc2dc31dbd898",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 180184,
+   "duree_s": 11.2,
+   "caracteres_dits": 188,
+   "caracteres_factures": 188,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Notez la différence avec l'exercice précédent.\n Ici, tout était à corriger.\n Un correcteur n'a pas toujours tort, et se met fiers systém\natiquement fait perdre autant de temps que tout acceptait.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Notez la différence avec l'exercice précédent.\n Ici, tout était à corriger.\n Un correcteur n'a pas toujours tort, et ce méfier systémat\niquement fait perdre autant\n de temps que tout accepté.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-bulle1",
+   "etape_lms": "M17-E02-03",
+   "role": "Étape 3 · bulle 1",
+   "texte_dit": "Ici, chaque signalement était fondé.",
+   "empreinte_texte_dit": "7310464dc92461229667feb13d5699ad2cd3f09cc26dc82312e1314b73a9621d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle1.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.095,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ici, chaque signalement est effondé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ici, chaque signalement était fondé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-bulle2",
+   "etape_lms": "M17-E02-03",
+   "role": "Étape 3 · bulle 2",
+   "texte_dit": "Le correcteur peut avoir raison. Tout refuser fait aussi perdre du temps.",
+   "empreinte_texte_dit": "9f1189fe3816551d79f4aa19eb83a08f73f35c8e9eed606d783e08b11f2d9a36",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-bulle2.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le correcteur peut avoir raison.\n Tout refuser fait aussi perdre du temps.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le correcteur peut avoir raison.\n Tout refuser fait aussi perdre du temps.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M17-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Ni confiance aveugle, ni méfiance systématique.",
+   "empreinte_texte_dit": "0278c088b202406e969aea22edda0ec88be634d8df893121512f940863e9e2c0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "ni confiance aveugle, ni méfiance systématique.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "ni confiance aveugle, ni méfiance systématique.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Sur un document qui réclame de l'argent, chaque faute affaiblit la demande.",
+   "empreinte_texte_dit": "31b5211e928a5d8dfee07db51d89e9b86e09d89e80884e9607282c9b85dc08ab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un document qui réclame de l'argent, chaque faute affa\niblit la demande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un document qui réclame de l'argent, chaque faute affa\niblit la demande.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,800 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0t0o002tx9hqiw5i1znc",
+  "app": "WORD",
+  "section": "",
+  "titre": "Appliquer les corrections d'une relecture"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1990,
+  "duree_totale_s": 120.0,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un document relu revient avec des marques: passages surlignés à reprendre, passages barrés à réécrire. Vous allez traiter les deux, et surtout retirer la marque une fois le travail fait, sans quoi personne ne sait plus ce qui reste à traiter.",
+   "empreinte_texte_dit": "6c0e44fac8fb01192c071e3d3514a0c9ecb47884f2412400bcef91e72e9feb3b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 217382,
+   "duree_s": 13.52,
+   "caracteres_dits": 242,
+   "caracteres_factures": 242,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un document relu revient avec des marques. Passage surligné\n à reprendre, passage barré à réécrire.\n Vous allez traiter les deux et surtout retirer la marque\n une fois le travail fait, sans quoi personne ne sait plus\n ce qui reste à traiter.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un document relu revient avec des marques.\n Passage surligné à reprendre, passage barré à réécrire.\n Vous allez traiter les deux et surtout retirer la marque\n une fois le travail fait, sans quoi\n personne ne sait plus ce qui reste à traiter.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M03-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Le relecteur a laissé deux marques. Le surlignage jaune signale un passage à reprendre: la formulation ne convient pas. Le barré signale un passage devenu faux, à réécrire entièrement. Vous allez traiter les deux, puis retirer les marques.",
+   "empreinte_texte_dit": "b7e3bb4121830319766fc9a943d0d42d66308e867ec325441284680ac33ebbc3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 229085,
+   "duree_s": 14.24,
+   "caracteres_dits": 239,
+   "caracteres_factures": 239,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le relecteur a laissé deux marques. Le surlignage jaune\n signale un passage à reprendre. La formulation ne convient\n pas.\n Le barré signale un passage devenu faux. Arrêt écrit rent\nièrement. Vous allez traiter les deux, puis retirer les mar\nques.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le relecteur a laissé deux marques.\n Le surlignage jaune signale un passage à reprendre.\n La formulation ne convient pas.\n Le barré signale un passage devenu faux, à réécrire ent\nièrement.\n Vous allez traiter les deux, puis retirer les marques.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M03-L02-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Le fond jaune signale une formulation à reprendre, pas une information fausse.",
+   "empreinte_texte_dit": "48bc7f3c1da962f054ad5b5f1e465b9b49995096d15752bbe9cc34593370f8f9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le fond jaune signal une formulation à reprendre, pas une\n information fausse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le fond jaune signale une formulation à reprendre, pas une\n information fausse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M03-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Une marque appelle un geste, puis disparaît.",
+   "empreinte_texte_dit": "2fa52c6df6a6842e68ae9591f53747d9b19a7314d62de1b5d5d01920e916794c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une marque appelle un geste, puis disparaît.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une marque appelle un geste, puis disparaît.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M03-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Reformulez le paragraphe surligné ainsi: Chaque nouvel arrivant est reçu par son responsable direct dès le premier jour.",
+   "empreinte_texte_dit": "1287c60542a2345ca3809fa6af4ea86541456d33073b5dd85119571f8a55ff88",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 120834,
+   "duree_s": 7.48,
+   "caracteres_dits": 120,
+   "caracteres_factures": 120,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Reformulez le paragraphe surliné ainsi.\n Chaque nouvel arrivant est reçu par son responsable direct\n dès le premier jour.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Reformulez le paragraphe surligné ainsi.\n Chaque nouvel arrivant est reçu par son responsable direct\n dès le premier jour.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M03-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Triple-clic pour prendre le paragraphe, puis tapez la nouvelle version.",
+   "empreinte_texte_dit": "515f42356c6c78addd3b18e8fb7dd6ee7363869aa46bb7dcd1690bacf516ce2a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Triple-click pour prendre le paragraphe, puis taper la\n nouvelle version.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Triple clic pour prendre le paragraphe, puis taper la\n nouvelle version.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M03-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "La formulation est corrigée.",
+   "empreinte_texte_dit": "61d1b7eb94223b004cbed277c44bcd724d9a9272af015294cb66b8a78a6a1577",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 35570,
+   "duree_s": 2.16,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La formulation est corrigée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La formulation est corrigée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M03-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Retirez le surlignage de ce paragraphe: sélectionnez-le, puis choisissez Aucune dans la liste Surlignage. Le texte est traité, la marque n'a plus lieu d'être.",
+   "empreinte_texte_dit": "fff1b7bd424a8616814a6597dcce273a60de11124c2484f05b6dc029a634f403",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 169317,
+   "duree_s": 10.52,
+   "caracteres_dits": 158,
+   "caracteres_factures": 158,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retirez le surlignage de ce paragraphe.\n Sélectionnez-le, puis choisissez aucune dans la liste surl\nignage.\n Le texte est traité, la marque n'a plus lieu D, être.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retirez le surlignage de ce paragraphe.\n Sélectionnez-le, puis choisissez \"Aucune\" dans la liste sur\nlignage.\n Le texte est traité.\n La marque n'a plus lieu d'être.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M03-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "La dernière liste du groupe Police propose Aucune en tête.",
+   "empreinte_texte_dit": "fe73a8e493995c7a1a50f99888f842419b3a497203489905951aacf4e220c550",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.028,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La dernière liste du groupe police propose aucune entête.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.028,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La dernière liste du groupe police propose aucune entête.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M03-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le paragraphe redevient neutre: plus rien n'attend le relecteur.",
+   "empreinte_texte_dit": "60c95d3be2022b4398a9077acd71e6ef1e7f25acf39d8b9b231e80adb7df5c9b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le paragraphe devient neutre. Plus rien n'attend le relect\neur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.048,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le paragraphe redevient neutre. Plus rien attend le relect\neur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M03-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Réécrivez le paragraphe barré en le remplaçant par: Le livret d'accueil est remis à la signature du contrat.",
+   "empreinte_texte_dit": "5e1fa3a15a45a1e1fe7481b7df71e36944c2dde97585de5b50e3c5d31c678ddd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Réécrivez le paragraphe barré en le remplaçant par « Le liv\nret d'accueil est remis à la signature du contrat ».",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Réécrivez le paragraphe barré en le remplaçant par « Le liv\nret d'accueil est remis à la signature du contrat ».",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M03-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Sélectionnez le paragraphe barré en entier, puis tapez la nouvelle phrase.",
+   "empreinte_texte_dit": "a00619447e1d59f3eff34c41728701eec009bb60d58c5cc39fdae78af4ec5986",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez le paragraphe barré en entier, puis tapez la\n nouvelle phrase.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez le paragraphe barré en entier, puis tapez la\n nouvelle phrase.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M03-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "L'information est à jour. Reste à enlever le trait.",
+   "empreinte_texte_dit": "f47fd8b84a2acfb912be85ae3853a8d5c7509a77422a3bd13af1420b166a131b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'information est à jour.\n Reste à enlever le trait.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'information est à jour.\n Reste à enlever le trait.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M03-L02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Retirez le barré de ce paragraphe: sélectionnez-le et recliquez sur le bouton qui l'avait posé. Ces attributs sont des interrupteurs, le même geste les met et les enlève.",
+   "empreinte_texte_dit": "8f5eb889d9ae407c4acd31539561ad47a82ff87a385bee096c1cead69edb8318",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 160540,
+   "duree_s": 9.96,
+   "caracteres_dits": 170,
+   "caracteres_factures": 170,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retirez le barret de ce paragraphe.\n Sélectionnez-le et recliquez sur le bouton qu'il avait posé\n.\n Ces attributs sont des interrupteurs. Le même geste les met\n et les enlève.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retirez le barré de ce paragraphe.\n Sélectionnez-le et recliquez sur le bouton qu'il avait posé\n.\n Ces attributs sont des interrupteurs.\n Le même geste les met et les enlève.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M03-L02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Le second S du groupe Police, celui dont le trait passe au milieu.",
+   "empreinte_texte_dit": "afeeda84b8d232a6acf5132b4ed6dfaa0b51dbfc661cee0bc99aab9f38ce871f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le second test du groupe Police, celui dont le trait passe\n au milieu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le second test du groupe police, celui dont le trait passe\n au milieu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M03-L02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Document propre: plus une seule marque de relecture.",
+   "empreinte_texte_dit": "86c7cc6f82d897905a921df51f47e7793a129bb430e5ebebad96e494b5ade3b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Documents propres, plus une seule marque de relecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.091,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Documents propres + une seule marque de relecture",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M03-L02-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Épaississez le titre pour finir. Un document rendu après corrections doit se présenter comme un document neuf, pas comme un brouillon retravaillé.",
+   "empreinte_texte_dit": "9861ee44f9db6a926c8dc1e5c83f226dc6617bd5c10f36dab10ecc5518c5bf6b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 132955,
+   "duree_s": 8.24,
+   "caracteres_dits": 146,
+   "caracteres_factures": 146,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Épécissez le titre pour finir.\n Un document rendu après correction doit se présenter comme\n un document neuf, pas comme\n un brouillon retravaillé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Épaississez le titre pour finir.\n Un document rendu après correction doit se présenter comme\n un document neuf, pas comme un brouillon retravaillé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M03-L02-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Le G du groupe Police, curseur dans le titre.",
+   "empreinte_texte_dit": "9071fea01cc37b0d352edfeeada3df5ffc12d62a29121dca547eb28e2267a571",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "le G du groupe police curseur dans le titre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le G du groupe Police, curseur dans le titre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M03-L02-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Note prête à être diffusée.",
+   "empreinte_texte_dit": "6decca1e062ba87525444e140112dbf02b388ae12f3cde90d48b4ff1cddfbe7f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 35570,
+   "duree_s": 2.16,
+   "caracteres_dits": 27,
+   "caracteres_factures": 27,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Note prête à être diffusée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Note prête à être diffusée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Traiter une annotation, c'est corriger le texte ET retirer la marque. Une annotation qui survit à sa correction fait perdre du temps à tout le monde.",
+   "empreinte_texte_dit": "a3e82356890563a4d4e3b2673d7e96ae0f962f70f96fbde5bd5428067185e7be",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 137552,
+   "duree_s": 8.52,
+   "caracteres_dits": 149,
+   "caracteres_factures": 149,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Traiter une anotation, c'est corriger le texte ET, retirer\n la marque.\n Une anotation qui survit à sa correction fait perdre du\n temps à tout le monde.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Traiter une annotation, c'est corriger le texte ET, retirer\n la marque.\n Une annotation qui survit à sa correction fait perdre du\n temps à tout le monde.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

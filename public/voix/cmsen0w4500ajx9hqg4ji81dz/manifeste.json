@@ -1,0 +1,628 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0w4500ajx9hqg4ji81dz",
+  "app": "WORD",
+  "section": "",
+  "titre": "Illustrer une note de service"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 14,
+  "caracteres_dits": 785,
+  "duree_totale_s": 52.7,
+  "segments_valides": 14,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une note annonce une réorganisation et un point de vigilance. Deux objets, deux mises en page.",
+   "empreinte_texte_dit": "b9a1fe6cca4c11f1f35b0703b2b3aa0ec1ef6267a14bf047a14fb5051c6bc71f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 94,
+   "caracteres_factures": 188,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une note annonce une réorganisation et un point de vigil\nance.\n Deux objets, deux mis en page.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une note annonce une réorganisation et un point de vigil\nance.\n Deux objets, deux mises en page.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M16-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Insérez l'organigramme pour montrer le rattachement des trois pôles.",
+   "empreinte_texte_dit": "8daf2a406fbbfc26f3039e5b1b6db48ee591c82389862a8a3d83ce9c6cca574d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 58558,
+   "duree_s": 3.6,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez l'organigramme pour montrer le rattachement des\n trois pôles.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez l'organigramme pour montrer le rattachement des\n trois pôles.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M16-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Onglet Insertion, bouton Image, vignette Organigramme.",
+   "empreinte_texte_dit": "d5de925c8f926539bd553be8d0533d5c25a5740df33ac89a1a8182ee4da75110",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet Insertion, Bouton Images, Vignette Organigram.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglets insertion, bouton images, vignette organigramme.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M16-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "La hiérarchie est illustrée.",
+   "empreinte_texte_dit": "6be0911dfb2400790655e608353732a19dc4f0c759ac12e901c369d6d845ae79",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 29301,
+   "duree_s": 1.76,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La hiérarchie est illustrée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La hiérarchie est illustrée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M16-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Donnez-lui l'habillage Rapproché pour que le texte l'accompagne au lieu de le repousser.",
+   "empreinte_texte_dit": "e748c1b447a211e11e132d2be0c0894e4b4c186007361f8fadbe85d0dfde2777",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez-lui la billage rapprochée pour que le texte l'accomp\nagne au lieu de le repousser.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez-lui l'habillage rapproché pour que le texte l'accomp\nagne au lieu de le repousser.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M16-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Bouton Rapproché.",
+   "empreinte_texte_dit": "d136c9b5fbd27bfaf4c24b1b1309f0f4961ff61aaad65219def73dfa80b04573",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 17,
+   "caracteres_factures": 17,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton rapprocher.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton rapprocher.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M16-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le texte accompagne le schéma.",
+   "empreinte_texte_dit": "012f8df635c3b9f66fe9afe60e5315772af48950cc918dd2eacf740ae6662224",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 38078,
+   "duree_s": 2.32,
+   "caracteres_dits": 30,
+   "caracteres_factures": 30,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le texte accompagne le schéma.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le texte accompagne le schéma.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M16-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Le schéma sera finalement mis en annexe. Retirez-le et laissez la note au texte seul.",
+   "empreinte_texte_dit": "2fa97f90f1245b499b0cef6d712e28c8312af66c1aa084473e61b0f0d9ccd9ed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le schéma sera finalement mis en annexe. Retirez-le et\n laissez la note au texte seul.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le schéma sera finalement mis en annexe.\n Retirez-le et laissez la note au texte seul.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M16-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Bouton Supprimer l'image.",
+   "empreinte_texte_dit": "27bdade7b4976293319511a3af91215fc3676779747fe967d4c39ab1f18ede02",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 25,
+   "caracteres_factures": 25,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "boutons supprimer l'image.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton Supprimer l'image.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M16-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "La note est revenue au texte.",
+   "empreinte_texte_dit": "7359e7c3a44be2e9e10ff2a9313c3e47200f1e5adda1e98be11ae3731077b6ea",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 29719,
+   "duree_s": 1.8,
+   "caracteres_dits": 29,
+   "caracteres_factures": 29,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La note est revenu au texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La note est revenue au texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M16-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Insérez la zone de texte encadrée: elle portera le point de vigilance, détaché du corps de la note.",
+   "empreinte_texte_dit": "52f0de1bc1512404898723b8837192b535593d0f906718ed8eb36cc5ad7ed2d7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez la zone de texte encadrée.\n Elle portera le point de vigilance détachée du corps de la\n note.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Insérez la zone de texte encadrée.\n Elle portera le point de vigilance détaché du corps de la\n note.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M16-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Galerie, vignette Zone de texte encadrée.",
+   "empreinte_texte_dit": "f2b5281c0c599b3c87012a83da074cdd1b962a1ae0a924dfcebc49fa243434ba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Galerie, vignette, zone de texte encadrée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Galerie, vignettes, zone de texte encadrée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M16-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "L'encadré détache l'information importante.",
+   "empreinte_texte_dit": "de0f456a8b56e620f19594940dd1c1b57479fdd408a59d587c670b0298c14b6e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'encadré détache l'information importante.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'encadré détache l'information importante.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un encadré attire l'œil; un schéma explique. Les deux ensemble structurent une note.",
+   "empreinte_texte_dit": "a11e03092f1af041a515b94f03212da238f33d0f0238a185872dedb56b737a46",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un encadré attire L, œil. Un schéma explique.\n Les deux ensemble structurent une note.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un encadré attire L, œil. Un schéma explique.\n Les deux ensembles structurent une note.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

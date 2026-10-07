@@ -1,0 +1,800 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0slq001rx9hqv3n33wyp",
+  "app": "WORD",
+  "section": "",
+  "titre": "Surligner et barrer : annoter un document de travail"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 2300,
+  "duree_totale_s": 138.4,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Le surlignage et le barré ne servent pas à mettre en forme un document fini: ils servent à le faire circuler. L'un attire l'œil sur ce qui reste à traiter, l'autre marque ce qui ne vaut plus. Vous allez préparer un document de relecture.",
+   "empreinte_texte_dit": "b2e8f5b4b74de19311b2b2653ff59005eada69525bf8196e2ea58e6c223cb765",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 209023,
+   "duree_s": 13.0,
+   "caracteres_dits": 237,
+   "caracteres_factures": 237,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le surlignage et le barré ne servent pas à mettre en forme\n un document fini.\n Ils servent à le faire circuler.\n L'un attire là, œil sur ce qui reste à traiter, l'autre\n marque ce qui ne vaut plus.\n Vous allez préparer un document de relecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le surlignage et le barré ne servent pas à mettre en forme\n un document fini.\n Ils servent à le faire circuler.\n L'un attire l'œil,\n œil sur ce qui reste à traiter,\n l'autre marque ce qui ne vaut plus.\n Vous allez préparer un document de relecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M02-L04-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Le surlignage pose un fond de couleur derrière le texte, comme un feutre sur du papier. Le barré trace un trait au milieu des lettres sans les effacer: l'information reste lisible, mais signalée comme caduque. Retenez que les deux disent quelque chose au lecteur, pas au document.",
+   "empreinte_texte_dit": "37c8c7e690af5cba14c2826f6a180c5d026273d0888028f20ebe4951432ca7a1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 253327,
+   "duree_s": 15.76,
+   "caracteres_dits": 280,
+   "caracteres_factures": 280,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le surlignage pose un fond de couleur derrière le texte,\n comme un feutre sur du papier.\n Le barret trace un trait au milieu des lettres sans les eff\nacer.\n L'information reste lisible, mais signalée comme caduc.\n Retenez que les deux disent quelque chose au lecteur, pas\n au document.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le surlignage pose un fond de couleur derrière le texte,\n comme un feutre sur du papier.\n Le barré trace un trait au milieu des lettres sans les eff\nacer.\n L'information reste lisible, mais signalée comme caduc.\n Retenez que les deux disent quelque chose aux lecteurs, pas\n aux documents.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M02-L04-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Le surlignage ajoute un fond, le barré un trait. Ils ne retirent aucun texte.",
+   "empreinte_texte_dit": "b95a5eb851132de35f973dcc83e9773634d3e6e137cbbac79abf6c946db04ccf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 94084,
+   "duree_s": 5.8,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.111,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le surlignage ajoute en fond le barré entrée. Il ne retire\n aucun texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.111,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le surlignage ajoute un fond, le bar est un trait.\n Il ne retire aucun texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M02-L04-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Le feutre pour ce qui reste à faire, le trait pour ce qui ne vaut plus.",
+   "empreinte_texte_dit": "45787d9ed57b42ce50c8fa118fbb12b91d381c9737ad47f8c71fdbfde6a0c08a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le feutre pour ce qui reste à faire, le trait pour ce qui\n ne vaut plus.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le feutre pour ce qui reste à faire, le trait pour ce qui\n ne vaut plus.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M02-L04-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Le budget est le point sur lequel le comité doit trancher en priorité. Sélectionnez le deuxième paragraphe et surlignez-le en jaune, avec la liste Surlignage du groupe Police.",
+   "empreinte_texte_dit": "9df8796957c355d2a1a46f6a1595896976ecfc45433107afc8a8d2daec84063e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 155524,
+   "duree_s": 9.64,
+   "caracteres_dits": 175,
+   "caracteres_factures": 175,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.028,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le budget est le point sur lequel le comité doit trancher\n en priorité.\n Sélectionnez le deuxième paragraphe et surlignez-le en ja\nune avec la liste surligniage du groupe Police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le budget est le point sur lequel le comité doit trancher\n en priorité.\n Sélectionnez le deuxième paragraphe et surlignez-le en ja\nune avec la liste surlignage du groupe\n Police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M02-L04-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "La dernière liste du groupe Police.",
+   "empreinte_texte_dit": "74d1df7d9240c09986c28d24738a3543d714e23a0fe185cbfce882d29e823a44",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 40168,
+   "duree_s": 2.44,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La dernière liste du groupe Police",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La dernière liste du groupe police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M02-L04-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le point saute aux yeux dès l'ouverture du document.",
+   "empreinte_texte_dit": "a2d52cae41c1fa0417bf852a0f5be4112d4e251173e89d0632fe658c7b2aad35",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le point s'autosieux des l'ouverture du document.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le poing saute aux yeux dès l'ouverture du document.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M02-L04-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Le renouvellement des machines a été reporté hier: le point tombe, mais on garde la trace de son existence. À vous : barrez le troisième paragraphe.",
+   "empreinte_texte_dit": "bd1ab7a50dd00006e2667f95899c4b613a5371b741402dfac56f4bbe5c998fc4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 153435,
+   "duree_s": 9.52,
+   "caracteres_dits": 148,
+   "caracteres_factures": 148,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le renouvellement des machines a été reporté hier.\n Le point tombe, mais on garde la trace de son existence.\n À vous, barrez le troisième paragraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le renouvellement des machines a été reporté hier. Le point\n tombe, mais on garde la trace de son existence.\n À vous.\n Barré le troisième paragraphe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M02-L04-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le second S du groupe Police, celui dont le trait passe au milieu.",
+   "empreinte_texte_dit": "afeeda84b8d232a6acf5132b4ed6dfaa0b51dbfc661cee0bc99aab9f38ce871f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le second test du groupe Police, celui dont le trait passe\n au milieu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le second test du groupe police, celui dont le trait passe\n au milieu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M02-L04-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le point reste lisible, et chacun voit qu'il ne sera pas traité.",
+   "empreinte_texte_dit": "63e1c7ba3c01cbec9e868ca6ad4e1da0c0b4e7d9bcdfcd8b0677ccc300d56e99",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.054,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le point reste lisible et chacun voit qu'il ne sera pas tra\nité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.054,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le point reste lisible et chacun voit qu'il ne sera pas tra\nité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M02-L04-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "La journée portes ouvertes demande une décision de date. Surlignez en vert le dernier paragraphe: une seconde couleur de surlignage permet de distinguer deux types d'attente.",
+   "empreinte_texte_dit": "bcb0e4b5c4c476243198774abc2e98f22bc64aab91f20109e7314117af79f67c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 160540,
+   "duree_s": 9.96,
+   "caracteres_dits": 174,
+   "caracteres_factures": 174,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La journée porte ouverte demande une décision de date.\n Surliné en vert le dernier paragraphe.\n Une seconde couleur de surlignage permet de distinguer deux\n types d'attente.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La journée porte ouverte demande une décision de date.\n Surligné en vert, le dernier paragraphe,\n une seconde couleur de surlignage permet de distinguer deux\n types d'attentes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M02-L04-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Liste Surlignage du groupe Police, puis le vert.",
+   "empreinte_texte_dit": "42f759fd09e1240bfbd06b570221a728f02f606a62575fa986531319b5f9014b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 48,
+   "caracteres_factures": 96,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.071,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "liste sur l'ignage du groupe police, puis le verre.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.107,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste sur lignage du groupe POLIS, puis le verre.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M02-L04-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Jaune pour arbitrer, vert pour caler une date: deux attentes, deux couleurs.",
+   "empreinte_texte_dit": "8cafec8b988c60554cbe83e85d374e136a5c588f9655a65f790327589a371fa0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 100772,
+   "duree_s": 6.24,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "jaune pour arbitrer, vert pour caler une date, deux att\nentes, deux couleurs.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "jaune pour arbitrer, vert pour caler une date, deux att\nentes, deux couleurs.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M02-L04-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Dans le point surligné en jaune, une précision doit ressortir davantage. Mettez budget de formation en gras: le gras se cumule avec le surlignage sans le remplacer.",
+   "empreinte_texte_dit": "8a4a771e77c06b01a78c7b3fe5726dde843aa7c32ad7e9d5cf79901c38ba01b1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 155942,
+   "duree_s": 9.68,
+   "caracteres_dits": 164,
+   "caracteres_factures": 164,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dans le point surligné en jaune, une précision doit ressort\nir davantage.\n Mettez budget de formation en gras. Le gras se cumule avec\n le surlignage sans le remplacer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dans le point surligné en jaune, une précision doit ressort\nir davantage.\n Mettez budget de formation en gras.\n Le gras se cumule avec le surlignage sans le remplacer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M02-L04-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Glissez la souris sur les trois mots, puis le G: le surlignage reste dessous.",
+   "empreinte_texte_dit": "ae68236f656f8fb54652d1da5320510ec641d7622c24eb01c53f05b80f1bfd98",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glissez la souris sur les trois mots, puis le G, le surlign\nage reste dessous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glisser la souris sur les trois mots, puis le G, le surlign\nage reste dessous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M02-L04-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Deux attributs sur le même passage, chacun avec son rôle.",
+   "empreinte_texte_dit": "19899c4437066050caf6edbfa75cfec7ee4a2158079dc550187b543bc93d1f78",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux attributs sur le même passage, chacun avec son rôle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux attributs sur le même passage, chacun avec son rôle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M02-L04-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Terminez par l'en-tête, qui doit rester neutre: mettez le titre en gras et laissez-le sans surlignage. Un document annoté garde un titre sobre, sinon les marques perdent leur valeur de signal.",
+   "empreinte_texte_dit": "d82c7e5125a7edbd3a59ebc81e28ffe4c1f1fee6c6fba03d18ba6e23f389ac97",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 176004,
+   "duree_s": 10.92,
+   "caracteres_dits": 192,
+   "caracteres_factures": 192,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Terminez par l'en tête, qui doit rester neutre. Mettez le\n titre en gras et laissez le son sur l'ignage.\n Un document anoté, garde un titre sobre, sinon les marques\n perdent leur valeur de signal.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Terminé par l'entête, qui doit rester neutre.\n Mettez le titre en gras et laissez le son sur lignage.\n Un document à noter garde un titre sobre, sinon les marques\n perdent leur valeur de signal.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M02-L04-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Le G du groupe Police, curseur dans le titre, sans passer par le surlignage.",
+   "empreinte_texte_dit": "284d5bfae75db10be547da7bb768d044264558a9af33fd67931f7d3b17a6197f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le G du groupe Police curseur dans le titre sans passer par\n le surlignage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le jet du groupe Police, curseur dans le titre,\n sans passer par le surlignage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M02-L04-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Le document est prêt à circuler: chaque marque dit quoi faire.",
+   "empreinte_texte_dit": "ba67681706949ebb2369eeb2a6fd1960e8b36036def06672a5b31f6425feadc4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le document est prêt à circuler.\n Chaque marque dit quoi faire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le document est prêt à circuler.\n Chaque marque dit quoi faire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Surligner, c'est demander une action; barrer, c'est archiver une décision. Ces deux marques s'enlèvent avant diffusion: ce sont des annotations, pas de la mise en forme.",
+   "empreinte_texte_dit": "247129082a67a6f16dabf2eb37d19cad806c336098fce183fe8cdf15a7bef6fa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 159286,
+   "duree_s": 9.88,
+   "caracteres_dits": 169,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sur l'ignée, c'est demander une action.\n Barré, c'est archiver une décision.\n Ces deux marques s'enlèvent avant diffusion.\n Ce sont des annotations, pas de la mise en forme.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Surligné, c'est demander une action.\n Barré, c'est archiver une décision.\n Ces deux marques s'enlèvent avant diffusion.\n Ce sont des annotations, pas de la mise en forme.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

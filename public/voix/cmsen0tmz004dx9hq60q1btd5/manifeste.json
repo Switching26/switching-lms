@@ -1,0 +1,720 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0tmz004dx9hq60q1btd5",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Détacher un avertissement"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 959,
+  "duree_totale_s": 59.9,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une consigne d'atelier dont l'avertissement se noie dans le texte. Faites-le exister, un seul bloc, pas trois.",
+   "empreinte_texte_dit": "f1220829bd9660e7e392a2496ff667bc02e21d4d238247a10a8c0615c27605a3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 110385,
+   "duree_s": 6.84,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une consigne d'ateliers dont l'avertissement se noie dans\n le texte.\n Faites-le exister. Un seul bloc, pas trois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une consigne d'atelier dont l'avertissement se noie dans le\n texte.\n Faites-le exister.\n Un seul bloc, pas trois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M05-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Détachez l'avertissement du reste du texte en le surlignant en jaune.",
+   "empreinte_texte_dit": "d50df02e5baaea4482d94bb7638ec0c8cf629e268cebed4fdcbf9e004fca761e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Détachez l'avertissement du reste du texte en le surlignant\n en jaune.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Détachez l'avertissement du reste du texte en le surlignant\n en jaune.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M05-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "La dernière liste du groupe Police pose un fond de couleur.",
+   "empreinte_texte_dit": "33b25fe954e09fe7eea323f453c3bbd7609e4619cfe65d8927743971d4e8c59b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La dernière liste du groupe Police pose un fond de couleur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La dernière liste du groupe Police pose un fond de couleur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M05-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Le fond détache la phrase.",
+   "empreinte_texte_dit": "c5dcc5912b265f3242190a673ed5c18ddc42f368b0e1df33c2b1d46b1248b0c5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 33062,
+   "duree_s": 2.0,
+   "caracteres_dits": 26,
+   "caracteres_factures": 26,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le fond détache la phrase.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le fond détache la phrase.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M05-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "À vous : ajoutez-lui l'urgence que le surlignage seul n'apporte pas.",
+   "empreinte_texte_dit": "f0d7d26f3217cbb124af717da8f23b67a30ed5b8d82838afe72eeeb27db192bb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "À vous.\n Ajoutez lui l'urgence que le surlignage seul n'apporte pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "À vous ! Ajoutez-lui l'urgence que le surlignage seul n'app\norte pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M05-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "La graisse dit c'est important, le fond dit regardez ici.",
+   "empreinte_texte_dit": "7208cb4b0461bab2eec0722f66a2c22d54179dce45215e8158e7f2d97f05bce5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La graisse dit c'est important le fond dit regarder ici.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La Grèce dit c'est important, le fond dit regardez ici.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M05-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le signal est complet.",
+   "empreinte_texte_dit": "e76fae13b08827ed98dab708ead33182790e219aebb4ec84fb9db80439500d3a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 22,
+   "caracteres_factures": 22,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le signal est complet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le signal est complet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M05-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Mettez ce même paragraphe en rouge: sur une consigne de sécurité, le cumul se justifie.",
+   "empreinte_texte_dit": "5ff45e72848b4a6bb9d5d52cf09eee4fc07544a9ee87a0231cf34b0185efc654",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Mettez ce même paragraphe en rouge.\n Sur une consigne de sécurité, le cumul se justifie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Mettez ce même paragraphe en rouge.\n Sur une consigne de sécurité, le cumul se justifie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M05-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Liste Couleur du groupe Police, celle du texte, pas celle du fond.",
+   "empreinte_texte_dit": "58d1f465e3c8a7a4bb1ff1c54744d4896e25cf8cc0e3d1ecc6f282807c07bd18",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Liste couleur du groupe police, celle du texte, pas celle\n du fond.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Liste couleur du groupe police, celle du texte, pas celle\n du fond.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M05-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Bloc d'alerte constitué.",
+   "empreinte_texte_dit": "0f664d2aec6a7ba073eb6517a3609e12c6fd311f6225659f900f9fdd25561a58",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 28047,
+   "duree_s": 1.68,
+   "caracteres_dits": 24,
+   "caracteres_factures": 24,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bloc d'alerte constitué.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bloc d'alerte constitué.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M05-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Isolez-le du fil de lecture en le plaçant au milieu de la page.",
+   "empreinte_texte_dit": "577bca0ddf25323520506e49320689e967cf3e1d133bc37e52aafd03ff37b55c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isolez-le du fil de lecture en le plaçant au milieu de la\n page.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isolez-le du fil de lecture en le plaçant au milieu de la\n page.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M05-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Bouton Centrer, groupe Paragraphe.",
+   "empreinte_texte_dit": "f2617fa23c30d1c8c40678f4d90f834a54bca435e74a38252703622ee17b3fde",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.095,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton Centre Heure, groupe paragraph.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.095,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Bouton centreur, groupe paragraphes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M05-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le bloc se lit comme un encadré.",
+   "empreinte_texte_dit": "28986e0aba4198d48380ba3f531a8621d4a254544d2a7c67655f95a159e03e42",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 34316,
+   "duree_s": 2.08,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bloc se lit comme un encadré.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bloc se lit comme un encadré.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M05-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Épaississez le titre sans le surligner: un seul bloc détaché par document.",
+   "empreinte_texte_dit": "3377aec7d235a25c911bde225b60dbd1c089df087354096ecd853efafce531c3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épécissez le titre sans le surligner.\n Un seul bloc détaché par document.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épaississez le titre sans le surligner.\n Un seul bloc détaché par document.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M05-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Le G du groupe Police, curseur dans le titre.",
+   "empreinte_texte_dit": "9071fea01cc37b0d352edfeeada3df5ffc12d62a29121dca547eb28e2267a571",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le G du groupe Police curseur dans le titre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.037,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le jet du groupe Police, curseur dans le titre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M05-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Consigne prête à être affichée.",
+   "empreinte_texte_dit": "b7d75abbd5b04dd126583379aa7b637327f0e8c2de875330cbec0378026569cd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 28465,
+   "duree_s": 1.72,
+   "caracteres_dits": 31,
+   "caracteres_factures": 31,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "consigne prête à être affichée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "consigne prête à être affichée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un seul passage détaché, et il est impossible à manquer. C'est tout l'objet d'un surlignage.",
+   "empreinte_texte_dit": "5711091e8c9d4f93bdcc4a2dfcd28be044a5773d2161cca54cd0cc8465e8d3e6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un seul passage détaché et il est impossible à manquer.\n C'est tout l'objet d'un surlignage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un seul passage détaché et il est impossible à manquer.\n C'est tout l'objet d'un surlignage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

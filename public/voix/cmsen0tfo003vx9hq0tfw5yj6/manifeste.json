@@ -1,0 +1,800 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0tfo003vx9hq0tfw5yj6",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Choisir la bonne forme"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1416,
+  "duree_totale_s": 90.9,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une affiche d'atelier, pas un courrier. Attention au réflexe: ce qui convient à une lettre ne convient pas ici. Chaque consigne vous demande une intention, à vous de trouver l'alignement qui la sert.",
+   "empreinte_texte_dit": "5cfb9336d301d8f55a31e81e9a3e593bb3d11d5c095644d47a301e0bd396e8dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 172661,
+   "duree_s": 10.72,
+   "caracteres_dits": 199,
+   "caracteres_factures": 199,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une affiche d'atelier, pas un courrier.\n Attention au réflexe.\n Ce qui convient à une lettre ne convient pas ici.\n Chaque consigne vous demande une intention, à vous de\n trouver l'alignement qui la sert.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une affiche d'atelier, pas un courrier.\n Attention aux réflexes.\n Ce qui convient à une lettre ne convient pas ici.\n Chaque consigne vous demande une intention.\n À vous de trouver l'alignement qui la sert.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M04-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Une affiche se lit de loin et d'un seul coup d'œil. À vous : placez l'annonce au milieu de la page.",
+   "empreinte_texte_dit": "c5b8f32f9332c614eb7f7056aaca7affffc50262425ef11bbb592c9251496041",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 99100,
+   "duree_s": 6.12,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.039,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une affiche solide loin est d'un seul coup d'œil.\n À vous, placez l'annonce au milieu de la page.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une affiche se lit de loin et d'un seul coup de \"œil\".\n À vous ! Placez l'annonce au milieu de la page.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M04-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Bouton Centrer, groupe Paragraphe.",
+   "empreinte_texte_dit": "f2617fa23c30d1c8c40678f4d90f834a54bca435e74a38252703622ee17b3fde",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.095,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Bouton Centre Heure, groupe paragraph.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.095,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Bouton centreur, groupe paragraphes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M04-E02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "L'annonce accroche l'œil.",
+   "empreinte_texte_dit": "d32d372c4c0c70450087a3ae5ffca21eb9068500041380b4a62b804f7bc22022",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 25,
+   "caracteres_factures": 25,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'annonce accroche \"L\", \"œil\".",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'annonce accroche L, œil.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M04-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Traitez les dates de la même façon: sur une affiche, tout ce qui doit être lu de loin se centre.",
+   "empreinte_texte_dit": "fc743c52eb8eb7a30b2b534b0ea6724b2d7ee8d146578718cd803f5d3407a604",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 90741,
+   "duree_s": 5.6,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Traitez les dates de la même façon, sur une affiche, tout\n ce qui doit être lu de loin se centre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Traitez les dates de la même façon, sur une affiche, tout\n ce qui doit être lu de loin se centre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M04-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le même bouton Centrer, curseur dans la ligne des dates.",
+   "empreinte_texte_dit": "ed6c59299b8eac538659e539ffc2575b575d8c39254482ed2a30ac0f5f3692bf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.065,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le même bouton Center cure sort dans la ligne des dates.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.097,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le même bouton centreur, cursor dans la ligne des dates.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M04-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Les dates suivent l'annonce.",
+   "empreinte_texte_dit": "6ce5dd400b650666b8b6e814206a9bd73b80ee1ec775914326fa3c8777e501cb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 26793,
+   "duree_s": 1.6,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les dates suivent l'annonce.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les dates suivent l'annonce.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M04-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Centrez également le motif de la fermeture. Trois lignes centrées forment un bloc que l'œil saisit en une fois.",
+   "empreinte_texte_dit": "4c5572973dfb862ba3cfec46f7325f42ad97fc9464bb1a01498e55b91b50ef8d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Centrez également le motif de la fermeture.\n Trois lignes centrées forment un bloc que \"L\" œil saisit en\n une fois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.048,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Centré également le motif de la fermeture.\n Trois lignes centrées forment un bloc que, elles, œillent\n saisies en une fois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M04-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Toujours Centrer: les trois lignes doivent former un bloc.",
+   "empreinte_texte_dit": "4205b2a1b84aecac9674e9627fc9950918a10aec95aab6a2bd5b584eaa7eb41f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Toujours centré, les trois lignes doivent former un bloc.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Toujours centré, les trois lignes doivent former un bloc.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M04-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le bloc central est constitué.",
+   "empreinte_texte_dit": "7f1ade485176048a7f6410f3a18f1f927ff7c822cb52ee189d0f9a3fa02b93f2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 30,
+   "caracteres_factures": 30,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bloc central est constitué.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bloc central est constitué.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M04-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "La précision sur les livraisons se lit de près, pas de loin. Laissez-la alignée à gauche et vérifiez-le: elle se distingue ainsi du bloc d'annonce.",
+   "empreinte_texte_dit": "86304c3c8e58825b14cccbde74c2de998bbea4064c7719496653ea4a7606c6eb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 144657,
+   "duree_s": 8.96,
+   "caracteres_dits": 147,
+   "caracteres_factures": 147,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La précision sur les livraisons se lit de près, pas de loin\n.\n Laissez-la à l'init à gauche et vérifiez-le.\n Elle se distingue ainsi du bloc d'annonce.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La précision sur les livraisons se lit de près, pas de loin\n.\n Laissez-la aligner à gauche et vérifiez-le.\n Elle se distingue ainsi du bloc d'annonces.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M04-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Bouton Gauche, le premier des quatre alignements.",
+   "empreinte_texte_dit": "b861c9018aae7d77b760252cdc6a964d071327dcfb6c96f4c2f165cd49acdb88",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Bouton gauche, le premier des quatre alignements.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Bouton gauche, le premier des quatre alignements.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M04-E02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Deux registres de lecture sur la même affiche.",
+   "empreinte_texte_dit": "a395fd0226e83619725f1bcce1816c3d39f3ea0cdcb916aa8776c3526bfcccc8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux registres de lecture sur la même affiche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux registres de lecture sur la même affiche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M04-E02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "À vous : placez le service émetteur du côté de la signature.",
+   "empreinte_texte_dit": "0cb0cbc7addd97c416d75e39a352f6e041902ff248739a55ecc57a981d89cf67",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "À vous. Placez le service émetteur du côté de la signature.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "À vous ! Placez le service émetteur du côté de la signature\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M04-E02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Bouton Droite, du côté où l'on signe.",
+   "empreinte_texte_dit": "a7c3163278970d71a3e38bee7cf6ecfaa59c1cea5f47ebe07a0670fd7d01b247",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 37,
+   "caracteres_factures": 37,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Boutons droite du côté où l'on signe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Bouton droite du côté où l'on signe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M04-E02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "L'émetteur est identifié.",
+   "empreinte_texte_dit": "724ef9af49a7b13d937a7521a8f438e41f8f8cfdf54f004774d3364653d97613",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 25,
+   "caracteres_factures": 25,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Elle, émetteur est identifiée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L, émetteur est identifié.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M04-E02-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Portez l'annonce à la taille 24: sur une affiche, c'est la taille qui fait la moitié du travail.",
+   "empreinte_texte_dit": "3698243fa3de4820a67ccbc23e7f620877f883bfe9f31886673d9b07b1a336c8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Portez l'annonce à la taille 24 sur une affiche, c'est la\n taille qui fait la moitié du travail.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Portez l'annonce à la taille 24. Sur une affiche, c'est la\n taille qui fait la moitié du travail.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M04-E02-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Liste Taille du groupe Police, valeur 24, curseur dans l'annonce.",
+   "empreinte_texte_dit": "8dd6d2211f16ff64d65321194f97fab4d4d71703703eca84435e62f0d899d749",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste taille du groupe police, valeur 24, curseur dans l'\nannonce.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste taille du groupe police.\n Valeur 24. Curseur dans l'annonce.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M04-E02-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Affiche lisible depuis l'entrée de l'atelier.",
+   "empreinte_texte_dit": "04fd43cd2363eb8966c86a1cd7a10be880091b521122394a857370d40d30af06",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 42675,
+   "duree_s": 2.6,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Affiche l'isible depuis l'entrée de l'atelier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Affiche lisible depuis l'entrée de l'atelier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une affiche se centre, un courrier se justifie. Le même texte change de nature selon la forme qu'on lui donne.",
+   "empreinte_texte_dit": "7a2e3bd1237a2a8c2e01f5d6cb4787840adfc3b15a3a271916f6914d91f6f901",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 106205,
+   "duree_s": 6.56,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une affiche se centre, un courrier se justifie.\n Le même texte change de nature selon la forme qu'on lui\n donne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une affiche se centre, un courrier se justifie.\n Le même texte change de nature selon la forme qu'on lui\n donne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

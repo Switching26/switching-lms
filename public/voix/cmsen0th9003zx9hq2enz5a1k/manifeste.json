@@ -1,0 +1,640 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0th9003zx9hq2enz5a1k",
+  "app": "WORD",
+  "section": "",
+  "titre": "Évaluation — Mise en forme des paragraphes"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 15,
+  "caracteres_dits": 1845,
+  "duree_totale_s": 112.6,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Dix gestes notés, sans indice et sans démonstration. Un courrier de relance à compléter, à corriger, puis à mettre en page selon les conventions. Chaque geste compte au premier essai; vous pouvez passer une question, mais elle sera comptée comme ratée.",
+   "empreinte_texte_dit": "68e6c38ff5f024b4dfc300c999bb154a2c6355de85b00ad3a6221600a4c1357b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 244132,
+   "duree_s": 15.2,
+   "caracteres_dits": 252,
+   "caracteres_factures": 252,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Dix gestes notées.\n Sans indice et sans démonstration.\n Un courrier de relance à compléter, à corriger, puis à\n mettre en page selon les conventions.\n Chaque geste compte au premier essai.\n Vous pouvez passer une question, mais elle sera comptée\n comme ratée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "10 gestes notés, sans indices et sans démonstration.\n Un courrier de relance à compléter, à corriger, puis à\n mettre en page selon les conventions.\n Chaque geste compte au premier essai. Vous pouvez passer\n une question, mais elle sera comptée comme ratée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M04-EV01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ce courrier de relance est écrit mais pas mis en page: tous ses paragraphes sont alignés à gauche, et il lui manque sa signature. Complétez-le, corrigez une erreur de référence, puis donnez-lui la forme conventionnelle d'une lettre. Les consignes disent la forme à obtenir, jamais quel bouton employer.",
+   "empreinte_texte_dit": "430a84064d08e2e3721920168b7c6394c7f850cfe78ad39c9e23b109385c05ae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 282166,
+   "duree_s": 17.56,
+   "caracteres_dits": 302,
+   "caracteres_factures": 302,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce courrier de relance est écrit mais pas mis en page.\n Tous ses paragraphe sont alignés à gauche et il lui manque\n sa signature.\n Complétez-le, corrigez une erreur de référence, puis donnez\n-lui la forme conventionnelle d'une lettre.\n Les consignes disent la forme à obtenir. Jamais quel bouton\n employé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce courrier de relance est écrit mais pas mis en page.\n Tous ces paragraphes sont alignés à gauche et il lui manque\n sa signature.\n Complétez-le, corrigez une erreur de référence, puis donnez\n-lui la forme conventionnelle d'une\n lettre.\n Les consignes disent la forme à obtenir.\n Jamais quels boutons employer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M04-EV01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Une lettre a des blocs conventionnels: le lieu et la date en haut.",
+   "empreinte_texte_dit": "c609fcba069f22b1e476becc1a4643dc7c446408ec5259c34a8564b709ed6839",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.028,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une lettre à des blocs conventionnels, le lieu est la date\n en haut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une lettre à des blocs conventionnels, le lieu et la date\n en haut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M04-EV01-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "La formule de politesse ferme la lettre, mais la signature manque encore après elle.",
+   "empreinte_texte_dit": "d914a6c3c36428f662a5d84e589c7bf9b294d34ee8bb6b57a7c7498aba10aec4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La formule de politesse ferme la lettre, mais la signature\n manque encore après elle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La formule de Politesse ferme la lettre, mais la signature\n manque encore après elle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M04-EV01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Une lettre se termine par l'identité de son émetteur. Ajoutez un paragraphe à la suite du dernier, contenant exactement: Le service comptable.",
+   "empreinte_texte_dit": "ac68f72698a98e10686f1110297fc9431973deb9bdfd9af1e85ab166a3e47049",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 142,
+   "caracteres_factures": 142,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une lettre se termine par l'identité de son émetteur.\n Ajoutez un paragraphe à la suite du dernier contenant\n exactement le service comptable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une lettre se termine par l'identité de son émetteur.\n Ajoutez un paragraphe à la suite du dernier contenant\n exactement le service comptable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M04-EV01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Le numéro de facture a été mal reporté. Corrigez le corps de la lettre pour qu'il mentionne la facture référencée 2026-481.",
+   "empreinte_texte_dit": "46889222f5f4f3e65cc62986461e5fbcaf15598d250f5b190eb3891a8becdada",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 135044,
+   "duree_s": 8.36,
+   "caracteres_dits": 123,
+   "caracteres_factures": 123,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le numéro de facture a été mal reporté.\n Corrigez le corps de la lettre pour qu'il mentionne la fact\nure référencée 2026 à 481.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le numéro de facture a été mal reporté.\n Corrigez le corps de la lettre pour qu'il mentionne la fact\nure référencée 2026 à 481.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M04-EV01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Placez l'en-tête de l'expéditeur au milieu de la page.",
+   "empreinte_texte_dit": "562d24f89e9110d9ede1a4d1452b387367aa5eb98b449f4db00d61c2cf9c6721",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.03,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Placez l'entête de l'expéditeur au milieu de la page.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.03,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Placez l'entête de l'expéditeur au milieu de la page.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M04-EV01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Placez le lieu et la date selon la convention du courrier français.",
+   "empreinte_texte_dit": "6484a2998a5d66f5e84d8590c412b1476d8f28dfc4a0a3a6b035e866749550ce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Placez le lieu et la date selon la Convention du courrier\n français.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Placez le lieu et la date selon la convention du courrier\n français.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M04-EV01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Donnez au corps de la lettre la forme d'un document officiel, avec ses deux bords alignés sur les marges.",
+   "empreinte_texte_dit": "1dd59daa501ae8216d8f9dfed71c3d61c5d025bdfb7136aacd5c2a107c0e6da3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez au corps de la lettre la forme d'un document offic\niel avec ces deux bords alignés sur les marges.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez au corps de la lettre la forme d'un document offic\niel avec ses deux bords alignés sur les marges.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M04-EV01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Placez le service signataire du côté où l'on signe.",
+   "empreinte_texte_dit": "440c8e7a8d39f6a230ffc315f1bbe73d98686c6ef6858248981cb452302faca8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.037,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Passez le service signataire du côté où l'on signe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Placez le service signataire du côté où l'on signe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M04-EV01-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Le numéro corrigé doit se repérer immédiatement: épaississez 2026-481, ce passage seulement.",
+   "empreinte_texte_dit": "a3b9f7cf59bf426288f76fa832108abbc70e25e48b6061f94f2ca77d3cb44f03",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 124595,
+   "duree_s": 7.72,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le numéro corrigé doit se repérer immédiatement.\n Épécissez 2026 à 481, ce passage seulement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le numéro corrigé doit se repérer immédiatement.\n Épaississez 2026 à 481, ce passage seulement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M04-EV01-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Épaississez l'en-tête de l'expéditeur: sur un courrier sans papier à en-tête, la graisse fait office de logo.",
+   "empreinte_texte_dit": "214ba5c60fb1856e67537a5a45c5256d48bfcb9ce5250649a4a64dfa0a106073",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 118326,
+   "duree_s": 7.32,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "épaississez l'entête de l'expéditeur.\n Sur un courrier sans papier à entête, la graisse fait\n office de logo.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épaississez l'entête de l'expéditeur.\n Sur un courrier sans papier à entête, la graisse fait\n office de logo.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M04-EV01-10",
+   "role": "Étape 10 · consigne",
+   "texte_dit": "Vous jugez finalement cet en-tête trop appuyé. Défaites ce dernier geste sans retoucher le paragraphe à la main.",
+   "empreinte_texte_dit": "8ad90941e6fac6361fb0ddd37d9b0c6e1150d0a2b5d7a8a537a382414bf083f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 111639,
+   "duree_s": 6.92,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Vous jugez finalement cet entête trop appuyée.\n Défaite ce dernier geste sans retoucher le paragraphe à la\n main.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.048,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Vous jugez finalement c'est en tête trop appuyé.\n Défaite ce dernier geste sans retoucher le paragraphe à la\n main.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M04-EV01-11",
+   "role": "Étape 11 · consigne",
+   "texte_dit": "Après comparaison, la graisse était le bon choix: remettez-la, toujours sans repasser par le groupe Police.",
+   "empreinte_texte_dit": "d68b62daf475ba095190693c21957a130d92934d6d3ca084c0839db674921e8b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Après comparaison, la Grèce était le bon choix.\n Remettez-la toujours sans repasser par le groupe police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Après comparaison, la Grèce était le bon choix.\n Remettez-la, toujours sans repasser par le groupe police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Évaluation terminée. Vous pouvez la repasser autant de fois que vous le souhaitez: seule votre meilleure note est conservée, et chaque passage repart de zéro sur un document neuf.",
+   "empreinte_texte_dit": "1e033b7c33f2790041aa11deb6fc2ce5d3c2e1de57180cabe8bc54ee4aa0b703",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 175168,
+   "duree_s": 10.88,
+   "caracteres_dits": 179,
+   "caracteres_factures": 179,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Evaluation terminée.\n Vous pouvez la repasser autant de fois que vous le souha\nitez.\n Seule votre meilleure note est conservée et chaque passage\n repart de 0 sur un document 9.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Évaluation terminée.\n Vous pouvez la repasser autant de fois que vous le souha\nitez.\n Seule votre meilleure note est conservée et chaque passage\n repart de zéro sur un document neuf.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

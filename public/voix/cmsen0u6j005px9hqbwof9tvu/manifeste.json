@@ -1,0 +1,877 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0u6j005px9hqbwof9tvu",
+  "app": "WORD",
+  "section": "",
+  "titre": "Exercice — Symboles et unités"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 1273,
+  "duree_totale_s": 91.3,
+  "segments_valides": 19,
+  "segments_plusieurs_essais": 4,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un relevé de mesures à rédiger. Les unités et les symboles s'écrivent selon des conventions précises: c'est ce que l'exercice vérifie, autant que votre frappe.",
+   "empreinte_texte_dit": "3391d6c576291bb6409ccea83f5089222c58e27a94742288f46a0c5038381e25",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 159704,
+   "duree_s": 9.92,
+   "caracteres_dits": 159,
+   "caracteres_factures": 159,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un relevé de mesure à rédiger.\n Les unités et les symboles S écrivent selon des conventions\n précises.\n C'est ce que l'exercice vérifie autant que votre frappe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un relevé de mesure à rédiger.\n Les unités et les symboles S écrivent selon des conventions\n précises.\n C'est ce que l'exercice vérifie autant que votre frappe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M07-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Saisissez la référence du relevé, avec le signe numéro: Relevé n° 2026-084.",
+   "empreinte_texte_dit": "285d1b675a9dc08dc10a313fefb3aa2c2e2ba04bfa51a3bba186604158cb7a34",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 112893,
+   "duree_s": 7.0,
+   "caracteres_dits": 75,
+   "caracteres_factures": 225,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Saisissez la référence du relevé avec le signe numéro RELVE\nZ NUMERO 2026 084."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Saisissez la référence du relevé avec le signe numéro. Relevé numéro 2026-084.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M07-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Un o en exposant après le n, jamais un zéro.",
+   "empreinte_texte_dit": "cd8464f6226c70e7b1cc84431460ed97de4577a2d382b62428023fa58d5fbc80",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 44,
+   "caracteres_factures": 132,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un O en exposant après le N, jamais un 0."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un O en exposant après le N, jamais un 0.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M07-E02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Référence conforme.",
+   "empreinte_texte_dit": "90e97c322696f3374ed8951263238781c2f67687de44d043ab891d5f3853096b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 26793,
+   "duree_s": 1.6,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Référence conforme.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "référence conforme.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M07-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Saisissez la première mesure, avec un signe multiplication: Plateau 1200 fois 800 millimètres.",
+   "empreinte_texte_dit": "374c9acd0ff3d8b5718cdb59cff1148c5f4cc056fdbda46762e4e2b979117f7e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 94,
+   "caracteres_factures": 282,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Saisissez la première mesure avec un signe multiplication.\n Plateau 1200 x 800 mm."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Saisissez la première mesure avec un signe multiplication. Plateau 1200 x 800 mm.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M07-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le signe fois n'est pas la lettre x, et l'espace sépare les milliers.",
+   "empreinte_texte_dit": "240be5b929936d3d1cd3e45a69baae868b5cb2ac3fe9ed83f04c8a8e92aff7d1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 69,
+   "caracteres_factures": 207,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.171,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "Le signe Foy n'est pas la lettre X, et l'espace s'éparle émilié.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.171,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Le signe Foy n'est pas la lettre X, et l'espace s'éparle ém\nilié."
+     }
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le signe fois n'est pas la lettre X, et l'espace sépare les milliers.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "1da4ac9e4cd107cd4636db58a299c753137bb1afe7122a1324bebe35ba245ef5",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Le signe fois n'est pas la lettre X, et l'espace sépare les milliers.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Le signe fois n'est pas la lettre X, et l'espace sépare les milliers.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T06:26:13.564210",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-word.json"
+    }
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M07-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le signe fois et l'espace des milliers.",
+   "empreinte_texte_dit": "3ffbc1511fa25788add12b7ff8ceeee02c95e28151fbfce75971f73b5b57859a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 39,
+   "caracteres_factures": 39,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le signe foie est l'espace des milliers.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le signe foi est l'espace des milliers.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M07-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Saisissez la deuxième mesure: Épaisseur 38 mm à 20 °C.",
+   "empreinte_texte_dit": "c29dec1dca83f85a8f31c35f593542ef018b1dcd38b731daa79fccd2fe8ce666",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 94084,
+   "duree_s": 5.8,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la deuxième mesure.\n Épaisseur 38 mm à 20°C.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la deuxième mesure, épaisseur 38 mm à 20°C.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M07-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Une espace avant le degré, et le C collé juste après: 20 °C.",
+   "empreinte_texte_dit": "9ab30dac097cb3751291a17d45986e4904a9aeb7cbb30369e9b083f331ee946e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une espace avant le degré et le C collé juste après.\n 20°C.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "une espace avant le degré et le C collé juste après, 20°C.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M07-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Les unités sans point abréviatif.",
+   "empreinte_texte_dit": "df7cbd6fb3c34a270e36fab1eb37ac51e66c54b913a992f490a7329fc1da9b97",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 37660,
+   "duree_s": 2.28,
+   "caracteres_dits": 33,
+   "caracteres_factures": 33,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les unités sans points abréviatifs.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.045,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les unités sont point abbreviatif.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M07-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Saisissez la tolérance: Tolérance admise plus ou moins 0,5 mm.",
+   "empreinte_texte_dit": "e91d0ae19d45ecf9435a49e2711900e59c364d8b95691b320b4e216605ef2508",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 94084,
+   "duree_s": 5.8,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la tolérance.\n Tolérance admise plus ou moins 0, 5 mm.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la tolérance.\n Tolérance admise plus ou moins 0, 5 mm.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M07-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le signe plus ou moins est un caractère unique, pas un + suivi d'un tiret.",
+   "empreinte_texte_dit": "a1dd364a4bceba160683d0488d4e7943fbaf40298511461046988710a287071d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le signe, plus ou moins, est un caractère unique, pas un\n plus suivi d'un tiré.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le signe \"plus ou moins\" est un caractère unique, pas un \"\nplus\" suivi d'un \"tiré\".",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M07-E02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "La tolérance s'écrit avec le signe dédié.",
+   "empreinte_texte_dit": "964b5e1e8552c7543df0df6275c431c32edec612c71eeb87c56499b7f32aa191",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La tolérance S écrit avec le signe dédié.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La tolérance S, écrit avec le signe dédié.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M07-E02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Saisissez la conclusion: Conformité 100 %, lot accepté.",
+   "empreinte_texte_dit": "dec0177d1937a40c2e147a5ac560259f13a44c3396e814add983cac244ad7c92",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la conclusion. Conformitez 100% et l'acceptez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez la conclusion.\n Conformité 100%, l'eau acceptée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M07-E02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Le pourcentage, puis le tiret long qui introduit la conclusion.",
+   "empreinte_texte_dit": "3f42eac44b38a336f92d2be352b88c4564b6de4264a2b57f6b08479d7d44952f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.048,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "le pourcentage, puis le tir et long qui introduit la\n conclusion.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "le pourcentage, puis le tiré long qui introduit la\n conclusion.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M07-E02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Relevé complet.",
+   "empreinte_texte_dit": "913deeeb0ff85d189fafac9a7a457ddb829588e95cec77347de7013c1a8f3221",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 29301,
+   "duree_s": 1.76,
+   "caracteres_dits": 15,
+   "caracteres_factures": 15,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Relevé complet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Relevé complet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M07-E02-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Mettez les quatre mesures en liste à puces, en commençant par la première.",
+   "empreinte_texte_dit": "1a765c4504cdd624da8e4eb076068c7bb0a60e3c5e4d43d5f6dccf20768fd91a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Mettez les quatre mesures en liste à puce en commençant par\n la première.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Mettez les quatre mesures en liste à puce en commençant par\n la première.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M07-E02-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Bouton Puces, groupe Paragraphe, curseur dans la première mesure.",
+   "empreinte_texte_dit": "509a2b78a1f6a44639aca75045290dac984f23019b339429c14c81571489abd0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.057,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "bouton pucesse, groupe paragraphe, curseur dans la première\n mesure.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.057,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "bouton pucesse, groupe paragraphes, curseur dans la\n première mesure.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M07-E02-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Les mesures se comptent d'un coup d'œil.",
+   "empreinte_texte_dit": "d1bbe98c2dde071d80a1142261b0e31ea8e7d1065b57872b0dfdde6e0e14b20b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.1,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les mesures se comptent d'un coudon, œil.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.1,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les mesures se comptent d'un coudon, œil.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Les unités ne prennent pas de point abréviatif et se séparent du nombre par une espace. Un relevé qui respecte cela se lit sans ambiguïté.",
+   "empreinte_texte_dit": "d262e7a202891145098eb23e25a305f71545ecbf96f082afd4bf76d9ac6bdc52",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 124595,
+   "duree_s": 7.72,
+   "caracteres_dits": 138,
+   "caracteres_factures": 138,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les unités ne prennent pas de points abréviatifs et se sé\nparent du nombre par une espace.\n Un relevé qui respecte cela se lit sans ambiguïté.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les unités ne prennent pas de point abréviatif et se sé\nparent du nombre par une espace.\n Un relevé qui respecte cela se lit sans ambiguïté.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

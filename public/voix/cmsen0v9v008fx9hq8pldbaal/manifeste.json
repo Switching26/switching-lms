@@ -1,0 +1,880 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0v9v008fx9hq8pldbaal",
+  "app": "WORD",
+  "section": "",
+  "titre": "Créer un tableau et choisir ses dimensions"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 2225,
+  "duree_totale_s": 136.9,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un tableau sert à ce qui se compare: des lignes de même nature, des colonnes de même sens. Le réflexe qui compte n'est pas de savoir l'insérer, c'est de compter avant, pour ne pas se retrouver avec une colonne vide ou une ligne qui manque.",
+   "empreinte_texte_dit": "39f05daefe92ee078cc2825e71a10f1da9cd547fd59f548079c9e7ac1da5210d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 220726,
+   "duree_s": 13.72,
+   "caracteres_dits": 239,
+   "caracteres_factures": 239,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un tableau sert à ce qui se compare. Des lignes de même\n nature, des colonnes de même sens.\n Le réflexe qui compte n'est pas de savoir l'insérer, c'est\n de compter avant pour ne pas se retrouver avec une colonne\n vide ou une ligne qui manque.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un tableau sert à ce qui se compare. Des lignes de même\n nature, des colonnes de même\n sens. Le réflexe qui compte n'est pas de savoir l'insérer,\n c'est de compter avant,\n pour ne pas se retrouver avec une colonne vide ou une ligne\n qui manque.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M12-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Avant d'insérer, comptez. Vous allez recenser trois machines, avec pour chacune sa désignation et son état. Cela fait deux colonnes, et quatre lignes: une pour les en-têtes, trois pour les machines. Retenez la règle, la ligne d'en-tête se compte, on l'oublie une fois sur deux.",
+   "empreinte_texte_dit": "faabcaaf232f71ce656ee9e2bbbc48bad1024d118284650d659d8277bddbfda6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 275061,
+   "duree_s": 17.12,
+   "caracteres_dits": 277,
+   "caracteres_factures": 277,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Avant d'insérer, comptez.\n Vous allez recenser trois machines, avec pour chacune sa\n désignation et son état.\n Cela fait deux colonnes et quatre lignes.\n Une pour les entêtes,\n trois pour les machines.\n Retenez la règle, la ligne d'entête se compte, on oublie\n une fois sur deux.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Avant d'insérer, comptez.\n Vous allez recenser trois machines,\n avec pour chacune sa désignation et son état.\n Cela fait deux colonnes et quatre lignes.\n Une pour les entêtes, trois pour les machines.\n Retenez la règle, la ligne d'entête se compte,\n on l'oublie une fois sur deux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M12-L01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Avant d'insérer : trois machines, deux informations et une ligne d'en-têtes.",
+   "empreinte_texte_dit": "3b139716909c52a9832169d793ca55383a3e09c0d702506f13b6958b02aed972",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "avant d'insérer trois machines, deux informations et une\n ligne d'entête.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Avant d'insérer, trois machines, deux informations et une\n ligne d'entête.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M12-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Deux colonnes, quatre lignes: le compte est fait avant le premier clic.",
+   "empreinte_texte_dit": "d9b4c9dae9beb15c2eb4b5241fe45687dee50c09ffb2dc0ff2f7c316c58b6302",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "2 colonnes, 4 lignes. Le compte est fait avant le premier\n clic.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux colonnes, quatre lignes. Le compte est fait avant le\n premier clic.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M12-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Épaississez le titre de l'inventaire: un document qui contient un tableau a d'autant plus besoin d'être annoncé.",
+   "empreinte_texte_dit": "75de0a6832b8500f1943bfa8175c12d0247391a0979c8e0dc28b7f0a298b25a7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Épécissez le titre de l'inventaire.\n Un document qui contient un tableau à d'autant plus besoin.\n D. être annoncé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Épaississez le titre de l'inventaire.\n Un document qui contient un tableau a d'autant plus besoin.\n D.\n Être annoncé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M12-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le G du groupe Police, curseur dans le titre.",
+   "empreinte_texte_dit": "9071fea01cc37b0d352edfeeada3df5ffc12d62a29121dca547eb28e2267a571",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "le G du groupe police curseur dans le titre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le G du groupe Police, curseur dans le titre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M12-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le titre annonce, le tableau détaille.",
+   "empreinte_texte_dit": "cf2ec902ca68045c3397bbd8b31a7dfb46a9f502aa597ac1641607531d79c8a6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.095,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le titre annonce, le tableau d'étail.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.095,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le titre annonce le tableau d'étail.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M12-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Mettez en italique la ligne du contrôle, la mention de date et de responsable, pour la distinguer du corps du document.",
+   "empreinte_texte_dit": "427719d2b42f8e0aa9265cc9b37765e4bf8dbc815693857bddd5f39c871ceb72",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 106205,
+   "duree_s": 6.56,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Mettez en Italique la ligne du contrôle, la mention de date\n et de responsable pour la distinguer du corps du document.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Mettez en italique la ligne du contrôle, la mention de date\n et de responsable pour la distinguer du corps du document.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M12-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le I du groupe Police, curseur dans la ligne de contrôle.",
+   "empreinte_texte_dit": "14d4ae3b67264d5d62d0b93209293041484603c888ce54457e0194a8cbc459e9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le Y du groupe police curseur dans la ligne de contrôle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le i du groupe police, curseur dans la ligne de contrôle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M12-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Inventaire prêt: titre, présentation, tableaux, mention de contrôle.",
+   "empreinte_texte_dit": "d6f434bc181b1dc06dc6d34c485b27c80e72aded4b33641383c561172be49925",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Inventaire prêt, titre, présentation, tableau, mention de\n contrôle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Inventaire prêt. Titres, présentation, tableau, mention de\n contrôle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M12-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Placez le curseur à la fin du deuxième paragraphe, puis insérez un tableau de 4 lignes sur 2 colonnes avec le bouton Tableau de l'onglet Insertion. Le tableau se pose là où se trouve le point d'insertion.",
+   "empreinte_texte_dit": "390c34f099bb05707a115a9cf34842ff715c6946b5f1cd3256263b1767005496",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 174333,
+   "duree_s": 10.84,
+   "caracteres_dits": 204,
+   "caracteres_factures": 204,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Placez le curseur à la fin du deuxième paragraphe, puis ins\nérez un tableau de quatre lignes sur deux colonnes avec le\n bouton Tableau de l'onglet Insertion.\n Le tableau se pose là où se trouve le point d'insertion.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Placez le curseur à la fin du deuxième paragraphe, puis ins\nérez un tableau de quatre lignes sur deux colonnes avec le\n bouton Tableau de l'onglet Insertions.\n Le tableau se pose là où se trouve le point d'insertion.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M12-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Onglet Insertion, bouton Tableau, puis les deux champs de la boîte.",
+   "empreinte_texte_dit": "5f89fe73fc228cf7eb957661349ede63d52501b07bef6500207f3d7e4250362d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Onglet insertion, bouton tableau, puis les deux champs de\n la boîte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "onglet insertion, bouton tableau, puis les deux champs de\n la boîte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M12-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le tableau se dessine dans la page, à l'endroit exact du point d'insertion.",
+   "empreinte_texte_dit": "921219228cf4a5173c44e94201477bc2bda7449ef17b3b43bb8b1c1534ee8b46",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le tableau se dessine dans la page, à l'endroit exact du\n point d'insertion.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le tableau se dessine dans la page, à l'endroit exact du\n point d'insertion.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M12-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Le contrôle porte finalement sur cinq machines. Insérez un second tableau de 6 lignes sur 2 colonnes: cinq machines, plus la ligne d'en-tête.",
+   "empreinte_texte_dit": "e76017d1022ceec0bcaeb305d183628355d9a146d8546dcc716ac73b746b7ae2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 146329,
+   "duree_s": 9.08,
+   "caracteres_dits": 141,
+   "caracteres_factures": 141,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le contrôle porte finalement sur cinq machines.\n Insérez un second tableau de six lignes sur deux colonnes,\n cinq machines, plus la ligne d'en tête.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le contrôle porte finalement sur cinq machines.\n Insérez un second tableau de six lignes sur deux colonnes,\n cinq machines, plus la ligne d'en tête.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M12-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Cinq machines plus la ligne d'en-tête font six lignes; les colonnes ne changent pas.",
+   "empreinte_texte_dit": "70171879665a6e2728d9441338e9e2f4a106408203c00294a0eb1dcb4f32dfe2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cinq machines plus la ligne d'entête font six lignes. Les\n colonnes ne changent pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cinq machines plus la ligne d'entête font six lignes. Les\n colonnes ne changent pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M12-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Six lignes pour cinq machines: la ligne d'en-tête est comptée.",
+   "empreinte_texte_dit": "c5118c66199fd87ffbb7bac62a3b4d6a55cb1d745de9e7dca9a13f1e39edaabf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "6 lignes pour 5 machines.\n La ligne d'entête est comptée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "6 lignes pour 5 machines.\n La ligne d'entête est comptée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M12-L01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "On vous demande d'ajouter la date du dernier entretien. Insérez un tableau de 6 lignes sur 3 colonnes: une colonne par information à consigner.",
+   "empreinte_texte_dit": "88fc37045ffc703f7838256c390e7bfdbc5ebc60355a287eeb4ef939681e1632",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 139224,
+   "duree_s": 8.64,
+   "caracteres_dits": 143,
+   "caracteres_factures": 143,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "On vous demande d'ajouter la date du dernier entretien.\n Insérez un tableau de 6 lignes sur 3 colonnes.\n Une colonne par information à consigner.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "On vous demande d'ajouter la date du dernier entretien.\n Insérez un tableau de 6 lignes sur 3 colonnes.\n Une colonne par information à consigner.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M12-L01-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Même hauteur; désignation, état et date d'entretien font trois colonnes.",
+   "empreinte_texte_dit": "7c8e3d76313c1b89e12e6606b011561377ea38fa2fffac0b8a5ee547ec08e9b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 91159,
+   "duree_s": 5.64,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Même auteur, désignation, état et date d'entretien font\n trois colonnes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Même auteur, désignation, état et date d'entretien font\n trois colonnes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M12-L01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Trois colonnes: désignation, état, dernier entretien.",
+   "empreinte_texte_dit": "28f76c3210c22a673b6b088a8c95841de7f18d0d35a6e6673892804e4bfb43fb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois colonnes, désignations, états, derniers entretiens.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois colonnes, désignation, état, dernier entretien.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Compter d'abord, insérer ensuite: autant de colonnes que d'informations par élément, autant de lignes que d'éléments, plus une pour les en-têtes. Un tableau bien dimensionné à la création évite de le reprendre entièrement.",
+   "empreinte_texte_dit": "9ca762f7c53c42f194a755e25321db0da56fdb583c1854d6b872c843a67cd047",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 212367,
+   "duree_s": 13.2,
+   "caracteres_dits": 222,
+   "caracteres_factures": 222,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Comptez d'abord, insérez ensuite, autant de colonne que d'\ninformations par élément, autant de lignes que D, élément,\n plus une pour les entêtes.\n Un tableau bien dimensionné à la création évite de le rep\nrendre entièrement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Comptez d'abord, insérez ensuite. Autant de colonnes que d'\ninformations par éléments, autant de lignes que des éléments\n, plus une pour les entêtes.\n Un tableau bien dimensionné à la création évite de le rep\nrendre entièrement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

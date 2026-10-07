@@ -1,0 +1,914 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0t28002xx9hq2pb2iqzz",
+  "app": "WORD",
+  "section": "",
+  "titre": "Annuler et rétablir : revenir en arrière sans tout refaire"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 23,
+  "caracteres_dits": 2110,
+  "duree_totale_s": 134.8,
+  "segments_valides": 23,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Chaque action que vous faites est mémorisée, et peut être défaite dans l'ordre inverse. Ce n'est pas un filet de sécurité pour débutants: c'est un outil de travail, qui permet d'essayer une mise en forme, de la regarder, et de la retirer si elle ne convient pas.",
+   "empreinte_texte_dit": "852450b25c4d5211a77f27174f0619a82f61f1118c8f8f4154a0ab990de1c6ad",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 223652,
+   "duree_s": 13.92,
+   "caracteres_dits": 262,
+   "caracteres_factures": 262,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Chaque action que vous faites est mémorisée et peut être dé\nfaite dans l'ordre inverse.\n Ce n'est pas un filet de sécurité pour débutants.\n C'est un outil de travail qui permet d'essayer une mise en\n forme, de la regarder et de la retirer si elle ne convient\n pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Chaque action que vous faites est mémorisée et peut être\n des faites dans l'ordre inverse.\n Ce n'est pas un filet de sécurité pour débutants, c'est un\n outil de travail qui permet d'essayer\n une mise en forme, de la regarder et de la retirer si elle\n ne convient pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M03-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Mettez le titre en gras pour commencer. Vous allez ensuite empiler deux autres gestes, puis les défaire un à un, c'est en les défaisant qu'on comprend dans quel ordre Word les a retenus.",
+   "empreinte_texte_dit": "1c5ce2c10e4e85b59e565586098faa8ee318b51e9e66d5725eee9f286808a7e7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 146329,
+   "duree_s": 9.08,
+   "caracteres_dits": 186,
+   "caracteres_factures": 186,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Mettez le titre en gras pour commencer.\n Vous allez ensuite empiler deux autres gestes.\n Puis les déféren à un, c'est en les défaisant qu'on\n comprend dans quel ordre word les a retenus.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Mettez le titre en gras pour commencer.\n Vous allez ensuite empiler deux autres gestes.\n Puis les défaire un à un, c'est en les défaisant qu'on\n comprend dans quel ordre\n Word les a retenus.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M03-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Le G du groupe Police, titre sélectionné.",
+   "empreinte_texte_dit": "5285e28476e226bb62cf17d61d2d166edeaa5906a9b4fc2fae7fab60a8af595d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le G du groupe Police, titre sélectionné.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le jet du groupe police, titre sélectionné.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M03-L03-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Premier geste posé.",
+   "empreinte_texte_dit": "67c39932045218eeccbdf66a7b97ff8742d73d8c18894a2623f51aa4cbae284f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Premier geste posé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Premier geste posé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M03-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Portez le titre à la taille 18. Deuxième geste sur le même paragraphe.",
+   "empreinte_texte_dit": "79c175770cca936fb3c75120d84cc35f0731012e26bf7a091955d50122a99c32",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Portez le titre à la taille 18.\n Deuxième geste sur le même paragraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Portez le titre à la taille 18.\n Deuxième geste sur le même paragraphe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M03-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Liste Taille du groupe Police, valeur 18.",
+   "empreinte_texte_dit": "a4be346d62d9337f05cfd9177cdcacbfcb82ca5b4750ddd8b78ba25757411a4d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste taille du groupe Police, valeur 18.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste taille du groupe police, valeur 18.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M03-L03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Deuxième geste posé.",
+   "empreinte_texte_dit": "0449ef32c97d532752989e9130e5d3aea25bf4a806929a49d336ef89a706422b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 20,
+   "caracteres_factures": 20,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "2e geste posé",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deuxième geste posé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M03-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Mettez le titre en rouge. Troisième et dernier geste. Vous avez maintenant trois actions empilées, dans cet ordre: gras, taille, couleur.",
+   "empreinte_texte_dit": "3c4c17f2581df9e42b322fb1294bde4df6b0421990e268f4ae2378b1fae378b5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 168899,
+   "duree_s": 10.48,
+   "caracteres_dits": 137,
+   "caracteres_factures": 137,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Mettez le titre en rouge.\n Troisième et dernier geste.\n Vous avez maintenant trois actions en pilée.\n Dans cet ordre, gras, taille, couleur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Mettez le titre en rouge.\n Troisième et dernier geste.\n Vous avez maintenant trois actions empilées.\n Dans cet ordre,\n Gras, Taille, Couleur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M03-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Liste Couleur du groupe Police, puis le rouge.",
+   "empreinte_texte_dit": "c2fe6847197a7e0fd0432d821b7b250b0686e10c2e003bbb1ac11382a5d8c03e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste couleur du groupe police, puis le rouge.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Liste couleur du groupe police, puis le rouge.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M03-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Trois gestes empilés. Regardez bien le titre avant l'étape suivante.",
+   "empreinte_texte_dit": "ada2fdd32b038022bb0cb18117ca5a07ff0e377a7746d5a8a407a7ebab0a62cd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.05,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois gestes empilées, regardez bien le titre avant elle,\n et tape suivante.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois gestes empilés, regardez bien le titre avant elle,\n étape suivante.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M03-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Cliquez sur Annuler. Observez ce qui disparaît: c'est la couleur, votre dernier geste, et non le gras, votre premier. Word défait toujours en commençant par la fin.",
+   "empreinte_texte_dit": "f6de0a103dd5aa8431346109d7cee850c6fa68eaf6613605472b82694388aaeb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 180184,
+   "duree_s": 11.2,
+   "caracteres_dits": 164,
+   "caracteres_factures": 164,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur « annuler ». Observez ce qui disparaît.\n C'est la couleur, votre dernier geste et non le gras, votre\n premier.\n Word défaît toujours en commençant par la fin.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur « Annuler ». Observez ce qui disparaît.\n C'est la couleur, votre dernier geste, et non le gras,\n votre premier.\n Word défait toujours en commençant par la fin.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M03-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le groupe Annulation, à droite du ruban.",
+   "empreinte_texte_dit": "d0ba6144fc819b1019e76526d0cccea773eec789213947f850823c869bd82b35",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le groupe annulation à droite du ruban.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le groupe annulation à droite du ruban.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M03-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Dernier posé, premier retiré: c'est la règle de la pile.",
+   "empreinte_texte_dit": "2cb14003f73ef8f4b8e558d635870060ca35546f721cccef2292e9230eb35af7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dernier posé, premier retiré, c'est la règle de la pile.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dernier posé, premier retiré, c'est la règle de la pile.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M03-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Cliquez une seconde fois sur Annuler. Cette fois c'est la taille qui revient à sa valeur d'origine. Chaque clic remonte d'un cran dans votre historique.",
+   "empreinte_texte_dit": "49c25b0f88e6f0d804432f375eebcc07d6ca43b02ae518a328eabeae23ab1f89",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 152,
+   "caracteres_factures": 152,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez une seconde fois sur Anulé.\n Cette fois c'est la taille qui revient à sa valeur d'\norigine.\n Chaque clique remonte d'un cran dans votre historique.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez une seconde fois sur \"Annuler\".\n Cette fois c'est la taille qui revient à sa valeur d'\norigine.\n Chaque clic remonte d'un cran dans votre historique.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M03-L03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Le même bouton Annuler qu'à l'étape précédente.",
+   "empreinte_texte_dit": "b0e16194ef403faf51fbed3866f3ecc457056864a91f8a624c1da9efb162459d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.107,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le même bouton annulé que « A L » est up précédente.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le même bouton annulé que A-L, étape précédente.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M03-L03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Deux crans remontés. Seul le gras subsiste.",
+   "empreinte_texte_dit": "c7ef199a6b766f6d92519ffce48d22ed69bc4f39a537db255bac1b4e08aa1879",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux crans remontés. Seul le gras subsiste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux crans remontés. Seul le gras subsiste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M03-L03-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Cliquez sur Rétablir. Le geste défait revient, et dans l'ordre inverse de l'annulation: la taille d'abord, la couleur ensuite si vous continuiez.",
+   "empreinte_texte_dit": "73a952920f7adfcde1a71531951d5283e269e6cd0dec4194e78033eac500d76c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 145,
+   "caracteres_factures": 145,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur Rétablir, le geste des faits revient et dans l'\nordre inverse de l'annulation.\n La taille d'abord, la couleur ensuite si vous continuez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur Rétablir, le geste d'effet revient, et dans l'\nordre inverse de l'annulation.\n La taille d'abord, la couleur ensuite si vous continuez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M03-L03-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Bouton Rétablir, juste à droite d'Annuler.",
+   "empreinte_texte_dit": "09345bcf7349714adbf2e0a7522c2e436ef69851a5a4086794661e2818f28477",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Bouton Rétablir, juste à droite d'annuler.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Bouton Rétablir, juste à droite d'annuler.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M03-L03-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Rétablir est l'exact symétrique d'Annuler.",
+   "empreinte_texte_dit": "0e600dbfb3b3acbeed5ed73c040e9dc3d2cca3a5c8f67840a818cd5d8f2fa338",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 38078,
+   "duree_s": 2.32,
+   "caracteres_dits": 42,
+   "caracteres_factures": 126,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.1,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rétablir et l'exactimétrique d'annuler.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.1,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rétablir et l'exactimétrique d'annuler.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M03-L03-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Vérifiez que la taille 18 est bien revenue sur le titre. Retenez la conséquence pratique: vous pouvez essayer une mise en forme, la regarder, l'annuler, puis la remettre, sans jamais retoucher le texte à la main.",
+   "empreinte_texte_dit": "53209cdc3ef25c7373fe7a804742520634b299f1631bd3b97ce1a3456bda01f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 201500,
+   "duree_s": 12.52,
+   "caracteres_dits": 212,
+   "caracteres_factures": 212,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vérifiez que la taille 18 est bien revenue sur le titre.\n Retenez la conséquence pratique.\n Vous pouvez essayer une mise en forme, la regarder, l'ann\nuler, puis la remettre sans jamais retoucher le texte à la\n main.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vérifiez que la taille 18 est bien revenue sur le titre.\n Retenez la conséquence pratique.\n Vous pouvez essayer une mise en forme, la regarder, l'ann\nuler, puis la remettre, sans jamais retoucher le texte à la\n main.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M03-L03-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "La taille doit afficher 18: sinon, repassez par la liste Taille.",
+   "empreinte_texte_dit": "6201b903c0c1e500c98ca1a9d3c76cac2b7465cac118704ded29fb4626fcc833",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La taille doit afficher 18, sinon repassez par la liste ta\nille.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La taille doit afficher 18. Sinon, repassez par la liste ta\nille.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M03-L03-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Vous savez naviguer dans votre propre historique.",
+   "empreinte_texte_dit": "c4a08535bf1e95041d66bc9817ec810a67bc510e93ad2e4d993cfaa3973bc429",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous savez naviguer dans votre propre historique.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous savez naviguer dans votre propre historique.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Annuler défait le dernier geste, rétablir le remet. Les deux fonctionnent en pile: le dernier posé est le premier retiré. C'est ce qui permet d'essayer sans risque.",
+   "empreinte_texte_dit": "3fe98a747c9f48beb9d72b4bc0ec6b605825fc47f749a363a706d8c84b7cc17e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 172661,
+   "duree_s": 10.72,
+   "caracteres_dits": 164,
+   "caracteres_factures": 164,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Annulez défait le dernier geste, rétablir le remet.\n Les deux fonctionnent en pile.\n Le dernier posé est le premier retiré.\n C'est ce qui permet d'essayer sans risque.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Annuler d'effet le dernier geste, rétablir le remets.\n Les deux fonctionnent en pile.\n Le dernier posé est le premier retiré.\n C'est ce qui permet d'essayer sans risque.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

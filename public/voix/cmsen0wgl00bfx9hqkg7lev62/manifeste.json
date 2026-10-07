@@ -1,0 +1,1132 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0wgl00bfx9hqkg7lev62",
+  "app": "WORD",
+  "section": "",
+  "titre": "Hiérarchiser un document long avec les styles"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 26,
+  "caracteres_dits": 2418,
+  "duree_totale_s": 153.7,
+  "segments_valides": 26,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Sur un document court, un titre suffit. Sur un rapport de trente pages, il faut une hiérarchie, et elle se tient en trois niveaux. Vous allez structurer un manuel de procédures, et découvrir que le style ne se choisit pas à l'œil: il se choisit au RANG de la section.",
+   "empreinte_texte_dit": "87cc5dcc860f6979fb2d843337b92a75441aae35e3dcf280b5cda708e206d9b6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 268791,
+   "duree_s": 16.72,
+   "caracteres_dits": 267,
+   "caracteres_factures": 267,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.04,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un document court, un titre suffit.\n Sur un rapport de 30 pages, il faut une hiérarchie et elle\n se tient en trois niveaux.\n Vous allez structurer un manuel de procédure et découvrir\n que le style ne se choisit pas à l'aile, oeil.\n Il se choisit au orange de la section.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un document court, un titre suffit.\n Sur un rapport de 30 pages, il faut une hiérarchie et elle\n se tient en trois niveaux.\n Vous allez structurer un manuel de procédure et découvrir\n que le style ne se choisit pas\n à l'aile, œil.\n Il se choisit au range de la section.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M18-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Un document long se lit d'abord par sa charpente. Les styles de titre en portent les niveaux: Titre 1 pour les grandes parties, Titre 2 pour leurs sections, Titre 3 pour les points de détail. Retenez la règle: le style se choisit au RANG de la section, jamais à sa longueur ni à son importance ressentie.",
+   "empreinte_texte_dit": "96ae6f02ce607de74cf365c5836130ead1b97f267a525df3f3fe8fe2c745f71f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 306826,
+   "duree_s": 19.12,
+   "caracteres_dits": 304,
+   "caracteres_factures": 304,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un document long, celui d'abord par sa charpente.\n Les styles de titre emportent les niveaux.\n Titres 1 pour les grandes parties,\n Titres 2 pour leur section,\n Titres 3 pour les points de détail.\n Retenez la règle.\n Le style se choisit orangé de la section,\n jamais à sa longueur, ni à son importance ressentie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un document long se lit d'abord par sa charpente.\n Les styles de titres emportent les niveaux.\n Titres 1 pour les grandes parties, titre 2 pour leur\n section, titre 3 pour les points\n de détail.\n Retenez la règle.\n Le style se choisit au rangé de la section, jamais à sa\n longueur, ni à son importance\n ressentie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M18-L01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Le rang de Sécurité dans la structure décide de son style, pas sa longueur.",
+   "empreinte_texte_dit": "0d8e29bed4b7a5f92c82712d2ed42db5c55e8fdfa334e70f67c708ddc9e75bee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le rang de sécurité dans la structure décide de son style,\n passe à longueur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le rang de sécurité dans la structure décide de son style,\n pas sa longueur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M18-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Le rang commande le style, pas l'apparence voulue.",
+   "empreinte_texte_dit": "1d2631a30508e06fda8389bbfba69b1f0dc2254bd8e40c81736821314a12c3fe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le rang commande le style, pas l'apparence voulu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le rang commande le style, pas l'apparence voulue.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M18-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Donnez au premier paragraphe la nature d'un titre de document. Le style Titre coiffe la hiérarchie: il n'est pas un Titre 1, il est au-dessus.",
+   "empreinte_texte_dit": "f83183f4a7af56ffe780c4ef846d5f1b16e3a55ae178fd1115c995cbe53e6d61",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 141732,
+   "duree_s": 8.8,
+   "caracteres_dits": 142,
+   "caracteres_factures": 142,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez au premier paragraphe la nature d'un titre de\n document.\n Le style titre quoi flayerarchie.\n Il n'est pas un titrain, il est au-dessus.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez au premier paragraphe la nature d'un titre de\n document.\n Le style titre coiffe la hiérarchie.\n Il n'est pas un titre 1, il est au-dessus.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M18-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Titre du groupe Styles.",
+   "empreinte_texte_dit": "2f4091f367a6febdd08918437622bb46194b2f1485e53069e42e598409181335",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 40168,
+   "duree_s": 2.44,
+   "caracteres_dits": 33,
+   "caracteres_factures": 33,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Titres du groupe Styles",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton titre du groupe Styles.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M18-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le manuel a son titre général.",
+   "empreinte_texte_dit": "1f78b965181b2d0d1d2cc9e0735c3814dc8fb6977af2f9e596335e3cdfbf20c8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 33062,
+   "duree_s": 2.0,
+   "caracteres_dits": 30,
+   "caracteres_factures": 30,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le manuel à son titre général.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le manuel à son titre général.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M18-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Donnez à la ligne d'édition le style Sous-titre, qui accompagne le titre sans entrer dans la hiérarchie des parties.",
+   "empreinte_texte_dit": "0a76810d3457b817cc09f033b6c2135e0c91a301e8a3db47c1761a672ff55951",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 104951,
+   "duree_s": 6.48,
+   "caracteres_dits": 116,
+   "caracteres_factures": 116,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez à la ligne D, édition le style sous-titre qui accomp\nagne le titre sans entrer dans la hiérarchie des parties.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnés à la ligne D, éditions le style sous-titre, qui\n accompagne le titre sans entrer dans la hiérarchie des\n parties.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M18-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Bouton Sous-titre de la galerie des styles.",
+   "empreinte_texte_dit": "5e0905997641c2d14a39a1fb6ac64b9cb6709ab6ee8b94dbba0df4c90a3caad2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton sous-titre de la galerie des styles.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton sous-titre de la Galerie des styles.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M18-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Titre et sous-titre forment la page de garde.",
+   "empreinte_texte_dit": "298f33b5a5ecc18307bfe0fe79ebbc07e5bd9ee1ef55306e1c0ed9acdbedca0f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Titres et sous-titres forment la page de garde.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Titres et sous-titres forment la page de garde.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M18-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Sécurité est une grande partie du manuel. À vous : appliquez-lui le Titre 1.",
+   "empreinte_texte_dit": "c3de5352983dcad438e220b4d65b065ccdacaa4cdb6a7e27858a117ca9f4fae1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sécurité est une grande partie du manuel.\n À vous.\n Appliquez-lui le titre 1.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sécurité est une grande partie du manuel.\n À vous.\n Appliquez-lui le titre 1.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M18-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Bouton Titre 1, curseur dans Sécurité.",
+   "empreinte_texte_dit": "38019333075b512688cb817e1cc63a63c1286590dccc1518d7175ac87c65ea49",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton titre 1, curseur dans sécurité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton titre 1, Curseur dans sécurité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M18-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Première partie identifiée.",
+   "empreinte_texte_dit": "6b3209cac3839d52db072cbef7554f8fa5a1a6fb2c2629adb374a58a79265bd4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 28465,
+   "duree_s": 1.72,
+   "caracteres_dits": 27,
+   "caracteres_factures": 27,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Première partie identifiée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Première partie identifiée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M18-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Équipements de protection est une section dans la partie Sécurité. Appliquez-lui le Titre 2: un niveau en dessous, jamais le même.",
+   "empreinte_texte_dit": "8957b3ff946aac17c70272189bc3a0794c416e95e1b66a7b1b3ef73ca76e468d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 130,
+   "caracteres_factures": 130,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Équipement de protection est une section dans la partie\n sécurité.\n Appliquez-lui le titre 2.\n Un niveau en dessous, jamais le même.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Équipement de protection est une section dans la partie Séc\nurité.\n Appliquez-lui le titre 2.\n Un niveau en dessous, jamais le même.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M18-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Le bouton Titre 2 du groupe Styles.",
+   "empreinte_texte_dit": "7532aa9ca786ff99f8f27da2f30d9c2abfb08aa7e5c26c1db02814ddb6d8ce40",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Titres 2 du groupe Styles.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton titre 2 du groupe Styles.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M18-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "La section s'inscrit sous sa partie: c'est la hiérarchie qui se construit.",
+   "empreinte_texte_dit": "6d8bd0eb2185311c5f92e1293374d05a1fe72c4ef4028297424261844b5a66e1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La section s'inscrit sous sa partie. C'est la hiérarchie\n qui se construit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La section s'inscrit sous sa partie.\n C'est la hiérarchie qui se construit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M18-L01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Consignation des machines est une seconde section de la même partie. Appliquez-lui le Titre 2: deux sections de même rang portent le même style.",
+   "empreinte_texte_dit": "56fbd95861813c7c3c36488f9a255dda59dbc8a45d2e60206fd9a60406757ab1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 151345,
+   "duree_s": 9.4,
+   "caracteres_dits": 144,
+   "caracteres_factures": 144,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Consignation des machines est une seconde section de la\n même partie.\n Appliquez-lui le titre 2.\n Deux sections de même rang portent le même style.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Consignation des machines est une seconde section de la\n même partie.\n Appliquez-lui le titre 2.\n Deux sections de même rang portent le même style.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M18-L01-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Bouton Titre 2, le même que pour la section précédente.",
+   "empreinte_texte_dit": "3c41056b774d8c8d26105576fea27a0ba3ee4fcd497c6575ea7aa110d31df969",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton titre 2, le même que pour la section précédente.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton titre 2, le même que pour la section précédente.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M18-L01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Deux sections de même niveau sous une même partie.",
+   "empreinte_texte_dit": "7151d087500321ea81abc87be61f006153aad2ca2dd67f0a58a20afa554cdddd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux sections de même niveau sous une même partie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux sections de même niveau sous une même partie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M18-L01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Qualité est une seconde grande partie, de même rang que Sécurité. À vous : appliquez-lui le Titre 1.",
+   "empreinte_texte_dit": "51b49ad95c36bf42fae43d6a8b52ae1aaaa9edce8eb433544d46c76f8f154510",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 109967,
+   "duree_s": 6.8,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Qualité est une seconde grande partie de même rang que\n sécurité.\n À vous, appliquez-lui le titrain.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Qualité est une seconde grande partie de même rang que\n sécurité.\n À vous, appliquez-lui le Titre 1.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M18-L01-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Bouton Titre 1, le même que pour Sécurité.",
+   "empreinte_texte_dit": "a4f62504840939cbdf08b23bb72e7f889aa40f119b2ee5a41cc0ef07235fb116",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Boutons titre 1, le même que pour sécurité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton titre 1, le même que pour sécurité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M18-L01-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Deux parties, chacune avec ses sections.",
+   "empreinte_texte_dit": "1e7bdece90722c7a1dbe9f5c9cbae52dd76c08083b9656907745c370c25681d1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 40,
+   "caracteres_factures": 80,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux parties, chacune avec ses sections.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux parties, chacune avec ses sections.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M18-L01-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Appliquez le Titre 2 à Contrôle des livraisons, section de la partie Qualité. La charpente est maintenant complète: deux parties, trois sections.",
+   "empreinte_texte_dit": "ddd97092b7a231a12866743057ea6dbb9b64105a9569e101b076844b7def8072",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 155524,
+   "duree_s": 9.64,
+   "caracteres_dits": 145,
+   "caracteres_factures": 145,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Appliquez le titre 2 à contrôle des livraisons, section de\n la partie qualité.\n La charpente est maintenant complète.\n 2 parties, 3 sections.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Appliquer le titre 2 à contrôle des livraisons, section de\n la partie qualité.\n La charpente est maintenant complète.\n Deux parties, trois sections.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M18-L01-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Bouton Titre 2, curseur dans Contrôle des livraisons.",
+   "empreinte_texte_dit": "2ad6e66588c5928b361a850173e7ebb93c9192c894912791213f3980a897dc5f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton titre 2, curseur dans contrôle des livraisons.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Bouton titre 2, curseur dans contrôle des livraisons.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M18-L01-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Un manuel structuré se parcourt sans le lire: c'est tout l'objet des styles de titre.",
+   "empreinte_texte_dit": "9918127073bc08558a9ec57fbe62431fbe49c216db8b95ada68d224fb723879a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un manuel structuré se parcours sans le lire. C'est tout l'\nobjet des styles de titres.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un manuel structuré se parcourt sans le lire.\n C'est tout l'objet des styles de titre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Titre 1 pour les parties, Titre 2 pour leurs sections, Titre 3 pour les points de détail. Un niveau ne se saute jamais: un Titre 3 sous un Titre 1, sans Titre 2 entre les deux, casse la hiérarchie que Word lira ensuite.",
+   "empreinte_texte_dit": "9e52eabe84400b4dddf6086e8a58fa55f46f95cf2d1de9868e69dc8c7f610e04",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 224906,
+   "duree_s": 14.0,
+   "caracteres_dits": 219,
+   "caracteres_factures": 219,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Titres 1 pour les partis,\n Titres 2 pour leurs sections,\n Titres 3 pour les points de détail.\n Un niveau ne se saute jamais.\n Un titre 3 sous un titre 1,\n sans titre 2 entre les deux,\n casse la hiérarchie que Word lira ensuite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Titre 1 pour les parties, titre 2 pour leur section, titre\n 3 pour les points de détail.\n Un niveau ne se saute jamais.\n Un titre 3 sous un titre 1, sans titre 2 entre les deux,\n casse la hiérarchie que Word lira ensuite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

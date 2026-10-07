@@ -1,0 +1,1069 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen0s1w000dx9hqsmainfg3",
+  "app": "WORD",
+  "section": "",
+  "titre": "Sélectionner : mot, passage, paragraphe, document"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 27,
+  "caracteres_dits": 3347,
+  "duree_totale_s": 202.2,
+  "segments_valides": 27,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Chaque commande de Word s'applique à ce qui est sélectionné. Savoir désigner exactement le bon morceau, un mot, un passage, un paragraphe ou le document entier, est donc ce qui sépare un utilisateur lent d'un utilisateur efficace. Quatre portées, quatre gestes à retenir.",
+   "empreinte_texte_dit": "f10866c1e4b745eaec45575f500766b715bf59a20bc2e7907db9b0f8de678ef2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 257088,
+   "duree_s": 16.0,
+   "caracteres_dits": 271,
+   "caracteres_factures": 271,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Chaque commande de Word s'applique à ce qui est sélectionné\n.\n Savoir désigner exactement le bon morceau, un mot, un\n passage, un paragraphe ou le document entier,\n et donc ce qui sépare un utilisateur lent d'un utilisateur\n efficace.\n 4 portés, 4 gestes à retenir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Chaque commande de Word s'applique à ce qui est sélectionné\n.\n Savoir désigner exactement le bon morceau, un mot, un\n passage, un paragraphe ou le document\n entier, est donc ce qui sépare un utilisateur lent d'un\n utilisateur efficace.\n Quatre portées, quatre gestes à retenir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M01-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Quatre portées de sélection, du plus fin au plus large: un mot se prend d'un double-clic; un passage en faisant glisser la souris d'un bout à l'autre; un paragraphe entier d'un triple-clic; le document entier avec Contrôle A. Retenez surtout le principe: la sélection délimite ce que votre geste va toucher.",
+   "empreinte_texte_dit": "0a233ffab9783d4e5d854f6e80e308adc385f172a22e2df6a3ebdbb312a455a4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 276315,
+   "duree_s": 17.2,
+   "caracteres_dits": 307,
+   "caracteres_factures": 307,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "4 portées de sélection, du plus fin ou plus large.\n Un mot se prend d'un double clic, un passage en faisant gl\nisser la souris d'un bout à l'autre,\n un paragraphe entier d'un triple clic, le document entier\n avec contrôle A.\n Retenez surtout le principe.\n La sélection délimite ce que votre geste va toucher.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Quatre portées de sélection, du plus fin au plus large.\n Un mot se prend d'un double clic, un passage en faisant gl\nisser la souris d'un bout à\n l'autre, un paragraphe entier d'un triple clic, le document\n entier avec control-A.\n Retenez surtout le principe.\n La sélection délimite ce que votre geste va toucher.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M01-L03-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "La portée la plus fine: UN mot, pris d'un double-clic.",
+   "empreinte_texte_dit": "e4c4f33b7840187bba2794ec34b5795344658b584c46aa0580a38f71567e9134",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La portée la plus fine, UNMO, pris d'un double clic.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La portée la plus fine. UNMO. Pris d'un double clic.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M01-L03-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "Le triple-clic prend le paragraphe. Seule la sélection sera modifiée.",
+   "empreinte_texte_dit": "d46ebfd6ae4648737f6a1246e416ccac2a72f44a31f12aa707d3ab311d2c864a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le triple-clique prend le paragraphe. Seule la sélection\n sera modifiée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le triple clic prend le paragraphe.\n Seule la sélection sera modifiée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M01-L03-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Double-clic, glisser, triple-clic, Contrôle A: quatre gestes à avoir dans les doigts. Seules les commandes qui visent un paragraphe entier font exception, elles agissent là où se trouve le curseur, sans rien sélectionner.",
+   "empreinte_texte_dit": "ae670d197b635ee1be61bb8c064f43703b86da52fa010939700bf4a9f705739e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 221144,
+   "duree_s": 13.76,
+   "caracteres_dits": 221,
+   "caracteres_factures": 221,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Double clic, Glisser, Triple clic,\n Contrôle A, 4 gestes à avoir dans les doigts.\n Seuls les commandes qui visent un paragraphe entier font\n exception,\n elles agissent là où se trouve le curseur, sans rien sé\nlectionner.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Double clic, glisser, triple clic, contrôle A, quatre gest\nes à avoir dans les doigts.\n Seules les commandes qui visent un paragraphe entier font\n exception, elles agissent là\n où se trouve le curseur, sans rien sélectionner.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M01-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Commençons par la portée la plus fine. Sélectionnez le mot collaborateur dans le deuxième paragraphe, d'un double-clic dessus. Notez que Word prend le mot entier, sans que vous ayez à viser ses bords.",
+   "empreinte_texte_dit": "83d52dca026ae9d2920787b1773f02fac2f7e7ce23821a5915901fca557aee2b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 194813,
+   "duree_s": 12.12,
+   "caracteres_dits": 200,
+   "caracteres_factures": 200,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Commençons par la portée la plus fine.\n Sélectionnez le mot \"collaborateur\" dans le deuxième\n paragraph, d'un double clic dessus.\n Notez que Word prend le mot entier sans que vous ayez à vis\ner ces bords.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Commençons par la portée la plus fine.\n Sélectionnez le mot « collaborateur » dans le deuxième\n paragraphe,\n d'un double clic dessus.\n Notez que Word prend le mot entier sans que vous ayez à vis\ner ses bords.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M01-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Double-cliquez n'importe où à l'intérieur du mot.",
+   "empreinte_texte_dit": "df5517f1f263d5f9067a46156f7826bf9de85a5bf936755db9b91ba6d6dd8a48",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Double-cliquez N'importe où à l'intérieur du mot.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Double-cliquer n'importe où à l'intérieur du mot.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M01-L03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le mot est pris d'un bloc: le double-clic vous épargne un glissement précis.",
+   "empreinte_texte_dit": "264ed658d6d30327f05225bdf59c8f8fc3674955d81f6cd6f0b76197f7f2b70f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le mot est pris d'un bloc.\n Le double clic vous épargne un glissement précis.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le mot est pris d'un bloc.\n Le double clic vous épargne un glissement précis.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M01-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Vérifiez que cette sélection est bien exploitable: mettez ce mot en italique. Ce qu'il faut observer, c'est la portée exacte de l'effet, un seul mot penche, pas la phrase.",
+   "empreinte_texte_dit": "60203e808c6cb093ac686e0a9da86eb60bcc87bf93cd5dfea12600ef827cce45",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 177676,
+   "duree_s": 11.04,
+   "caracteres_dits": 171,
+   "caracteres_factures": 171,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vérifiez que cette sélection est bien exploitable.\n Mettez ce mot en Italique.\n Ce qu'il faut observer, c'est la portée exacte de l'effet,\n un seul mot penche, pas la phrase.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vérifiez que cette sélection est bien exploitable.\n Mettez ce mot en italique.\n Ce qu'il faut observer, c'est la portée exacte de l'effet,\n un seul mot penche, pas la phrase.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M01-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le I penché, dans le groupe Police.",
+   "empreinte_texte_dit": "66e3c47224093223b6e79fb4cf8f4fd586d7bf7637ebeaa35bc4d1991e5cb4bd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 43511,
+   "duree_s": 2.64,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le Y Pencher dans le groupe police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le i penché dans le groupe police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M01-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Un mot en italique au milieu d'une phrase intacte.",
+   "empreinte_texte_dit": "23354a89f9c51b34a71e2ad6a9e1878ba81550ba1b80b31d36fba2319b0b259a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un mot en Italique au milieu d'une phrase intacte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un mot en italique au milieu d'une phrase intacte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M01-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Deuxième portée: le passage libre, celui qui ne coïncide avec aucun mot ni aucun paragraphe. Sélectionnez au plus tard le jeudi dans le troisième paragraphe, en faisant glisser la souris.",
+   "empreinte_texte_dit": "cf0c80a150aab717d9de87c08bd43a922bdd008a2fcfd6290b3176722e6da61f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 157196,
+   "duree_s": 9.76,
+   "caracteres_dits": 187,
+   "caracteres_factures": 374,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deuxième portée, le passage libre, celui qui ne coincide\n avec aucun mot ni aucun paragraphe.\n Sélectionné au plus tard le jeudi dans le troisième parag\nraphe, en faisant glisser la souris.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deuxième portée, le passage libre, celui qui ne coïncide\n avec aucun mot ni aucun paragraphe.\n Sélectionnez au plus tard le jeudi dans le troisième parag\nraphe, en faisant glisser la souris.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M01-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Cliquez juste avant au, maintenez enfoncé, allez jusqu'après jeudi, relâchez.",
+   "empreinte_texte_dit": "2eda63ab5554971b7d091c064afbb9af688a30f3c5fc74dc032a16132282d7df",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 77,
+   "caracteres_factures": 231,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.095,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez juste avant Oubil, maintenez enfoncé, allez jusqu'\naprès jeudi, relâchez.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.095,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez juste avant au bille \"Maintenir enfoncé\", allez\n jusqu'après jeudi \"Relâcher\".",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M01-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Cinq mots, choisis librement: c'est la portée la plus souple.",
+   "empreinte_texte_dit": "d1dc55f4c828b0308da7dad079e647c59add758bc98642ac740df775cf1b175d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "5 mots. Choisis librement. C'est la portée la plus souple.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cinq mots, choisis librement. C'est la portée la plus sou\nple.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M01-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Mettez ce passage en gras pour faire ressortir l'échéance. Vous venez d'employer les deux premières portées; le geste qui suit, lui, ne change pas, c'est toujours sélectionner, puis agir.",
+   "empreinte_texte_dit": "c454414b43355fbe3668d5aae0b820f1aafcc8fedaaba16667cea18a1b156101",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 194813,
+   "duree_s": 12.12,
+   "caracteres_dits": 187,
+   "caracteres_factures": 187,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Mettez ce passage en gras pour faire ressortir l'échéance.\n Vous venez d'employer les deux premières portées.\n Le geste qui suit, lui, ne change pas, c'est toujours sé\nlectionné, puis agir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.03,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Mettez ce passage en gras pour faire ressortir L et Chez\n Hans.\n Vous venez d'employer les deux premières portées.\n Le geste qui suit, lui, ne change pas.\n C'est toujours sélectionner, puis agir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M01-L03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Glissez la souris du début à la fin du passage, puis le G du groupe Police.",
+   "empreinte_texte_dit": "da4dde15ad4d283c5665ec65b9e45f0cb9438b70c56bbcaa8cc6e16592b22651",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.044,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glisser la souris du début à la fin du passage, puis leger\n du groupe police.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Glissez la souris du début à la fin du passage, puis le jet\n du groupe police.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M01-L03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "L'échéance saute aux yeux, et rien d'autre n'a bougé.",
+   "empreinte_texte_dit": "eae87b146820fbba845c26f186659235127d9fc89f2b6e9f6e25ea7505089b58",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.069,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Elle, échéance s'autosieux et rien d'autre n'a bougé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Elle, échéance saute aux yeux, et rien d'autre n'a bougé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M01-L03-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Troisième portée: le paragraphe entier. Sélectionnez le quatrième paragraphe, celui qui parle du matériel, d'un triple-clic à l'intérieur. C'est le geste à retenir dès qu'une consigne dit le paragraphe.",
+   "empreinte_texte_dit": "c7e13a54571f81b054d8deede5c6221d4c3266dc4b7e7a9aa19b4fc3d9a7576b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 193559,
+   "duree_s": 12.04,
+   "caracteres_dits": 202,
+   "caracteres_factures": 202,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Troisième portée. Le paragraphe entier.\n Sélectionnez le quatrième paragraphe, celui qui parle du\n matériel, d'un triple clic à l'intérieur.\n C'est le geste à retenir dès qu'une consigne dit le parag\nraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Troisième portée, le paragraphe entier.\n Sélectionnez le quatrième paragraphe, celui qui parle du\n matériel, d'un triple clic à l'intérieur.\n C'est le geste à retenir dès qu'une consigne y est dit le\n paragraphe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M01-L03-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Trois clics rapprochés, n'importe où dans le paragraphe.",
+   "empreinte_texte_dit": "16e0e68e2c016751334cf0ff3025777997d7eb84c153428f525960e4bf8dbc3e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois clics rapprochés, n'importe où dans le paragraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois clics rapprochés, n'importe où dans le paragraphe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M01-L03-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Le paragraphe entier est pris, de sa première lettre à son point final.",
+   "empreinte_texte_dit": "a0dab8658dbe95baac524c5d38239a4f2a103f9dd2f2aff94a5ccd190246d5ac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le paragraphe entier est pris de sa première lettre à son\n point final.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le paragraphe entier est pris, de sa première lettre à son\n point final.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M01-L03-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Quatrième et dernière portée: le document entier. Appuyez sur Contrôle A. C'est le raccourci à employer avant toute mise en forme générale, changer la police de tout un rapport, par exemple.",
+   "empreinte_texte_dit": "69beb3c0c9672b993eb0f7f6cd26530863dcd8b7d54d8f9f7367a61552b609f0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 196902,
+   "duree_s": 12.24,
+   "caracteres_dits": 190,
+   "caracteres_factures": 570,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "4e et dernière portée, le document entier.\n Appuyer sur contrôle A.\n C'est le raccourci à employer avant toute mise en forme\n générale.\n Changer la police de tout un rapport, par exemple."
+    },
+    "moteur_second_medium": {
+     "wer": 0.028,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Quatrième et dernière portée. Le document entier. Appuyez sur CTRL A. C'est le raccourci à employer avant toute mise en forme générale. Changez la police de tout un rapport, par exemple.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M01-L03-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Maintenez Ctrl et appuyez sur la lettre A.",
+   "empreinte_texte_dit": "d649d0d4f0f144b7bb93f1a7f3832a521b6448413f408b1df278f6cf8daa6a49",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Maintenez CTRL et appuyez sur la lettre A.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Maintenez CTRL et appuyez sur la lettre A.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M01-L03-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Tout le document est surligné: les quatre paragraphes d'un coup.",
+   "empreinte_texte_dit": "ea6c1d083185fd3691dd5c4fa22a1a4ebeb9371fe42fa477401480df7df1ac6d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tout le document est surliné, les quatre paragrapes d'un\n coup.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tout le document est surligné, les quatre paragraphes d'un\n coup.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M01-L03-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Mettez cette sélection large à profit: justifiez le texte, c'est-à-dire alignez-le sur les deux marges à la fois. Ce qu'il faut comprendre ici, c'est qu'une commande de paragraphe s'applique à tous les paragraphes touchés par la sélection.",
+   "empreinte_texte_dit": "84ec68b17d1eed6b88da5559cf609edd2efd6c5ed07bc419f398488490bc4bf9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 197738,
+   "duree_s": 12.28,
+   "caracteres_dits": 239,
+   "caracteres_factures": 239,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Mettez cette sélection large à profit, Justifiez le texte,\n c'est-à-dire Alignez-le sur les deux marges à la fois.\n Ce qu'il faut comprendre ici, c'est qu'une commande de\n paragraph s'applique à tous les paragraphs touchés par la\n sélection.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Mettez cette sélection large à profit, justifiez le texte,\n c'est-à-dire alignez-le sur les deux marges à la fois.\n Ce qu'il faut comprendre ici, c'est qu'une commande de\n paragraphe s'applique à tous les paragraphe touchés par la\n sélection.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M01-L03-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Le bouton Justifier, dans le groupe Paragraphe.",
+   "empreinte_texte_dit": "642a211ef73e9d296fd5a8a20f0e09a93214ca006df17afad03de4fd9cde6ee6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "le bouton Justifier dans le groupe Paragraph.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "le bouton Justifier dans le groupe paragraphes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M01-L03-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Les bords droits s'alignent: une seule commande, appliquée à tout ce qui était sélectionné.",
+   "empreinte_texte_dit": "97a78cd16fa79bfc1fb3d77795fc391bc5320327c8ccc04b617c3855631f00f1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les bords droits s'alignent. Une seule commande, appliquée\n à tout ce qui était sélectionné.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les bords droits s'alignent. Une seule commande, appliquée\n à tout ce qui était sélectionné.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un mot, un passage, un paragraphe, tout le document: vous avez les quatre portées. À chaque fois que Word semble ne rien faire, c'est presque toujours que la sélection ne couvre pas ce que vous croyiez.",
+   "empreinte_texte_dit": "e39cd13141117fd1955216349f4907423f06ccecff6519e5eb0af4a2d47f8bed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 196902,
+   "duree_s": 12.24,
+   "caracteres_dits": 202,
+   "caracteres_factures": 202,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un mot, un passage, un paragraphe, tout le document. Vous\n avez les quatre portées.\n À chaque fois que Word semble ne rien faire, c'est presque\n toujours que la sélection ne couvre pas ce que vous croyez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un mot, un passage, un paragraphe, tout le document.\n Vous avez les quatre portées.\n À chaque fois que Word semble ne rien faire, c'est presque\n toujours que la sélection\n ne couvre pas ce que vous croyez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

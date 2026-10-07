@@ -69,5 +69,6 @@ export async function ensureConversation(user: MessageIdentity, target: { traine
   } else throw new TrainerAccessError("Seuls les apprenants peuvent initier une conversation", 403)
   if (!adminId) throw new TrainerAccessError("Aucun administrateur disponible", 404)
   return prisma.conversation.upsert({ where: { learnerId_adminId: { learnerId, adminId } },
-    create: { learnerId, adminId }, update: {} })
+    create: { learnerId, adminId,
+      ...((user.role === "TRAINER" || target.trainerId) ? { isReadAdmin: true, isReadLearner: true } : {}) }, update: {} })
 }

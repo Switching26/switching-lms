@@ -103,12 +103,12 @@ export default function MessagesPanel({ trainer = false }: { trainer?: boolean }
     } catch (e) { setError((e as Error).message) }
     finally { setSending(false) }
   }
-  const label = active ? trainer ? fullName(active.learner) : active.admin.role === "TRAINER" ? `Votre formatrice — ${fullName(active.admin)}` : "Équipe Switching" : "Messages"
+  const label = active ? trainer ? fullName(active.learner) : active.admin.role === "TRAINER" ? `Votre formatrice — ${fullName(active.admin)}` : recipients.length ? "Équipe Switching" : "Messages" : "Messages"
   const rows = recipients.map(person => ({ person, conversation: conversations.find(c => c.learner.id === person.id) }))
     .sort((a, b) => Number(a.conversation?.isRead ?? true) - Number(b.conversation?.isRead ?? true))
   const trainerThread = !trainer && active?.admin.role === "TRAINER"
   if (loading) return <p className="p-6 text-sm text-gray-500">Chargement…</p>
-  return <div className="lms-messages flex min-w-0 flex-col overflow-hidden rounded-2xl border border-border bg-white" style={{ height: "calc(100dvh - 150px)", minHeight: 420 }}>
+  return <div className="lms-messages flex min-w-0 min-h-[320px] h-[calc(100dvh-220px)] md:h-[calc(100dvh-150px)] flex-col overflow-hidden rounded-2xl border border-border bg-white">
     {error && <p role="alert" className="p-3 text-sm text-red-700 bg-red-50">{error}</p>}
     {!trainer && recipients.length > 0 && <nav aria-label="Destinataires" className="flex shrink-0 gap-2 overflow-x-auto border-b border-border p-3">
       <button className="min-h-11 shrink-0 rounded-xl border border-border px-3 text-sm" aria-pressed={active?.admin.role !== "TRAINER"} onClick={() => choose({})}>Équipe Switching</button>

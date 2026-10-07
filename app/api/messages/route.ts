@@ -74,81 +74,82 @@ export async function POST(req: NextRequest) {
     })
     // Once committed, the file belongs to a durable Message and must not be removed.
     storedFile = null
-  // Send email notification (non-blocking, with 10-min cooldown)
-  try {
-    const baseUrl = getBaseUrl()
-    const preview = messageText(message.content).slice(0, 180)
+    // Send email notification (non-blocking, with 10-min cooldown)
+    try {
+      const baseUrl = getBaseUrl()
+      const preview = conversation.admin.role === "TRAINER" ? messageText(message.content).slice(0, 180)
+        : content.trim().substring(0, 50) + (content.trim().length > 50 ? "..." : "")
 
-    if (isLearner && conversation.admin.role === "TRAINER") {
-      if (notifyTrainer) await notifyTrainerMessage(conversation.admin,
-        `${conversation.learner.firstName} ${conversation.learner.lastName}`, preview, convId)
-    } else if (isLearner) {
-      // Learner → Admin: check cooldown
-      const recentReply = await prisma.message.findFirst({
-        where: {
-          conversationId: convId,
-          senderId: conversation.adminId,
-          createdAt: { gt: new Date(Date.now() - 10 * 60 * 1000) },
-        },
-      })
-      if (!recentReply) {
-        const senderName = `${conversation.learner.firstName} ${conversation.learner.lastName}`
-        const adminUrl = `${baseUrl}/super-admin/messages`
-        const html = buildNotificationEmail(
-          senderName,
-          preview,
-          adminUrl,
-          "Répondre",
-          "#1e2847",
-          "Switching Formation"
-        )
-        void sendEmail(
-          conversation.admin.email,
-          `Nouveau message de ${senderName}`,
-          html,
-          conversation.admin.id,
-          "CUSTOM"
-        )
+      if (isLearner && conversation.admin.role === "TRAINER") {
+        if (notifyTrainer) await notifyTrainerMessage(conversation.admin,
+          `${conversation.learner.firstName} ${conversation.learner.lastName}`, preview, convId)
+      } else if (isLearner) {
+        // Learner → Admin: check cooldown
+        const recentReply = await prisma.message.findFirst({
+          where: {
+            conversationId: convId,
+            senderId: conversation.adminId,
+            createdAt: { gt: new Date(Date.now() - 10 * 60 * 1000) },
+          },
+        })
+        if (!recentReply) {
+          const senderName = `${conversation.learner.firstName} ${conversation.learner.lastName}`
+          const adminUrl = `${baseUrl}/super-admin/messages`
+          const html = buildNotificationEmail(
+            senderName,
+            preview,
+            adminUrl,
+            "Répondre",
+            "#1e2847",
+            "Switching Formation"
+          )
+          void sendEmail(
+            conversation.admin.email,
+            `Nouveau message de ${senderName}`,
+            html,
+            conversation.admin.id,
+            "CUSTOM"
+          )
+        }
+      } else {
+        // Admin → Learner: check cooldown
+        const recentEmail = await prisma.message.findFirst({
+          where: {
+            conversationId: convId,
+            senderId: { not: conversation.learnerId },
+            createdAt: { gt: new Date(Date.now() - 10 * 60 * 1000) },
+            id: { not: message.id },
+          },
+        })
+        if (!recentEmail) {
+          const platformName = conversation.admin.role === "TRAINER"
+            ? `${conversation.admin.firstName} ${conversation.admin.lastName}`
+            : conversation.learner.partner?.name || "Switching Formation"
+          const primaryColor = conversation.learner.partner?.primaryColor || "#1e2847"
+          const learnerUrl = `${baseUrl}/learner/messages`
+          const html = buildNotificationEmail(
+            platformName,
+            preview,
+            learnerUrl,
+            "Voir la réponse",
+            primaryColor,
+            platformName
+          )
+          void sendEmail(
+            conversation.learner.email,
+            `Vous avez reçu une réponse de ${platformName}`,
+            html,
+            conversation.learner.id,
+            "CUSTOM",
+            conversation.learner.partner
+          )
+        }
       }
-    } else {
-      // Admin → Learner: check cooldown
-      const recentEmail = await prisma.message.findFirst({
-        where: {
-          conversationId: convId,
-          senderId: { not: conversation.learnerId },
-          createdAt: { gt: new Date(Date.now() - 10 * 60 * 1000) },
-          id: { not: message.id },
-        },
-      })
-      if (!recentEmail) {
-        const platformName = conversation.admin.role === "TRAINER"
-          ? `${conversation.admin.firstName} ${conversation.admin.lastName}`
-          : conversation.learner.partner?.name || "Switching Formation"
-        const primaryColor = conversation.learner.partner?.primaryColor || "#1e2847"
-        const learnerUrl = `${baseUrl}/learner/messages`
-        const html = buildNotificationEmail(
-          platformName,
-          preview,
-          learnerUrl,
-          "Voir la réponse",
-          primaryColor,
-          platformName
-        )
-        void sendEmail(
-          conversation.learner.email,
-          `Vous avez reçu une réponse de ${platformName}`,
-          html,
-          conversation.learner.id,
-          "CUSTOM",
-          conversation.learner.partner
-        )
-      }
+    } catch {
+      // Never block message send if email fails
     }
-  } catch {
-    // Never block message send if email fails
-  }
 
-  return NextResponse.json(message, { status: 201 })
+    return NextResponse.json(message, { status: 201 })
   } catch (e) {
     if (storedFile) await removeSubmission(storedFile.key)
     if (e instanceof TrainerAccessError) return NextResponse.json({ error: e.message }, { status: e.status })

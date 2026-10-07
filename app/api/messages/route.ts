@@ -44,14 +44,9 @@ export async function POST(req: NextRequest) {
     if (correctionId && !status && !content.trim()) throw new TrainerAccessError("Commentaire requis", 400)
     if (status && !correctionId) throw new TrainerAccessError("Correction requise", 400)
     if (file instanceof File) storedFile = await storeSubmission(file)
-    let notifyTrainer = false
     const message = await prisma.$transaction(async tx => {
-      // This row lock serializes simultaneous sends and reads in a conversation.
+      // This row lock serializes sends, correction changes and reads in a conversation.
       await tx.conversation.update({ where: { id: convId }, data: { updatedAt: new Date() } })
-      if (isLearner && conversation.admin.role === "TRAINER") {
-        notifyTrainer = await tx.message.count({ where: { conversationId: convId,
-          senderId: conversation.learnerId, isRead: false } }) === 0
-      }
       let storedContent = content.trim()
       if (storedFile) storedContent = writeCorrection({ kind: "submission", text: storedContent,
         status: "pending", file: storedFile })
@@ -74,14 +69,14 @@ export async function POST(req: NextRequest) {
     })
     // Once committed, the file belongs to a durable Message and must not be removed.
     storedFile = null
-    // Send email notification (non-blocking, with 10-min cooldown)
+    // Notify trainers for every incoming message; retain legacy cooldowns below.
     try {
       const baseUrl = getBaseUrl()
       const preview = conversation.admin.role === "TRAINER" ? messageText(message.content).slice(0, 180)
         : content.trim().substring(0, 50) + (content.trim().length > 50 ? "..." : "")
 
       if (isLearner && conversation.admin.role === "TRAINER") {
-        if (notifyTrainer) await notifyTrainerMessage(conversation.admin,
+        await notifyTrainerMessage(conversation.admin,
           `${conversation.learner.firstName} ${conversation.learner.lastName}`, preview, convId)
       } else if (isLearner) {
         // Learner → Admin: check cooldown

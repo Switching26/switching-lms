@@ -1771,7 +1771,7 @@ export default function UsersTable({
                 <p className="text-xs text-gray-400 mt-0.5">{newRole === "LEARNER" ? "Recommandé — l'apprenant la trouve dès sa première connexion" : "Optionnel — attribuer une formation dès la création"}</p>
               </div>
               <button
-                onClick={() => setNewAssignFormation(!newAssignFormation)}
+                onClick={() => { setNewAssignFormation(!newAssignFormation); if (newAssignFormation) setNewTrainerId("") }}
                 aria-label="Attribuer une formation"
                 role="checkbox"
                 aria-checked={newAssignFormation}

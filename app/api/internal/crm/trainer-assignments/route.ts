@@ -43,6 +43,9 @@ export async function POST(req: Request) {
     if (!body || typeof body !== "object" || Array.isArray(body)) throw new InputError("Demande invalide")
     if (!Number.isSafeInteger(body.crmBeneficiaireId) || body.crmBeneficiaireId <= 0 || body.crmBeneficiaireId > 2147483647) throw new InputError("Identifiant CRM invalide")
     if (typeof body.hasElearning !== "boolean") throw new InputError("Modalité hasElearning requise")
+    if (body.createElearningAccess !== undefined && typeof body.createElearningAccess !== "boolean") throw new InputError("Option createElearningAccess invalide")
+    // À l'inscription CRM, le bonus peut encore attendre le bouton de création d'accès.
+    const createAccess = body.hasElearning && body.createElearningAccess !== false
     if (body.visioHours != null && (!Number.isInteger(body.visioHours) || body.visioHours <= 0 || body.visioHours > 10000)) throw new InputError("Durée des visios invalide")
     const trainerId = text(body.trainerId, "trainerId", true)!
     const email = text(body.email, "email", true)!.toLowerCase()
@@ -51,7 +54,7 @@ export async function POST(req: Request) {
     const adminEndAt = date(body.adminEndAt, "adminEndAt")
     const visioStartAt = date(body.visioStartAt, "visioStartAt", body.hasElearning)
     if (adminEndAt && adminEndAt < adminStartAt) throw new InputError("La fin précède le début administratif")
-    const formationId = text(body.formationId, "formationId", body.hasElearning)
+    const formationId = text(body.formationId, "formationId", createAccess)
     const data = {
       crmBeneficiaireId: body.crmBeneficiaireId as number, trainerId, email,
       firstName: text(body.firstName, "firstName", true)!, lastName: text(body.lastName, "lastName", true)!,
@@ -64,23 +67,41 @@ export async function POST(req: Request) {
       // Sérialise les appels d'un même bénéficiaire, y compris les créations concurrentes.
       await tx.$queryRaw`SELECT pg_advisory_xact_lock(hashtext(${`crm-trainer:${data.crmBeneficiaireId}`}))::text`
       const existing = await tx.trainerAssignment.findUnique({ where: { crmBeneficiaireId: data.crmBeneficiaireId },
-        include: { learner: true, enrollment: true } })
+        include: { learner: true, enrollment: { include: { formation: true } } } })
       if (existing) {
         if (existing.trainerId !== trainerId || existing.email.toLowerCase() !== email || existing.hasElearning !== data.hasElearning ||
-          (data.hasElearning && (!existing.learnerId || !existing.enrollmentId || existing.enrollment?.formationId !== formationId))) {
+          (createAccess && existing.enrollmentId && existing.enrollment?.formationId !== formationId)) {
           throw new InputError("Ce bénéficiaire possède déjà une attribution différente", 409)
         }
-        return { assignment: existing, created: false, password: decryptVisiblePassword(existing.learner?.visiblePasswordEncrypted) }
       }
+      // Un replay doit respecter le même périmètre Switching que la première création.
       const switching = await tx.partner.findUnique({ where: { slug: "switching" } })
       const trainer = await tx.user.findUnique({ where: { id: trainerId } })
       if (!switching?.isInternal || !switching.isActive || !trainer || trainer.role !== "TRAINER" || !trainer.isActive || trainer.archivedAt || trainer.partnerId !== switching.id) {
         throw new InputError("Formatrice Switching introuvable")
       }
+      if (existing) {
+        if (existing.archivedAt || Boolean(existing.learnerId) !== Boolean(existing.enrollmentId)) {
+          throw new InputError("Attribution existante archivée ou liens incomplets", 409)
+        }
+        if (existing.learnerId && (!existing.hasElearning || !existing.learner || existing.learner.role !== "LEARNER" ||
+          !existing.learner.isActive || existing.learner.archivedAt || existing.learner.partnerId !== switching.id ||
+          existing.learner.email.toLowerCase() !== email || !existing.enrollment ||
+          existing.enrollment.userId !== existing.learnerId || existing.enrollment.assignedByPartnerId !== switching.id ||
+          existing.enrollment.formation.deletedAt || existing.enrollment.startedAt?.getTime() !== existing.adminStartAt.getTime())) {
+          throw new InputError("Compte ou inscription existants hors du périmètre Switching", 409)
+        }
+        if (!createAccess || (existing.learnerId && existing.enrollmentId)) {
+          return { assignment: existing, created: false, accessCreated: false, password: decryptVisiblePassword(existing.learner?.visiblePasswordEncrypted) }
+        }
+        if (existing.learnerId || existing.enrollmentId || existing.archivedAt || existing.adminStartAt.getTime() !== adminStartAt.getTime()) {
+          throw new InputError("Fiche bonus existante incompatible avec cette création d'accès", 409)
+        }
+      }
       let learnerId: string | null = null
       let enrollmentId: string | null = null
       let password: string | null = null
-      if (data.hasElearning) {
+      if (createAccess) {
         const formation = await tx.formation.findUnique({ where: { id: formationId! } })
         if (!formation || formation.deletedAt) throw new InputError("Formation introuvable")
         // Un email existant ne donne jamais accès à un compte tiers ni à son mot de passe.
@@ -96,15 +117,17 @@ export async function POST(req: Request) {
           assignedByPartnerId: switching.id, startedAt: adminStartAt, expiresAt } })
         enrollmentId = enrollment.id
       }
-      const assignment = await tx.trainerAssignment.create({ data: { ...data, learnerId, enrollmentId } })
-      return { assignment, created: true, password }
+      const assignment = existing
+        ? await tx.trainerAssignment.update({ where: { id: existing.id }, data: { learnerId, enrollmentId } })
+        : await tx.trainerAssignment.create({ data: { ...data, learnerId, enrollmentId } })
+      return { assignment, created: !existing, accessCreated: Boolean(learnerId), password }
     }, { maxWait: 10000, timeout: 20000 })
     let trainerNotified = false
     try { trainerNotified = await notifyTrainerNewStudent(result.assignment.id) } catch { /* Le replay retente un mail non confirmé. */ }
     const loginUrl = `${getBaseUrl()}/login?partner=switching`
-    return NextResponse.json({ assignmentId: result.assignment.id, created: result.created,
+    return NextResponse.json({ assignmentId: result.assignment.id, created: result.created, accessCreated: result.accessCreated,
       learnerId: result.assignment.learnerId, enrollmentId: result.assignment.enrollmentId, trainerNotified,
-      ...(result.assignment.hasElearning ? { login: email, email, password: result.password, loginUrl } : {}) },
+      ...(result.assignment.learnerId ? { login: email, email, password: result.password, loginUrl } : {}) },
     { status: result.created ? 201 : 200, headers })
   } catch (error) {
     if (error instanceof InputError) return NextResponse.json({ error: error.message }, { status: error.status, headers })

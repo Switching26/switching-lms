@@ -56,10 +56,10 @@ export async function POST(req: Request) {
           couleur_secondaire: user.partner?.secondaryColor || "#F5F5F7",
           logo_url: user.partner?.logoUrl ? (user.partner.logoUrl.startsWith("http") ? user.partner.logoUrl : `${baseUrl}${user.partner.logoUrl.startsWith("/") ? "" : "/"}${user.partner.logoUrl}`) : "",
         }
-        await sendEmail(user.email, replaceVariables(dynamic.subject, vars), replaceVariables(dynamic.htmlContent, vars), user.id, "PASSWORD_RESET", user.partner)
+        await sendEmail(user.email, replaceVariables(dynamic.subject, vars), replaceVariables(dynamic.htmlContent, vars), user.id, "PASSWORD_RESET", user.partner, user.role === "TRAINER" ? { bcc: "contact@switchingformation.com" } : undefined)
       } else {
         const emailData = passwordResetEmail(user.firstName, token, user.partner, user.partner?.slug)
-        await sendEmail(user.email, emailData.subject, emailData.html, user.id, "PASSWORD_RESET", user.partner)
+        await sendEmail(user.email, emailData.subject, emailData.html, user.id, "PASSWORD_RESET", user.partner, user.role === "TRAINER" ? { bcc: "contact@switchingformation.com" } : undefined)
       }
     } else if (user && (await isPendingActivation(user))) {
       // Invité qui n'a jamais créé son mot de passe : une réinitialisation ne peut

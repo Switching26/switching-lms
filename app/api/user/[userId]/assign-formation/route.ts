@@ -6,6 +6,9 @@ import { formationAssignedEmail } from "@/lib/email-templates"
 import { resolveTemplate, replaceVariables } from "@/lib/email-template-engine"
 import { getBaseUrl } from "@/lib/get-base-url"
 import { canPartnerDistributeFormation, hasAvailableSeat, recomputeLicenseSeats } from "@/lib/licenses"
+import { createTrainerAssignment, type CreateTrainerAssignmentInput } from "@/lib/trainer/assignments"
+import { TrainerAccessError } from "@/lib/trainer/access"
+import { notifyTrainerNewStudent } from "@/lib/trainer/new-student-mail"
 
 export async function POST(req: NextRequest, { params }: { params: { userId: string } }) {
   const session = await auth()
@@ -14,7 +17,10 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { formationId, startedAt, expiresAt } = await req.json()
+  const { formationId, startedAt, expiresAt, sendAutomaticEmails = true, trainer } = await req.json()
+  if (typeof sendAutomaticEmails !== "boolean") {
+    return NextResponse.json({ error: "Option de mails invalide" }, { status: 400 })
+  }
 
   if (!formationId) {
     return NextResponse.json({ error: "Formation requise" }, { status: 400 })
@@ -55,6 +61,33 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
     return NextResponse.json({ error: "Formation introuvable" }, { status: 404 })
   }
 
+  let trainerInput: CreateTrainerAssignmentInput | undefined
+  if (trainer != null) {
+    if (role !== "SUPER_ADMIN" || user.role !== "LEARNER" || user.partner?.slug !== "switching" || !user.partner.isInternal) {
+      return NextResponse.json({ error: "Attribution formatrice réservée aux apprenants Switching" }, { status: 403 })
+    }
+    const formatrice = typeof trainer.trainerId === "string" ? await prisma.user.findUnique({
+      where: { id: trainer.trainerId }, include: { partner: true },
+    }) : null
+    if (!formatrice || formatrice.role !== "TRAINER" || !formatrice.isActive || formatrice.archivedAt ||
+      formatrice.partner?.slug !== "switching" || !formatrice.partner.isInternal) {
+      return NextResponse.json({ error: "Formatrice Switching introuvable" }, { status: 400 })
+    }
+    const start = new Date(startedAt)
+    const end = trainer.adminEndAt ? new Date(trainer.adminEndAt) : null
+    const visio = trainer.visioStartAt ? new Date(trainer.visioStartAt) : null
+    if (!startedAt || !Number.isFinite(start.getTime()) || !visio || !Number.isFinite(visio.getTime()) ||
+      (end && (!Number.isFinite(end.getTime()) || end < start)) ||
+      (trainer.visioHours != null && (!Number.isInteger(trainer.visioHours) || trainer.visioHours <= 0))) {
+      return NextResponse.json({ error: "Dates administratives, début des visios ou durée invalides" }, { status: 400 })
+    }
+    trainerInput = { trainerId: formatrice.id, learnerId: user.id, firstName: user.firstName,
+      lastName: user.lastName, email: user.email, phone: typeof trainer.phone === "string" ? trainer.phone : null,
+      civility: typeof trainer.civility === "string" ? trainer.civility : null,
+      formationLabel: trainer.formationLabel?.trim() || "", visioHours: trainer.visioHours ?? null,
+      hasElearning: true, adminStartAt: start, adminEndAt: end, visioStartAt: visio }
+  }
+
   // Check existing enrollment
   const existing = await prisma.enrollment.findUnique({
     where: { userId_formationId: { userId: params.userId, formationId } },
@@ -72,6 +105,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
   }
 
   let enrollment
+  let assignmentId: string | undefined
   try {
     enrollment = await prisma.enrollment.create({
       data: {
@@ -83,7 +117,14 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
       },
       include: { formation: true },
     })
+    if (trainerInput) {
+      const assignment = await createTrainerAssignment({ ...trainerInput, enrollmentId: enrollment.id,
+        formationLabel: trainerInput.formationLabel || enrollment.formation.title })
+      assignmentId = assignment.id
+    }
   } catch (e: any) {
+    if (enrollment) await prisma.enrollment.delete({ where: { id: enrollment.id } })
+    if (e instanceof TrainerAccessError) return NextResponse.json({ error: e.message }, { status: e.status })
     // Course concurrente sur la contrainte unique (userId, formationId).
     if (e?.code === "P2002") {
       return NextResponse.json({ error: "Déjà inscrit à cette formation" }, { status: 400 })
@@ -94,10 +135,20 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
   // Recalculer le compteur de sièges à partir des inscriptions réelles.
   await recomputeLicenseSeats(user.partnerId, formationId)
 
+  let trainerEmailSent: boolean | undefined
+  if (assignmentId && sendAutomaticEmails) {
+    try { trainerEmailSent = await notifyTrainerNewStudent(assignmentId) } catch { trainerEmailSent = false }
+  }
+  const trainerResult = assignmentId ? { trainerAssignmentId: assignmentId, trainerEmailSent } : {}
+  if (!sendAutomaticEmails) {
+    return NextResponse.json({ ...enrollment, ...trainerResult, emailSent: null,
+      emailSkipped: "mails automatiques désactivés" }, { status: 201 })
+  }
+
   // Compte inactif (ex. migration RiseUp silencieuse) : ne JAMAIS notifier.
   // L'email d'attribution partira via le renvoi d'activation / la campagne.
   if (!user.isActive) {
-    return NextResponse.json({ ...enrollment, emailSent: null, emailSkipped: "compte inactif — aucun email envoyé" }, { status: 201 })
+    return NextResponse.json({ ...enrollment, ...trainerResult, emailSent: null, emailSkipped: "compte inactif — aucun email envoyé" }, { status: 201 })
   }
 
   let emailSent = false
@@ -134,7 +185,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
     // Never block enrollment if email fails
   }
 
-  return NextResponse.json({ ...enrollment, emailSent }, { status: 201 })
+  return NextResponse.json({ ...enrollment, ...trainerResult, emailSent }, { status: 201 })
 }
 
 // Garde commune DELETE/PATCH : session admin + scope partenaire + enrollment existant.

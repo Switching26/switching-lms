@@ -40,16 +40,18 @@ function neverLoggedIn(u: User) {
 }
 
 // Ordre d'affichage des rôles dans le tableau + libellés de section
-const ROLE_ORDER: Record<string, number> = { SUPER_ADMIN: 0, PARTNER_ADMIN: 1, LEARNER: 2 }
+const ROLE_ORDER: Record<string, number> = { SUPER_ADMIN: 0, PARTNER_ADMIN: 1, TRAINER: 2, LEARNER: 3 }
 const ROLE_GROUP_LABEL: Record<string, string> = {
   SUPER_ADMIN: "Super administrateurs",
   PARTNER_ADMIN: "Administrateurs",
+  TRAINER: "Formateurs",
   LEARNER: "Apprenants",
 }
 
 interface PartnerOption {
   id: string
   name: string
+  slug?: string
 }
 
 interface FormationOption {
@@ -105,16 +107,26 @@ function FeedbackBanner({ message }: { message: string }) {
   )
 }
 
+function AutomaticEmailsOption({ checked, onChange }: { checked: boolean; onChange: (checked: boolean) => void }) {
+  return <label className="flex items-start gap-3 rounded-lg border border-border p-3 text-sm cursor-pointer">
+    <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="mt-1 h-4 w-4 accent-primary shrink-0" />
+    <span><span className="font-medium">Envoyer les mails automatiques</span>
+      <span className="block text-xs text-gray-500 mt-1">Décochée : aucun mail ne part. Le CRM transmet les identifiants dans son mail de démarrage.</span></span>
+  </label>
+}
+
 export default function UsersTable({
   users: initialUsers,
   partners,
   formations,
   isPartnerAdmin,
+  trainers = [],
 }: {
   users: User[]
   partners?: PartnerOption[]
   formations?: FormationOption[]
   isPartnerAdmin?: boolean
+  trainers?: { id: string; firstName: string; lastName: string }[]
 }) {
   const router = useRouter()
   const [users, setUsers] = useState(initialUsers)
@@ -185,6 +197,11 @@ export default function UsersTable({
   const [newPartnerId, setNewPartnerId] = useState("")
   const [newPassword, setNewPassword] = useState(generatePassword())
   const [newReference, setNewReference] = useState("")
+  const [newSendAutomaticEmails, setNewSendAutomaticEmails] = useState(true)
+  const [newTrainerId, setNewTrainerId] = useState("")
+  const [newVisioStartAt, setNewVisioStartAt] = useState("")
+  const [newAdminEndAt, setNewAdminEndAt] = useState("")
+  const switchingPartnerId = partners?.find((p) => p.slug === "switching")?.id || ""
   const [creating, setCreating] = useState(false)
 
   // Edit form
@@ -206,6 +223,7 @@ export default function UsersTable({
   const [editAddStarts, setEditAddStarts] = useState(dateInputValue())
   const [editAddExpires, setEditAddExpires] = useState("")
   const [editAddSaving, setEditAddSaving] = useState(false)
+  const [editAddSendAutomaticEmails, setEditAddSendAutomaticEmails] = useState(true)
 
   // Password form
   const [pw, setPw] = useState("")
@@ -218,6 +236,7 @@ export default function UsersTable({
   const [assignStarts, setAssignStarts] = useState(dateInputValue())
   const [assignExpires, setAssignExpires] = useState("")
   const [assigning, setAssigning] = useState(false)
+  const [assignSendAutomaticEmails, setAssignSendAutomaticEmails] = useState(true)
 
   // Create form — optional formation assignment
   const [newFormationId, setNewFormationId] = useState("")
@@ -270,7 +289,7 @@ export default function UsersTable({
   }
 
   // Compteurs par groupe de rôle (pour les en-têtes de section du tableau)
-  const roleGroupCounts: Record<string, number> = { SUPER_ADMIN: 0, PARTNER_ADMIN: 0, LEARNER: 0 }
+  const roleGroupCounts: Record<string, number> = { SUPER_ADMIN: 0, PARTNER_ADMIN: 0, TRAINER: 0, LEARNER: 0 }
   filtered.forEach((u) => { if (u.role in roleGroupCounts) roleGroupCounts[u.role]++ })
   const colCount = isPartnerAdmin || compactColumns ? 5 : 8
 
@@ -310,6 +329,10 @@ export default function UsersTable({
     setNewFormationId("")
     setNewStartsAt(dateInputValue())
     setNewExpiresAt("")
+    setNewSendAutomaticEmails(true)
+    setNewTrainerId("")
+    setNewVisioStartAt("")
+    setNewAdminEndAt("")
   }
 
   // ─── IMPERSONATE ───
@@ -463,6 +486,14 @@ export default function UsersTable({
       modalFlash("Sélectionnez la formation à attribuer, ou désactivez l'option.")
       return
     }
+    if (!newSendAutomaticEmails && newPassword.length < 8) {
+      modalFlash("Définissez un mot de passe d'au moins 8 caractères")
+      return
+    }
+    if (newTrainerId && (!newAssignFormation || !newFormationId || !newVisioStartAt || !newStartsAt)) {
+      modalFlash("Sélectionnez la formation, le début d'accès et le début des visios")
+      return
+    }
     setCreating(true)
     try {
       const res = await fetch("/api/user/create", {
@@ -476,6 +507,7 @@ export default function UsersTable({
           userRole: newRole,
           partnerId: newPartnerId || null,
           reference: newReference || null,
+          sendAutomaticEmails: newSendAutomaticEmails,
         }),
       })
       if (!res.ok) {
@@ -491,7 +523,9 @@ export default function UsersTable({
           const assignRes = await fetch(`/api/user/${created.id}/assign-formation`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ formationId: newFormationId, startedAt: newStartsAt || null, expiresAt: newExpiresAt || null }),
+            body: JSON.stringify({ formationId: newFormationId, startedAt: newStartsAt || null, expiresAt: newExpiresAt || null,
+              sendAutomaticEmails: newSendAutomaticEmails,
+              ...(newTrainerId ? { trainer: { trainerId: newTrainerId, visioStartAt: newVisioStartAt, adminEndAt: newAdminEndAt || null } } : {}) }),
           })
           if (!assignRes.ok) {
             const data = await assignRes.json()
@@ -505,6 +539,11 @@ export default function UsersTable({
           }
           const assignData = await assignRes.json()
           formationEmailSent = assignData.emailSent !== false
+          if (assignData.trainerEmailSent === false) {
+            modalFlash("Utilisateur créé et attribué — erreur du mail à la formatrice")
+            router.refresh()
+            return
+          }
         } catch {
           modalFlash("Utilisateur créé, mais formation non attribuée : erreur réseau")
           closeModalAfterFeedback(() => {
@@ -515,7 +554,9 @@ export default function UsersTable({
           return
         }
       }
-      if (created.activationEmailSent === false) {
+      if (!newSendAutomaticEmails) {
+        modalFlash("Utilisateur créé avec succès — aucun mail envoyé")
+      } else if (created.activationEmailSent === false) {
         modalFlash("Erreur email : utilisateur créé, mais invitation non envoyée")
       } else if (!formationEmailSent) {
         modalFlash("Erreur email : utilisateur créé, mais email formation non envoyé")
@@ -553,6 +594,7 @@ export default function UsersTable({
     setEditAddFormationId("")
     setEditAddStarts(dateInputValue())
     setEditAddExpires("")
+    setEditAddSendAutomaticEmails(true)
   }
 
   // ─── SAVE EDIT ───
@@ -593,7 +635,7 @@ export default function UsersTable({
         reference: editReference || null,
         isActive: editIsActive,
       }
-      if (!isPartnerAdmin) {
+      if (!isPartnerAdmin && editModal.role !== "TRAINER") {
         body.role = editRole
         body.partnerId = editPartnerId || null
       }
@@ -624,7 +666,7 @@ export default function UsersTable({
       const res = await fetch(`/api/user/${editModal.id}/assign-formation`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formationId: editAddFormationId, startedAt: editAddStarts || null, expiresAt: editAddExpires || null }),
+        body: JSON.stringify({ formationId: editAddFormationId, startedAt: editAddStarts || null, expiresAt: editAddExpires || null, sendAutomaticEmails: editAddSendAutomaticEmails }),
       })
       const data = await res.json()
       if (res.ok) {
@@ -648,7 +690,7 @@ export default function UsersTable({
         setEditAddFormationId("")
         setEditAddStarts(dateInputValue())
         setEditAddExpires("")
-        if (data.emailSkipped) modalFlash("Formation attribuée — aucun email envoyé (compte inactif)")
+        if (data.emailSkipped) modalFlash(`Formation attribuée — ${data.emailSkipped}`)
         else if (data.emailSent === false) modalFlash("Erreur email : formation attribuée, mais email non envoyé")
         else modalFlash("Formation attribuée")
         router.refresh()
@@ -719,7 +761,7 @@ export default function UsersTable({
       const res = await fetch(`/api/user/${assignModal}/assign-formation`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formationId: assignFormationId, startedAt: assignStarts || null, expiresAt: assignExpires || null }),
+        body: JSON.stringify({ formationId: assignFormationId, startedAt: assignStarts || null, expiresAt: assignExpires || null, sendAutomaticEmails: assignSendAutomaticEmails }),
       })
       if (res.ok) {
         const data = await res.json()
@@ -729,6 +771,7 @@ export default function UsersTable({
           setAssignFormationId("")
           setAssignStarts(dateInputValue())
           setAssignExpires("")
+          setAssignSendAutomaticEmails(true)
           router.refresh()
         })
       } else {
@@ -952,6 +995,7 @@ export default function UsersTable({
                 <div className="flex items-center gap-2 flex-wrap">
                   <button type="button" onClick={() => openProgress(u.id)} className="lms-person-link text-sm font-medium text-left"><span className="lms-avatar" aria-hidden="true">{u.firstName[0]}{u.lastName[0]}</span><span>{u.firstName} {u.lastName}</span></button>
                   {u.role === "PARTNER_ADMIN" && <Badge variant="blue">Admin</Badge>}
+                  {u.role === "TRAINER" && <Badge variant="blue">Formateur</Badge>}
                   {u.role === "SUPER_ADMIN" && <Badge variant="error">Super Admin</Badge>}
                   {!isPartnerAdmin && u.partner && <Badge variant="purple">{u.partner.name}</Badge>}
                 </div>
@@ -1042,6 +1086,8 @@ export default function UsersTable({
                     <Badge variant="error">Super admin</Badge>
                   ) : u.role === "PARTNER_ADMIN" ? (
                     <Badge variant="blue">Admin</Badge>
+                  ) : u.role === "TRAINER" ? (
+                    <Badge variant="blue">Formateur</Badge>
                   ) : (
                     <Badge variant="default">Apprenant</Badge>
                   )}
@@ -1128,7 +1174,7 @@ export default function UsersTable({
                         <button onClick={() => { setOpenMenuId(null); setCopyLoginLinkUser(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm bg-[#edf4f4] hover:bg-gray-50 transition-colors"><Copy className={IC} strokeWidth={1.8} aria-hidden="true" />Copier le lien de connexion</button>
                       )}
                       <button onClick={() => { setOpenMenuId(null); openProgress(u.id) }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconChart}Suivi</button>
-                      <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconAssign}Attribuer formation</button>
+                      <button onClick={() => { setOpenMenuId(null); setModalMessage(""); setAssignSendAutomaticEmails(true); setAssignModal(u.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors">{IconAssign}Attribuer formation</button>
                       {neverLoggedIn(u) && !u.archivedAt && u.role !== "SUPER_ADMIN" && (
                         <button onClick={() => { setOpenMenuId(null); handleResendActivation(u) }} disabled={resending === u.id} className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm hover:bg-gray-50 transition-colors disabled:opacity-50">{IconSend}{resending === u.id ? "Envoi..." : "Renvoyer activation"}</button>
                       )}
@@ -1513,6 +1559,7 @@ export default function UsersTable({
                       )}
                     </div>
                   </div>
+                  <AutomaticEmailsOption checked={editAddSendAutomaticEmails} onChange={setEditAddSendAutomaticEmails} />
                   <div className="flex gap-2">
                     <button
                       onClick={() => { setEditAddOpen(false); setEditAddFormationId("") }}
@@ -1531,7 +1578,7 @@ export default function UsersTable({
                 </div>
               ) : (
                 <button
-                  onClick={() => { setEditAddOpen(true); setRemoveConfirmId(null) }}
+                  onClick={() => { setEditAddOpen(true); setEditAddSendAutomaticEmails(true); setRemoveConfirmId(null) }}
                   className="mt-3 w-full py-2.5 text-sm border border-dashed border-gray-300 text-gray-600 rounded-lg hover:border-gray-400 hover:text-gray-800 transition-colors"
                 >
                   + Attribuer une autre formation
@@ -1548,6 +1595,7 @@ export default function UsersTable({
                     <label className="block text-sm font-medium mb-1">Partenaire</label>
                     <select
                       value={editPartnerId}
+                      disabled={editModal.role === "TRAINER"}
                       onChange={(e) => setEditPartnerId(e.target.value)}
                       className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white"
                     >
@@ -1561,11 +1609,13 @@ export default function UsersTable({
                     <label className="block text-sm font-medium mb-1">Rôle</label>
                     <select
                       value={editRole}
+                      disabled={editModal.role === "TRAINER"}
                       onChange={(e) => setEditRole(e.target.value)}
                       className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white"
                     >
                       <option value="LEARNER">Apprenant</option>
                       <option value="PARTNER_ADMIN">Admin partenaire</option>
+                      {editModal.role === "TRAINER" && <option value="TRAINER">Formateur</option>}
                     </select>
                   </div>
                 </div>
@@ -1689,9 +1739,10 @@ export default function UsersTable({
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Rôle</label>
-            <select value={newRole} onChange={(e) => setNewRole(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
+            <select value={newRole} onChange={(e) => { setNewRole(e.target.value); setNewTrainerId(""); if (e.target.value === "TRAINER") { setNewPartnerId(switchingPartnerId); setNewAssignFormation(false) } }} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
               <option value="LEARNER">Apprenant</option>
               <option value="PARTNER_ADMIN">{isPartnerAdmin ? "Administrateur" : "Admin partenaire"}</option>
+              {!isPartnerAdmin && <option value="TRAINER">Formateur</option>}
             </select>
             {isPartnerAdmin && newRole === "PARTNER_ADMIN" && (
               <p className="text-xs text-gray-400 mt-1">
@@ -1702,7 +1753,7 @@ export default function UsersTable({
           {!isPartnerAdmin && (
             <div>
               <label className="block text-sm font-medium mb-1">Appartenance</label>
-              <select value={newPartnerId} onChange={(e) => setNewPartnerId(e.target.value)} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
+              <select value={newPartnerId} disabled={newRole === "TRAINER"} onChange={(e) => { setNewPartnerId(e.target.value); setNewTrainerId("") }} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
                 <option value="">Interne (aucun partenaire)</option>
                 {partners?.map((p) => (
                   <option key={p.id} value={p.id}>{p.name}</option>
@@ -1713,14 +1764,14 @@ export default function UsersTable({
           {/* Optional formation assignment */}
           </div>
           <div hidden={createStep !== 2} className="space-y-4">
-          <div>
+          <div hidden={newRole === "TRAINER"}>
             <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
               <div>
                 <p className="text-sm font-medium">Attribuer une formation</p>
                 <p className="text-xs text-gray-400 mt-0.5">{newRole === "LEARNER" ? "Recommandé — l'apprenant la trouve dès sa première connexion" : "Optionnel — attribuer une formation dès la création"}</p>
               </div>
               <button
-                onClick={() => setNewAssignFormation(!newAssignFormation)}
+                onClick={() => { setNewAssignFormation(!newAssignFormation); if (newAssignFormation) setNewTrainerId("") }}
                 aria-label="Attribuer une formation"
                 role="checkbox"
                 aria-checked={newAssignFormation}
@@ -1758,14 +1809,39 @@ export default function UsersTable({
                 </div>
               </div>
             )}
+            {!isPartnerAdmin && newRole === "LEARNER" && newPartnerId === switchingPartnerId && newAssignFormation && (
+              <div className="mt-3 space-y-3">
+                <label className="block text-sm font-medium">Formatrice
+                  <select aria-label="Formatrice" value={newTrainerId} onChange={(e) => {
+                    setNewTrainerId(e.target.value)
+                    if (e.target.value && newStartsAt) { const end = new Date(newStartsAt); end.setUTCFullYear(end.getUTCFullYear() + 1); setNewExpiresAt(end.toISOString().slice(0, 10)) }
+                  }} className="mt-1 w-full px-3 py-2 text-sm border border-border rounded-lg bg-white">
+                    <option value="">Aucune</option>
+                    {trainers.map((t) => <option key={t.id} value={t.id}>{t.firstName} {t.lastName}</option>)}
+                  </select>
+                </label>
+                {newTrainerId && <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <label className="block text-sm font-medium">Début des visioconférences
+                    <input aria-label="Début des visioconférences" type="date" value={newVisioStartAt} onChange={(e) => setNewVisioStartAt(e.target.value)} className="mt-1 w-full px-3 py-2 text-sm border border-border rounded-lg" />
+                  </label>
+                  <label className="block text-sm font-medium">Fin administrative
+                    <input aria-label="Fin administrative" type="date" value={newAdminEndAt} onChange={(e) => setNewAdminEndAt(e.target.value)} className="mt-1 w-full px-3 py-2 text-sm border border-border rounded-lg" />
+                  </label>
+                </div>}
+              </div>
+            )}
           </div>
-          <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3">
+          <AutomaticEmailsOption checked={newSendAutomaticEmails} onChange={setNewSendAutomaticEmails} />
+          {!newSendAutomaticEmails && <label className="block text-sm font-medium">Mot de passe
+            <input aria-label="Mot de passe" autoComplete="new-password" type="text" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="mt-1 w-full px-3 py-2 text-sm border border-border rounded-lg" />
+          </label>}
+          {newSendAutomaticEmails && <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3">
             <p className="text-sm text-blue-700">Un email d&apos;activation sera envoyé automatiquement à l&apos;utilisateur pour qu&apos;il crée son mot de passe.</p>
-          </div>
+          </div>}
           </div>
           {createStep === 1 ? <button className="lms-primary w-full" onClick={() => { if (!newFirstName.trim() || !newLastName.trim() || !newEmail.trim()) { setModalMessage("Renseignez le prénom, le nom et l’email."); return } setModalMessage(""); setCreateStep(2) }}>Continuer →</button> : <div className="flex gap-3"><button className="lms-back-button" onClick={() => setCreateStep(1)}>← Retour</button>
           <button onClick={handleCreate} disabled={creating} className="w-full py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
-            {creating ? "Création..." : "Créer et envoyer invitation"}
+            {creating ? "Création..." : newSendAutomaticEmails ? "Créer et envoyer invitation" : "Créer"}
           </button>
           </div>}
         </div>
@@ -1809,6 +1885,7 @@ export default function UsersTable({
               <p className="text-xs text-red-600 font-semibold mt-1">⚠ Sans date d&apos;expiration, l&apos;accès sera illimité. Modifiable à tout moment via « Modifier ».</p>
             )}
           </div>
+          <AutomaticEmailsOption checked={assignSendAutomaticEmails} onChange={setAssignSendAutomaticEmails} />
           <button onClick={handleAssign} disabled={assigning} className="w-full py-2.5 bg-primary text-white text-sm rounded-lg hover:opacity-90 disabled:opacity-50">
             {assigning ? "Attribution..." : "Attribuer"}
           </button>
@@ -1915,7 +1992,7 @@ export default function UsersTable({
                 const user = users.find(u => u.id === progressModal)
                 if (!user) return null
                 const close = () => { setProgressModal(null); setProgressData(null) }
-                return <><button className="lms-primary" onClick={() => { close(); openEdit(user) }}>Modifier le profil</button><button className="lms-primary" onClick={() => { close(); setModalMessage(""); setAssignModal(user.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }}>Attribuer une formation</button>{canViewSpace(user) && <button className="lms-primary" onClick={() => handleImpersonate(user.id)}>Voir l’espace</button>}</>
+                return <><button className="lms-primary" onClick={() => { close(); openEdit(user) }}>Modifier le profil</button><button className="lms-primary" onClick={() => { close(); setModalMessage(""); setAssignSendAutomaticEmails(true); setAssignModal(user.id); setAssignFormationId(""); setAssignStarts(dateInputValue()); setAssignExpires("") }}>Attribuer une formation</button>{canViewSpace(user) && <button className="lms-primary" onClick={() => handleImpersonate(user.id)}>Voir l’espace</button>}</>
               })()}
             </div>
             {progressData.formations?.map((f: any) => (

@@ -60,10 +60,10 @@ export async function POST(_req: NextRequest, { params }: { params: { userId: st
         couleur_secondaire: user.partner?.secondaryColor || "#F5F5F7",
         logo_url: user.partner?.logoUrl ? (user.partner.logoUrl.startsWith("http") ? user.partner.logoUrl : `${baseUrl}${user.partner.logoUrl.startsWith("/") ? "" : "/"}${user.partner.logoUrl}`) : "",
       }
-      emailSent = await sendEmail(user.email, replaceVariables(dynamicTemplate.subject, vars), replaceVariables(dynamicTemplate.htmlContent, vars), user.id, "ACTIVATION_LINK", user.partner)
+      emailSent = await sendEmail(user.email, replaceVariables(dynamicTemplate.subject, vars), replaceVariables(dynamicTemplate.htmlContent, vars), user.id, "ACTIVATION_LINK", user.partner, user.role === "TRAINER" ? { bcc: "contact@switchingformation.com" } : undefined)
     } else {
       const emailData = resendActivationEmail(user.firstName, token, user.partner, user.partner?.slug)
-      emailSent = await sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACTIVATION_LINK", user.partner)
+      emailSent = await sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACTIVATION_LINK", user.partner, user.role === "TRAINER" ? { bcc: "contact@switchingformation.com" } : undefined)
     }
   } catch (err) {
     console.error("[ADMIN-RESEND-ACTIVATION]", err)

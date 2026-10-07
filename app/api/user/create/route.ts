@@ -18,7 +18,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { firstName, lastName, email, password, userRole, partnerId, reference } = await req.json()
+  const { firstName, lastName, email, password, userRole, partnerId, reference, sendAutomaticEmails = true } = await req.json()
+
+  if (typeof sendAutomaticEmails !== "boolean") {
+    return NextResponse.json({ error: "Option de mails invalide" }, { status: 400 })
+  }
+  if (!sendAutomaticEmails && (typeof password !== "string" || password.length < 8)) {
+    return NextResponse.json({ error: "Définissez un mot de passe d'au moins 8 caractères" }, { status: 400 })
+  }
 
   if (!firstName?.trim() || !lastName?.trim() || !email?.trim()) {
     return NextResponse.json({ error: "Tous les champs sont requis" }, { status: 400 })
@@ -38,7 +45,7 @@ export async function POST(req: Request) {
     }
   }
 
-  let effectiveRole = userRole === "PARTNER_ADMIN" ? Role.PARTNER_ADMIN : Role.LEARNER
+  let effectiveRole = userRole === "TRAINER" ? Role.TRAINER : userRole === "PARTNER_ADMIN" ? Role.PARTNER_ADMIN : Role.LEARNER
   let effectivePartnerId = partnerId || null
 
   // Un admin partenaire ne peut créer que DANS SON PROPRE partenaire, et seulement
@@ -57,6 +64,14 @@ export async function POST(req: Request) {
     effectivePartnerId = adminPartnerId
   } else if (effectiveRole === "PARTNER_ADMIN" && !effectivePartnerId) {
     return NextResponse.json({ error: "Un admin partenaire doit être rattaché à un partenaire" }, { status: 400 })
+  }
+
+  if (effectiveRole === Role.TRAINER) {
+    const switching = await prisma.partner.findUnique({ where: { slug: "switching" } })
+    if (!switching?.isActive || !switching.isInternal || (partnerId && partnerId !== switching.id)) {
+      return NextResponse.json({ error: "Un formateur doit être rattaché à Switching Formation" }, { status: 400 })
+    }
+    effectivePartnerId = switching.id
   }
 
   if (effectivePartnerId) {
@@ -80,7 +95,7 @@ export async function POST(req: Request) {
       role: effectiveRole,
       partnerId: effectivePartnerId,
       reference: trimmedRef,
-      isActive: false,
+      isActive: !sendAutomaticEmails,
     },
     include: { partner: true },
   })
@@ -88,7 +103,7 @@ export async function POST(req: Request) {
   let activationEmailSent = false
 
   // Generate activation token and send welcome email with activation link
-  try {
+  if (sendAutomaticEmails) try {
     const activationToken = await generateToken(user.id, "ACTIVATION")
     const partnerParam = user.partner?.slug ? `&partner=${user.partner.slug}` : ""
     const baseUrl = getBaseUrl()
@@ -112,10 +127,12 @@ export async function POST(req: Request) {
       }
       const subject = replaceVariables(dynamic.subject, vars)
       const html = replaceVariables(dynamic.htmlContent, vars)
-      activationEmailSent = await sendEmail(user.email, subject, html, user.id, "ACCOUNT_CREATED", user.partner)
+      activationEmailSent = await sendEmail(user.email, subject, html, user.id, "ACCOUNT_CREATED", user.partner,
+        effectiveRole === Role.TRAINER ? { bcc: "contact@switchingformation.com" } : undefined)
     } else {
       const emailData = accountCreatedEmail(user.firstName, user.email, activationToken, user.partner, user.partner?.slug)
-      activationEmailSent = await sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACCOUNT_CREATED", user.partner)
+      activationEmailSent = await sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACCOUNT_CREATED", user.partner,
+        effectiveRole === Role.TRAINER ? { bcc: "contact@switchingformation.com" } : undefined)
     }
   } catch {
     // Never block user creation if email fails
@@ -130,5 +147,6 @@ export async function POST(req: Request) {
     partnerId: user.partnerId,
     partner: user.partner,
     activationEmailSent,
+    ...(!sendAutomaticEmails ? { emailSkipped: "mails automatiques désactivés", isActive: true } : {}),
   }, { status: 201 })
 }

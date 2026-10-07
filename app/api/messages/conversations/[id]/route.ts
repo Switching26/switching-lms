@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
+import { checkedConversation } from "../../_access"
+import { TrainerAccessError } from "@/lib/trainer/access"
+
 export const dynamic = "force-dynamic"
 
 // GET — messages for a conversation (with optional ?after= for polling)
@@ -10,18 +13,17 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
 
   const user = session.user
-  const conversation = await prisma.conversation.findUnique({ where: { id: params.id } })
-  if (!conversation) return NextResponse.json({ error: "Conversation introuvable" }, { status: 404 })
-
-  // Verify access
-  if (conversation.learnerId !== user.id && conversation.adminId !== user.id) {
-    return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
+  let conversation
+  try { conversation = await checkedConversation(user, params.id) }
+  catch (e) {
+    if (e instanceof TrainerAccessError) return NextResponse.json({ error: e.message }, { status: e.status })
+    throw e
   }
 
   const afterId = req.nextUrl.searchParams.get("after")
   let afterDate: Date | undefined
   if (afterId) {
-    const afterMsg = await prisma.message.findUnique({ where: { id: afterId }, select: { createdAt: true } })
+    const afterMsg = await prisma.message.findUnique({ where: { id: afterId, conversationId: params.id }, select: { createdAt: true } })
     if (afterMsg) afterDate = afterMsg.createdAt
   }
 

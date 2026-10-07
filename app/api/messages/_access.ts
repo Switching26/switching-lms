@@ -4,28 +4,47 @@ import { canTrainerSeeLearner, requireTrainer, TrainerAccessError } from "@/lib/
 
 export interface MessageIdentity { id: string; role: string; partnerId?: string | null }
 
-export async function allowedLearners(trainerId: string): Promise<string[]> {
-  const assignments = await prisma.trainerAssignment.findMany({
-    where: { trainerId, hasElearning: true, archivedAt: null, learnerId: { not: null }, enrollmentId: { not: null },
-      trainer: { role: "TRAINER", isActive: true, archivedAt: null,
-        OR: [{ partnerId: null }, { partner: { isInternal: true } }] },
-      learner: { role: "LEARNER", archivedAt: null,
-        OR: [{ partnerId: null }, { partner: { isInternal: true } }] } },
-    select: { learnerId: true },
-  })
-  return Array.from(new Set(assignments.map(a => a.learnerId!)))
+/** Role and partner can change while an existing session is still valid. */
+export async function currentMessageIdentity(user: MessageIdentity) {
+  const current = await prisma.user.findUnique({ where: { id: user.id },
+    select: { id: true, role: true, partnerId: true } })
+  if (!current) throw new TrainerAccessError("Non autorisé", 401)
+  return current
 }
 
-export async function conversationWhere(user: MessageIdentity): Promise<Prisma.ConversationWhereInput> {
+export async function allowedLearners(trainerId: string): Promise<string[]> {
+  const assignments = await prisma.trainerAssignment.findMany({
+    where: { trainerId, hasElearning: true, archivedAt: null,
+      learnerId: { not: null }, enrollmentId: { not: null } },
+    select: { learnerId: true },
+  })
+  const allowed: string[] = []
+  for (const learnerId of Array.from(new Set(assignments.map(a => a.learnerId!)))) {
+    if (await canTrainerSeeLearner(trainerId, learnerId)) allowed.push(learnerId)
+  }
+  return allowed
+}
+
+export async function conversationWhere(identity: MessageIdentity): Promise<Prisma.ConversationWhereInput> {
+  const user = await currentMessageIdentity(identity)
   if (user.role === "TRAINER") {
     await requireTrainer()
     return { adminId: user.id, learnerId: { in: await allowedLearners(user.id) } }
   }
-  if (user.role !== "LEARNER") return { adminId: user.id }
+  // Preserve the super-admin's existing scope, including all learner partners.
+  if (user.role === "SUPER_ADMIN") return { adminId: user.id }
+  if (user.role === "PARTNER_ADMIN") return user.partnerId
+    ? { adminId: user.id, learner: { role: "LEARNER", partnerId: user.partnerId } }
+    : { adminId: user.id, learnerId: { in: [] } }
+  if (user.role !== "LEARNER") throw new TrainerAccessError("Accès refusé", 403)
   const assignments = await prisma.trainerAssignment.findMany({ where: { learnerId: user.id }, select: { trainerId: true } })
   const allowed: string[] = []
   for (const a of assignments) if (await canTrainerSeeLearner(a.trainerId, user.id)) allowed.push(a.trainerId)
-  return { learnerId: user.id, OR: [{ admin: { role: { not: "TRAINER" } } }, { adminId: { in: allowed } }] }
+  return { learnerId: user.id, OR: [
+    { admin: { role: "SUPER_ADMIN" } },
+    ...(user.partnerId ? [{ admin: { role: "PARTNER_ADMIN" as const, partnerId: user.partnerId } }] : []),
+    { admin: { role: "TRAINER" }, adminId: { in: allowed } },
+  ] }
 }
 
 export async function checkedConversation(user: MessageIdentity, id: string) {
@@ -36,15 +55,23 @@ export async function checkedConversation(user: MessageIdentity, id: string) {
   if (conversation.learnerId !== user.id && conversation.adminId !== user.id) {
     throw new TrainerAccessError("Accès refusé", 403)
   }
-  if (user.role === "TRAINER") await requireTrainer()
-  if ((conversation.admin.role === "TRAINER" || user.role === "TRAINER") &&
-    !await canTrainerSeeLearner(conversation.adminId, conversation.learnerId)) {
-    throw new TrainerAccessError("Accès refusé", 403)
+  const isLearner = conversation.learnerId === user.id
+  const current = isLearner ? conversation.learner : conversation.admin
+  if (isLearner && current.role !== "LEARNER") throw new TrainerAccessError("Accès refusé", 403)
+  if (current.role === "TRAINER") await requireTrainer()
+  // The included users are freshly loaded; an old adminId grants no rights by itself.
+  if (conversation.admin.role === "SUPER_ADMIN") return conversation
+  if (conversation.learner.role === "LEARNER") {
+    if (conversation.admin.role === "PARTNER_ADMIN" && conversation.admin.partnerId &&
+      conversation.admin.partnerId === conversation.learner.partnerId) return conversation
+    if (conversation.admin.role === "TRAINER" &&
+      await canTrainerSeeLearner(conversation.adminId, conversation.learnerId)) return conversation
   }
-  return conversation
+  throw new TrainerAccessError("Accès refusé", 403)
 }
 
-export async function ensureConversation(user: MessageIdentity, target: { trainerId?: string; learnerId?: string } = {}) {
+export async function ensureConversation(identity: MessageIdentity, target: { trainerId?: string; learnerId?: string } = {}) {
+  const user = await currentMessageIdentity(identity)
   let adminId: string | undefined
   let learnerId = user.id
   if (user.role === "TRAINER") {

@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { sendEmail } from "@/lib/email"
 import { getBaseUrl } from "@/lib/get-base-url"
-import { checkedConversation, ensureConversation } from "./_access"
+import { checkedConversation, currentMessageIdentity, ensureConversation } from "./_access"
 import { TrainerAccessError } from "@/lib/trainer/access"
 import { storeSubmission, removeSubmission } from "./_files"
 import { MESSAGE_PREFIX, readCorrection, writeCorrection, messageText, type CorrectionStatus } from "@/components/messages/content"
@@ -13,9 +13,9 @@ export const dynamic = "force-dynamic"
 export async function POST(req: NextRequest) {
   const session = await auth()
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
-  const user = session.user
   let storedFile: Awaited<ReturnType<typeof storeSubmission>> | null = null
   try {
+    const user = await currentMessageIdentity(session.user)
     const multipart = req.headers.get("content-type")?.startsWith("multipart/form-data")
     const form = multipart ? await req.formData() : null
     const body = form ? Object.fromEntries(form.entries()) : await req.json()

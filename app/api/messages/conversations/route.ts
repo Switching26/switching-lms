@@ -17,7 +17,7 @@ export async function GET() {
         messages: { orderBy: { createdAt: "desc" }, take: 1 } }, orderBy: { updatedAt: "desc" } })
     return NextResponse.json(conversations.map(c => ({ id: c.id, learner: c.learner, admin: c.admin,
       lastMessage: c.messages[0] ? { ...c.messages[0], content: messageText(c.messages[0].content) } : null,
-      isRead: user.role === "LEARNER" ? c.isReadLearner : c.isReadAdmin, updatedAt: c.updatedAt })))
+      isRead: c.learnerId === user.id ? c.isReadLearner : c.isReadAdmin, updatedAt: c.updatedAt })))
   } catch (e) {
     if (e instanceof TrainerAccessError) return NextResponse.json({ error: e.message }, { status: e.status })
     throw e

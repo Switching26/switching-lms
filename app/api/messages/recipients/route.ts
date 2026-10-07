@@ -1,15 +1,15 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { allowedLearners } from "../_access"
+import { allowedLearners, currentMessageIdentity } from "../_access"
 import { canTrainerSeeLearner, requireTrainer, TrainerAccessError } from "@/lib/trainer/access"
 export const dynamic = "force-dynamic"
 export async function GET() {
   const session = await auth()
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
   try {
-    const user = session.user
-    if (String(user.role) === "TRAINER") {
+    const user = await currentMessageIdentity(session.user)
+    if (user.role === "TRAINER") {
       await requireTrainer()
       return NextResponse.json(await prisma.user.findMany({ where: { id: { in: await allowedLearners(user.id) } },
         select: { id: true, firstName: true, lastName: true, email: true }, orderBy: { lastName: "asc" } }))

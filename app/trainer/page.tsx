@@ -1,3 +1,3 @@
-import { redirect } from "next/navigation"
+import Today from "@/components/trainer/Today"
 
-export default function TrainerHome() { redirect("/trainer/eleves") }
+export default function TrainerHome() { return <Today /> }

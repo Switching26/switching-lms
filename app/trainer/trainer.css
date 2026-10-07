@@ -146,3 +146,71 @@
   .trainer-agenda-day > h2 { display:flex; gap:10px; align-items:center; }
   .trainer-agenda-list { padding:4px 15px; }
 }
+
+/* V2 calendar and review surfaces keep the existing LMS tokens. */
+.trainer-confirmation { display:grid; gap:16px; }
+.trainer-confirm-summary { display:grid; gap:8px; font-size:14px; line-height:1.7; overflow-wrap:anywhere; }
+.trainer-confirm-summary h3 { font-size:17px; }
+.trainer-confirm-summary dl { display:grid; grid-template-columns:110px minmax(0,1fr); gap:6px 12px; }
+.trainer-confirm-summary dt { color:var(--lms-muted); }
+.trainer-confirm-summary dd { margin:0; white-space:pre-wrap; }
+.trainer-confirmation .trainer-callout { margin:0; }
+.trainer-calendar-scroll { overflow:auto; max-width:100%; border:1px solid var(--lms-line); border-radius:18px; background:var(--lms-paper); }
+.trainer-time-scroll { max-height:620px; overscroll-behavior:contain; }
+.trainer-time-grid { display:grid; min-width:100%; width:max-content; position:relative; }
+.trainer-time-corner,.trainer-time-heading { position:sticky; top:0; z-index:4; min-height:46px; padding:12px 6px; background:var(--lms-paper); border-bottom:1px solid var(--lms-line); font-size:12px; text-align:center; }
+.trainer-time-corner { left:0; z-index:6; color:var(--lms-muted); font-size:10px; }
+.trainer-time-heading.is-today { background:var(--lms-soft); color:var(--lesson-brand-accent,#087d83); font-weight:600; }
+.trainer-hour-axis { position:sticky; left:0; z-index:3; background:var(--lms-paper); height:1536px; }
+.trainer-hour-axis span { display:block; height:64px; padding:4px 6px 0; color:var(--lms-muted); font-size:11px; text-align:right; }
+.trainer-time-column { position:relative; height:1536px; border-left:1px solid var(--lms-line); }
+.trainer-time-slot { display:block; width:100%; height:32px; border-bottom:1px solid #e5ebec70; background:transparent; }
+.trainer-time-slot:nth-child(even) { border-bottom-color:var(--lms-line); }
+.trainer-time-slot:hover:not(:disabled),.trainer-time-slot:focus-visible { background:var(--lms-soft); }
+.trainer-time-slot:disabled { cursor:default; }
+.trainer-calendar-event { position:absolute; z-index:2; border-radius:9px; text-align:left; padding:4px 7px; display:flex; flex-direction:column; overflow:hidden; gap:3px; line-height:1.3; border:1px solid #ffffffa0; }
+.trainer-calendar-event strong { font-size:11px; font-weight:600; white-space:nowrap; }
+.trainer-calendar-event span { font-size:12px; overflow-wrap:anywhere; }
+.trainer-calendar-event.is-session,.trainer-month-event.is-session { background:#e3f4f4; color:#0b4d50; }
+.trainer-calendar-event.is-unavailable,.trainer-month-event.is-unavailable { background:repeating-linear-gradient(135deg,#edf0f2,#edf0f2 8px,#e5e9ec 8px,#e5e9ec 10px); color:#4c5861; }
+.trainer-month-grid { display:grid; grid-template-columns:repeat(7,minmax(125px,1fr)); min-width:875px; }
+.trainer-month-weekday { padding:12px; font-size:12px; text-align:center; border-bottom:1px solid var(--lms-line); color:var(--lms-muted); }
+.trainer-month-cell { min-height:136px; padding:5px; border-right:1px solid var(--lms-line); border-bottom:1px solid var(--lms-line); }
+.trainer-month-cell.is-outside { background:var(--lms-bg); }
+.trainer-month-cell.is-today .trainer-month-day { color:var(--lesson-brand-accent,#087d83); background:var(--lms-soft); font-weight:700; }
+.trainer-month-day { width:44px; min-height:44px; border-radius:12px; font-size:13px; }
+.trainer-month-event { display:flex; flex-direction:column; text-align:left; padding:7px; gap:3px; border-radius:8px; width:100%; min-height:44px; margin:3px 0; font-size:11px; }
+.trainer-month-event span { overflow-wrap:anywhere; }
+.trainer-month-free { display:block; width:100%; min-height:44px; color:var(--lms-muted); font-size:11px; text-align:left; padding:7px; }
+.trainer-calendar-navigation { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+.trainer-calendar-navigation strong { margin-right:auto; font-size:15px; }
+.trainer-agenda-date { width:170px; min-height:44px; font-size:13px; }
+.trainer-calendar-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.trainer-agenda-legend .is-unavailable { background:#edf0f2; color:#4c5861; }
+.trainer-contact-timeline { list-style:none; display:grid; gap:14px; margin-top:16px; }
+.trainer-contact-timeline li { border-left:2px solid var(--lms-line); padding-left:14px; }
+.trainer-contact-timeline strong { display:block; font-size:13px; }
+.trainer-contact-timeline time { font-size:12px; color:var(--lms-muted); }
+.trainer-contact-timeline p { font-size:13px; white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.7; margin-top:5px; }
+.trainer-steps-overview { display:grid; gap:10px; }
+.trainer-contact-stage { background:var(--lms-bg); padding:16px; border-radius:15px; }
+.trainer-contact-stage h2 { font-size:16px; margin-bottom:6px; }
+.trainer-contact-stage p { font-size:13px; line-height:1.7; }
+.trainer-step-summary { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.trainer-step-summary span { padding:7px 10px; border-radius:10px; font-size:12px; }
+.trainer-step-summary .is-done { background:#e6f4ec; color:#1a7f4b; }
+.trainer-step-summary .is-todo { background:#fdecec; color:#b42318; }
+.trainer-step-summary .is-wait { background:#fbf1df; color:#8a5a12; }
+.trainer-today-seances { display:grid; gap:12px; }
+.trainer-today-card { padding:18px 20px; }
+.trainer-today-card .trainer-section-heading { margin-bottom:8px; }
+.trainer-dock { grid-template-columns:repeat(5,minmax(0,1fr)); }
+@media (max-width:760px) {
+  .trainer-time-scroll { max-height:510px; }
+  .trainer-calendar-actions { width:100%; }
+  .trainer-calendar-navigation strong { width:100%; }
+  .trainer-confirm-summary dl { grid-template-columns:minmax(0,1fr); gap:3px; }
+  .trainer-confirm-summary dd { margin-bottom:7px; }
+  .trainer-dock a { font-size:9px; }
+  .trainer-today-card { padding:16px; }
+}

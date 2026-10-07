@@ -3,9 +3,10 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import { BookOpen, CalendarDays, ChevronRight, FileCheck2, MessagesSquare, UsersRound } from "lucide-react"
+import { BookOpen, CalendarDays, ChevronRight, FileCheck2, Home, MessagesSquare, UsersRound } from "lucide-react"
 
 const items = [
+  { label: "Aujourd’hui", href: "/trainer", icon: Home },
   { label: "Mes élèves", href: "/trainer/eleves", icon: UsersRound },
   { label: "Agenda", href: "/trainer/agenda", icon: CalendarDays },
   { label: "Messages", href: "/trainer/messages", icon: MessagesSquare },
@@ -17,7 +18,7 @@ export default function TrainerShell({ children, name, email }: {
 }) {
   const pathname = usePathname()
   const [counts, setCounts] = useState<{ messages: number; corrections?: number }>({ messages: 0 })
-  const active = (href: string) => pathname === href || pathname.startsWith(href + "/")
+  const active = (href: string) => pathname === href || (href !== "/trainer" && pathname.startsWith(href + "/"))
   const initials = name.split(/\s+/).map(part => part[0]).slice(0, 2).join("")
   useEffect(() => {
     const controller = new AbortController()
@@ -26,7 +27,7 @@ export default function TrainerShell({ children, name, email }: {
       if (pending || document.visibilityState === "hidden") return
       pending = true
       try {
-        // Integration INT-01: messaging owns this shared count endpoint.
+        // INT2-02: preserve the V1 shared messaging count contract.
         const response = await fetch("/api/messages/unread-count", { signal: controller.signal, cache: "no-store" })
         if (!response.ok || controller.signal.aborted) return
         const data = await response.json()
@@ -54,7 +55,7 @@ export default function TrainerShell({ children, name, email }: {
     sync(); window.addEventListener("resize", sync)
     return () => { window.removeEventListener("resize", sync); previous.forEach(([key, value]) => value ? root.style.setProperty(key, value) : root.style.removeProperty(key)) }
   }, [])
-  const brand = <Link href="/trainer/eleves" className="lms-brand-lock" aria-label="Switching Formation, mes élèves">
+  const brand = <Link href="/trainer" className="lms-brand-lock" aria-label="Switching Formation, aujourd’hui">
     <span className="lms-brand-mark"><BookOpen size={22} aria-hidden /></span>
     <span><strong>Switching Formation</strong><small title={name}>Espace formatrice · {name.split(" ")[0]}</small></span>
   </Link>

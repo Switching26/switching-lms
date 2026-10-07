@@ -1,0 +1,800 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1n7z00456xxg7cyc5nrj",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Retrouver une pièce jointe qu'on croit perdue"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 19,
+  "caracteres_dits": 1915,
+  "duree_totale_s": 114.2,
+  "segments_valides": 19,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Il l'a pourtant envoyée lui-même, il y a deux jours. Vous allez la retrouver dans votre boîte, la lui renvoyer, et lui indiquer d'où elle vient. Rien ici ne se devine: tout se cherche.",
+   "empreinte_texte_dit": "cd2374e850f2a02fc15515e3533e3680109ba3b3a2c5660a615ac71a22651682",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 176004,
+   "duree_s": 10.92,
+   "caracteres_dits": 184,
+   "caracteres_factures": 184,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Il l'a pourtant envoyé lui-même il y a deux jours.\n Vous allez la retrouver dans votre boîte, la lui renvoyer\n et lui indiquer d'où elle vient.\n Rien ici ne se devine.\n Tout se cherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Il l'a pourtant envoyé lui-même il y a deux jours.\n Vous allez la retrouver dans votre boîte, la lui renvoyer\n et lui indiquer d'où\n elle vient.\n Rien ici ne se devine.\n Tout se cherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O05-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Filtrez votre boîte pour ne garder que ce qui parle des plans de l'escalier.",
+   "empreinte_texte_dit": "463be451636891054ecdfa0147beebed3f27ea1eead3533b4b9eb3bd5c50abbf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Filtrez votre boîte pour ne garder que ce qui parle des\n plans de l'escalier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Filtrez votre boîte pour ne garder que ce qui parle des\n plans de l'escalier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O05-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "La recherche porte sur l'expéditeur, l'objet et le texte: un seul mot de l'objet suffit.",
+   "empreinte_texte_dit": "4d6d9346c7576fb91460e37be556e6b8bad61e0cd5c82f42636a30e84070147e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La recherche porte sur l'expéditeur, l'objet et le texte.\n Un seul mot de l'objet suffit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La recherche porte sur l'expéditeur, l'objet et le texte.\n Un seul mot de l'objet suffit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O05-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Le filtre isole la conversation qui porte les plans: plus rapide que de remonter la liste.",
+   "empreinte_texte_dit": "424993ab49809ee2257e546108741e917caf4a7d97a904bcd4ecb5daa32aa37c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le filtre isole la conversation qui porte les plans.\n Plus rapide de remonter la liste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le filtre isole la conversation qui porte les plans.\n Plus rapide de remonter la liste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O05-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ouvrez le message d'Hugo Vasseur et vérifiez que la pièce jointe est bien la version 3.",
+   "empreinte_texte_dit": "aa403877061f59151c71aea6613e385c24a44715145ae16260a9b5a6d7fed490",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message d'Ugo Vasseur et vérifiez que la pièce\n jointe est bien la version 3.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message d'Ugo Vasseur et vérifiez que la pièce\n jointe est bien la version 3.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O05-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le nom du fichier s'affiche sous l'en-tête du message.",
+   "empreinte_texte_dit": "4d1dbf1b07115fdfd62487521851265d8a3bcd1c8c2f2456fe7f44e58d04a5a9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le nom du fichier s'affiche sous l'entête du message.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le nom du fichier s'affiche sous l'en-tête du message.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O05-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Retirez le filtre: vous n'allez pas travailler avec une boîte à moitié cachée.",
+   "empreinte_texte_dit": "38e1330cc1067352102ad329a3474b7ab960feb0aec22c36b51d893508259966",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Retirez le filtre. Vous n'allez pas travailler avec une boî\nte à moitié cachée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Retirez le filtre. Vous n'allez pas travailler avec une boî\nte à moitié cachée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O05-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Videz complètement le champ de recherche.",
+   "empreinte_texte_dit": "f82cd55809bfffeab8f88ac032849306e2b200c27762157a5d62b9c5c75780da",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Vider complètement le champ de recherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Videz complètement le champ de recherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O05-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "On ne travaille pas dans une boîte à moitié cachée: le filtre se retire dès qu'il a servi.",
+   "empreinte_texte_dit": "0e14f33d282a8a0b7b1d305f68d5a32da75d14ef52f0cdaa73335c17c6806fa9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "On ne travaille pas dans une boîte à moitié cachée. Le fil\ntre se retire dès qu'il a servi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "On ne travaille pas dans une boîte à moitié cachée.\n Le filtre se retire dès qu'il a servi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O05-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Renvoyez ce message à Hugo, h.vasseur@menuiserie-vasseur.fr, de façon qu'il reçoive le fichier lui-même, et pas une description.",
+   "empreinte_texte_dit": "ffc1a96fa51a5bc209603a04d7d6f01449ee7de2d02d085ee254cf87ea440f80",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 153435,
+   "duree_s": 9.52,
+   "caracteres_dits": 128,
+   "caracteres_factures": 128,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Renvoyez ce message à Hugo, H.vasseur@menuiserie-vasseur.fr\n,\n de façon qu'il reçoive le fichier lui-même et passe une\n description.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.063,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Renvoyez ce message à hugo@vasser@menuiserie-vasser.fr\n de façon qu'il reçoive le fichier lui-même et pas une\n description.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O05-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Transférer emporte la pièce jointe; Répondre ne l'emporterait pas.",
+   "empreinte_texte_dit": "8bcf8ab85d5abe02e5b85e51ea0a70f030078f15650e5a107df631a6ddffdf66",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.1,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Transférer emporte la pièce jointe. Répondre ne l'emport\nerez pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.075,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Transférer emporte la pièce jointe. Répondre ne l'emporter\nait pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O05-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le transfert emporte le fichier lui-même, pas un lien, pas une copie refaite.",
+   "empreinte_texte_dit": "4037b4be8101cdbd9c639b50e18ab5ee4aefb412cf783be59a41ad91307c9644",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le transfert emporte le fichier lui-même, pas un lien, pas\n une copie refaite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le transfert emporte le fichier lui-même, pas un lien, pas\n une copie refaite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O05-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Écrivez un mot et envoyez. Il doit préciser de quelle version il s'agit et d'où elle vient, pour qu'Hugo sache qu'il s'agit bien de son propre envoi.",
+   "empreinte_texte_dit": "3992b28ab7fa8325c4c52705a80c3ad15f3cbcc9700f840c40f87e6fb6cc2f2b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 132955,
+   "duree_s": 8.24,
+   "caracteres_dits": 149,
+   "caracteres_factures": 149,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "écrivez un mot et envoyez.\n Il doit préciser de quelle version il s'agit et d'où elle\n vient\n pour qu'Ugo sache qu'il s'agit bien de son propre envoi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "écrivez un mot et envoyez.\n Il doit préciser de quelle version il s'agit et d'où elle\n vient,\n pour qu'Hugo sache qu'il s'agit bien de son propre envoi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O05-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Deux informations sont attendues: la version, et le fait qu'elle vienne de lui.",
+   "empreinte_texte_dit": "166f63dc7d93edc973c930cbd6f1d270647ea4c1fdc1f263a66db18afa3117bd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La version est le fait qu'elle vienne de lui.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La version et le fait qu'elle vienne de lui.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O05-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Hugo sait quelle version il reçoit et d'où elle vient: il ne renverra pas la mauvaise.",
+   "empreinte_texte_dit": "8daf351c07553342387e6fc37073f73c8c759ea24cd1e4597befa07403365f5a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Hugo sait quelle version il reçoit et d'où elle vient.\n Il ne renverra pas la mauvaise.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Hugo sait quelle version il reçoit et d'où elle vient.\n Il ne renverra pas la mauvaise.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O05-E01-99",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Hugo a reçu la bonne version des plans. Rangez-le dans Fournisseurs. Chez le fournisseur et non chez le client: on range d'après l'interlocuteur, jamais d'après le sujet.",
+   "empreinte_texte_dit": "de38034fd4c23920635b81ee0d54ae7ce2a084ce1a03c030066fb310412359f4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 153435,
+   "duree_s": 9.52,
+   "caracteres_dits": 170,
+   "caracteres_factures": 170,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Hugo a reçu la bonne version des plans.\n Ranger le dans fournisseur.\n Chez le fournisseur et non chez le client,\n on range d'après l'interlocuteur, jamais d'après le sujet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Hugo a reçu la bonne version des plans.\n Rangez-le dans Fournisseur.\n Chez le fournisseur et non chez le client, on range d'après\n l'interlocuteur, jamais\n d'après le sujet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O05-E01-99",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Fournisseurs.",
+   "empreinte_texte_dit": "3336bee2e9fcb8d49a77b6a21e8a5f945553cf3072510cbd457936c316072d76",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacer dans le ruban et\n choisissez Fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O05-E01-99",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Le classement suit l'expéditeur: un confrère va chez les fournisseurs, pas chez les clients.",
+   "empreinte_texte_dit": "dbad6659c59f728a32fe2e70a504a13cd5b3c6b9bcc0168df2e4f42fc9e7bc50",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le classement suit l'expéditeur. Un confrère va chez les\n fournisseurs, pas chez les clients.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le classement suit l'expéditeur.\n Un confrère va chez les fournisseurs,\n pas chez les clients.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un fichier reçu ne se redemande pas: il se retrouve. Et le transfert vaut mieux que la pièce jointe recopiée, il emporte la date et l'expéditeur d'origine, donc la preuve de quelle version il s'agit.",
+   "empreinte_texte_dit": "1026cb858a9e37a66e13bb4f93fde33f408c52b5fb1b887400825ba10059f914",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 180184,
+   "duree_s": 11.2,
+   "caracteres_dits": 199,
+   "caracteres_factures": 199,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un fichier reçu ne se redemande pas, il se retrouve.\n Et le transfert vaut mieux que la pièce jointe recopier, il\n emporte la date et l'expéditeur d'origine,\n donc la preuve de quelle version il s'agit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un fichier reçu ne se redemande pas, il se retrouve.\n Et le transfert vaut mieux que la pièce jointre copiée, il\n emporte la date et l'expéditeur\n d'origine, donc la preuve de quelle version il s'agit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

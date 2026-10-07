@@ -1,0 +1,712 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1o9c006t6xxgg6w0l8fp",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Le poids, ce qu'on ne voit qu'après coup"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 2697,
+  "duree_totale_s": 157.3,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un fichier trop lourd ne fait pas échouer votre message tout de suite. Il est accepté, il semble parti, et il est rejeté quelques heures plus tard par le serveur du destinataire, parfois sans que personne vous prévienne. Vous croyez avoir répondu, votre client attend toujours. La parade tient en un coup d'œil avant de cliquer.",
+   "empreinte_texte_dit": "7b6e46614cb5bc91e378f7b7c530c4dc16f100c1fe88c50a135818ad5f4aba73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 280076,
+   "duree_s": 17.44,
+   "caracteres_dits": 328,
+   "caracteres_factures": 328,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un fichier trop lourd ne fait pas échouer votre message\n tout de suite.\n Il est accepté, il semble parti, et il est rejeté quelques\n heures plus tard par le serveur du destinataire, parfois\n sans que personne vous prévienne.\n Vous croyez avoir répondu, votre client attend toujours.\n La parade tient en un coup d'œil avant de cliquer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un fichier trop lourd ne fait pas échouer votre message\n tout de suite.\n Il est accepté, il semble parti, et il est rejeté quelques\n heures plus tard par le serveur\n du destinataire, parfois sans que personne vous prévienne.\n Vous croyez avoir répondu, votre client attend toujours.\n L'apparate tient en un coup d'œil avant de cliquer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O09-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la demande d'Hugo. Il réclame les photos du chantier. Le fichier existe sur votre poste, mais son poids va décider de la façon dont vous allez répondre.",
+   "empreinte_texte_dit": "30abe84edfec5b144b451baaf2ce6bc14022f09d9bfbb18563cbea5c3c53b224",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 150927,
+   "duree_s": 9.36,
+   "caracteres_dits": 159,
+   "caracteres_factures": 159,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande du go. Il réclame les photos du chantier.\n Le fichier existe sur votre poste, mais son poids va déc\nider de la façon dont vous allez répondre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande d'Ugo.\n Il réclame les photos du chantier.\n Le fichier existe sur votre poste,\n mais son poids va décider de la façon dont vous allez\n répondre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O09-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui demande les photos du chantier.",
+   "empreinte_texte_dit": "035f07477b3067cb2c3d8d38d1ce6340dd09b80bcab36ff0405ded6d4b8322f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 43511,
+   "duree_s": 2.64,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui demande les photos du chantier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui demande les photos du chantier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O09-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre, puis regardez la liste des fichiers avant de choisir quoi que ce soit.",
+   "empreinte_texte_dit": "21e0f70daa272ed3b6c8bca7ec99add27a4b191854266f7dafca4fd982a354fe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 74022,
+   "duree_s": 4.56,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre, puis regardez la liste des fichiers\n avant de choisir quoi que ce soit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre, puis regardez la liste des fichiers\n avant de choisir quoi que ce soit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O09-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Répondre, premier de la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "d0928159643c47ab6e9cbdf7ad84ed2bf895b25e91884eefe819e29deca7edd1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre, premier de la barre du haut du volet de\n lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre, premier de la barre du haut du volet de\n lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O09-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Cliquez sur Joindre et lisez la colonne de droite. Photos-chantier-HD.zip pèse 46 Mo.",
+   "empreinte_texte_dit": "aa8940ccdda67ca7692f1d349f5dd149e0b54e5d32ae7165bbdfc4a7cc7e6e08",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 111639,
+   "duree_s": 6.92,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.111,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Joindre et lisez la colonne de droite.\n Photo-chantier HD.zip pèse 46 MHz.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Joindre et lisez la colonne de droite.\n Photo-chantier HD.zip pèse 46 mégaoctets.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O09-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le trombone Joindre, dans la barre du haut de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "f57835a91a6f99e86fdeffe0aebdf2e9bb45e25109c349dd193a9138667d1d88",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le trombone joindre dans la barre du haut de la fenêtre de\n rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le trombone joindre, dans la barre du haut de la fenêtre de\n rédaction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O09-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "46 Mo: la plupart des messageries s'arrêtent autour de 20 à 25 Mo, et ne vous le disent pas toujours.",
+   "empreinte_texte_dit": "407110570e25d7d30b245fbc0e0059da99de1e79e77140a111aae3798b65237e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 114982,
+   "duree_s": 7.12,
+   "caracteres_dits": 101,
+   "caracteres_factures": 303,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "46 méga-octets. La plupart des messageries s'arrêtent\n autour de 20 à 25 méga-octets et ne vous le disent pas\n toujours.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "46 mégaoctets.\n La plupart des messageries s'arrêtent autour de 20 à 25 mé\ngaoctets\n et ne vous le disent pas toujours.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O09-L02-03B",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Un fichier trop lourd n'échoue pas devant vous, c'est ce qui le rend dangereux. Il est accepté, la fenêtre se referme, le message paraît parti. Le rejet vient du serveur du destinataire, des heures plus tard, souvent sans prévenir: vous croyez avoir répondu, votre client attend toujours. Cela se joue dans la colonne de droite, avant de cliquer. Hors de cet atelier: la limite exacte dépend du service et de celui d'en face, souvent 20 à 25 Mo, parfois moins en entreprise. Plutôt que de parier, le vrai Outlook propose d'envoyer un lien de partage OneDrive à la place du fichier: le message reste léger et le destinataire a la dernière version. On le décrit, on le situe, ici, on annonce le fichier et on dit comment on le transmettra.",
+   "empreinte_texte_dit": "bd2d2f38e5c87cd9ef7ee7f6c5fab481cffeb0fc997edcfc250618f2e5b4a454",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 687168,
+   "duree_s": 42.88,
+   "caracteres_dits": 737,
+   "caracteres_factures": 737,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un fichier trop lourd haine et choue pas devant vous, c'est\n ce qui le rend dangereux.\n Il est accepté, la fenêtre se referme, le message par est\n parti.\n Le rejet vient du serveur du destinataire, des heures plus\n tard, souvent sans prévenir.\n Vous croyez avoir répondu, votre client attend toujours.\n Cela se joue dans la colonne de droite avant de cliquer.\n Or de cet atelier, la limite exacte dépend du service et de\n celui d'en face.\n Souvent 20 à 25 méga-octets, parfois moins en entreprise.\n Plutôt que de parier, le vrai Outlook propose d'envoyer un\n lien de partage OneDrive à la place du fichier.\n Le message reste léger et le destinataire à la dernière\n version.\n On le décrit, on le situe, ici on annonce le fichier et on\n dit comment on le transmettra.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un fichier trop lourd haine, et choue pas devant vous, c'\nest ce qui le rend dangereux.\n Il est accepté, la fenêtre se referme, le message par est\n parti.\n Le rejet vient du serveur du destinataire, des heures plus\n tard, souvent sans prévenir.\n Vous croyez avoir répondu, votre client attend toujours.\n Cela se joue dans la colonne de droite, avant de cliquer.\n Hors de cet atelier, la limite exacte dépend du service et\n de celui d'en face, souvent\n 20 à 25 mégaoctets, parfois moins en entreprise.\n Plutôt que de parier, le vrai Outlook propose d'envoyer un\n lien de partage OneDrive à\n la place du fichier.\n Le message reste léger, et le destinataire à la dernière\n version.\n On le décrit, on le situe, ici on annonce le fichier, et on\n dit comment on le transmettra.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O09-L02-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Joignez plutôt Plan-agencement.pdf, et laissez le dossier photo de côté. Un document léger qui arrive vaut mieux qu'un dossier complet qui n'arrive pas: Hugo pourra avancer, et vous conviendrez du reste autrement.",
+   "empreinte_texte_dit": "55d8cc3e94312c95120456bf55cace61d1ee44d3a025bff4bee761761f0dd738",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 197738,
+   "duree_s": 12.28,
+   "caracteres_dits": 213,
+   "caracteres_factures": 213,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignez plutôt plan-agencement.pdf et laissez le dossier\n photo de côté.\n Un document léger qui arrive vaut mieux qu'un dossier\n complet qui n'arrive pas.\n Hugo pourra avancer et vous conviendrez du reste autrement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignez plutôt planagencement.pdf et laissez le dossier\n photo de côté.\n Un document léger qui arrive vaut mieux qu'un dossier\n complet qui n'arrive pas.\n Hugo pourra avancer et vous conviendrez du reste autrement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O09-L02-04",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Cliquez sur le plan dans la liste ouverte; ne touchez pas au fichier de 46 Mo.",
+   "empreinte_texte_dit": "a80ae13d4a67ddd847e413bcf81c479c59595edcd415eab24da441f762845019",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 78,
+   "caracteres_factures": 234,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur le plan dans la liste ouverte.\n Ne touchez pas aux fichiers de 46 méga octets.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur le plan dans la liste ouverte.\n Ne touchez pas au fichier de 46 mégaoctets.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O09-L02-04",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Un document léger qui arrive vaut mieux qu'un dossier lourd qui reste bloqué en route.",
+   "empreinte_texte_dit": "ff7fa66273a029fcb69bf5a032ca6a76d543ce651ba2e063242714f3360ecb44",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un document léger qui arrive vaut mieux qu'un dossier lourd\n qui reste bloqué en route.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un document léger qui arrive vaut mieux qu'un dossier lourd\n qui reste bloqué en route.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O09-L02-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Rédigez la réponse, puis envoyez. Elle doit dire pourquoi les photos ne sont pas jointes et comment il les aura: un fichier absent sans explication passe pour un oubli.",
+   "empreinte_texte_dit": "2a1ca7827b25e43d0e966f7550785c92a2f44fb7169a7cc760a622486fad393f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 161794,
+   "duree_s": 10.04,
+   "caracteres_dits": 168,
+   "caracteres_factures": 168,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger la réponse, puis envoyer.\n Elle doit dire pourquoi les photos ne sont pas jointes et\n comment il les aura.\n Un fichier absin sans explication passe pour un oubli.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger la réponse, puis envoyer.\n Elle doit dire pourquoi les photos ne sont pas jointes et\n comment il les aura.\n Un fichier absent sans explication passe pour un oubli.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O09-L02-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Deux informations sont attendues: la raison, et la solution que vous proposez.",
+   "empreinte_texte_dit": "7c3e3ba97262f4378c5875c16869b7a9a8648b41b71084af9c6198c13a16fc8c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La raison est la solution que vous proposez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La raison est la solution que vous proposez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O09-L02-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Hugo sait pourquoi les photos ne sont pas là et comment les obtenir: le problème est réglé, pas contourné.",
+   "empreinte_texte_dit": "9ca92bd9a56c3468de500a0c6f407e5ca14654bc4ba67c26e4a72db2f6bf0170",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Hugo sait pourquoi les photos ne sont pas là et comment les\n obtenir.\n Le problème est réglé pas contourné.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Hugo sait pourquoi les photos ne sont pas là et comment les\n obtenir.\n Le problème est réglé pas contourné.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Regardez le poids affiché à droite du nom, toujours. Au-delà de quelques mégaoctets, on n'envoie pas: on propose un autre moyen, on découpe, ou on n'envoie que ce qui est utile. Dire dans le message pourquoi le fichier ne suit pas vaut mieux qu'un envoi qui échoue en silence.",
+   "empreinte_texte_dit": "44fcb59febdbf68fde3b2132e54466606a0f24aa90d8d1a34a06ff098436a4a3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 259178,
+   "duree_s": 16.12,
+   "caracteres_dits": 276,
+   "caracteres_factures": 276,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Regardez le poids affiché à droite du nom, toujours.\n Au-delà de quelques méga-octets, on n'en voit pas.\n On propose un autre moyen, on découpe,\n ou on n'en voit que ce qui est utile.\n Dire dans le message pourquoi le fichier ne suit pas,\n vaut mieux qu'un envoi qui échoue en silence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Regardez le poids affiché à droite du nom, toujours.\n Au-delà de quelques mégaoctets, on n'envoie pas.\n On propose un autre moyen, on découpe, ou on n'envoie que\n ce qui est utile.\n Dire dans le message pourquoi le fichier ne suit pas vaut\n mieux qu'un envoi qui échoue en silence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

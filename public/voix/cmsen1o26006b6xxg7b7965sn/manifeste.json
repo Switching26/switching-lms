@@ -1,0 +1,901 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1o26006b6xxg7b7965sn",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Vider une boîte de six messages"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 18,
+  "caracteres_dits": 1838,
+  "duree_totale_s": 116.4,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Ici, chaque message vous indique encore la décision attendue: c'est le moment d'exécuter proprement les quatre gestes, répondre tout de suite, classer, marquer, supprimer, un par message, jusqu'à ce que la boîte ne contienne plus que ce qui attend vraiment quelque chose. À l'évaluation, plus aucune consigne ne vous dira lequel choisir.",
+   "empreinte_texte_dit": "2266bd7368453b139cd50336ea6572cae961f5b06a1fa8e94f6e3fc2c811f5e4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 316021,
+   "duree_s": 19.68,
+   "caracteres_dits": 337,
+   "caracteres_factures": 337,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ici, chaque message vous indique encore la décision attend\nue.\n C'est le moment d'exécuter proprement les quatre gestes,\n répondre tout de suite, classer, marquer, supprimer, impar\nre message,\n jusqu'à ce que la boîte ne contienne plus que ce qui attend\n vraiment quelque chose.\n A.L.Evaluation, plus aucune consigne ne vous dira lequel\n choisir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ici, chaque message vous indique encore la décision attend\nue.\n C'est le moment d'exécuter proprement les quatre gestes,\n répondre tout de suite, classer,\n marquer, supprimer, un par message, jusqu'à ce que la boîte\n ne contienne plus que ce\n qui attend vraiment quelque chose.\n À elle, évaluation, plus aucune consigne ne vous dira\n lequel choisir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O08-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Commencez par ce qui n'appelle aucune action: la fin de série de Promo Outillage.",
+   "empreinte_texte_dit": "7e851931c3ea2e52cd148638e35b5fc1670803a99d0fa39c6608e739175ba405",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Commencez par ce qui n'appelle aucune action, la fin de\n série de promo ou tiage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Commencez par ce qui n'appelle aucune action, la fin de\n série de promo outillage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O08-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Ouvrez le message, puis Supprimer.",
+   "empreinte_texte_dit": "c590c774022218992a0f639c9447ec5f0aba7b36c5ec9a3eda8e660d1be39807",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 42675,
+   "duree_s": 2.6,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis supprimez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis supprimez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O08-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Le plus rapide en premier: l'écran se dégage et le vrai travail apparaît.",
+   "empreinte_texte_dit": "80ee69f03460eb7ee41d9bc90a0c2fcbb7a014347d14f8edaf0f2b18e6cccb55",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 73,
+   "caracteres_factures": 134,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le plus rapide en premier, l'écran se dégage et le vrai\n travail apparaît.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le plus rapide en premier, l'écran se dégage et le vrai\n travail apparaît.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O08-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "La mairie pose une question fermée: répondez-lui tout de suite, à elle seule, en indiquant si le mobilier est traité anti-rayures.",
+   "empreinte_texte_dit": "950f20b2428ac3fe5ac02e21eb5a5487e4d8763f1441ae33fcf02daf99d65a42",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 128357,
+   "duree_s": 7.96,
+   "caracteres_dits": 130,
+   "caracteres_factures": 130,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La mairie pose une question fermée.\n Répondez-lui tout de suite, à elle seule,\n en indiquant si le mobilier est traité en tirayure.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La mairie pose une question fermée.\n Répondez-lui tout de suite, à elle seule, en indiquant si\n le mobilier est traité anti-rayure.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O08-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Ouvrez son message, Répondre, puis rédigez trois lignes. La règle des deux minutes s'applique.",
+   "empreinte_texte_dit": "d370c021b0f4cdd64e4265e20e774c871ece5c3818dcd918927d5b8c4a5795cc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez son message, répondre, puis rédigez trois lignes.\n La règle des deux minutes s'applique.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez son message, répondre, puis rédiger trois lignes.\n La règle des deux minutes s'applique.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O08-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Ce message est traité: sortez-le de la file d'attente en le rangeant chez les clients.",
+   "empreinte_texte_dit": "564ae3f1db7206d06eb92f8e6dd453afa650982fa6dcd159b14803bddd7f2774",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce message est traité. Sortez-le de la file d'attente en le\n rangant chez les clients.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce message est traité. Sortez-le de la file d'attente en le\n rangeant chez les clients.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O08-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Déplacer, puis Clients 2026.",
+   "empreinte_texte_dit": "666745ec5619be3de0e8fc0fea5ef9f53ae1c8b92a5577e5118be8f3f016fcf3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez, puis Client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacé, puis Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O08-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Répondu, donc rangé. Sans ce geste, le message reviendrait sous vos yeux demain matin.",
+   "empreinte_texte_dit": "a4301a54e60608f172970d7412d908f8f50f2c5617feee42d9459d8ff3203022",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondu, donc rangé.\n Sans ce geste, le message reviendrait sous vos yeux demain\n matin.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondu. Donc rangé.\n Sans ce geste, le message reviendrait sous vos yeux demain\n matin.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O08-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Julien Leroux clôt son dossier sans rien demander: rangez son message là où vous retrouverez ce client.",
+   "empreinte_texte_dit": "99b91b055be954bc3ed5fd99e9f4406e16660302c258eaa30992a9da90fe4480",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 86979,
+   "duree_s": 5.36,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Julien Le Roux, clos son dossier sans rien demander.\n Ranger son message là où vous retrouverez ce client.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Julien Leroux clôt son dossier sans rien demander.\n Rangez son message là où vous retrouverez ce client.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O08-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Déplacer, puis Clients 2026.",
+   "empreinte_texte_dit": "666745ec5619be3de0e8fc0fea5ef9f53ae1c8b92a5577e5118be8f3f016fcf3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez, puis Client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacé, puis Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O08-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "La facture lettres Q et D, numéro quatre mille sept cent douze est à payer fin avril: elle est traitée pour aujourd'hui. Rangez-la selon son expéditeur.",
+   "empreinte_texte_dit": "46489757c676ea493e75486ed982ad168fedff79d3cf54bfcafecbed1b041ea3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 147583,
+   "duree_s": 9.16,
+   "caracteres_dits": 152,
+   "caracteres_factures": 456,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "4712"
+      ],
+      "entendus": [
+       "8712"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "La facture lettre Q&D n°8712 est à payer fin avril. Elle est traité pour aujourd'hui. Rangez-la selon son expéditeur.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.013,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "4712"
+       ],
+       "entendus": [
+        "8712"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "La facture lettre Q&D n°8712 est à payer fin avril.\n Elle est traité pour aujourd'hui.\n Rangez-la selon son expéditeur."
+     },
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La facture lettre Q&D, numéro 4712, est à payer fin avril. Elle est traité pour aujourd'hui. Rangez-la selon son expéditeur.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "408ff2e9286bba0813f236872a78046b7eed1da32c08c02e1ca35c6dca3f9c45",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "La facture lettre Q&D, numéro 4712, est à payer fin avril. Elle est traité pour aujourd'hui. Rangez-la selon son expéditeur.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "La facture lettre Q&D, numéro 4712, est à payer fin avril. Elle est traité pour aujourd'hui. Rangez-la selon son expéditeur.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.690805",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O08-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Déplacer, puis Fournisseurs.",
+   "empreinte_texte_dit": "8f1e70bd1147dcf7f86f7ad0e62309ff2ea9c54d7366e3b7501f928580905f60",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 42257,
+   "duree_s": 2.56,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez, puis fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "déplacés, puis fournisseurs.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O08-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Le classement suit l'expéditeur, pas le sujet: une facture va chez les fournisseurs.",
+   "empreinte_texte_dit": "c13481aa396c62895ca8b90baa0e72f63f89fd06663b2a927c574f8b06399a77",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le classement suit l'expéditeur, pas le sujet. Une facture\n va chez les fournisseurs.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le classement suit l'expéditeur, pas le sujet.\n Une facture va chez les fournisseurs.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O08-E01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Reste Hugo: il confirmera vendredi, vous ne pouvez rien en faire. Traitez-le de la seule façon qui vous le remettra sous les yeux au bon moment.",
+   "empreinte_texte_dit": "a62dbb1c576c4e63a81f9681248a1e0d8f16984c986c2fce047e128c4184eb68",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 135462,
+   "duree_s": 8.4,
+   "caracteres_dits": 144,
+   "caracteres_factures": 144,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Restugo, il confirmera vendredi. Vous ne pouvez rien en\n faire.\n Traitez-le de la seule façon qui vous le remettra sous les\n yeux au bon moment.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.012,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "R.S.T. Hugo, il confirmera vendredi. Vous ne pouvez rien en\n faire.\n Traitez-le de la seule façon qui vous le remettra sous les\n yeux au bon moment.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O08-E01-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Ouvrez le message, puis le drapeau. Ne le déplacez pas: il attend encore quelque chose.",
+   "empreinte_texte_dit": "2bd5c66c3abf8827f389d72f05508cca82859a26eba05d86d82060452b0bebe4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis le drapeau. Ne le déplacez pas. Il\n attend encore quelque chose.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis le drapeau. Ne le déplacez pas. Il\n attend encore quelque chose.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O08-E01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Six messages, quatre décisions, une boîte vide, et rien d'oublié.",
+   "empreinte_texte_dit": "4ea1f317e5c1b8134160135797c21a382225296ac94ea6204c86e57866dbb81d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 65,
+   "caracteres_factures": 195,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.057,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "6",
+       "4"
+      ],
+      "entendus": [
+       "6",
+       "4",
+       "1"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "6 messages, 4 décisions, 1 boîte vide et rien d'oublier.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.057,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "6",
+        "4"
+       ],
+       "entendus": [
+        "6",
+        "4",
+        "1"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "6 messages, 4 décisions, 1 boîte vide et rien d'oublier."
+     },
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "6 messages, 4 décisions, une boîte vide et rien d'oublié.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "92d4b8981b3ba0ef70ed0e4882a1d392f511523bf1101ba54eb144c093451408",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "6 messages, 4 décisions, une boîte vide et rien d'oublié.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "6 messages, 4 décisions, une boîte vide et rien d'oublié.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.694418",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Le tri ne demande pas de réfléchir longtemps: il demande de décider vite et de s'y tenir. Ce qui coûte du temps, ce n'est pas de traiter un message, c'est de le relire trois fois sans rien en faire.",
+   "empreinte_texte_dit": "79a41c9f6769d921fa8009c52aaf1548fa2c190d3a50e1a92de7e584ea8c357a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 193141,
+   "duree_s": 12.0,
+   "caracteres_dits": 198,
+   "caracteres_factures": 198,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le tri ne demande pas de réfléchir longtemps, il demande de\n décider vite et de s'y tenir.\n Ce qui coûte du temps, ce n'est pas de traiter un message.\n C'est de le relire trois fois sans rien en faire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le tri ne demande pas de réfléchir longtemps, il demande de\n décider vite et de s'y tenir.\n Ce qui coûte du temps, ce n'est pas de traiter un message,\n c'est de le relire trois fois, sans rien en faire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

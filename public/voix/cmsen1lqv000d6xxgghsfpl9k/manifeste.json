@@ -1,0 +1,1095 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1lqv000d6xxgghsfpl9k",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Écrire à plusieurs : À, Cc et Cci"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 26,
+  "caracteres_dits": 3730,
+  "duree_totale_s": 224.0,
+  "segments_valides": 25,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Les panneaux du comptoir seront livrés jeudi directement à l'école. Deux personnes doivent agir: le client, qui ouvrira les portes, et le transporteur, qui livrera. Votre collègue Sonia doit être informée, la gérante veut suivre le dossier sans apparaître. Trois rôles différents, trois lignes d'adresses différentes, c'est tout l'objet de cette leçon.",
+   "empreinte_texte_dit": "88c824a65125a6ba04758b7aa3bee8d58f9a4f149f10496dfc3b69acce106ef1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 333157,
+   "duree_s": 20.76,
+   "caracteres_dits": 352,
+   "caracteres_factures": 352,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les panneaux du comptoir seront livrés jeudi directement à\n elle, école.\n Deux personnes doivent agir, le client qui ouvrira les port\nes et le transporteur qui livrera.\n Votre collègue Sonia doit être informée, la gérante veut\n suivre le dossier sans apparaître.\n Trois rôles différents, trois lignes d'adresses différentes\n, c'est tout l'objet de cette leçon.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les panneaux du comptoir seront livrés jeudi directement à\n elle.\n École.\n Deux personnes doivent agir.\n Le client qui ouvrira les portes et le transporteur qui liv\nrera.\n Votre collègue Sonia doit être informée.\n La gérante veut suivre le dossier sans apparaître.\n Trois rôles différents, trois lignes d'adresse différentes.\n C'est tout l'objet de cette leçon.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O01-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Un même message peut partir vers plusieurs personnes à la fois, et chacune n'a pas le même rôle. Ouvrez une nouvelle fenêtre de rédaction: vous allez remplir ses trois lignes d'adresses l'une après l'autre.",
+   "empreinte_texte_dit": "87decb6ea0f8dea474ddfe097c5f3d45ed9bb3f49d2210dab310cb3d405dfef7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 153853,
+   "duree_s": 9.56,
+   "caracteres_dits": 206,
+   "caracteres_factures": 206,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un même message peut partir vers plusieurs personnes à la\n fois, et chacune n'a pas le même rôle.\n Ouvrez une nouvelle fenêtre de rédaction. Vous allez rempl\nir ces trois lignes d'adresse l'une après l'autre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un même message peut partir vers plusieurs personnes à la\n fois, et chacune n'a pas le même rôle.\n Ouvrez une nouvelle fenêtre de rédaction. Vous allez rempl\nir ces trois lignes d'adresse l'une après l'autre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O01-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le bouton Nouveau message, comme à la leçon précédente.",
+   "empreinte_texte_dit": "9689b41a93dc9cde3bd04db360afd03f010a9869554de36d9758397d3468b80d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le bouton Nouveau message comme à la leçon précédente\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.051,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le bouton « Nouveau message » comme à la leçon précéd\nente.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O01-L03-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Une feuille blanche: les quatre lignes du haut sont vides, à vous de les répartir.",
+   "empreinte_texte_dit": "316b0b45f27b4ebe7cf98ca9e7126283a84179707355d61d15981efe98fc1ac7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une feuille blanche, les quatre lignes du haut sont vides,\n à vous de les répartir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une feuille blanche, les quatre lignes du haut sont vides,\n à vous de les répartir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O01-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Saisissez les deux adresses affichées dans le champ À. Ces deux personnes doivent agir : le client ouvre les portes, le transporteur livre. Une même ligne, un point-virgule entre les deux adresses.",
+   "empreinte_texte_dit": "fca995f8f5fdeb74c78f08170d3a6f66a57f826eb549cff4d44bf68b35c92117",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 193141,
+   "duree_s": 12.0,
+   "caracteres_dits": 197,
+   "caracteres_factures": 197,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.12,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "2",
+       "2",
+       "2"
+      ],
+      "entendus": [
+       "2",
+       "2",
+       "1",
+       "0",
+       "2"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": false,
+     "transcription": "Saisissez les deux adresses affichées dans le champ A. Ces deux personnes doivent agir. Le client ouvre les portes, le transporteur livre. Une même ligne, 1.0 entre les deux adresses.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.12,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "2",
+        "2",
+        "2"
+       ],
+       "entendus": [
+        "2",
+        "2",
+        "1",
+        "0",
+        "2"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": false,
+      "transcription": "Saisissez les deux adresses affichées dans le champ A.\n Ces deux personnes doivent agir.\n Le client ouvre les portes, le transporteur livre.\n Une même ligne, 1.0 entre les deux adresses."
+     }
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Saisissez les deux adresses affichées dans le champ A. Ces deux personnes doivent agir. Le client ouvre les portes. Le transporteur livre. Une même ligne, un point virgule entre les deux adresses.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "3964868ce8a784666b08ef507d7479d956f0ac19ccc192198b6bdf96bdf2a1f8",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Saisissez les deux adresses affichées dans le champ A. Ces deux personnes doivent agir. Le client ouvre les portes. Le transporteur livre. Une même ligne, un point virgule entre les deux adresses.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": true,
+      "transcription": "Saisissez les deux adresses affichées dans le champ A. Ces deux personnes doivent agir. Le client ouvre les portes. Le transporteur livre. Une même ligne, un point virgule entre les deux adresses.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:11:10.934133",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O01-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Une seule ligne, deux adresses, un point-virgule entre les deux. L'ordre n'a pas d'importance.",
+   "empreinte_texte_dit": "c61c5a054f0a2380db1248853641b631357b66e9dd36e4c16ef7112886a243af",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 106623,
+   "duree_s": 6.6,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une seule ligne, deux adresses, un point virgule entre les\n deux.\n L'ordre n'a pas d'importance.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une seule ligne, deux adresses, un point virgule entre les\n deux.\n L'ordre n'a pas d'importance.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O01-L03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Deux adresses sur la même ligne, séparées par un point-virgule. Toutes deux doivent agir.",
+   "empreinte_texte_dit": "27b4488c7212bda9f68eca475244fbda898a7f446d3268efd511a998ab3012ef",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 86979,
+   "duree_s": 5.36,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux adresses sur la même ligne séparées par un point virg\nule.\n Toutes deux doivent agir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux adresses sur la même ligne, séparées par un point virg\nule.\n Toutes deux doivent agir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O01-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Saisissez s.brunel@atelier-nord.fr dans le champ Cc. Sonia n'a rien à faire, mais elle doit savoir: c'est le rôle de la copie. Les destinataires de la ligne À voient qui est en copie, et c'est voulu.",
+   "empreinte_texte_dit": "f6e1e7a0a481b8baad6692653abe367237960bd78a38d1f0ec1b0414b8bcecf4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 216128,
+   "duree_s": 13.44,
+   "caracteres_dits": 199,
+   "caracteres_factures": 199,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.046,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Saisissez s.brunel@atelier-nor.fr dans le champ CC.\n Sonia n'a rien à faire, mais elle doit savoir, c'est le\n rôle de la copie.\n Les destinataires de la ligne Avoix qui est en copie et s'é\nvolue.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Saisissez s.brunel@atelier-nord.fr dans le champ CC.\n Sonia n'a rien à faire, mais elle doit savoir, c'est le\n rôle de la copie.\n Les destinataires de la ligne à voix qui est en copie, et c\n'est voulu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O01-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le champ Cc est la deuxième ligne, juste sous le champ À.",
+   "empreinte_texte_dit": "dd7cebecf6a6a829b46fbfeb5cddcec61b5abc844bdb133b65532a138ccb3a58",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le champ cc est la deuxième ligne, juste sous le champ A.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.04,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le champ C/C est la deuxième ligne, juste sous le champ A.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O01-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Sonia est en copie: les autres la voient, mais rien ne lui est demandé.",
+   "empreinte_texte_dit": "d72ce20ccb574ef594d39488ecd8443eb212574e1822ca9e60094ced2444d4a0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sonia étant copie. Les autres la voient, mais rien ne lui\n est demandé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sonia est en copie. Les autres la voient, mais rien ne lui\n est demandé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O01-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Cliquez sur Cci pour faire apparaître la ligne. La gérante veut suivre le dossier sans que le client sache qu'elle le lit: c'est le rôle de la copie cachée, qu'Outlook n'affiche pas par défaut.",
+   "empreinte_texte_dit": "cede238913643a958a2a8d934427c1bf17051f23690ad9628c16e94e3e6d9924",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 170153,
+   "duree_s": 10.56,
+   "caracteres_dits": 193,
+   "caracteres_factures": 193,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur CCI pour faire apparaître la ligne.\n La gérante veut suivre le dossier sans que le client sache\n qu'elle le lit.\n C'est le rôle de la copie cachée, Coutlook n'affiche pas\n par défaut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur CCI pour faire apparaître la ligne.\n La gérante veut suivre le dossier sans que le client sache\n qu'elle le lit.\n C'est le rôle de la copie cachée qu'Outlook n'affiche pas\n par défaut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O01-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le bouton Cci est dans la barre du haut de la fenêtre de rédaction, à côté de Joindre.",
+   "empreinte_texte_dit": "66059c76c4b9b8e354b0305adb534c394af561892821ab9ccaba0c57d448e441",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton CCI est dans la barre du haut de la fenêtre de ré\ndaction à côté de joindre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton CCI est dans la barre du haut de la fenêtre de ré\ndaction à côté de joindre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O01-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "La ligne Cci apparaît. Elle est masquée par défaut, c'est pourquoi on l'oublie si souvent.",
+   "empreinte_texte_dit": "ac21f7013f1b0ca7f18ef15318738b076691e06039485b98ba1628ec7c5b74ad",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La ligne CCI apparaît.\n Elle est masquée par défaut, c'est pourquoi on l'oublie si\n souvent.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La ligne CCI apparaît.\n Elle est masquée par défaut, c'est pourquoi on l'oublie si\n souvent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O01-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Saisissez n.kerbaj@atelier-nord.fr dans le champ Cci. Vérifiez qu'elle n'est ni dans À, ni dans Cc.",
+   "empreinte_texte_dit": "e0f0c5b6c723226a87c1d4c0f18c49b0aedd4c5a0ebb81100087c538ca44e528",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.037,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Saisissez n.carbaj@atelier-nor.fr dans le champ CCI. Vérif\niez qu'elle n'est ni dans A, ni dans CC.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.037,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Saisissez n.carbage@atelier-nord.fr dans le champ CCI.\n Vérifiez qu'elle n'est ni dans A ni dans CC.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O01-L03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "La ligne Cci vient d'apparaître entre Cc et Objet. L'adresse de la gérante ne doit figurer que là.",
+   "empreinte_texte_dit": "da3a9f8106eac7dc158519cfa794db8a421c02901763b5d9e535afbe80985252",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 128357,
+   "duree_s": 7.96,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La ligne CCI vient d'apparaître entre CC et objet.\n L'adresse de la gérante ne doit figurer que là.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La ligne CCI vient d'apparaître entre CC et Objet.\n L'adresse de la gérante ne doit figurer que là.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O01-L03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "La gérante recevra tout sans que personne ne le sache. C'est exactement ce que veut dire copie cachée.",
+   "empreinte_texte_dit": "72ad5b606a35613ac54f6a0477defdaa234b4642b29a7d4437e832bf2e5b8496",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La gérante recevra tout sans que personne ne le sache.\n C'est exactement ce que veut dire copie cachée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La gérante recevra tout sans que personne ne le sache.\n C'est exactement ce que veut dire copie cachée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O01-L03-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Ce n'est pas un réglage, c'est un arbitrage. À pour ceux qui doivent agir, Cc pour ceux qui doivent savoir, Cci pour ceux qui doivent rester invisibles. À chaque message, une seule question: qu'attends-je de cette personne? Et l'erreur qui coûte cher: un contact interne en Cc devant un client, c'est lui livrer une adresse de votre entreprise.",
+   "empreinte_texte_dit": "43b5698f70082464f22158e1e01b0f2c64da846a9dd8a7f49df457a824997920",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 328142,
+   "duree_s": 20.44,
+   "caracteres_dits": 344,
+   "caracteres_factures": 344,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ce n'est pas un réglage, c'est un arbitrage.\n A pour ceux qui doivent agir, CC pour ceux qui doivent\n savoir, CCI pour ceux qui doivent\n rester invisibles.\n À chaque message, une seule question.\n Qu'attange de cette personne ?\n Et l'erreur qui coûte cher, un contact interne en CC devant\n un client, c'est lui livrer\n une adresse de votre entreprise.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ce n'est pas un réglage, c'est un arbitrage.\n A pour ceux qui doivent agir, CC pour ceux qui doivent\n savoir, CCI pour ceux qui doivent\n rester invisibles.\n À chaque message, une seule question.\n Qu'attends-je de cette personne?\n Et l'erreur qui coûte cher, un contact interne en CC devant\n un client, c'est lui livrer\n une adresse de votre entreprise.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O01-L03-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Donnez au message un objet contenant le mot livraison. Quatre personnes vont le recevoir: l'objet doit être compréhensible par toutes, y compris par le transporteur qui ne connaît pas votre chantier.",
+   "empreinte_texte_dit": "45ced9aeca7f9887bfc9f4cf8823a358016147bc9bb9ef22627591ef478d952b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 170571,
+   "duree_s": 10.6,
+   "caracteres_dits": 199,
+   "caracteres_factures": 199,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Donnez au message un objet contenant le mot \"Livraison\".\n 4 personnes vont le recevoir.\n L'objet doit être compréhensible partout, y compris par le\n transporteur qui ne connaît pas votre chantier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Donnez au message un objet contenant le mot \"livraison\".\n Quatre personnes vont le recevoir.\n L'objet doit être compréhensible par toutes, y compris par\n le transporteur qui ne connaît pas votre chantier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O01-L03-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Par exemple Livraison des panneaux, jeudi 5 mars, école de Lambersart. La formulation est libre.",
+   "empreinte_texte_dit": "048b9de4dd28706f506d4a3820254abecb1773c9fe487fc6131c14b9a859296b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 115818,
+   "duree_s": 7.16,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Par exemple, livraison des panneaux.\n Jeudi 5 mars, école de Lambeursart.\n La formulation est libre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.048,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Par exemple, Livraison des panneaux, jeudi 5 mars, école de\n Lambert-Sartre.\n La formulation est libre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O01-L03-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Un objet compréhensible par les quatre, y compris par celui qui ne connaît pas le dossier.",
+   "empreinte_texte_dit": "d8b584481f332230d4c47673b7e8e3c94a9949e52e1003187a648fc8f50faa35",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un objet compréhensible par les quatre, y compris par celui\n qui ne connaît pas le dossier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un objet compréhensible par les quatre, y compris par celui\n qui ne connaît pas le dossier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O01-L03-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Rédigez le message. Il doit indiquer quel jour se fait la livraison et quel créneau horaire vous retenez, c'est la seule question que le transporteur vous a posée. Écrivez-le avec vos mots.",
+   "empreinte_texte_dit": "04c12ce3232727f7f1afce1b7629e1dbd993914e565e66d5729663e9a371ed95",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 165555,
+   "duree_s": 10.28,
+   "caracteres_dits": 189,
+   "caracteres_factures": 189,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédiger le message. Il doit indiquer quel jour se fait la\n livraison et quel créneau horaire vous retenez. C'est la\n seule question que le transporter vous a posé.\n Écrivez-le avec vos mots.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigez le message. Il doit indiquer quel jour se fait la\n livraison et quel créneau horaire vous retenez.\n C'est la seule question que le transporteur vous a posé.\n Écrivez-le avec vos mots.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O01-L03-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Deux informations sont attendues: le jour, et le créneau que vous choisissez parmi les deux proposés.",
+   "empreinte_texte_dit": "8431e03904e0b903eea0347b84ae7f8504ee4d4fa9615dd994a81a8bf5b0b93c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le jour et le créneau que vous choisissez parmi les deux\n proposés.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le jour et le créneau que vous choisissez parmi les deux\n proposés.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "O01-L03-08",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Envoyez le message. Le client et le transporteur se verront l'un l'autre, Sonia apparaîtra en copie, et personne ne saura que la gérante l'a reçu. C'est exactement l'effet recherché.",
+   "empreinte_texte_dit": "f1fa24d2303579d853a6d394ab198722829dda7b6d23d01559904823bb9fda55",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 168899,
+   "duree_s": 10.48,
+   "caracteres_dits": 182,
+   "caracteres_factures": 182,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez le message. Le client et le transporteur se verront\n l'un l'autre, Sonya apparaîtra en copie et personne ne sa\nura que la gérante l'a reçu.\n C'est exactement l'effet recherché.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez le message.\n Le client et le transporteur se verront l'un l'autre, Sonia\n apparaîtra en copie, et personne ne saura que la gérante l'\na reçue.\n C'est exactement l'effet recherché.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "O01-L03-08",
+   "role": "Étape 9 · aide",
+   "texte_dit": "Le bouton Envoyer est en haut à gauche de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "54589dc4a5132acfecc904d5ab014356451adf13bbdaaade351f291eac2b42cb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.05,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est en haut à gauche de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.05,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est en haut à gauche de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "O01-L03-08",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "Parti. Le client et le transporteur se voient l'un l'autre, Sonia apparaît en copie, la gérante reste invisible.",
+   "empreinte_texte_dit": "1fc6c116b7c99d4302d1758977358bb4611fbf92a02c6b563ff306ae96da155c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Partie. Le client et le transporteur se voient l'un l'autre\n, Sonia apparaît en copie, la gérante reste invisible.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Partie.\n Le client et le transporteur se voient l'un l'autre.\n Sonia apparaît en copie.\n La gérante reste invisible.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Retenez la règle en une phrase: À pour ceux qui doivent agir, Cc pour ceux qu'on informe, Cci pour ceux qui doivent rester invisibles. Le champ Cci est masqué par défaut, il faut aller le chercher, et c'est le seul moyen de ne pas livrer l'adresse d'un tiers à tout le monde.",
+   "empreinte_texte_dit": "be530e6d230f93971fab04528a3882201b6546cd3e7e009d6236cecbbebba5e2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 247475,
+   "duree_s": 15.4,
+   "caracteres_dits": 275,
+   "caracteres_factures": 825,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Retenez la règle en une phrase.\n À pour ceux qui doivent agir, c'est c'est pour ceux qu'on\n informe, c'est c'est\n i pour ceux qui doivent rester invisibles.\n Le champ c'est c'est i est masqué par défaut.\n Il faut aller le chercher et c'est le seul moyen de ne pas\n livrer l'adresse d'un tiers à tout le monde."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Retenez la règle en une phrase. A pour ceux qui doivent agir, CC pour ceux qu'on informe, CCI pour ceux qui doivent rester invisibles. Le champ CCI est masqué par défaut. Il faut aller le chercher. Et c'est le seul moyen de ne pas livrer l'adresse d'un tiers à tout le monde.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

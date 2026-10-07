@@ -1,0 +1,964 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1pfe009t6xxgwn6qvdo8",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Transformer un devis accepté en client"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2881,
+  "duree_totale_s": 182.6,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un accord par message n'est pas un chantier lancé. Entre les deux, il faut confirmer ce qui est accepté, dire ce qui déclenche la fabrication, associer ceux qui vont travailler, et sortir le dossier de la file d'attente commerciale. Quatre gestes, et le prospect devient un client.",
+   "empreinte_texte_dit": "c4106430f0588c6a6d0608ad41ce447982d91c4375334c9a2efd00ddf34813f6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 241206,
+   "duree_s": 15.0,
+   "caracteres_dits": 281,
+   "caracteres_factures": 281,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.012,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un accord par message n'est pas un chantier lancé.\n Entre les deux, il faut confirmer ce qui est accepté,\n dire ce qui déclenche la fabrication,\n associer ce qui vont travailler et sortir le dossier de la\n file d'attente commerciale.\n Quatre gestes et le prospect devient un client.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un accord par message n'est pas un chantier lancé.\n Entre les deux, il faut confirmer ce qui est accepté,\n dire ce qui déclenche la fabrication,\n associer ceux qui vont travailler\n et sortir le dossier de la file d'attente commerciale.\n Quatre gestes et le prospect devient un client.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O13-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez l'accord de la Brasserie du Canal. Le montant est cité, la question posée est claire: quand démarrez-vous? Tout le reste de la leçon découle de cette réponse.",
+   "empreinte_texte_dit": "7465f797a30080b10fd0c12ad25a407ce1735a2ec02d967240c060794f35f0f9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 154688,
+   "duree_s": 9.6,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez l'accord de la brasserie du canal. Le montant est\n cité. La question posée est claire. Quand démarrez-vous,\n tout le reste de la leçon découle de cette réponse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez l'accord de la brasserie du canal.\n Le montant est cité.\n La question posée est claire.\n Quand démarrez-vous ?\n Tout le reste de la leçon découle de cette réponse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O13-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui valide la proposition.",
+   "empreinte_texte_dit": "2dc3d6ebb3c5f5a9adedc5d21bab7ca8afcbb37152c2ae2907f730fa62ffa558",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui valide la proposition.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui valide la proposition.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O13-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre à tous, ici équivalent à Répondre, la cliente étant seule. Le réflexe reste bon: sur un accord, on vérifie toujours qui d'autre était dans la boucle.",
+   "empreinte_texte_dit": "1a6db2781b8f5feea8dd6c7971e10c6a9d829832affe9b21c07d10101a41c02b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 176004,
+   "duree_s": 10.92,
+   "caracteres_dits": 170,
+   "caracteres_factures": 170,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez « se répondre à tous ».\n Ici, équivalent à répondre, la cliente est en seul.\n Le réflexe reste bon.\n Sur un accord, on vérifie toujours qui d'autre était dans\n la boucle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur \"Répondre à tous\".\n Ici équivalent à \"Répondre\", la cliente est en seul.\n Le réflexe reste bon.\n Sur un accord, on vérifie toujours qui d'autre était dans\n la boucle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O13-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le deuxième bouton de la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "4940a9f09947d0ee5825fccad2eb39f5d74b388a5327f4ce90cbaaaef1e56f04",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le deuxième bouton de la barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le deuxième bouton de la barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O13-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Ajoutez s.brunel@atelier-nord.fr dans le champ À. Sonia va fabriquer: elle devra agir à partir de ce message. Une copie ne suffirait pas, on n'agit pas sur ce qu'on reçoit pour information.",
+   "empreinte_texte_dit": "bc30f9e38a72ea1e64a48f2a8f3de6c27d4512c76e06a1cf9d350d034b9fddaa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 216128,
+   "duree_s": 13.44,
+   "caracteres_dits": 189,
+   "caracteres_factures": 189,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez s.brunal@atelier-nor.fr dans le champ A. Sonia va\n fabriquer. Elle devra agir à partir de ce message.\n Une copie ne suffirait pas. On n'agit pas sur ce qu'on reço\nit pour information.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez s.brunel@atelier-nord.fr dans le champ A.\n Sonia va fabriquer. Elle devra agir à partir de ce message.\n Une copie ne suffirait pas.\n On n'agit pas sur ce qu'on reçoit pour information.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O13-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Deux adresses sur la ligne À, séparées par un point-virgule.",
+   "empreinte_texte_dit": "6699b5cb0dc4bee4ec6405c3fd74d0f55bb8cf09e104b9e253fba90e464eefc6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux adresses sur la ligne A séparées par un point virgule.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "deux adresses sur la ligne A, séparées par un point virgule\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O13-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Sonia va fabriquer: elle doit agir à partir de ce message, donc elle est destinataire principale.",
+   "empreinte_texte_dit": "e58b533ccdfde47e3354bda75dbf0e3f0e022daca84ad30dc6654a7f3eda9ade",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 106623,
+   "duree_s": 6.6,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sonia va fabriquer, elle doit agir à partir de ce message,\n donc elle est destinataire principale.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sonia va fabriquer, elle doit agir à partir de ce message,\n donc elle est destinataire principal.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O13-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Mettez n.kerbaj@atelier-nord.fr en copie. Un accord à 18400 euros engage l'entreprise: la gérante doit le savoir, sans devenir l'interlocutrice de la cliente.",
+   "empreinte_texte_dit": "6ad9b71b130ca5c796332ea99c72fd6bf246e502e2aab7b05c1f33143f26fa7e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 211531,
+   "duree_s": 13.16,
+   "caracteres_dits": 158,
+   "caracteres_factures": 158,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "metteen.carby@atelier-nor.fr en copie.\n Un accord à 18 400 euros engage l'entreprise, la gérante\n doit le savoir, sans devenir l'interlocutrice de la cliente\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Mettez n.carbaye@atelier-nord.fr en copie.\n Un accord à 18 400 euros engage l'entreprise,\n la gérante doit le savoir, sans devenir l'interlocutrice de\n la cliente.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O13-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le champ Cc, deuxième ligne de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "678992d2aff978ec3954bcbef786944c6e17324b5f92c2d57ed0b621a4438686",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 55,
+   "caracteres_factures": 110,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le champ cc, deuxième ligne de la fenêtre de rédaction.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le champ c'est c'est, deuxième ligne de la fenêtre de réd\naction.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O13-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Un accord à 18400 euros engage l'entreprise: la gérante doit le savoir le jour même.",
+   "empreinte_texte_dit": "84b957f2abb528796efa7191c13a1781addb1d518a0c9c76f10fccb4d2bc5f74",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un accord à 18 400 euros engage l'entreprise.\n La gérante doit le savoir le jour même.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un accord à 18 400 euros engage l'entreprise.\n La gérante doit le savoir le jour même.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O13-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot commande. L'objet reçu parle encore d'une proposition: le vôtre doit dire que l'affaire a changé d'état. C'est ce mot que vous chercherez dans six mois.",
+   "empreinte_texte_dit": "55719c6e2bfd47b76b1ffe3c00e74937d5685c3672b40d62a1c04d5072cf26ee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 189797,
+   "duree_s": 11.8,
+   "caracteres_dits": 182,
+   "caracteres_factures": 182,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot « commande ».\n L'objet reçu parle encore d'une proposition.\n Le vôtre doit dire que l'affaire a changé.\n D. État.\n C'est ce mot que vous chercherez dans 6 mois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot \"commande\".\n L'objet reçu parle encore d'une proposition.\n Le vôtre doit dire que l'affaire a changé.\n D - État.\n C'est ce mot que vous chercherez dans six mois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O13-L03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe.",
+   "empreinte_texte_dit": "fdfcfbca8acc5f16ec12c12eedca8dfeac3783ba92e405eec4d2a72f09c5e877",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet en gardant le préfix.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O13-L03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "L'objet reçu parlait encore d'une proposition; le vôtre acte une commande.",
+   "empreinte_texte_dit": "a91e44c8d63fbff25d58c11c94f538489766ad27c8c01efa869a827349346f75",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'objet reçu parlait encore d'une proposition. Le vôtre act\ne une commande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'objet reçu parlait encore d'une proposition.\n Le vô tracte une commande.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O13-L03-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Un accord par message n'est pas un chantier lancé. Il manque quatre choses: confirmer ce qui est accepté, dire ce qui déclenche la fabrication, associer ceux qui vont travailler, Sonia en À, parce qu'elle doit agir, et sortir le dossier de la file commerciale. Le mot mis dans l'objet dit que l'affaire a changé d'état.",
+   "empreinte_texte_dit": "c2ae6966955a7b5266c5949abaae9f6888bf273a5d226a449f1f41ee0e44ca34",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 312259,
+   "duree_s": 19.44,
+   "caracteres_dits": 319,
+   "caracteres_factures": 319,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un accord par message n'est pas un chantier lancé.\n Il manque quatre choses. Confirmer ce qui est accepté, dire\n ce qui déclenche la fabrication, associer ceux qui vont\n travailler.\n Sonya en A parce qu'elle doit agir et sortir le dossier de\n la file commerciale.\n Le mot mis dans l'objet dit que l'affaire a changé d'État.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un accord par message n'est pas un chantier lancé.\n Il manque quatre choses.\n Confirmer ce qui est accepté, dire ce qui déclenche la\n fabrication, associer ceux qui\n vont travailler.\n Sonia en a parce qu'elle doit agir et sortir le dossier de\n la file commerciale.\n Le mot mis dans l'objet dit que l'affaire a changé d) État.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O13-L03-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Rédigez la confirmation, puis envoyez. Trois éléments: la référence du devis, le montant accepté, et ce qui déclenche la fabrication. C'est ce message qui répondra le jour d'un désaccord.",
+   "empreinte_texte_dit": "2afdd75357505dab109e49c1876a598b7900b6e00d277b9ef03acedc4eaffecf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 209859,
+   "duree_s": 13.04,
+   "caracteres_dits": 187,
+   "caracteres_factures": 187,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger la confirmation, puis envoyer.\n Trois éléments.\n La référence du devis, le montant accepté et ce qui déclen\nche la fabrication.\n C'est ce message qui répondra le jour d'un désaccord.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger la confirmation, puis envoyer.\n Trois éléments.\n La référence du devis, le montant accepté et ce qui déclen\nche la fabrication.\n C'est ce message qui répondra le jour d'un désaccord.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O13-L03-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Trois informations sont attendues: la référence, le montant, et le déclencheur.",
+   "empreinte_texte_dit": "3a7e6fc827a4c8c1be62aa153f48fae0f2059444656e5aec051df4006f35a03c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues.\n La référence, le montant et le déclencheur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues.\n La référence, le montant et le déclencheur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O13-L03-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Référence, montant, date: les trois éléments qui feront foi si quelqu'un conteste dans six mois.",
+   "empreinte_texte_dit": "ed3a228af3d3398d781c31810ad3f313c6ffecd3a1135b1060181fa2dd8b964a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 115818,
+   "duree_s": 7.16,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Référence, montant, date, les trois éléments qui feront foi\n si quelqu'un conteste dans six mois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "référence, montant, date, les trois éléments qui feront foi\n si quelqu'un conteste dans six mois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O13-L03-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Rangez ce message dans Clients 2026. Le prospect est devenu client: son dossier quitte la file d'attente commerciale pour rejoindre les affaires en cours.",
+   "empreinte_texte_dit": "b4f09d7fa5be1cd47d442354665ffa7f4cdc07606a6a54ad74eb3542babe4fd3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 145911,
+   "duree_s": 9.04,
+   "caracteres_dits": 154,
+   "caracteres_factures": 154,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger ce message dans Client 2026.\n Le prospect est devenu client.\n Son dossier quitte la file d'attente commerciale pour rejo\nindre les affaires en cours.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger ce message dans Client 2026.\n Le Prospect est devenu client.\n Son dossier quitte la file d'attente commerciale pour rejo\nindre les affaires en cours.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O13-L03-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Déplacer, puis Clients 2026.",
+   "empreinte_texte_dit": "666745ec5619be3de0e8fc0fea5ef9f53ae1c8b92a5577e5118be8f3f016fcf3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez, puis client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacé, puis Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O13-L03-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Le prospect est devenu client: son dossier quitte la file d'attente pour celui des clients.",
+   "empreinte_texte_dit": "895223f87d2878da434d141959c23c49ae0703a8693f89235f6e992d12aae5ba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le prospect est devenu client.\n Son dossier quitte la file d'attente pour celui des clients\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le prospect est devenu client.\n Son dossier quitte la file d'attente pour celui des clients\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Reprendre la référence et le montant dans le message de confirmation n'est pas une formalité: c'est la trace écrite de ce sur quoi l'accord porte. Le jour où le client dira je croyais que les banquettes étaient comprises, c'est ce message qui répondra.",
+   "empreinte_texte_dit": "c1027555102c0893d532162b550e9887a579737ef1b9ece3434c3c78780f36e2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 217382,
+   "duree_s": 13.52,
+   "caracteres_dits": 252,
+   "caracteres_factures": 252,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Reprendre la référence et le montant dans le message de\n confirmation n'est pas une formalité.\n C'est la trace écrite de ce sur quoi l'accord porte.\n Le jour où le client dira \"Je croyais que les banquettes\n étaient comprises\", c'est ce message qui répondra.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Reprendre la référence et le montant dans le message de\n confirmation n'est pas une formalité.\n C'est la trace écrite de ce sur quoi la corps porte.\n Le jour où le client dira \"je croyais que les banquettes\n étaient comprises\", c'est ce message qui répondra.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

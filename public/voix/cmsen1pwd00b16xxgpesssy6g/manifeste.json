@@ -1,0 +1,1059 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1pwd00b16xxgpesssy6g",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Une commande qui ne se fait pas rappeler"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 23,
+  "caracteres_dits": 2929,
+  "duree_totale_s": 191.3,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un message de commande incomplet coûte deux jours: le fournisseur rappelle, vous n'êtes pas là, il attend. Quatre informations suffisent à l'éviter, la référence exacte, la quantité, la date à laquelle vous en avez besoin, et l'adresse où livrer. Aucune n'est facultative.",
+   "empreinte_texte_dit": "026f50abab57ba4dff27cee82ee6e73546902b513b5413849d33e9ecbdb02d26",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 300138,
+   "duree_s": 18.68,
+   "caracteres_dits": 272,
+   "caracteres_factures": 272,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un message de commande un complet coûte deux jours.\n Le fournisseur rappelle, vous aînnes, êtes pas là, il\n attend.\n Quatre informations suffisent à elles, éviter, la référence\n exacte, la quantité,\n la date à laquelle vous en avez besoin et l'adresse où liv\nrer.\n Aucune n'est facultative.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un message de commande incomplet coûte deux jours.\n Le fournisseur rappelle\n « Vous êtes pas là, il attend ».\n Quatre informations suffisent à elles.\n Évitez\n la référence exacte,\n la quantité,\n la date à laquelle vous en avez besoin\n et l'adresse où livrer.\n Aucune n'est facultative.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O15-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message de Sonia. Elle vous donne tout: références, quantités, date de pose, lieu. Votre commande n'aura qu'à reprendre ces éléments sans en perdre un seul.",
+   "empreinte_texte_dit": "d5efbf5907c24508dde7268197d660fda3bd532cd34a1bd9cc0cd9f83c36b2c5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 180184,
+   "duree_s": 11.2,
+   "caracteres_dits": 166,
+   "caracteres_factures": 166,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de Sonia.\n Elle vous donne tout.\n Référence, Quantité, Date de pause, Lueux.\n Votre commande n'aura qu'à reprendre ses éléments sans en\n perdre un seul.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de Sonia. Elle vous donne tout.\n Référence, quantité, date de pause, lieu.\n Votre commande n'aura qu'à reprendre ces éléments sans en\n perdre un seul.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O15-L01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui parle de quincaillerie.",
+   "empreinte_texte_dit": "37554e18ba957d4bd8a0a016043f9037d5b7795bfa5f2d7c7066662911e1d821",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 35570,
+   "duree_s": 2.16,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.08,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui parle de Kinkairi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.08,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui parle de Kinkairi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O15-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Nouveau message. La commande part au fournisseur, pas en réponse à Sonia: répondre ici enverrait la commande à une collègue qui n'a rien à en faire.",
+   "empreinte_texte_dit": "0fa35ebb015a234e921d9ae74f20e3a8b16c15abf368bcfdb7ba05b35f3f3fcb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 158032,
+   "duree_s": 9.8,
+   "caracteres_dits": 160,
+   "caracteres_factures": 160,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Nouveau message.\n La commande part au fournisseur, pas en réponse à Sonia.\n Répondre ici en verrait la commande à une collègue qui n'a\n rien à en faire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur nouveau message.\n La commande part au fournisseur,\n pas en réponse à Sonia.\n Répondre ici enverrait la commande à une collègue\n qui n'a rien à en faire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O15-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Nouveau message, en haut à gauche.",
+   "empreinte_texte_dit": "df6812982ff42f8b65b8196891586d4c4d5522d9f9f047bca67f8c33cf9172a1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau message en haut à gauche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau message en haut à gauche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O15-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "La commande part au fournisseur, pas en réponse à Sonia: répondre ici l'aurait envoyée à la mauvaise personne.",
+   "empreinte_texte_dit": "560b3aa34b6371f58fce3adf2d4b40995ebd8ab514047ee4ba4c3fe3a9ef3b79",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La commande part au fournisseur, pas en réponse à Sonia.\n Répondre ici l'aurait envoyé à la mauvaise personne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La commande part au fournisseur, pas en réponse à Sonia.\n Répondre ici l'aurait envoyé à la mauvaise personne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O15-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Adressez la commande à commandes@quincaillerie-delmas.fr. Le fournisseur a deux adresses: celle des commandes et celle de la comptabilité. Écrire à la mauvaise, c'est retarder d'un jour.",
+   "empreinte_texte_dit": "c2de643836c3e94179390f9800c9664e25879dea3101609612300b324495eb2f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 214039,
+   "duree_s": 13.32,
+   "caracteres_dits": 186,
+   "caracteres_factures": 186,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.109,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Addressez la commande à commande à haute base qu'incairith\nirradelmas.fr.\n Le fournisseur a deux adresses, celle des commandes et\n celle de la comptabilité.\n Écrire à la mauvaise s'est retardé d'un jour.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.073,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Adressez la commande à commandarobase@quincairy-dellmas.fr\n Le fournisseur a deux adresses, celle des commandes et\n celle de la comptabilité.\n Écrire à la mauvaise, c'est retarder d'un jour.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O15-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "L'adresse qui commence par commandes.",
+   "empreinte_texte_dit": "16f887f57fad52019082288392804348e264788994f74c0ef0ee4a58ffd7ddd7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 40168,
+   "duree_s": 2.44,
+   "caracteres_dits": 37,
+   "caracteres_factures": 37,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'adresse qui commence par commande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'adresse qui commence par commande.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O15-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le fournisseur a deux adresses. Une commande envoyée à la comptabilité attend qu'on la réoriente.",
+   "empreinte_texte_dit": "7fd06d654559847be315c187d3a7c2cf320985d3bde3671b76f2f32663f45745",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le fournisseur a deux adresses.\n Une commande envoyée à la comptabilité à tant qu'on la ré\noriente.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le fournisseur a deux adresses.\n Une commande envoyée à la comptabilité attend qu'on la réor\niente.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O15-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Écrivez un objet contenant commande et médiathèque. Un fournisseur traite des dizaines de messages par jour: l'objet doit lui dire en une ligne ce qu'on attend de lui et pour quel chantier.",
+   "empreinte_texte_dit": "cd2140803471ec0afd73006d413876312a223e1a0bdb5f002cdc095ce51b953b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 168899,
+   "duree_s": 10.48,
+   "caracteres_dits": 189,
+   "caracteres_factures": 189,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrivez un objet contenant commande et médiathèque.\n Un fournisseur traite des dizaines de messages par jour.\n L'objet doit lui dire en une ligne ce qu'on attend de lui\n et pour quel chantier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrivez un objet contenant commande et médiathèque.\n Un fournisseur traite des dizaines de messages par jour.\n L'objet doit lui dire en une ligne ce qu'on attend de lui\n et pour quel chantier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O15-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Par exemple: Commande quincaillerie, chantier médiathèque.",
+   "empreinte_texte_dit": "70747782329d08a43924eb12c65f5ba90baa5c27cb3a56efd1c01cacea4ec6de",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par exemple, commande qu'un caillerie, chantier médiathèque\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par exemple, commande quincaillerie, chantier médiathèque.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O15-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Un fournisseur traite des dizaines de messages: l'objet dit d'un coup d'œil ce qu'il doit préparer.",
+   "empreinte_texte_dit": "7bdcaf343e6bbb4e52ca64f3e54f641454d7850bbd01a13954f90bea9b921744",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un fournisseur traite des dizaines de messages.\n L'objet dit d'un coup d'œil ce qu'il doit préparer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un fournisseur traite des dizaines de messages.\n L'objet dit d'un coude.\n Heuille ce qu'il doit préparer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O15-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Rédigez la commande. Quatre informations, aucune facultative: les deux références, leurs deux quantités, la date de besoin, le lieu de livraison. C'est ce qui évite le coup de téléphone du lendemain.",
+   "empreinte_texte_dit": "98ddba2eb62f3e5f744137663b9bfebc5120b771650b351b8411fc0250fb28aa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 201918,
+   "duree_s": 12.56,
+   "caracteres_dits": 199,
+   "caracteres_factures": 199,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger la commande.\n Quatre informations, aucune facultative, les deux réfé\nrences, leur deux quantités,\n la date de besoin, le lieu de livraison.\n C'est ce qui évite le coup de téléphone du lendemain.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigé la commande.\n Quatre informations, aucune facultative.\n Les deux références, leur deux quantités, la date de besoin\n, le lieu de livraison.\n C'est ce qui évite le coup de téléphone du lendemain.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O15-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Quatre informations sont attendues: références, quantités, date, lieu.",
+   "empreinte_texte_dit": "c26e818e69d1c661d9028e47c094743217309d2d94103a3a814d3f9d97c75a5e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.077,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Quatre informations sont attendues. Référence, Quantité,\n Date, Lueux.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Quatre informations sont attendues.\n Référence, quantité, date, lieu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O15-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Références, quantités, date, lieu: aucune n'est facultative, chacune évite un appel.",
+   "empreinte_texte_dit": "75775bbe913919df54be0d8fca0298aaa5c6cd145f1f3098a6a0533a5a1e1c77",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 124177,
+   "duree_s": 7.68,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "référence, quantité, date, lieu, aucune née facultative. Ch\nacune évite un appel.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "référence, quantité, date, lieu, aucune n'est facultative,\n chacune évite un appel.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O15-L01-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Une commande incomplète ne coûte pas un message de plus: elle coûte deux jours. Le fournisseur rappelle, vous êtes sur chantier, il attend. Référence, quantité, date de besoin, lieu de livraison: chacune est une question qu'il aurait fallu poser. Aucune n'est facultative, et la bonne adresse en fait partie.",
+   "empreinte_texte_dit": "191377b534ed33420bf62f24f66d82ce2ef68ea8a31987bc8f90e12c8a565e34",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 326052,
+   "duree_s": 20.32,
+   "caracteres_dits": 308,
+   "caracteres_factures": 308,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une commande incomplète ne coûte pas un message de plus.\n Elle coûte deux jours.\n Le fournisseur rappelle, vous êtes surchantier, il attend.\n Référence, quantité, date de besoin, lieu de livraison.\n Chacune est une question qu'il aurait fallu poser.\n Aucune n'est facultative et la bonne adresse en fait partie\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une commande incomplète ne coûte pas un message de plus.\n Elle coûte deux jours.\n Le fournisseur rappelle « Vous êtes sur chantier ? Il\n attend ».\n Référence, quantité, date de besoin, lieu de livraison.\n Chacune est une question qu'il aurait fallu poser.\n Aucune n'est facultative et la bonne adresse en fait partie\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O15-L01-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Mettez s.brunel@atelier-nord.fr en copie. Sonia doit savoir que la commande est partie, sans devenir l'interlocutrice du fournisseur: c'est exactement le rôle de la copie.",
+   "empreinte_texte_dit": "3046d7447ef872819213f79e451cd174ca75334bda989a8bb612220ca23e04c3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 187289,
+   "duree_s": 11.64,
+   "caracteres_dits": 171,
+   "caracteres_factures": 171,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Mettez s.brunnel@atelier-nor.fr en copie. Sonia doit savoir\n que la commande est partie, sans devenir l'interlocutrice\n du fournisseur. C'est exactement le rôle de la copie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Mets-t s.brunel@atelier-nord.fr en copie.\n Sonia doit savoir que la commande est partie, sans devenir\n l'interlocutrice du fournisseur.\n C'est exactement le rôle de la copie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O15-L01-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le champ Cc, deuxième ligne de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "678992d2aff978ec3954bcbef786944c6e17324b5f92c2d57ed0b621a4438686",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le champ cc, deuxième ligne de la fenêtre de rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le champ c'est c'est, deuxième ligne de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O15-L01-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Sonia doit savoir que la commande est partie, sans avoir à répondre au fournisseur.",
+   "empreinte_texte_dit": "6ffd134fa4210009fd37a1402273fb0d101ea7f5d6ba813ac7868a60142a8ad0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sonia doit savoir que la commande est partie sans avoir à\n répondre au fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sonia doit savoir que la commande est partie, sans avoir à\n répondre au fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O15-L01-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Envoyez la commande. Le fournisseur peut préparer sans vous rappeler, et Sonia sait que sa quincaillerie arrive. Un seul message a réglé les deux.",
+   "empreinte_texte_dit": "8b287a32b038a77a48adce06c17ec716bdb08151f7f4e8bca467906eb111087f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 158450,
+   "duree_s": 9.84,
+   "caracteres_dits": 146,
+   "caracteres_factures": 146,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyez la commande.\n Le fournisseur peut préparer sans vous rappeler, et Sonia\n sait que sa quinquairie arrive.\n Un seul message à régler les deux.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyez la commande.\n Le fournisseur peut préparer sans vous rappeler, et Sonja\n sait que sa quincaillerie arrive.\n Un seul message à régler les deux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O15-L01-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Le bouton Envoyer.",
+   "empreinte_texte_dit": "5312d049302acca3d951dcd032c4fcb7ea3dea9954a07313da4af16292dec5bd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 25957,
+   "duree_s": 1.56,
+   "caracteres_dits": 18,
+   "caracteres_factures": 18,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O15-L01-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Le fournisseur peut préparer sans vous rappeler. C'est là toute la valeur d'une commande complète.",
+   "empreinte_texte_dit": "6ae5fb30b48be45849eb82b1b1a91422262d6ab0180dc0255be40192f26dc032",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le fournisseur peut préparer sans vous rappeler.\n C'est là toute la valeur d'une commande complète.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le fournisseur peut préparer sans vous rappeler.\n C'est là toute la valeur d'une commande complète.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Écrire il me faut des charnières oblige le fournisseur à vous rappeler. Écrire 40 charnières réf. CH-118, livraison atelier avant le 24 déclenche la préparation le jour même. La précision n'est pas de la rigidité: c'est du délai gagné.",
+   "empreinte_texte_dit": "28850f08f86393d4ff56a1a3bec7752518268009a134372aa879d0dcfc435c85",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 248311,
+   "duree_s": 15.44,
+   "caracteres_dits": 235,
+   "caracteres_factures": 705,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": {
+      "attendus": [
+       "refburoch118"
+      ],
+      "entendus": [
+       "refburoch1118"
+      ]
+     },
+     "ok": false,
+     "transcription": "Écrire « Il me faut des charnières » oblige le fournisseur à vous rappeler. Écrire « 40 charnières Rèf » CH-1118, livraison atelier avant le 24 déclenche la préparation le jour même. La précision n'est pas de la rigidité. C'est du délai gagné.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.007,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "40",
+        "118",
+        "24"
+       ],
+       "entendus": [
+        "40",
+        "1118",
+        "24"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Écrire « Il me faut des charnières » oblige le fournisseur\n à vous rappeler.\n Écrire « 40 charnières Rèf » CH-1118, livraison atelier\n avant le 24 déclenche la\n préparation le jour même.\n La précision n'est pas de la rigidité.\n C'est du délai gagné."
+     },
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrire « Il me faut des charnières » oblige le fournisseur à vous rappeler. Écrire « 40 charnières ref ». CH-118, livraison atelier avant le 24 déclenche la préparation le jour même. La précision n'est pas de la rigidité. C'est du délai gagné.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "1053f07b538893a0e5fcb779aace52e6ceb8d5f13ac9e7e1a6549a6bb6b815e5",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Écrire « Il me faut des charnières » oblige le fournisseur à vous rappeler. Écrire « 40 charnières ref ». CH-118, livraison atelier avant le 24 déclenche la préparation le jour même. La précision n'est pas de la rigidité. C'est du délai gagné.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Écrire « Il me faut des charnières » oblige le fournisseur à vous rappeler. Écrire « 40 charnières ref ». CH-118, livraison atelier avant le 24 déclenche la préparation le jour même. La précision n'est pas de la rigidité. C'est du délai gagné.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.675273",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  }
+ ]
+}

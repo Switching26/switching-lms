@@ -1,0 +1,800 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1myu003j6xxgyugim3v3",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Rattraper une diffusion mal partie"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 19,
+  "caracteres_dits": 2392,
+  "duree_totale_s": 141.8,
+  "segments_valides": 19,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Le message d'annonce est parti avec tous les destinataires en clair, dont un confrère concurrent. Les destinataires sont extérieurs à l'entreprise: le rappel d'Outlook, réservé aux collègues d'une même organisation, ne peut donc rien. Restent trois gestes: refaire l'envoi correctement pour les clients qui n'ont rien reçu, prévenir celui qui a commis l'erreur sans le faire devant tout le monde, et ne surtout pas répondre à tous.",
+   "empreinte_texte_dit": "cd3c03032c11b8a2a4410573d08fbfe72ada90afc4c28ad440e8760d8e5854f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 372863,
+   "duree_s": 23.24,
+   "caracteres_dits": 431,
+   "caracteres_factures": 431,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le message d'annonce est parti avec tous les destinataires\n en clair,\n dont un confrère concurrent.\n Les destinataires sont extérieurs à l'entreprise.\n Le rappel d'Outlook, réservé aux collègues d'une même\n organisation,\n ne peut donc rien.\n Restent trois gestes.\n Refaire l'envoi correctement pour les clients qui n'ont\n rien reçu,\n prévenir celui qui a commis l'erreur sans le faire devant\n tout le monde,\n et ne surtout pas répondre à tous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le message d'annonce est parti avec tous les destinataires\n en clair, dont un confrère concurrent.\n Les destinataires sont extérieurs à l'entreprise.\n Le rappel d'outlook, réservé aux collègues d'une même\n organisation, ne peut donc rien.\n Reste trois gestes.\n Refaire l'envoi correctement pour les clients qui n'ont\n rien reçu,\n prévenir celui qui a commis l'erreur sans le faire devant\n tout le monde,\n et ne surtout pas répondre à tous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O04-E03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message de Sonia et lisez la ligne À: quatre adresses en clair, dont une entreprise concurrente qui découvre deux de vos clients.",
+   "empreinte_texte_dit": "1df65f1dbe12b649c0bf52f306abeda4c321cee53007ac43caf71ff82027f912",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 147165,
+   "duree_s": 9.12,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de Sonia et lisez la ligne A, quatre ad\nresses en clair,\n dont une entreprise concurrente qui découvre deux de vos\n clients.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de Sonia et lisez la ligne A, quatre ad\nresses en clair, dont une entreprise\n concurrente qui découvre deux de vos clients.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O04-E03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet annonce des portes ouvertes.",
+   "empreinte_texte_dit": "52db58979c0dc13767b6558a4028e6eddbec805d6bbc5909ddcbf5ee6c8a8ded",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dans l'objet annonce des portes ouvertes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet annonce des portes ouvertes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O04-E03-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Quatre adresses en clair, dont une entreprise concurrente. La faute est dans le champ, pas dans le texte.",
+   "empreinte_texte_dit": "2dc80a9af96f40f92a7ade2575c117feb2e866cccbd2aba116e65aba39ebb3a4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "4 adresses en clair, dont une entreprise concurrente.\n La faute est dans le champ, pas dans le texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Quatre adresses en clair, dont une entreprise concurrente.\n La faute est dans le champ, pas dans le texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O04-E03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Prévenez Sonia, elle seule. Un Répondre à tous signalerait l'erreur aux quatre destinataires, y compris au concurrent, et doublerait le dégât.",
+   "empreinte_texte_dit": "f00e1cbdefbfb5483cc54b6f92758f5257c16653a5235c2e35a5cc98df99a6a3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 142,
+   "caracteres_factures": 142,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.041,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Prevenez Sonya, elle seule.\n Un \"Répondre à tous\" signalerait l'erreur aux quatre destin\nataires, y compris aux concurrents, et doubleraient le dégât\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Prévenez Sonia, elle seule.\n Un \"répondre à tous\" signalerait l'erreur aux quatre destin\nataires, y compris aux concurrents, et doublerait le dégât.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O04-E03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Répondre n'écrit qu'à l'expéditrice, c'est exactement ce qu'il faut ici.",
+   "empreinte_texte_dit": "fa2a215b76d25b4552676f58921258c3298db6dc39ab745a179ca3d70cab6fce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.041,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "\"Répendre n\" écrique que \"à l'expéditrice\", c'est\n exactement ce qu'il faut ici.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Répandre N, écrit que, à l'expéditrice, c'est exactement ce\n qu'il faut ici.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O04-E03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Répondre à tous aurait signalé l'erreur au concurrent lui-même.",
+   "empreinte_texte_dit": "955c10652c8233447d0f42ee441f162939f2eaf1ff7b370dc95f91513a4cb54e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Répondre à tous aurait signalé l'erreur au concurrent lui-\nmême.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Répondre à tous aurait signalé l'erreur au concurrent lui-\nmême.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O04-E03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Rédigez ce signalement, puis envoyez-le. Il doit dire quel champ aurait dû être utilisé et pourquoi, sans reproche: l'erreur est la plus courante de toutes.",
+   "empreinte_texte_dit": "9d14bed881b00aba7d779bbe15044323a7019fc6b281ce6345a0c20d6833c626",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 162212,
+   "duree_s": 10.08,
+   "caracteres_dits": 156,
+   "caracteres_factures": 156,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédiger ce signalement, puis envoyez-le.\n Il doit dire quel champ aurait dû être utilisé et pourquoi,\n sans reproche, l'erreur est la plus courante de toutes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédiger ce signalement, puis envoyer-le.\n Il doit dire quel chant aurait dû être utilisé et pourquoi,\n sans reproche, l'erreur est la plus courante de toutes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O04-E03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Deux informations sont attendues: le champ Cci, et ce que l'erreur a exposé.",
+   "empreinte_texte_dit": "1c2e6236a469e5640cc302a94f01522ff94123f2d1406adce9bde12c6136ba05",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Le champ CCI est ce que l\n'erreur a exposé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le champ CCI et ce que l'erreur a exposé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O04-E03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Refaites l'annonce correctement pour les deux clients, et pour eux seuls. Souvenez-vous du montage: un destinataire visible qui est vous, et les clients ailleurs.",
+   "empreinte_texte_dit": "81c11d2f3cc4996cc46a035a4c230991302047ec2d2e6d5b08b9cf0e14a5c354",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 145911,
+   "duree_s": 9.04,
+   "caracteres_dits": 162,
+   "caracteres_factures": 162,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Refaites l'annonce correctement pour les deux clients et\n pour eux seuls.\n Souvenez-vous du montage, un destinataire visible qui est\n vous et les clients ailleurs.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Refaites l'annonce correctement pour les deux clients et\n pour eux seuls.\n Souvenez-vous du montage \"Un destinataire visible qui est\n vous et les clients ailleurs\".",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O04-E03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Votre propre adresse dans À, les deux clients dans Cci, le champ Cci s'affiche par le bouton du même nom.",
+   "empreinte_texte_dit": "0236347b950a00aed12025f5d0391d4a573013923c997fae57189a38accb406d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Votre propre adresse dans A, les deux clients dans CCI, le\n champ CCI s'affiche par le bouton du même nom.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Votre propre adresse dans A, les deux clients dans CCI, le\n champ CCI s'affiche par le bouton du même nom.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O04-E03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Votre adresse dans À, les clients en Cci: le montage qui rend l'erreur impossible.",
+   "empreinte_texte_dit": "231af47090360b6efdef1775e1893503802f747eb5cf5332dee64de71c600395",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Votre adresse dans A, les clients en CCI, le montage qui\n rend l'erreur impossible.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "votre adresse dans A, les clients en CCI, le montage qui\n rend l'erreur impossible.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O04-E03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Donnez un objet contenant portes ouvertes, rédigez l'annonce et envoyez-la. Elle doit rappeler la date et les horaires.",
+   "empreinte_texte_dit": "91bc38057cf523ec35e8b928d05f69c5e273ef6f0ea617c06b79d564f3a15945",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 128357,
+   "duree_s": 7.96,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez un objet contenant porte ouverte, rédigez l'annonce\n et envoyez-la.\n Elle doit rappeler la date et les horaires.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez un objet contenant porte ouverte, rédigez l'annonce\n et envoyez-la.\n Elle doit rappeler la date et les horaires.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O04-E03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Deux informations sont attendues: le jour, et les horaires d'ouverture.",
+   "empreinte_texte_dit": "571bd23037a67ca91daaa62b3efe0abafd8e39eeab562c0c3b8a8dea2aae9eed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Le jour et les horaires d\n'ouverture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le jour et les horaires d'ouverture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O04-E03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "L'annonce est refaite proprement, et cette fois aucun client ne voit l'adresse d'un autre.",
+   "empreinte_texte_dit": "925ece33b4808b8af9c5135989a5cca1cccea19cff1d4432e84e28f37f8f9678",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'annonce est refait proprement et cette fois aucun client\n ne voit l'adresse d'un autre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'annonce est refaite proprement et cette fois aucun client\n ne voit l'adresse d'un autre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O04-E03-99",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "L'annonce est refaite proprement et Sonia est prévenue de l'erreur. Rangez-le dans Clients 2026.",
+   "empreinte_texte_dit": "53c3abe3a292c97b86a4d93f6ca5bf63399fe36da729cfe59dd07251445f5218",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'annonce est refaite proprement et Sonia est prévenue de l\n'erreur.\n Rangez-le dans Cliants 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'annonce est refaite proprement et Sonia est prévenue de l\n'erreur.\n Rangez-le dans Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O04-E03-99",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Clients 2026.",
+   "empreinte_texte_dit": "e33a8b5a6fa6a2d16ce84102c722a35215a7c29c5edb87409a793722887de9f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O04-E03-99",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Rangé. L'incident est traité: le garder sous les yeux ne le réparerait pas davantage.",
+   "empreinte_texte_dit": "ba546c993006296ee1220e4c86d50263119ba1da387b2e29053be571a4ffc5be",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ranger. L'incident est traité. Le garder sous les yeux ne\n le réparerait pas davantage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ranger. L'incident est traité. Le garder sous les yeux ne\n le réparerait pas davantage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une adresse partie ne revient pas: le seul rattrapage possible est de ne pas aggraver. Refaire proprement, signaler en privé, et surtout ne pas répondre à tous, car une réponse pour prévenir atteint exactement les mêmes personnes que l'erreur qu'elle dénonce.",
+   "empreinte_texte_dit": "f4190e9f4603c8eed4f40fd0002e0b520161448f732ebb1e3da7f6a32447172b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 216128,
+   "duree_s": 13.44,
+   "caracteres_dits": 259,
+   "caracteres_factures": 259,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une adresse partie ne revient pas, le seul rattrapage\n possible est de ne pas aggraver.\n Refaire proprement, signaler en privé et surtout ne pas\n répondre à tous, car une réponse\n pour prévenir atteint exactement les mêmes personnes que l'\nerreur qu'elle dénonce.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une adresse partie ne revient pas.\n Le seul rattrapage possible est de ne pas aggraver.\n Refaire proprement, signaler en privé, et surtout ne pas\n répondre à tous.\n Car une réponse pour prévenir atteint exactement les mêmes\n personnes que l'erreur qu'elle dénonce.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

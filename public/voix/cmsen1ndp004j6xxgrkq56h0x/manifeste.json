@@ -1,0 +1,802 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1ndp004j6xxgrkq56h0x",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "L'objet, seule chose qu'on lit avant d'ouvrir"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 19,
+  "caracteres_dits": 2641,
+  "duree_totale_s": 162.2,
+  "segments_valides": 19,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Votre correspondant reçoit soixante messages par jour. Il ne lit pas le vôtre: il lit son objet, et décide s'il l'ouvre maintenant, ce soir, ou jamais. Un objet utile dit de quoi il s'agit et ce qu'on attend, en huit mots. Vous allez en écrire trois, dans trois situations différentes.",
+   "empreinte_texte_dit": "896ba27a14b1a63144c028e2eaa8153acb37f1f1edadd0870f0e1758ea58a8ea",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 273807,
+   "duree_s": 17.04,
+   "caracteres_dits": 285,
+   "caracteres_factures": 285,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Votre correspondant reçoit 60 messages par jour.\n Il ne lit pas le vôtre.\n Il lit son objet et décide s'il l'ouvre maintenant, ce soir\n ou jamais.\n Un objet utile dit de quoi il s'agit et ce qu'on attend.\n En huit mots.\n Vous allez en écrire trois dans trois situations\n différentes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Votre correspondant reçoit 60 messages par jour.\n Il ne lit pas le vôtre.\n Il lit son objet et décide s'il l'ouvre maintenant, ce soir\n ou jamais.\n Un objet utile dit de quoi il s'agit et ce qu'on attend.\n En huit mots.\n Vous allez en écrire trois, dans trois situations\n différentes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O06-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez une nouvelle fenêtre de rédaction et adressez-la à marches@ville-lambersart.fr. Premier message: demander à la mairie quand la commission statue.",
+   "empreinte_texte_dit": "d3196abd6a655e9210d87e310bf3bea0241e73ae15d7859877af1499e8188752",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 155524,
+   "duree_s": 9.64,
+   "caracteres_dits": 152,
+   "caracteres_factures": 152,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.09,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez une nouvelle fenêtre de rédaction et adressez-la à\n marcharobasvil-lambersar.fr.\n Premier message, demandez à l'Amérique en la commission\n statue.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.079,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez une nouvelle fenêtre de rédaction et adressez-la à\n marcharobazsville-l'embersar.fr\n Premier message, demandez à l'Amérique en la Commission\n Statut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O06-L01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Nouveau message, puis saisissez l'adresse dans le champ À.",
+   "empreinte_texte_dit": "504ebf8dc55febae278c96f1dcc1e692add8beb185a9cb20f4a3d605091699db",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Nouveau message, puis saisissez l'adresse dans le champ A.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Nouveau message, puis saisissez l'adresse dans le champ A.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O06-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Donnez un objet contenant MP-2026-24. Question ou Demande ne dit rien: dans un service qui traite trente marchés, seule la référence permet d'ouvrir le bon dossier avant même de vous lire.",
+   "empreinte_texte_dit": "91c9970a3eaa694839fbfa4cabf9dad84d1122840b3c37e1d6143913e66f9497",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 194813,
+   "duree_s": 12.12,
+   "caracteres_dits": 188,
+   "caracteres_factures": 188,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez un objet contenant MP2026-24.\n Question ou demande ne dit rien.\n Dans un service qui traite 30 marchés,\n seule la référence permet d'ouvrir le bon dossier avant\n même de vous lire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez un objet contenant MP2 026-24.\n Question ou demande ne dit rien.\n Dans un service qui traite 30 marchés,\n seule la référence permet d'ouvrir le bon dossier avant\n même de vous lire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O06-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Par exemple Marché MP-2026-24, date de la commission. La formulation est libre.",
+   "empreinte_texte_dit": "437a8b48a42891dc7ddcae60dc752e5c3ae7938e754fd1bf7a7e51fb7530cbc0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 101608,
+   "duree_s": 6.28,
+   "caracteres_dits": 79,
+   "caracteres_factures": 237,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Par exemple, marché MP2026-24, date de la commission. La\n formulation est libre.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Par exemple, marché MP202 6-24 date de la commission.\n La formulation est libre.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O06-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Question ou Demande ne dit rien. Une référence dans l'objet, et le service sait quoi en faire.",
+   "empreinte_texte_dit": "e9aa171825275b9dac57a8ac8fc379a1e62822e11a2750235e4b70d016e064e8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Question ou demande ne dit rien.\n Une référence dans l'objet et le service c'est quoi en\n faire ?",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Question ou demande ne dit rien.\n Une référence dans l'objet et le service c'est quoi en\n faire ?",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O06-L01-02B",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Un objet ne résume pas le message: il permet de décider sans l'ouvrir. Question, Demande, Info obligent votre correspondant à ouvrir pour savoir s'il devait ouvrir. Un objet utile porte de quel dossier il s'agit et ce qu'on attend. Le test: si votre objet pourrait coiffer trois messages différents, il n'en identifie aucun.",
+   "empreinte_texte_dit": "08ee2ea33a8f2dfb611814f5fec352ef7349173a5afc58b1888f9269012a6423",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 328142,
+   "duree_s": 20.44,
+   "caracteres_dits": 324,
+   "caracteres_factures": 324,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un objet ne résume pas le message. Il permet de décider\n sans l'ouvrir.\n Question.\n Demande.\n Infos obligent votre correspondant à ouvrir pour savoir s'\nil devait ouvrir.\n Un objet utile porte de quel dossier il s'agit et ce qu'on\n attend.\n Le test.\n Si votre objet pourrait coiffer trois messages différents,\n il n'en identifie aucun.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un objet ne résume pas le message.\n Il permet de décider sans l'ouvrir.\n Question.\n Demande.\n Info oblige votre correspondant à ouvrir pour savoir s'il\n devait ouvrir.\n Un objet utile porte de quel dossier il s'agit et ce qu'on\n attend.\n Le test.\n Si votre objet pourrait coiffer trois messages différents,\n il n'en identifie aucun.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O06-L01-03",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rédigez la demande, puis envoyez. Elle doit poser une seule question, la date de la commission, et rappeler de quel marché il s'agit. Un message qui en pose trois n'obtient jamais trois réponses.",
+   "empreinte_texte_dit": "368511a0e05b6df6f21037c9bccd35b86e7890596fab6ef9599984cdcc0ef59e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 165137,
+   "duree_s": 10.24,
+   "caracteres_dits": 195,
+   "caracteres_factures": 195,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédigez la demande, puis envoyez.\n Elle doit poser une seule question, la date de la\n commission, et rappeler de quel marché\n il s'agit.\n Un message qui en pose trois n'obtient jamais trois répons\nes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédiger la demande, puis envoyer.\n Elle doit poser une seule question, la date de la\n commission, et rappeler de quel marché il s'agit.\n Un message qui en pose trois n'obtient jamais trois répons\nes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O06-L01-03",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Deux informations sont attendues: la question, et le marché concerné.",
+   "empreinte_texte_dit": "0afe9c1d64de16fbdc0dc488379abd5e3e1ceaa645b621e4757b0898328153d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La question est le marché concerné.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La question est le marché concerné.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O06-L01-03",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Une seule question posée: votre correspondant peut répondre sans avoir à trier ce que vous voulez.",
+   "empreinte_texte_dit": "9ba0a7904e99e4d84b443268cded3dcf51af7c3c9a354e616629ccd58f3777a4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une seule question posée. Votre correspondant peut répondre\n sans avoir à trier ce que vous voulez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une seule question posée. Votre correspondant peut répondre\n sans avoir à trier ce que vous voulez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O06-L01-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Ouvrez une deuxième fenêtre de rédaction pour compta@quincaillerie-delmas.fr. Deuxième message: demander un délai de paiement.",
+   "empreinte_texte_dit": "a223c82ed2ec0132c8eb9cfbf949aa325bde35889a98d675eaf4262f585fe397",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 142568,
+   "duree_s": 8.84,
+   "caracteres_dits": 126,
+   "caracteres_factures": 126,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.114,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez une deuxième fenêtre de rédaction pour conta arobas\nca incairi-delmas.fr.\n 2e message, demandez un délai de paiement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.1,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez une deuxième fenêtre de rédaction pour compte à\n www.arobascuncaillerie-delmas.fr\n Deuxième message\n Demandez un délai de paiement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O06-L01-04",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Nouveau message, puis l'adresse du fournisseur.",
+   "empreinte_texte_dit": "46d92bd9c5d48472ebaed39eeefe1135cc4a2fa00191b9868e55381fbfba1cdf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Nouveau message, puis l'adresse du fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Nouveau message, puis l'adresse du fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O06-L01-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Donnez un objet contenant le mot délai. Un objet qui annonce la demande évite le message d'ouverture inutile: le comptable sait ce qu'on lui demande avant de cliquer, et peut le traiter dans la foulée.",
+   "empreinte_texte_dit": "0abcce1ed5ea26cfa4e6c4616a3422a35d9b097694a76dc9dbad3bc8cc0ed139",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 176004,
+   "duree_s": 10.92,
+   "caracteres_dits": 201,
+   "caracteres_factures": 201,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez un objet contenant le modèle E. Un objet qui annonce\n la demande évite le message d'ouverture inutile.\n Le comptable C, ce qu'on lui demande avant de cliquer, et\n peut le traiter dans la foulée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donner un objet contenant le mot délai, un objet qui ann\nonce la demande, évite le message\n d'ouverture inutile.\n Le comptable sait ce qu'on lui demande avant de cliquer, et\n peut le traiter dans la foulée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O06-L01-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Par exemple Demande de délai, facture lettres Q et D, numéro quatre mille six cent dix. L'accent ne compte pas.",
+   "empreinte_texte_dit": "9de41a6aee02998c81e228c80effe95ee26e37be78ffcc1bc4c1e8a8b57402b7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 124595,
+   "duree_s": 7.72,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par exemple, demande de délais, facture lettre Q&D n°4.610.\n L'accent ne compte pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par exemple, demande de délai, facture lettre Q et D,\n numéro 4610.\n L'accent ne compte pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O06-L01-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Un objet qui annonce la demande évite le message d'ouverture inutile.",
+   "empreinte_texte_dit": "dcc96716fd59884a9f756ac783fc578ee96dada0bc299c468588ad2ad6149396",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.047,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un objet qui annonce la demande évite le message d'ouvert\nure inutile.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.047,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un objet qui annonce la demande évite le message d'ouvert\nure inutile.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O06-L01-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Rédigez et envoyez. Le message doit dire ce que vous demandez et pour quand: une demande de délai sans date proposée oblige votre interlocuteur à faire le travail à votre place.",
+   "empreinte_texte_dit": "c0ba79dc927e59cddf6a1a49288e9095375324cd0709e0683405c02be5ade0ae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 173915,
+   "duree_s": 10.8,
+   "caracteres_dits": 177,
+   "caracteres_factures": 177,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédigez et envoyez. Le message doit dire ce que vous demand\nez et pour quand.\n Une demande de délai sans date proposée oblige votre inter\nlocuteur à faire le travail à votre place.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédigé et envoyé.\n Le message doit dire ce que vous demandez et pour quand.\n Une demande de délai sans date proposée oblige votre inter\nlocuteur à faire le travail à votre place.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O06-L01-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Deux informations sont attendues: la demande, et une date proposée.",
+   "empreinte_texte_dit": "4de95145cf1d916634b48747f130ee6cacef23703f34740135820d2ac3e34b55",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La demande est une date proposée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La demande et une date proposée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O06-L01-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Ce que vous demandez et pour quand: une demande de délai sans date n'est pas une demande.",
+   "empreinte_texte_dit": "5367e3e8a7ed87a2bd6f64af034ef2fa534df98af9da6a80d0e5884ad0e2880b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce que vous demandez et pour quand, une demande de délai\n sans date n'est pas une demande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce que vous demandez est pour quand.\n Une demande de délai sans date n'est pas une demande.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un bon objet contient toujours deux choses: le dossier dont on parle, et ce qui est attendu. Il permet aussi de retrouver le message six mois plus tard par une recherche, c'est le même travail qui sert deux fois.",
+   "empreinte_texte_dit": "bba28da0628b3b430234abae2edae2fb0c263bcea34a34d40daa27c931f954ad",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 174333,
+   "duree_s": 10.84,
+   "caracteres_dits": 212,
+   "caracteres_factures": 424,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un bon objet contient toujours deux choses, le dossier dont\n on parle et ce qui est attendu.\n Il permet aussi de retrouver le message six mois plus tard\n par une recherche, c'est le même travail qui sert deux fois\n.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un bon objet contient toujours deux choses, le dossier dont\n on parle et ce qui est attendu.\n Il permet aussi de retrouver le message six mois plus tard\n par une recherche, c'est le même travail qui sert deux fois\n.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

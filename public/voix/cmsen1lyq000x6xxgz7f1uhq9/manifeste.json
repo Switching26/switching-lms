@@ -1,0 +1,634 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1lyq000x6xxgz7f1uhq9",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Un message, quatre destinataires, trois rôles"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 15,
+  "caracteres_dits": 2246,
+  "duree_totale_s": 145.2,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Vous devez annoncer la date de démarrage. Rémi Tissot, le client, et Hugo Vasseur, le menuisier qui pose avec vous, doivent tous deux se rendre disponibles. Sonia doit être au courant. Et la gérante veut suivre le dossier sans que le client s'aperçoive qu'elle le lit. À vous de placer chacun au bon endroit.",
+   "empreinte_texte_dit": "b4a67a55d1d605e21c129c4d0dde029b41a7e0fd89942820764c9d14c729785f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 284674,
+   "duree_s": 17.72,
+   "caracteres_dits": 308,
+   "caracteres_factures": 308,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous devez annoncer la date de démarrage.\n Rémiti-Sau, le client, et Hugo Vasseur, le menuisier qui\n pose avec vous,\n doivent tous deux se rendre disponibles.\n Sonia doit être au courant.\n Et la gérante veut suivre le dossier sans que le client s'\naperçoive qu'elle le lit.\n À vous de placer chacun au bon endroit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous devez annoncer la date de démarrage. Rémi Tissot, le\n client, et Hugo Vasseur,\n le menuisier qui pose avec vous, doivent tous deux se\n rendre disponibles.\n Sonia doit être au courant. Et la gérante veut suivre le\n dossier sans que le client\n s'aperçoive qu'elle le lit. À vous de placer chacun au bon\n endroit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O01-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez une feuille blanche: ce message s'adresse à des personnes qui ne vous ont rien écrit.",
+   "empreinte_texte_dit": "50b50e8c60c56b4985a9f568ab6084ff57e8b6252acd6825cf66ab572c9bb895",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez une feuille blanche.\n Ce message s'adresse à des personnes qui ne vous ont rien\n écrit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez une feuille blanche.\n Ce message s'adresse à des personnes qui ne vous ont rien\n écrit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O01-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Le bouton Nouveau message, en haut de la colonne de gauche; sur téléphone, le ✚ à côté de la recherche.",
+   "empreinte_texte_dit": "301d602698980f7b180d772c547b18688ab62a4f6a6c23537c40674bbb5fddac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 99100,
+   "duree_s": 6.12,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau message en haut de la colonne de gauche\n sur téléphone le à côté de la recherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau message en haut de la colonne de gauche,\n sur Téléphone, le à côté de la recherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O01-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Placez chacun sur la bonne ligne. Doivent se rendre disponibles: r.tissot@ecole-arts-lambersart.fr et h.vasseur@menuiserie-vasseur.fr. Seulement informée: s.brunel@atelier-nord.fr. Suit sans être vue: n.kerbaj@atelier-nord.fr.",
+   "empreinte_texte_dit": "403cfe79296c34e2819af9fbba5012e3b1b08f2aabf2e1269f86364a526579e6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 384984,
+   "duree_s": 24.0,
+   "caracteres_dits": 226,
+   "caracteres_factures": 226,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.099,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Placez chacun sur la bonne ligne.\n Doivez se rendre disponibles.\n R.Tissot-arobase-école-art-lambersar.fr\n et H.vasseur-menuiserie-vasseur.fr\n Seulement informé.\n S.brunel-art-atelier-nord.fr\n Suis sans être vu.\n n.carbage-art-atelier-nord.fr",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Placez chacun sur la bonne ligne.\n Doivent se rendre disponibles.\n r.tissot@école-art-l'embersard.fr\n et h.vasseur@menuiserie-vasseur.fr\n Seulement informé.\n s.brunel@atelier-nord.fr\n Suis sans être vu.\n n.kerbage@atelier-nord.fr",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O01-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "À pour ceux qui doivent agir, Cc pour ceux qu'on informe, Cci pour ceux qui doivent rester invisibles. Le champ Cci est masqué: il faut cliquer sur le bouton Cci pour le faire apparaître.",
+   "empreinte_texte_dit": "82b97085e58da4d525e96122d6f32d4cfdbb907d229dbccf492f2fe4e0b75654",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 193141,
+   "duree_s": 12.0,
+   "caracteres_dits": 187,
+   "caracteres_factures": 187,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "A pour ceux qui doivent agir, CC pour ceux qu'on informe,\n CCI pour ceux qui doivent rester invisibles.\n Le champ CCI est masqué.\n Il faut cliquer sur le bouton CCI pour le faire apparaître.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "A pour ceux qui doivent agir, CC pour ceux qu'on informe,\n CCI pour ceux qui doivent rester invisibles.\n Le champ CCI est masqué. Il faut cliquer sur le bouton CCI\n pour le faire apparaître.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O01-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Trois lignes, trois rôles. Le champ À désigne les personnes qui agissent. Le champ Cc informe la personne qui doit savoir. Le champ Cci informe discrètement la personne qui suit.",
+   "empreinte_texte_dit": "8ab278d3670fa5632dedc95e6026ada49513ffeefc2b8ac36a1310339ac04be6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 201918,
+   "duree_s": 12.56,
+   "caracteres_dits": 178,
+   "caracteres_factures": 178,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Trois lignes, trois rôles. Le champ a désigne les personnes qui agissent. Le champ cc informe la personne qui doit savoir. Le champ cci informe discrètement la personne qui suit.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.052,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": {
+       "attendus": [
+        "cc",
+        "cci"
+       ],
+       "entendus": []
+      },
+      "references": null,
+      "raccourcis": null,
+      "ok": false,
+      "transcription": "Trois lignes, trois rôles.\n Le champ a désigne les personnes qui agissent.\n Le champ cesse informe la personne qui doit savoir.\n Le champ cesse i informe discrètement la personne qui suit."
+     }
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Trois lignes, trois rôles. Le champ A désigne les personnes qui agissent. Le champ CC informe la personne qui doit savoir. Le champ CCI informe discrètement la personne qui suit.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O01-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Donnez au message un objet qui contienne le mot chantier. Souvenez-vous qu'il sera lu par un client, un artisan extérieur et deux personnes de l'atelier: il doit parler à tous.",
+   "empreinte_texte_dit": "1ad4f1e10440474e7fe5058b97318fe6c0fefeb8e93edfec90a42f4e3cd9548a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 165137,
+   "duree_s": 10.24,
+   "caracteres_dits": 176,
+   "caracteres_factures": 176,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Donnez au message un objet qui contienne le mot chantier.\n Souvenez-vous qu'il sera lu par un client, un artisan ext\nérieur et deux personnes de l'atelier.\n Il doit parler à tous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Donnez au message un objet qui contienne le mot « chantier\n ». Souvenez-vous qu'il sera lu par un client, un artisan\n extérieur et deux personnes de l'atelier. Il doit parler à\n tous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O01-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Par exemple Chantier de Lambersart, démarrage lundi 9 mars. La formulation vous appartient.",
+   "empreinte_texte_dit": "4bb118e4416dcac6b1d5eb5f7967838057ea8b297324e92070991834b0b777fb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 100772,
+   "duree_s": 6.24,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.048,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Par exemple chantier de Lambert Sartre, démarrage lundi 9\n mars.\n La formulation vous appartient.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Par exemple, chantier de l'Ambersart, démarrage lundi 9\n mars.\n La formulation vous appartient.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O01-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "L'objet nomme le chantier: les quatre destinataires savent de quoi il s'agit avant d'ouvrir.",
+   "empreinte_texte_dit": "573095e6575d452eb86bb6a4287e2217f6d99edea5e662df1f4ad54e37bb4b57",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'objet nomme le chantier.\n Les quatre destinataires savent de quoi il s'agit avant d'\nouvrir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'objet nomme le chantier.\n Les quatre destinataires savent de quoi il s'agit avant d'\nouvrir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O01-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rédigez l'annonce. Elle doit donner le jour du démarrage et l'heure de rendez-vous sur place: sans ces deux informations, votre message obligera chacun à vous rappeler.",
+   "empreinte_texte_dit": "17db16f9e10f7041c7966d53e08c855c956b4eb2cb78196763ffb1430fb436ef",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 141732,
+   "duree_s": 8.8,
+   "caracteres_dits": 168,
+   "caracteres_factures": 168,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigiez l'annonce. Elle doit donner le jour du démarrage\n et l'heure de rendez-vous sur place.\n Sans ces deux informations, votre message obligera chacun à\n vous rappeler.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigez l'annonce.\n Elle doit donner le jour du démarrage et l'heure de rendez-\nvous sur place.\n Sans ces deux informations, votre message obligera chacun à\n vous rappeler.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O01-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Deux informations sont attendues: le jour, et l'heure de rendez-vous. Les deux figurent dans la consigne de la gérante.",
+   "empreinte_texte_dit": "79a6c42027cdf64cebd06f9dc712b28b5b843d60877acd71bfd32c5136c1e1cb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 111221,
+   "duree_s": 6.88,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.046,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le jour est l'heure de rendez-vous.\n Les deux figures dans la consigne de la gérante.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le jour et l'heure de rendez-vous.\n Les deux figures dans la consigne de la gérante.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O01-E02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Relisez les quatre lignes du haut, puis envoyez. Une fois parti, le placement des adresses ne se corrige plus.",
+   "empreinte_texte_dit": "ce2da0a1178b9f655566beeff03197ed39088f6867c26fd8bac825a0bc2d3ae6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Relisez les quatre lignes du haut, puis envoyez.\n Une fois partie, le placement des adresses ne se corrige\n plus.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Relisez les quatre lignes du haut, puis envoyez.\n Une fois parti, le placement des adresses ne se corrige\n plus.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O01-E02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "2667ca0a7beb4de62970e73906b0981a06f7bf5161f8353b2db14b5b268ebc42",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton « Envoyer » est le premier de la barre du haut de\n la fenêtre de rédaction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O01-E02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Parti. Le placement des adresses, lui, ne se corrige plus.",
+   "empreinte_texte_dit": "75ed0c719d783e20ab7e05afda96881ee9dfcd794d69d7b7d1a8cf5183a367c2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Partie. Le placement des adresses, lui, ne se corrige plus.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Partie.\n Le placement des adresses, lui, ne se corrige plus.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Le classement des destinataires n'est pas une question de politesse mais de conséquence: ce qui est en Cc devient public pour tout le monde, ce qui est en Cci ne l'est pour personne. Une adresse interne posée en Cc devant un client, c'est une adresse donnée.",
+   "empreinte_texte_dit": "1997ff1babda181d4a1b21358fd80b141446b8208d5baabdc111178a1c45cccc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 219890,
+   "duree_s": 13.68,
+   "caracteres_dits": 258,
+   "caracteres_factures": 258,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le classement des destinataires n'est pas une question de\n politesse mais de conséquence.\n Ce qui est en CC devient public pour tout le monde, ce qui\n est en CCI ne l'est pour personne.\n Une adresse interne posée en CC devant un client, c'est une\n adresse donnée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le classement des destinataires n'est pas une question de\n politesse mais de conséquences.\n Ce qui est en CC devient public pour tout le monde, ce qui\n est en CCI ne l'est pour\n personne.\n Une adresse interne posée en CC devant un client, c'est une\n adresse donnée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

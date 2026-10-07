@@ -1,0 +1,880 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1pnv00af6xxg97055hko",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Répondre sur le fond, pièces à l'appui"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 2628,
+  "duree_totale_s": 162.9,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une rayure imputable à la pose, un joint conforme mais mal nettoyé. Le message qui suit engage l'entreprise: il annonce ce qu'on reprend, ce qu'on ne reprend pas, et à quelle date. Il part avec le constat, pas avec les notes internes qui ont servi à l'écrire.",
+   "empreinte_texte_dit": "ca87c4a28fde14148ba9cfd2a50f8443ef5d18deb79e670b9ba0e5fcbd2f4bed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 262940,
+   "duree_s": 16.36,
+   "caracteres_dits": 259,
+   "caracteres_factures": 259,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une rayure imputable à la pose, un joint conforme mais mal\n nettoyé.\n Le message qui suit engage l'entreprise.\n Il annonce ce qu'on reprend, ce qu'on ne reprend pas et à\n quelle date.\n Il part avec le constat, pas avec les notes internes qui\n ont servi à l'aile, écrire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une rayure imputable à la pose, un joint conforme mais mal\n nettoyé.\n Le message qui suit engage l'entreprise.\n Il annonce ce qu'on reprend, ce qu'on ne reprend pas et à\n quelle date.\n Il part avec le constat, pas avec les notes internes qui\n ont servi à, l'aile, écrire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O14-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message de Julien Leroux. Il ne s'énerve plus: il demande une décision. C'est le signe que l'accusé de réception a fonctionné.",
+   "empreinte_texte_dit": "be6c1c6cd5b16689fdcc90d9ac6c1a8dff21a7591119ae57825738ea2f7730e5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 138806,
+   "duree_s": 8.6,
+   "caracteres_dits": 136,
+   "caracteres_factures": 136,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.049,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de Julien Le Roux.\n Il ne sain et n'erve plus.\n Il demande une décision.\n C'est le signe que l'accusé de réception a fonctionné.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de Julien Leroux.\n Il ne s'in, énerve plus.\n Il demande une décision.\n C'est le signe que l'accusé de réception a fonctionné.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O14-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui demande ce qui est repris.",
+   "empreinte_texte_dit": "13ff48855a3142f4e2956011d92dd8ca9129efbeaff8545639fa2943971806cb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 33062,
+   "duree_s": 2.0,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui demande ce qui est repris ?",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui demande ce qui est repris ?",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O14-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Il ne s'énerve plus, il demande une décision. C'est le signe que l'accusé de réception a fonctionné.",
+   "empreinte_texte_dit": "c79d4de11f1ec6119eb11dbc35004508bd6d79373f2c61b7bf2a2054861d74dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.097,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Il ne est-ce et n'erre plus, il demande une décision.\n C'est le signe que l'accusé de réception a fonctionné.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Il ne haisse, énerve plus, il demande une décision.\n C'est le signe que l'accusé de réception a fonctionné.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O14-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre. La réponse de fond reste dans le fil de la réclamation: le client ne doit pas avoir à rapprocher deux conversations pour comprendre l'issue.",
+   "empreinte_texte_dit": "edb4abf31b07c90b1f21dba45a30775b9f228b1d6523f5915d977f1097dc5745",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 142568,
+   "duree_s": 8.84,
+   "caracteres_dits": 162,
+   "caracteres_factures": 486,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre.\n La réponse de fond reste dans le fil de la réclamation.\n Le client ne doit pas avoir à rapprocher deux conversations\n pour comprendre l'issue.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre.\n La réponse de fond reste dans le fil de la réclamation.\n Le client ne doit pas avoir à rapprocher deux conversations\n pour comprendre l'issue.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O14-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Répondre.",
+   "empreinte_texte_dit": "3db4121db6bff2364bf70d7beacc670e26590cbfa8308d7b578d1d658bbcefe5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 35152,
+   "duree_s": 2.12,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton « Répondre ».",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O14-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Joignez Constat-chantier-Leroux.pdf. Quatre fichiers portent le nom du client: Notes-internes-Leroux contient vos remarques sur la pose, elles ne sortent pas de l'atelier.",
+   "empreinte_texte_dit": "2fc01773704cab66c27e63ffc6e8a2f54ac4c3468d7c6ca18847b64abb1650de",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 170153,
+   "duree_s": 10.56,
+   "caracteres_dits": 171,
+   "caracteres_factures": 171,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignez constat-chantier-le-roux.pdf.\n Quatre fichiers portent le nom du client.\n Notes internes Le Roux contient vos remarques sur la pause,\n elle ne sortent pas de l'atelier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.052,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignez constat-chantierleroue.pdf.\n Quatre fichiers portent le nom du client.\n Note interne Leroux contient vos remarques sur la pose,\n elle ne sort pas de l'atelier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O14-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Lisez les noms en entier: constat et notes internes ne se destinent pas au même lecteur.",
+   "empreinte_texte_dit": "a38dde1f4aab344a2be06e44a95b343d14c45573365f0ed111cfaaa9868e8d22",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lisez les noms en entier.\n Consta et notes internes se destinent pas au même lecteur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lisez les noms en entier.\n Constats et notes internes ne se destinent pas aux mêmes\n lecteurs.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O14-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Notes-internes-Leroux.pdf porte le même nom de client. Une note interne chez un client en litige se retourne contre vous.",
+   "empreinte_texte_dit": "52b38a707e1aa96a3fefbeb245997063d41d847c7b2135bf756a5e3690b9aa0a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 129193,
+   "duree_s": 8.0,
+   "caracteres_dits": 121,
+   "caracteres_factures": 121,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Note interne le roux.pdf porte le même nom de client.\n Une note interne chez un client en litige se retourne\n contre vous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Note interne Leroux.pdf porte le même nom de client.\n Une note interne chez un client en litige se retourne\n contre vous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O14-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Joignez aussi Photos-panneau-raye.jpg. Sur un litige, une photo datée vaut trois paragraphes: elle fixe l'état constaté à une date, ce que le texte seul ne fait pas.",
+   "empreinte_texte_dit": "63d59bbf14e5d0931e7e09bbce1af0895b92fc68d67d1894f34f93e7fbcdacb3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 181438,
+   "duree_s": 11.28,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.045,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignez aussi photospanorais.jpg.\n Sur un litige, une photo datée vaut trois paragraphs.\n Elle fixe \"L\" et t'as constaté à une date ce que le texte\n seul ne fait pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.045,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignez aussi photopanorais.jpg.\n Sur un litige, une photo datée vaut trois paragraphes.\n L fixe L, et t'as constaté à une date ce que le texte seul\n ne fait pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O14-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Rouvrez Joindre, puis cliquez sur la photo.",
+   "empreinte_texte_dit": "3b48da293deca7cb4413857b674181c86f6219e3ca164ff1573e5c05171ac533",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 43,
+   "caracteres_factures": 43,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "rouvrez joindre, puis cliquez sur la photo.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "rouvrez joindre, puis cliquez sur la photo.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O14-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Sur un litige, une photo datée vaut trois paragraphes.",
+   "empreinte_texte_dit": "2de48593203be57c3b8cbd3e93be50a291bf03d133963c719e815ca7438881a1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.1,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un étage, une photo datée vaut 3 paragraphes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un itige, une photo datait vos trois paragraphes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O14-L02-04B",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Une position tenable dit les trois choses ensemble: ce qu'on reprend, ce qu'on ne reprend pas, sous quel délai. Séparées, chacune se retourne contre vous. Et le tri des pièces compte autant: le constat part parce qu'il fixe l'état à une date, les notes internes restent parce qu'elles portent votre appréciation de votre propre pose.",
+   "empreinte_texte_dit": "38c9dbaf74b37d1e377f40af044e5445c019a96f8fc8c75042f471425c14b403",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 310169,
+   "duree_s": 19.32,
+   "caracteres_dits": 333,
+   "caracteres_factures": 333,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une position tenable dit les trois choses ensemble.\n Ce qu'on reprend, ce qu'on ne reprend pas, sous quel délai.\n Séparez, chacune se retourne contre vous.\n Et le tri des pièces compte autant.\n Le constat part parce qu'il fixe elle,\n et ta une date, les notes internes restent\n parce qu'elle porte votre appréciation de votre propre pose\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une position tenable dit les trois choses ensemble.\n Ce qu'on reprend, ce qu'on ne reprend pas, sous quel délai.\n Séparés, chacune se retourne contre vous.\n Et le tri des pièces compte autant.\n Le constat part parce qu'il fixe elle.\n État a une date, les notes internes restent parce qu'elles\n portent votre appréciation\n de votre propre pose.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O14-L02-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Rédigez la réponse, puis envoyez. Elle doit dire ce que vous reprenez, ce que vous ne reprenez pas et sous quel délai. Les trois ensemble: c'est ce qui rend la position tenable.",
+   "empreinte_texte_dit": "fae0dcb53db3d85d0dcfdd549a2947aa27de7d72ee8fd1f796b2026f2733b37f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 177258,
+   "duree_s": 11.0,
+   "caracteres_dits": 177,
+   "caracteres_factures": 177,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez la réponse, puis envoyez.\n Elle doit dire ce que vous reprenez, ce que vous ne repre\nnez pas et sous quel délai.\n Les trois ensembles, c'est ce qui rend la position tenable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger la réponse, puis envoyer.\n Elle doit dire ce que vous reprenez, ce que vous ne repre\nnez pas et sous quel délai.\n Les trois ensembles, c'est ce qui rend la position tenable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O14-L02-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Trois informations sont attendues: ce qui est repris, ce qui ne l'est pas, et le délai.",
+   "empreinte_texte_dit": "e86fc08968e372e1ddcaf441aadd1d37bd544636e7a7b777664f0b75f1b80d65",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues, ce qui est repris, ce\n qui ne l'est pas, et le délai.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues.\n Ce qui est repris, ce qui ne l'est pas et le délai.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O14-L02-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Ce qui est repris, ce qui ne l'est pas, et pourquoi: une position claire vaut mieux qu'un geste flou.",
+   "empreinte_texte_dit": "65b6b94d97140dc5c40c1e5bc282b956b019721fbe30320b3f8b0b29d507676d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce qui est repris, ce qui ne l'est pas, et pourquoi ?\n Une position claire vaut mieux qu'un geste flou.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "ce qui est repris, ce qui ne l'est pas, et pourquoi.\n Une position claire vaut mieux qu'un geste flou.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O14-L02-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Rangez la réclamation dans Réclamations. Un litige tranché ne retourne pas dans les clients ordinaires: il se range là où on le retrouvera si le client y revient dans un an.",
+   "empreinte_texte_dit": "b1d730261c6e811e02ef68f1d29496a9dc25a6786bcf65dfcfc323c021305557",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 159704,
+   "duree_s": 9.92,
+   "caracteres_dits": 173,
+   "caracteres_factures": 173,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.046,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger la réclamation dans réclamation.\n Un litige tranché ne retourne pas dans les clients ordin\naires.\n Il se range là où on le retrouvera si le client y revient\n dans un an.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger la réclamation dans réclamation. Un litige tranché\n ne retourne pas dans les clients ordinaires.\n Il se range là où on le retrouvera si le client y revient\n dans un an.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O14-L02-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Déplacer, puis Réclamations.",
+   "empreinte_texte_dit": "22dd672f071afabcfd5c5f48f27ab398e3ff9bd91dde631ca15dedf5302e7e00",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez, puis réclamations.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacer, puis réclamation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O14-L02-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Un litige tranché ne retourne pas chez les clients ordinaires: il se retrouvera dans un an, là où on le cherchera.",
+   "empreinte_texte_dit": "e314358c2526304bb402990edbde32dd4b8107668bb8122171bdc90b3675ce7a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.113,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un litige tranché ne retourne pas chez les clients ordin\naires.\n Il se retrouvera dans un an, là où on le cherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.081,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un litige tranché ne retourne pas chez les clients ordin\naires.\n Il se retrouvera dans un an, là où on le cherchera.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une réponse de fond se reconnaît à ce qu'elle distingue: ce qui est pris en charge, ce qui ne l'est pas, et pourquoi. Tout accorder d'un bloc coûte cher; tout refuser d'un bloc coûte le client. La pièce jointe est ce qui rend la distinction crédible.",
+   "empreinte_texte_dit": "97f16c1fb7125618a56fa6e1270792ee491ac9b24a591ed870791dddb82f8b97",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 242878,
+   "duree_s": 15.12,
+   "caracteres_dits": 250,
+   "caracteres_factures": 250,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une réponse de fond se reconnaît à ce qu'elle distingue,\n ce qui est pris en charge, ce qui ne l'est pas et pourquoi.\n Tout accordé d'un bloc coûte cher, tout refusé d'un bloc\n coûte le client.\n La pièce jointe est ce qui rend la distinction crédible.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une réponse de fond se reconnaît à ce qu'elle distingue,\n ce qui est pris en charge, ce qui ne l'est pas et pourquoi.\n Tout accordé d'un bloc coûte cher, tout refusé d'un bloc\n coûte le client.\n La pièce jointe est ce qui rend la distinction crédible.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

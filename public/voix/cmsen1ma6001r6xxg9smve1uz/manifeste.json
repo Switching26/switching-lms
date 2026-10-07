@@ -1,0 +1,730 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1ma6001r6xxg9smve1uz",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Répondre à la bonne personne"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 18,
+  "caracteres_dits": 2076,
+  "duree_totale_s": 120.9,
+  "segments_valides": 18,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Le client veut changer la finition du comptoir alors que la fabrication est lancée. Sa demande est adressée à vous, avec sa direction en copie. Vous devez lui répondre, et décider vous-même qui, en plus de lui, a besoin de lire cette réponse.",
+   "empreinte_texte_dit": "c5f036a0e2f9b1650ff218687370dfee57c3ad0669a679684073c7b06c365151",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 227831,
+   "duree_s": 14.16,
+   "caracteres_dits": 242,
+   "caracteres_factures": 242,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le client veut changer la finition du comptoir alors que la\n fabrication est lancée.\n Sa demande est adressée à vous avec sa direction en copie.\n Vous devez lui répondre et décidez vous-même qui, en plus\n de lui, a besoin de lire cette réponse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le client veut changer la finition du comptoir alors que la\n fabrication est lancée.\n Sa demande est adressée à vous, avec sa direction en copie.\n Vous devez lui répondre et décidez vous-même qui, en plus\n de lui, a besoin de lire cette\n réponse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O02-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la demande de Rémi Tissot et lisez-la: elle pose deux questions distinctes, et une réponse qui n'en traite qu'une provoquera un aller-retour.",
+   "empreinte_texte_dit": "7a690c5c58692e42220e57d751d3390c9e32a657170a3f28d5297d1a0239c641",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 144657,
+   "duree_s": 8.96,
+   "caracteres_dits": 148,
+   "caracteres_factures": 148,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.047,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de Remiti-Sau et Lizella.\n Elles posent deux questions distinctes et une réponse qui n\n'entraite qu'une provoquera un aller-retour.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de Rémi Tissot et lisez-la.\n Elle pose deux questions distinctes, et une réponse qui n'\nen traite qu'une provoquera un aller-retour.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O02-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message de l'école, dont l'objet annonce une question avant fabrication.",
+   "empreinte_texte_dit": "e919e5009af732edf8a0d04bca526f93431a1f300e9eb97cf622c325425cbca9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.039,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message de l'Aile, École, dont l'objet annonce une\n question avant fabrication.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message de l'aile et col dont l'objet annonce une\n question avant fabrication.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O02-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Répondez-lui. Sa direction était en copie de la demande et doit le rester, mais souvenez-vous qu'une réponse ne la reprend pas toute seule.",
+   "empreinte_texte_dit": "a28b717d755e9c08137b4a960f5e27ed7081e5cf403d688bc65bc25dd85870ce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondez-lui. Sa direction était en copie de la demande et\n doit le rester.\n Mais souvenez-vous qu'une réponse ne la reprend pas toute\n seule.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondez-lui. Sa direction était en copie de la demande et\n doit le rester.\n Mais souvenez-vous qu'une réponse ne la reprend pas toute\n seule.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O02-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Utilisez Répondre, puis remettez à la main l'adresse qui figurait en Cc du message reçu.",
+   "empreinte_texte_dit": "75a3567ff448d2e3c616ef080879637bfdf61722cd4a3a7a6f824ff4fad617a8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Utilisez Répondre, puis remettez à la main l'adresse qui\n figurait en CC du message reçu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Utilisez Répondre, puis remettez à la main l'adresse qui\n figurait en CC du message reçu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O02-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "La copie reçue n'était pas reprise automatiquement. Vous l'avez ajoutée pour que le contact scolaire reste informé.",
+   "empreinte_texte_dit": "d76ba2e481b3fb65a279ddad19b8bb3939be8d2d8db9e673410b288c4cbc5cbe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "La copie reçue N était pas reprise automatiquement.\n Vous l'avez ajoutée pour que le contact scolaire reste\n informé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "La copie reçue N n'était pas reprise automatiquement.\n Vous l'avez ajoutée pour que le contact scolaire reste\n informé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O02-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "L'objet reçu ne dit pas de quoi il s'agit: une question avant fabrication n'aidera personne à retrouver ce message dans trois mois. Complétez-le pour qu'il contienne le mot finition, sans retirer le préfixe posé par Outlook.",
+   "empreinte_texte_dit": "903d93a0fcf8100dfdd889375ebb37f7493c07b9abffe44ada799f1c37eb0415",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 183946,
+   "duree_s": 11.44,
+   "caracteres_dits": 224,
+   "caracteres_factures": 224,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'objet reçu ne dit pas de quoi il s'agit.\n Une question avant fabrication n'aidera personne à\n retrouver ce message dans trois mois.\n Complétez-le pour qu'il contienne le mot finition, sans\n retirer le préfix posé par Outlook.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'objet reçu ne dit pas de quoi il s'agit.\n Une question avant fabrication n'aidera personne à\n retrouver ce message dans trois mois.\n Complétez-le pour qu'il contienne le mot \"finition\", sans\n retirer le préfixe posé par Outlook.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O02-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Cliquez à la fin du champ Objet et ajoutez le mot: le RE: du début doit rester.",
+   "empreinte_texte_dit": "e4ef1a4bf774b628d56c018e037bdf718291e62ba515654a08ac9e75e766c45f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez à la fin du champ objet et ajoutez le mot.\n Le re, du début doit rester.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez à la fin du champ Objet et ajoutez le mot.\n Le R E. Du début doit rester.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O02-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Un objet qui nomme le sujet: ce message se retrouvera dans six mois, une question avant fabrication non.",
+   "empreinte_texte_dit": "bd7cdab39b6b5de0c1bd417b12b6c839d2aa1d498578a9146ee4ff76e09b45d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 104,
+   "caracteres_factures": 104,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un objet qui nomme le sujet.\n Ce message se retrouvera dans 6 mois, une question avant\n fabrication non.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un objet qui nomme le sujet.\n Ce message se retrouvera dans six mois.\n Une question avant fabrication non.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O02-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rédigez la réponse. Elle doit traiter les deux questions posées: si le changement est encore possible, et ce qu'il coûte.",
+   "empreinte_texte_dit": "f59fda1624e0e9322372b210fefc451d568dc1ed0f7b951b793192d085fb3044",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 121,
+   "caracteres_factures": 121,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigez la réponse. Elle doit traiter les deux questions\n posées.\n Si le changement est encore possible, et ce qu'il coûte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigé la réponse.\n Elle doit traiter les deux questions posées,\n si le changement est encore possible et ce qu'il coûte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O02-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Deux informations sont attendues: la faisabilité, et le coût, même si celui-ci est nul.",
+   "empreinte_texte_dit": "d34984ada615cfb44d2e0d1c97e1891a5c80001702b8c8749b7bfd564d789de3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La faisabilité est le coup, même si celui-ci est nul.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La faisabilité et le coût, même si celui-ci est nul.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O02-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Relisez les deux lignes d'adresses, puis envoyez.",
+   "empreinte_texte_dit": "675d7486b2f58855dea1816075c48f08beba532dc76eeb7e258d1becab5d818d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 49781,
+   "duree_s": 3.04,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Relisez les deux lignes d'adresse, puis envoyez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "relisez les deux lignes d'adresse, puis envoyez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O02-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "2667ca0a7beb4de62970e73906b0981a06f7bf5161f8353b2db14b5b268ebc42",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O02-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Partie aux deux, avec les deux réponses attendues.",
+   "empreinte_texte_dit": "42ec03d26a2c6c0dd1e62d72d644607beb5e39fb490c36da0b4c59c85d5b3912",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Partie au 2 avec les deux réponses attendues.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Partie au 2 avec les deux réponses attendues.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O02-E01-99",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Les deux questions ont reçu leur réponse: ce message n'attend plus rien. Rangez-le dans Clients 2026.",
+   "empreinte_texte_dit": "6a0a5ff800576bc67227002c20ba26fe00bc99ffe24c618bcee743da7e95e41b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les deux questions ont reçu leur réponse.\n Ce message n'attend plus rien.\n Rangez-le dans client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les deux questions ont reçu leur réponse.\n Ce message n'attend plus rien.\n Rangez-le dans Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O02-E01-99",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Clients 2026.",
+   "empreinte_texte_dit": "e33a8b5a6fa6a2d16ce84102c722a35215a7c29c5edb87409a793722887de9f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacer dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O02-E01-99",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Traité, donc classé. C'est ce geste, et non la réponse, qui vide une boîte.",
+   "empreinte_texte_dit": "a380106153e32e46ace20b4ae89df6fcfd8095aa60e45db5399a3678ab7e5b74",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Prêter donc classer.\n C'est ce geste et non la réponse qui vit d'une boîte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Traité donc classé.\n C'est ce geste et non la réponse qui vit d'une boîte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une réponse ne reprend jamais la copie du message d'origine: si une personne doit rester informée, c'est à vous de la remettre. Et un objet qui porte la référence du dossier s'archive tout seul du côté du client.",
+   "empreinte_texte_dit": "a083a24e6275eecc5940d7d7b55db0e0bedeffa9d3918027b321151ee3acb9ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 176004,
+   "duree_s": 10.92,
+   "caracteres_dits": 212,
+   "caracteres_factures": 212,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une réponse ne reprend jamais la copie du message d'origine\n.\n Si une personne doit rester informée, c'est à vous de la\n remettre.\n Et un objet qui porte la référence du dossier s'archive\n tout seul du côté du client.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une réponse ne reprend jamais la copie du message d'origine\n.\n Si une personne doit rester informée, c'est à vous de la\n remettre.\n Et un objet qui porte la référence du dossier s'archive\n tout seul du côté du client.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

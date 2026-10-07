@@ -1,0 +1,915 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1lvk000p6xxgd72dd1zf",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Ranger sa boîte : classer, supprimer, marquer"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 23,
+  "caracteres_dits": 3108,
+  "duree_totale_s": 182.1,
+  "segments_valides": 23,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Votre boîte de réception est une file d'attente, pas un lieu de rangement: ce qui est traité doit en sortir. Vous allez apprendre les trois gestes qui la vident sans rien perdre, classer dans un dossier, supprimer, et marquer ce qui attend encore une action de votre part.",
+   "empreinte_texte_dit": "a1a4ae1c096f265d050f381bf62931b77c91c57f8ff245f1273594094e885d54",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 237444,
+   "duree_s": 14.76,
+   "caracteres_dits": 272,
+   "caracteres_factures": 272,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Votre boîte de réception est une file d'attente, pas un\n lieu d'arrangement.\n Ce qui est traité doit en sortir.\n Vous allez apprendre les trois gestes qu'il a vides sans\n rien perdre,\n classés dans un dossier, supprimés, et marqué ce qui attend\n encore une action de votre part.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Votre boîte de réception est une file d'attente, pas un\n lieu de rangement.\n Ce qui est traité doit en sortir.\n Vous allez apprendre les trois gestes qui la vide sans rien\n perdre,\n classer dans un dossier, supprimer et marquer ce qui attend\n encore une action de votre part.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O01-L06-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Rémi Tissot a validé le devis: ce message est traité, il n'a plus rien à faire dans la file d'attente. Ouvrez-le avant de le ranger, on ne classe pas un message qu'on n'a pas lu.",
+   "empreinte_texte_dit": "d9d50e8826c5acbdcdbbd1f3d65152bd45d8601c33dcabc3ba7474c85db13ce1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 153853,
+   "duree_s": 9.56,
+   "caracteres_dits": 178,
+   "caracteres_factures": 178,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rémiti-sso a validé le devis.\n Ce message est traité.\n Il n'a plus rien à faire dans la file d'attente.\n Ouvrez-le avant de le ranger.\n On ne classe pas un message qu'on n'a pas lu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rémi Tissot a validé le devis.\n Ce message est traité.\n Il n'a plus rien à faire dans la file d'attente.\n Ouvrez-le avant de le ranger.\n On ne classe pas un message qu'on n'a pas lu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O01-L06-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet annonce un devis accepté.",
+   "empreinte_texte_dit": "8eb0772a12b9ba1d6c9f49285b9ec652595bde3a626c7a4d82b69c312a44659a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet annonce un devis accepté.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet annonce un devis accepté.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O01-L06-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "On classe un message après l'avoir lu: c'est la lecture qui dit où il doit aller.",
+   "empreinte_texte_dit": "568f99e85e9b1bfc2ec282b72016524624f0308bcf8d81e8f7c1b050e9420d9c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "On classe un message après l'avoir lu.\n C'est la lecture qui dit où il doit aller.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "On classe un message après l'avoir lu.\n C'est la lecture qui dit où il doit aller.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O01-L06-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Les dossiers de gauche ne servent qu'à cela: recevoir ce qui est traité. Cliquez sur Déplacer: la liste de vos dossiers s'ouvre, avec la Boîte de réception en moins puisque le message y est déjà.",
+   "empreinte_texte_dit": "930a257f8c215cdd413c3b7d9c12659fbb9f766d5005a382cb148a54a49d26a8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 190633,
+   "duree_s": 11.84,
+   "caracteres_dits": 195,
+   "caracteres_factures": 195,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les dossiers de gauche ne servent que à cela, recevoir ce\n qui est traité.\n Cliquez sur déplacer, la liste de vos dossiers s'ouvre avec\n la boîte de réception en\n moins puisque le message y est déjà.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les dossiers de gauche ne servent qu'à cela, recevoir ce\n qui est traité.\n Cliquez sur déplacer, la liste de vos dossiers s'ouvre avec\n la boîte de réception en\n moins, puisque le message y est déjà.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O01-L06-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Déplacer est dans la barre du haut du volet de lecture, à côté de Transférer.",
+   "empreinte_texte_dit": "38917768915f9e356127def5239b78ac2fc4a32cb66f5e2c1540f849211291f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.041,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton DÉPLACER est dans la barre du haut du volet de\n lecture à côté de TRANSFERRER.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton déplacer est dans la barre du haut du volet de\n lecture à côté de transférer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O01-L06-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "La liste de vos dossiers s'ouvre. C'est le même geste pour tous les rangements.",
+   "empreinte_texte_dit": "3e0d7a4081827d811f9e31a197157aaf2bdd26c419d8aae97e08f5986645be67",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La liste de vos dossiers s'ouvre. C'est le même geste pour\n tous les rangements.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La liste de vos dossiers s'ouvre.\n C'est le même geste pour tous les rangements.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O01-L06-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Rangez ce message dans Clients 2026. Il disparaît de votre boîte de réception, mais il n'est ni perdu ni supprimé: il a simplement changé de dossier, exactement comme un papier qu'on classe.",
+   "empreinte_texte_dit": "0d58a758a866e2302e2d0da2e0cb5b500279fb060600b90f4d00ff22e8fea22a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 198156,
+   "duree_s": 12.32,
+   "caracteres_dits": 190,
+   "caracteres_factures": 190,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ranger ce message dans Client 2026.\n Il disparaît de votre boîte de réception, mais il n'est ni\n perdu ni supprimé.\n Il a simplement changé de dossier, exactement comme un\n papier qu'on classe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rangez ce message dans Client 2026.\n Il disparaît de votre boîte de réception, mais il n'est ni\n perdu ni supprimé.\n Il a simplement changé de dossier, exactement comme un\n papier qu'on classe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O01-L06-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Dans la liste ouverte, cliquez sur la ligne Clients 2026.",
+   "empreinte_texte_dit": "a0ac6c61b6ab9c4435e92e9e4b46f9ce19415ca79879b5382bdf56bd7985c329",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dans la liste ouverte, cliquez sur la ligne Client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dans la liste ouverte, cliquez sur la ligne Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O01-L06-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Il a quitté la boîte de réception sans être supprimé: il a simplement changé de dossier.",
+   "empreinte_texte_dit": "3a7867eb31f4df6b52565e9adba9a116c02ae18abb312ac6a3cb9acb20f1152a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Il a quitté la boîte de réception sans être supprimé.\n Il a simplement changé de dossier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Il a quitté la boîte de réception sans être supprimé.\n Il a simplement changé de dossier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O01-L06-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Vérifiez plutôt que de croire: ouvrez le dossier Clients 2026. Le message y est, entier, avec ses pièces jointes et son historique. C'est ce contrôle qui donne le courage de vider sa boîte.",
+   "empreinte_texte_dit": "fe43169adb725ba4cd1b827dbdc45d8578d2deec7f06f7420c7911f8cc85cfcd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 176422,
+   "duree_s": 10.96,
+   "caracteres_dits": 189,
+   "caracteres_factures": 567,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Vérifiez plutôt que de croire, ouvrez le dossier client 20\n26.\n Le message y est entier avec ses pièces jointes et son\n historique.\n C'est ce contrôle qui donne le courage de vider sa boîte."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Vérifiez plus tôt que de croire. Ouvrez le dossier client 2026. Le message y est, entier, avec ses pièces jointes et son historique. C'est ce contrôle qui donne le courage de vider sa boîte.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O01-L06-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le dossier Clients 2026 est dans la colonne de gauche, sous les dossiers du système.",
+   "empreinte_texte_dit": "17a8b729b13a466ddc85acf32f8806f599203549c6a195e9a38a659013d14cba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le dossier client 2026 est dans la colonne de gauche sous\n les dossiers du système.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le dossier client 2026 est dans la colonne de gauche sous\n les dossiers du système.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O01-L06-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Il est là, entier, avec ses pièces jointes. Vérifier vaut mieux que croire.",
+   "empreinte_texte_dit": "7843d9390d9458b05f52df46bd0504dee8de0b0c7d222661e5e581cd2a164dc3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Il est là, entier avec ses pièces jointes.\n Vérifiez vos mieux que croire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Il est là, entier, avec ses pièces jointes.\n Vérifiez vaut mieux que croire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O01-L06-04B",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Classer n'est pas archiver: c'est faire sortir de la file d'attente. Vous venez de vérifier que le message est intact dans son dossier, et c'est ce contrôle qui donne le courage de vider sa boîte. La Boîte de réception dit ce qui reste à traiter, pas ce que vous avez reçu. Le module 8 en fera une routine de matinée.",
+   "empreinte_texte_dit": "34ef579155b43ebf97e6610deebea2f4ba435a670708fad823d7e0680889e87e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 273807,
+   "duree_s": 17.04,
+   "caracteres_dits": 317,
+   "caracteres_factures": 317,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Classez n'est pas archiver. C'est faire sortir de la file d\n'attente.\n Vous venez de vérifier que le message est intact dans son\n dossier,\n et c'est ce contrôle qui donne le courage de vider sa boîte\n.\n La boîte de réception dit ce qui reste à traiter, parce que\n vous avez reçu.\n Le module 8 en fera une routine de matinée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Classé n'est pas archivé.\n C'est faire sortir de la file d'attente.\n Vous venez de vérifier que le message est intact dans son\n dossier.\n Et c'est ce contrôle qui donne le courage de vider sa boîte\n.\n La boîte de réception dit ce qui reste à traiter.\n Parce que vous avez reçu.\n Le module 8 en fera une routine de matinée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O01-L06-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Revenez à la Boîte de réception. Il y reste deux messages: une publicité, et une réponse de votre fournisseur qui annonce un avoir. Deux traitements très différents.",
+   "empreinte_texte_dit": "ba7a9507c97cdb948b673445794832c04e1ab86d91e95daa28b3ab60f37a2c09",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 171407,
+   "duree_s": 10.64,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Revenez à la boîte de réception. Il y reste deux messages,\n une publicité et une réponse de votre fournisseur qui ann\nonce un avoir.\n Deux traitements très différents.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Revenez à la boîte de réception.\n Il y reste deux messages, une publicité et une réponse de\n votre fournisseur qui annonce un avoir.\n Deux traitements très différents.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O01-L06-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Toujours dans la colonne de gauche, tout en haut.",
+   "empreinte_texte_dit": "0652e5824de666ddfc39883428888cbb81e452294322744eb233b210c247e403",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 49,
+   "caracteres_factures": 49,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Toujours dans la colonne de gauche, tout en haut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Toujours dans la colonne de gauche, tout en haut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O01-L06-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "La publicité, elle, n'a rien à classer. Supprimez le message -40 % cette semaine seulement!!!. Il part dans Éléments supprimés, où il reste récupérable.",
+   "empreinte_texte_dit": "4744138781d852a17036c0768e0d6afeb7057f1f37a193d7f7b712351bf7d463",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 160540,
+   "duree_s": 9.96,
+   "caracteres_dits": 152,
+   "caracteres_factures": 152,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La publicité, elle, n'a rien à classer.\n Supprimer le message -40% cette semaine seulement.\n Il part dans éléments supprimés où il reste récupérable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La publicité, elle, n'a rien à classer.\n Supprimez le message -40% cette semaine seulement.\n Il part dans \"Éléments supprimés\" où il reste récupérable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O01-L06-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Ouvrez le message, puis cliquez sur Supprimer dans la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "502a1bf3ac318023ba6d4423cbe1102397ca741c42a3d76055724debcb5e28da",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.042,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis cliquez sur « Suprimeur » dans la\n barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.042,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis cliquez sur Supprimeur dans la\n barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O01-L06-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Supprimer ne détruit rien: le message est parti dans Éléments supprimés, d'où il peut revenir.",
+   "empreinte_texte_dit": "8a238c880ef7d041c309062b795828f5acf3249316a2c59697118fcb37fb88bd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Supprimer ne détruit rien.\n Le message est parti dans éléments supprimés, d'où il peut\n revenir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Supprimer ne détruit rien.\n Le message est parti dans éléments supprimés, d'où il peut\n revenir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O01-L06-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Reste l'avoir annoncé sous huit jours: rien à faire aujourd'hui, mais à ne pas oublier. À vous : posez un indicateur de suivi sur le message de la Quincaillerie Delmas.",
+   "empreinte_texte_dit": "e3ec00dcaa602da07dce80a2168694292bc02406a057b013c87c73e59ccee463",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 156778,
+   "duree_s": 9.72,
+   "caracteres_dits": 168,
+   "caracteres_factures": 168,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Reste l'avoir annoncé sous huit jours.\n Rien à faire aujourd'hui, mais à ne pas oublier.\n A vous, posez un indicateur de suivi sur le message de Lac\nan-Kairi Delmas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Reste l'avoir annoncé sous huit jours.\n Rien à faire aujourd'hui, mais à ne pas oublier.\n À vous, posez un indicateur de suivi sur le message de la\n quincaillerie d'Elmas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O01-L06-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Ouvrez le message, puis cliquez sur le petit drapeau dans la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "df68867e700ff3951a9a66184136a4a99a202508183ec9666a0424048d1b7392",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis cliquez sur le petit drapeau dans\n la barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis cliquez sur le petit drapeau dans\n la barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O01-L06-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "L'indicateur reste visible dans la liste, et il y sera encore demain matin.",
+   "empreinte_texte_dit": "4127ef80b142044e6ab3d1e5bcf2388bbb21a7db77ee74e5710c291993045a6a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'indicateur reste visible dans la liste et il y sera\n encore demain matin.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'indicateur reste visible dans la liste et il y sera\n encore demain matin.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Retenez surtout deux choses. Supprimer ne détruit pas: le message va dans Éléments supprimés, où vous pouvez encore le récupérer. Et l'indicateur de suivi ne sert à rien s'il est partout, réservez-le à ce qui attend vraiment un geste de votre part, sinon il devient un décor.",
+   "empreinte_texte_dit": "b8ec4afe5615308603de4afe507cb5175f483d519b3e81dab5fbda30c0833cce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 255835,
+   "duree_s": 15.92,
+   "caracteres_dits": 275,
+   "caracteres_factures": 275,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retenez surtout deux choses.\n Supprimer ne détruit pas.\n Le message va dans éléments supprimés\n ou vous pouvez encore le récupérer.\n Et l'indicateur de suivi ne sert à rien s'il est partout.\n Réservez-le à ceux qui attend vraiment un geste de votre\n part.\n Sinon il devient un décor.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retenez surtout deux choses. Supprimer ne détruit pas. Le\n message va dans\n éléments supprimés ou vous pouvez encore le récupérer. Et l\n'indicateur de\n suivi ne sert à rien s'il est partout. Réservez-le à ce qui\n attend vraiment un\n geste de votre part, sinon il devient un décor.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

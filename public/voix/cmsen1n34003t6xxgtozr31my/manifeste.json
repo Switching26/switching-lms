@@ -1,0 +1,880 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1n34003t6xxgtozr31my",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Chercher plutôt que faire défiler"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 21,
+  "caracteres_dits": 3179,
+  "duree_totale_s": 184.5,
+  "segments_valides": 21,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une boîte se lit très bien tant qu'elle tient sur un écran. Passé ce cap, faire défiler devient une perte de temps et une source d'oublis. La recherche d'Outlook porte sur trois choses à la fois, l'expéditeur, l'objet et le texte du message, et c'est ce qui la rend efficace même quand on ne se souvient que d'un mot.",
+   "empreinte_texte_dit": "3e83121c8ff477a4e490fb5a0bce72366445c143e20443773094fddc4731b424",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 282584,
+   "duree_s": 17.6,
+   "caracteres_dits": 317,
+   "caracteres_factures": 317,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une boîte se lit très bien tant qu'elle tient sur un écran.\n Passer ce cap, faire défiler devient une perte de temps et\n une source d'oubli.\n La recherche d'outlook porte sur trois choses à la fois.\n L'expéditeur, l'objet et le texte du message, et c'est ce\n qui la rend efficace, même quand on ne se souvient que d'un\n mot.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une boîte se lit très bien tant qu'elle tient sur un écran.\n Passer ce cap, faire défiler devient une perte de temps et\n une source d'oubli.\n La recherche d'outlook porte sur trois choses à la fois.\n L'expéditeur, l'objet et le texte du message, et c'est ce\n qui la rend efficace,\n même quand on ne se souvient que d'un mot.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O05-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Tapez leroux dans le champ de recherche. Vous cherchez le message d'un client dont vous ne vous rappelez que le nom. La recherche accepte le nom de l'expéditeur, même partiel.",
+   "empreinte_texte_dit": "ae5aff3ca6bb893702878e83bbceed47af20069abf5351ac592151b0640d5104",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 152181,
+   "duree_s": 9.44,
+   "caracteres_dits": 175,
+   "caracteres_factures": 175,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Tapper le roue dans le champ de recherche.\n Vous cherchez le message d'un client dont vous ne vous rapp\nelez que le nom.\n La recherche accepte le nom de l'expéditeur, même partiel.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Tapez le roux dans le champ de recherche.\n Vous cherchez le message d'un client dont vous ne vous rapp\nelez que le nom.\n La recherche accepte le nom de l'expéditeur, même partiel.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O05-L01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Le champ de recherche est en haut de la liste des messages.",
+   "empreinte_texte_dit": "456ff3210d689f1b280144be1b10be7183bff444e1cd9bcb3d30a5e312e02ef6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 46437,
+   "duree_s": 2.84,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le champ de recherche est en haut de la liste des messages.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le champ de recherche est en haut de la liste des messages.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O05-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Un nom d'expéditeur suffit à isoler ce qu'on cherche: plus besoin de faire défiler.",
+   "empreinte_texte_dit": "5c7c201d2eb525173014521702c0ea6051b1f5e6e42864461f8a0f9b305e15ba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un nom d'expéditeur suffit à isoler ce qu'on cherche, plus\n besoin de faire défiler.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un nom d'expéditeur suffit à isoler ce qu'on cherche.\n Plus besoin de faire défiler.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O05-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ouvrez le message qui reste affiché. Un seul survit au filtre: celui de Julien Leroux. Les autres ne sont pas perdus, ils sont masqués, le temps de la recherche.",
+   "empreinte_texte_dit": "7a722cc6c8198b79337adcb15485dc814f18126e56ec9a2733b218f873073f20",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 158032,
+   "duree_s": 9.8,
+   "caracteres_dits": 161,
+   "caracteres_factures": 161,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.012,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message qui reste affiché.\n Un seul survie au filtre. Celui de Julien Le Roux.\n Les autres ne sont pas perdues. Ils sont masqués, le temps\n de la recherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message qui reste affiché.\n Un seul survie au filtre, celui de Julien Leroux.\n Les autres ne sont pas perdus, ils sont masqués le temps de\n la recherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O05-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "C'est le seul message que le filtre laisse afficher.",
+   "empreinte_texte_dit": "0fcbec7bec3feea27d4e0f386eb0c12f6caf3ca08bd28f48d31838d08a0ffbb0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le seul message que le filtre laisse afficher.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le seul message que le filtre laisse afficher.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O05-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Un seul message survit au filtre. Les autres ne sont pas perdus, ils sont masqués.",
+   "empreinte_texte_dit": "8fd18e598a8c2be84ddc2a4af1e97f8e81622ce9833c1ed1d0c1af12762b29c5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un seul message survit au filtre. Les autres ne sont pas\n perdus, ils sont masqués.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un seul message survit au filtre.\n Les autres ne sont pas perdus, ils sont masqués.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O05-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Remplacez la recherche par main courante. On peut aussi chercher un mot du texte: ici, une expression qui ne figure ni dans l'objet, ni dans l'adresse, mais seulement dans le corps du message.",
+   "empreinte_texte_dit": "55515093c2edbe49ab86f7562d8854be5e7a043c36a90c5c61d09f2f21292961",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 191051,
+   "duree_s": 11.88,
+   "caracteres_dits": 192,
+   "caracteres_factures": 192,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Remplacez la recherche par main courante.\n On peut aussi chercher un mot du texte.\n Ici, une expression qui ne figure ni dans l'objet, ni dans\n l'adresse, mais seulement dans le corps du message.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Remplacer la recherche par main courante.\n On peut aussi chercher un mot du texte.\n Ici, une expression qui ne figure ni dans l'objet, ni dans\n l'adresse, mais seulement dans le corps du message.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O05-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Effacez le contenu du champ, puis tapez la nouvelle recherche.",
+   "empreinte_texte_dit": "c5e4a3e78deb20cae469b71b07a9718025e2983848ce8a8732120793de749afc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Éfacez le contenu du champ, puis tapez la nouvelle\n recherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Effacer le contenu du champ, puis taper la nouvelle\n recherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O05-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "La recherche regarde aussi le texte des messages, pas seulement l'expéditeur et l'objet.",
+   "empreinte_texte_dit": "a697a372b8e7e5f0d0333fc4726219f8403ccea218240fcb38635753ad35335f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La recherche regarde aussi le texte des messages, pas\n seulement l'expéditeur et l'objet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La recherche regarde aussi le texte des messages, pas\n seulement l'expéditeur et l'objet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O05-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Cherchez maintenant MP-2026-24. Le meilleur critère reste une référence: elle n'apparaît que dans les messages du bon dossier, alors qu'un nom courant peut en ramener trente.",
+   "empreinte_texte_dit": "f82b5e5dc65da25c593e2eb892186403579747b2c553e7e63cf65df438474569",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 194813,
+   "duree_s": 12.12,
+   "caracteres_dits": 174,
+   "caracteres_factures": 174,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cherchez maintenant MP2026-24.\n Le meilleur critère reste une référence.\n Elle n'apparaît que dans les messages du bon dossier alors\n qu'un nom courant peut en ramener 30.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cherchez maintenant MP2026-24.\n Le meilleur critère reste une référence.\n Elle n'apparaît que dans les messages du bon dossier, alors\n qu'un nom courant peut\n en ramener 30.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O05-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "La référence figure dans l'objet du message de la mairie.",
+   "empreinte_texte_dit": "73e98491f35b4954c7a848ccc30476712d6e88f52192a7a70e0a512633d941b8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La référence figure dans l'objet du message de la mairie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La référence figure dans l'objet du message de la mairie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O05-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Une référence n'apparaît que dans les messages qui la portent: c'est le meilleur critère de recherche.",
+   "empreinte_texte_dit": "591ffdaf4ea855dc9882b82e0ae5560a9a8d9ef7cce9b3fc929b30e537d3d917",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 88651,
+   "duree_s": 5.48,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.056,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une référence n'apparaît que dans les messages qu'il app\norte.\n C'est le meilleur critère de recherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une référence n'apparaît que dans les messages qui l'apport\nent.\n C'est le meilleur critère de recherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O05-L01-04B",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Tous les critères de recherche ne se valent pas. Un nom ramène tout ce qu'une personne vous a jamais écrit. Un mot du texte dépend de la formulation exacte. Une référence isole du premier coup, parce qu'elle n'existe nulle part ailleurs. Conséquence pour votre propre écriture: mettre une référence dans vos objets, c'est se rendre retrouvable. Hors de cet atelier: le vrai Outlook laisse choisir l'étendue de la recherche, dossier courant, sous-dossiers, boîte entière ou toutes les boîtes. On la décrit, on la situe: ici elle porte toujours sur le dossier ouvert, ce qui rend le réflexe d'effacer le filtre d'autant plus utile.",
+   "empreinte_texte_dit": "93c338c4fc8a89a195f22874c673bb2373f79551fc5799b3dca951d0dc43c8a9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 595635,
+   "duree_s": 37.16,
+   "caracteres_dits": 629,
+   "caracteres_factures": 629,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.003,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Tous les critères de recherche ne se valent pas.\n Un nom ramène tout ce qu'une personne vous a jamais écrit.\n Un mot du texte dépend de la formulation exacte.\n Une référence isole du premier coup, parce qu'elle n'existe\n nulle part ailleurs.\n Conséquence pour votre propre écriture, mettre une réf\nérence dans vos objets, c'est se rendre retrouvable.\n Or de cet atelier, le vrai Outlook laisse choisir elle, ét\nendue de la recherche, dossier courant, sous-dossier, boîte\n entière ou toutes les boîtes.\n On la décrit, on la situe.\n Ici, elle porte toujours sur le dossier ouvert, ce qui rend\n le réflexe d'effacer le filtre d'autant plus utile.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.003,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Tous les critères de recherche ne se valent pas.\n Un nom ramène tout ce qu'une personne vous a jamais écrit.\n Un mot du texte dépend de la formulation exacte.\n Une référence isole du premier coup, parce qu'elle n'existe\n nulle part ailleurs.\n Conséquence pour votre propre écriture, mettre une réf\nérence dans vos objets, c'est se\n rendre retrouvable.\n Hors de cet atelier, le vrai Outlook laisse choisir, elle,\n étendue de la recherche, dossier\n courant, sous dossier, boîte entière ou toutes les boîtes.\n On la décrit, on la situe.\n Ici, elle porte toujours sur le dossier ouvert, ce qui rend\n le réflexe d'effacer le filtre\n d'autant plus utile.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O05-L01-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Ouvrez le message de la Ville de Lambersart. La référence l'a isolé du premier coup, c'est pour cela qu'on prend l'habitude d'en mettre une dans ses objets.",
+   "empreinte_texte_dit": "945055c97c8d848bd275ff976d66d2bd11f52f3c09512fbb04be627c67c48f0c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 127103,
+   "duree_s": 7.88,
+   "caracteres_dits": 156,
+   "caracteres_factures": 156,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.012,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de la ville de Lambeursart.\n La référence l'a isolée du premier coup, c'est pour cela qu\n'on prend l'habitude d'en mettre une dans ses objets.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de la ville de Lambert-Sartre.\n La référence l'a isolée du premier coup, c'est pour cela qu\n'on prend l'habitude d'en mettre une dans ses objets.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O05-L01-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "C'est le message dont l'objet parle de la salle des mariages.",
+   "empreinte_texte_dit": "9ffb205d9983fc686bb25e4c641acc49265a929128c4453cadb9e79a90c611e9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle de la salle des mari\nages.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle de la salle des mari\nages.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O05-L01-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Isolé du premier coup. Une référence citée aujourd'hui fera gagner dix minutes dans six mois.",
+   "empreinte_texte_dit": "36cec9dc55cd48b7fbfe0b01d9822a87a098de37f8c7fc3c9e611d65610d4676",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isolée du premier coup. Une référence citée aujourd'hui\n fera gagner 10 minutes dans 6 mois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isoler du premier coup. Une référenciété aujourd'hui fera\n gagner 10 minutes dans 6 mois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O05-L01-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Effacez le champ de recherche. Le filtre ne porte que sur le dossier ouvert: tant qu'il est actif, un message qui arrive dans la Boîte de réception reste invisible.",
+   "empreinte_texte_dit": "799647be14744f583c3876fd4dac2a4c1159b2e5db1d9b6fb516f3a2a4a6c65c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 140478,
+   "duree_s": 8.72,
+   "caracteres_dits": 164,
+   "caracteres_factures": 164,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "et facez le champ de recherche.\n Le filtre ne porte que sur le dossier ouvert.\n Tant qu'il est actif,\n un message qui arrive dans la boîte de réception reste\n invisible.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Effacer le champ de recherche.\n Le filtre ne porte que sur le dossier ouvert.\n Tant qu'il est actif, un message qui arrive dans la boîte\n de réception reste invisible.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O05-L01-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le champ doit redevenir complètement vide.",
+   "empreinte_texte_dit": "ebfdc88a7360f5ede662905239be191314b66d5b9b5ce0aee28ad9f0e145f5f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 39332,
+   "duree_s": 2.4,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le champ doit redevenir complètement vide.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le champ doit redevenir complètement vide.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O05-L01-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Le filtre ne portait que sur le dossier ouvert. Laissé actif, il fait croire à une boîte presque vide.",
+   "empreinte_texte_dit": "861eac29a3d2fa3b20f821f509657e2937756f0d155e8b663298ad1a0fd64dc5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 110385,
+   "duree_s": 6.84,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le filtre ne portait que sur le dossier ouvert. Laissez act\nif, il fait croire à une boîte presque vide.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le filtre ne portait que sur le dossier ouvert.\n Laissé actif, il fait croire à une boîte presque vide.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Retenez ce que fouille la recherche: l'expéditeur, l'objet ET le corps du message, dans le dossier ouvert, ici toujours, alors que le vrai Outlook permet d'élargir cette étendue. Chercher un mot du texte marche donc aussi bien que chercher un nom. Et videz toujours le filtre après: une boîte filtrée ressemble à une boîte vide.",
+   "empreinte_texte_dit": "25c5bd9037246bc81b60c4a241ea4a18e473eee190dbf0fa537ab44e3db61c71",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 328142,
+   "duree_s": 20.44,
+   "caracteres_dits": 328,
+   "caracteres_factures": 328,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Retenez ce que fouille la recherche.\n L'expéditeur, l'objet était le corps du message, dans le\n dossier ouvert, ici toujours,\n alors que le vrai Outlook permet d'élargir cet étendu.\n Chercher un mot du texte marche donc aussi bien que\n chercher un nom.\n Évider toujours le filtre après.\n Une boîte filtrée ressemble à une boîte vide.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Retenez ce que fouille la recherche.\n L'expéditeur, l'objet E.T., le corps du message, dans le\n dossier ouvert, ici toujours,\n alors que le vrai Outlook permet d'élargir cet étendu.\n Chercher un mot du texte marche donc aussi bien que\n chercher un nom.\n Et vider toujours le filtre après.\n Une boîte filtrée ressemble à une boîte vide.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

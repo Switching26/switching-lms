@@ -1,0 +1,964 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1p5a00936xxg3y7bklmp",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Ce qu'on écrit engage, et reste"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 3076,
+  "duree_totale_s": 178.9,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Ce que vous écrivez à un donneur d'ordre public peut être relu des mois plus tard, par quelqu'un que vous ne connaissez pas, dans un contexte que vous n'aviez pas prévu. D'où deux règles: on n'écrit que ce qu'on peut tenir, et on ne s'engage jamais sur ce qui dépend d'un tiers sans le dire.",
+   "empreinte_texte_dit": "c8b39e74d7f6d4cf88eb87fb8675891d8fccfa19ccd210b77325e789b8de95bb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 248729,
+   "duree_s": 15.48,
+   "caracteres_dits": 291,
+   "caracteres_factures": 873,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce que vous écrivez à un donneur d'ordre public peut être\n relu des mois plus tard\n par quelqu'un que vous ne connaissez pas, dans un contexte\n que vous n'aviez pas prévu.\n D'où deux règles.\n On haine, écrit que ce qu'on peut tenir, et on ne s'engage\n jamais sur ce qui dépend\n d'un tiers sans le dire.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce que vous écrivez à un donneur d'ordre public peut être\n relu des mois plus tard,\n par quelqu'un que vous ne connaissez pas, dans un contexte\n que vous n'aviez pas prévu.\n D'où deux règles.\n \"On haine\", écrit que ce qu'on peut tenir, et on ne s'\nengage jamais sur ce qui dépend\n d'un tiers sans le dire.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O12-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la demande de date ferme. Attention à la dernière phrase: la date que vous donnerez sera reprise dans l'ordre de service. Ce n'est plus une conversation, c'est une pièce contractuelle.",
+   "empreinte_texte_dit": "525bf768407b398cf4d8454f03e6c5106803e218283179e6dbe68580ab21d5f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 181438,
+   "duree_s": 11.28,
+   "caracteres_dits": 191,
+   "caracteres_factures": 191,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de date ferme.\n Attention à la dernière phrase.\n La date que vous donnerait sera reprise dans l'ordre de\n service.\n Ce n'est plus une conversation, c'est une pièce contract\nuelle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de date ferme.\n Attention à la dernière phrase.\n La date que vous donnerez sera reprise dans l'ordre de\n service.\n Ce n'est plus une conversation.\n C'est une pièce contractuelle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O12-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui demande une date de livraison ferme.",
+   "empreinte_texte_dit": "af1464296460e52745ee78a3be0d6ff7d5d4b0fdfd56c9b83f6e9813195b3f19",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 57,
+   "caracteres_factures": 57,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui demande une date de livraison ferme.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui demande une date de livraison ferme.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O12-L03-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "La date que vous donnerez sera reprise dans un document contractuel: ce message n'est plus un message.",
+   "empreinte_texte_dit": "c9f112035f45775552d5e2cdde381efd8e859ae959019d376b43f30705484b4a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 88651,
+   "duree_s": 5.48,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La date que vous donnerait sera reprise dans un document\n contractuel.\n Ce message n'est plus un message.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La date que vous donnerez sera reprise dans un document\n contractuel.\n Ce message n'est plus un message.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O12-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre, puis prenez le temps de réfléchir avant d'écrire une date: votre fournisseur ne vous a pas encore confirmé la sienne.",
+   "empreinte_texte_dit": "a34c40d89cafbf80790166a09dcae25279de22b1dc8e6eb02818bc51a894b76a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 122506,
+   "duree_s": 7.6,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre, puis prenez le temps de réfléchir\n avant d'écrire une date.\n Votre fournisseur ne vous a pas encore confirmé la sienne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur \"Répondre\", puis prenez le temps de réfléchir à\n Vendée, écrire une date.\n Votre fournisseur ne vous a pas encore confirmé la sienne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O12-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Répondre, premier de la barre du haut.",
+   "empreinte_texte_dit": "5393c2b28069db0c9c194aeb5c5ed2ef83e1f6cb9cfe1bef8ec22c517941214a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton \"Répondre, premier de la barre du haut\".",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre premier de la barre du haut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O12-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Complétez l'objet avec la référence MP-2026-24. Un message qui deviendra une pièce du dossier doit porter la référence dans son objet: c'est ainsi qu'on le retrouvera dans deux ans.",
+   "empreinte_texte_dit": "28925d589a611f19ad506d1ab7184c00b9ff251f4bb385914708e1e60287ecac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 193141,
+   "duree_s": 12.0,
+   "caracteres_dits": 181,
+   "caracteres_factures": 181,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec la référence MP2026-24.\n Un message qui deviendra une pièce du dossier doit porter\n la référence dans son objet.\n C'est ainsi qu'on le retrouvera dans deux ans.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec la référence MP 2026-24.\n Un message qui deviendra une pièce du dossier doit porter\n la référence dans son objet.\n C'est ainsi qu'on le retrouvera dans deux ans.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O12-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "La référence figure dans le texte du message; ajoutez-la à la fin de l'objet en gardant le RE:.",
+   "empreinte_texte_dit": "8a217d5c11d89c61fd2861e2960c707aa638d733b54f36aac47499654ed0b2ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La référence figure dans le texte du message, ajoutez-la à\n la fin de l'objet en gardant le R.E.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La référence figure dans le texte du message.\n Ajoutez-la à la fin de l'objet en gardant le RE.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O12-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Un message qui deviendra une pièce du dossier doit porter la référence, comme toutes les autres pièces.",
+   "empreinte_texte_dit": "1495d28e9528f32ecc288b9917787fd23086b2a4f3cba1e025e1e765ebfca131",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un message qui deviendra une pièce du dossier doit porter\n la référence, comme toutes les autres pièces.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un message qui deviendra une pièce du dossier doit porter\n la référence, comme toutes les autres pièces.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O12-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Mettez n.kerbaj@atelier-nord.fr en copie. Un engagement contractuel ne se prend pas seul: la gérante doit voir la date au moment où elle part, pas quand elle est reprise dans l'ordre de service.",
+   "empreinte_texte_dit": "6fdb381f0f8cf2ef0d470ca6fa953312ccf1de9aded7494b1c56dcff72f13f93",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 194813,
+   "duree_s": 12.12,
+   "caracteres_dits": 194,
+   "caracteres_factures": 194,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Mettez n.carbage@atelier-nor.fr en copie.\n Un engagement contractuel ne se prend pas seul.\n La gérante doit voir la date au moment où elle part,\n pas quand elle est reprise dans l'ordre de service.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.05,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "mettee@atelier-nord.fr en copie.\n Un engagement contractuel ne se prend pas seul.\n La gérante doit voir la date au moment où elle part,\n pas quand elle est reprise dans l'ordre de service.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O12-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le champ Cc, deuxième ligne de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "678992d2aff978ec3954bcbef786944c6e17324b5f92c2d57ed0b621a4438686",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le champ CC, deuxième ligne de la fenêtre de rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le champ c'est c'est deuxième ligne de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O12-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Un engagement contractuel ne se prend pas seul.",
+   "empreinte_texte_dit": "9cfb20db47ba0ca85d6345930821789707f1de36a83eb49a8a872763528e934d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un engagement contractuel ne se prend pas seul.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un engagement contractuel ne se prend pas seul.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O12-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Rédigez la réponse. Donnez une date de livraison et posez la réserve qui la conditionne, la confirmation de votre fournisseur. S'engager sans réserve sur ce qu'un tiers maîtrise est la faute la plus coûteuse de ce module.",
+   "empreinte_texte_dit": "cbb168ab1c87c5f931b25591175b64853a365c8d6755e253d46f4e7e1c383424",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 219472,
+   "duree_s": 13.64,
+   "caracteres_dits": 221,
+   "caracteres_factures": 221,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger la réponse. Donnez une date de livraison et posez\n la réserve qui la conditionne, la confirmation de votre\n fournisseur.\n S'engager sans réserve sur ce quintière maîtrise est la fa\nute la plus coûteuse de ce module.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger la réponse, donner une date de livraison et poser\n la réserve qui la conditionne,\n la confirmation de votre fournisseur.\n S'engager sans réserve sur ce qu'un tiers maîtrise est la\n faute la plus coûteuse de\n ce module.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O12-L03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Deux informations sont attendues: la date, et la réserve qui la conditionne.",
+   "empreinte_texte_dit": "105159871788209809fe573e422603b39d549933f51c513e4027a213525191ee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La date et la réserve qui la conditionnent.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La date et la réserve qui la conditionne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O12-L03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Vous vous engagez sur ce que vous maîtrisez, et vous dites ce qui n'en dépend pas: c'est la différence entre une date et une promesse.",
+   "empreinte_texte_dit": "b70493ca7850a16dbc9699b1a7440374e66fbcd6e5cf8dfea3c106ce78612d38",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 113728,
+   "duree_s": 7.04,
+   "caracteres_dits": 134,
+   "caracteres_factures": 134,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous vous engagez sur ce que vous maîtrisez et vous dites\n ce qui n'en dépend pas.\n C'est la différence entre une date et une promesse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous vous engagez sur ce que vous maîtrisez et vous dites\n ce qui n'en dépend pas.\n C'est la différence entre une date et une promesse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O12-L03-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Ce message n'est plus une conversation: c'est une pièce du dossier. La date que vous venez de donner sera reprise dans l'ordre de service et relue des mois plus tard. D'où les deux règles: on n'écrit que ce qu'on peut tenir, et on ne s'engage jamais sur ce qui dépend d'un tiers sans le dire. La réserve n'affaiblit pas l'engagement: elle le rend exact.",
+   "empreinte_texte_dit": "f70cd74c1fa3bc2e61adf60dec3b2468ae24e31c2e20f8668b21f2f49d7218a6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 341098,
+   "duree_s": 21.24,
+   "caracteres_dits": 353,
+   "caracteres_factures": 353,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce message n'est plus une conversation, c'est une pièce du\n dossier.\n La date que vous venez de donner sera reprise dans l'ordre\n de service et relue des mois plus tard.\n D'où les deux règles ont haine, écrit que ce qu'on peut\n tenir,\n et on ne s'engage jamais sur ce qui dépend d'un tiers sans\n le dire.\n La réserve n'affaiblit pas l'engagement, elle le rend exact\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce message n'est plus une conversation, c'est une pièce du\n dossier.\n La date que vous venez de donner sera reprise dans l'ordre\n de service et relue des mois plus tard.\n D'où les deux règles ont N, écrit que ce qu'on peut tenir,\n et on ne s'engage jamais sur ce qui dépend d'un tiers sans\n le dire.\n La réserve n'affaiblit pas l'engagement, elle le rend exact\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O12-L03-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Envoyez la réponse. Vous vous êtes engagée sur ce que vous maîtrisez, et vous avez dit ce qui n'en dépendait pas. C'est exactement ce qu'une administration attend, et ce qu'elle relira si la date glisse.",
+   "empreinte_texte_dit": "b5c808e0630c2b78ed329d8b58a3ef0c2a6bab6bb08cb89b3ef6975188b9d5a7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 188125,
+   "duree_s": 11.68,
+   "caracteres_dits": 203,
+   "caracteres_factures": 203,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyez la réponse.\n Vous vous êtes engagé sur ce que vous maîtrisez et vous\n avez dit ce qui n'en dépendait pas.\n C'est exactement ce qu'une administration attend et ce qu'\nelle reliera si la date glisse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyez la réponse.\n Vous vous êtes engagé sur ce que vous maîtrisez,\n et vous avez dit ce qui n'en dépendait pas.\n C'est exactement ce qu'une administration attend,\n et ce qu'elle reliera si la date glisse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O12-L03-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le bouton Envoyer, premier de la barre du haut.",
+   "empreinte_texte_dit": "29de634f6e8d916334d2a30d68f58c301f36131e5f3d9f631422dce85dc59f83",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer, premier de la barre du haut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer, premier de la barre du haut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O12-L03-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Rangez ce message dans Marchés publics. Un échange contractuel se classe dès qu'il est traité: c'est là qu'on ira le rechercher, pas dans une boîte de réception vieille de six mois.",
+   "empreinte_texte_dit": "012848be7d5d69dcd9b6eb6155c4a80dea976fde651f450ae5693a14383e5cf6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 150091,
+   "duree_s": 9.32,
+   "caracteres_dits": 181,
+   "caracteres_factures": 181,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger ce message dans marché public.\n Un échange contractuel se classe dès qu'il est traité.\n C'est là qu'on ira le rechercher, pas dans une boîte de ré\nception vieille de 6 mois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger ce message dans marché public.\n Un échange contractuel se classe dès qu'il est traité.\n C'est là qu'on ira le rechercher, pas dans une boîte de ré\nception vieille de 6 mois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O12-L03-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Déplacer, puis Marchés publics.",
+   "empreinte_texte_dit": "42f154d1fb0ff701d1be0ed26c8857f701ce2a89909982e9c5284ecbbc98f1a6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 31,
+   "caracteres_factures": 31,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "déplacer, puis marcher public.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "déplacer, puis marcher public.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O12-L03-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Un échange contractuel se classe dès qu'il est traité: c'est ce qui rend le dossier consultable.",
+   "empreinte_texte_dit": "a0fabfb52f9893214373fb564a9b99f474fb3a09fd53a76ed848c7441815589c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un échange contractuel se classe dès qu'il est traité. C'\nest ce qui rend le dossier consultable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un échange contractuel se classe dès qu'il est traité.\n C'est ce qui rend le dossier consultable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Écrire nous confirmons engage l'entreprise; écrire sous réserve de la livraison du fournisseur l'engage aussi, mais sur ce qu'elle maîtrise. La nuance ne coûte rien à l'écriture et vaut cher le jour où le fournisseur est en retard.",
+   "empreinte_texte_dit": "838e88d403f629987c837192f582db15f21e41d3e272042dd10fced7afc4f6b8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 193141,
+   "duree_s": 12.0,
+   "caracteres_dits": 231,
+   "caracteres_factures": 231,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrire nous confirment engage l'entreprise, écrire sous rés\nerve de la livraison du fournisseur l'engage aussi, mais sur\n ce qu'elle maîtrise.\n La nuance ne coûte rien à l'écriture et vos chers le jour\n où le fournisseur est en retard.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrire nous confirmons engage l'entreprise, écrire sous rés\nerve de la livraison du fournisseur\n l'engage aussi, mais sur ce qu'elle maîtrise.\n La nuance ne coûte rien à l'écriture et vos chers le jour\n où le fournisseur est\n en retard.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,680 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1mvs003b6xxg5k7w6yoe",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Trier le vrai du faux dans une boîte du matin"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 2199,
+  "duree_totale_s": 124.6,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Quatre messages vous attendent. Deux viennent de correspondants réels, deux imitent des expéditeurs que vous connaissez. Rien dans le ton ni dans la mise en page ne les distingue: la réponse est dans l'adresse de l'expéditeur, et nulle part ailleurs. Lisez-les toutes avant de traiter quoi que ce soit.",
+   "empreinte_texte_dit": "c11a9a6896cebd717319ecd3aaf52538af8f42f96f651b058f451c8aa64b5755",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 247475,
+   "duree_s": 15.4,
+   "caracteres_dits": 302,
+   "caracteres_factures": 302,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Quatre messages vous attendent. Deux viennent de correspond\nants réels, deux imitent des expéditeurs que vous connaissez\n.\n Rien dans le ton, ni dans la mise en page ne les distingue.\n La réponse est dans l'adresse de l'expéditeur et nulle part\n ailleurs.\n Lisez les toutes avant de traiter quoi que ce soit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Quatre messages vous attendent. Deux viennent de correspond\nants réels, deux imitent des expéditeurs que vous connaissez\n.\n Rien dans le ton, ni dans la mise en page ne les distingue.\n La réponse est dans l'adresse de l'expéditeur et nulle part\n ailleurs.\n Lisez-les toutes avant de traiter quoi que ce soit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O04-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Un message annonce la suspension d'un accès sous 24 heures et réclame vos identifiants. Aucune banque ne procède ainsi, et son domaine n'est pas celui d'un établissement. Traitez-le: il doit sortir de votre file d'attente et rester consultable.",
+   "empreinte_texte_dit": "c3499401881766ebfb9d546f0074bf34df5080578ee39a639cb34b3e0b3b069b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 203172,
+   "duree_s": 12.64,
+   "caracteres_dits": 244,
+   "caracteres_factures": 244,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un message annonce la suspension d'un accès sous 24 heures\n et réclame vos identifiants.\n Aucune banque ne procède ainsi, et son domaine n'est pas\n celui d'un établissement.\n Traitez-le, il doit sortir de votre fil d'attente et rester\n consultable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un message annonce la suspension d'un accès sous 24 heures\n et réclame vos identifiants.\n Aucune banque ne procède ainsi, et son domaine n'est pas\n celui d'un établissement.\n Traitez-le.\n Il doit sortir de votre fil d'attente et rester consultable\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O04-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Le dossier Courrier indésirable isole sans effacer: la trace reste disponible si votre banque vous la demande.",
+   "empreinte_texte_dit": "e9cd6cab5be64855ece2847ae9924aff37431d260009796298bd098dff29c000",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le dossier courrier indésirable isole, sans effacer.\n La trace reste disponible si votre banque vous la demande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le dossier courrier indésirable isole sans effacer.\n La trace reste disponible si votre banque vous la demande.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O04-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Aucune banque ne réclame d'identifiants par message, et aucune n'impose un délai de 24 heures.",
+   "empreinte_texte_dit": "a154b5e5ff2d005219a10ef067bb881588557c2ec55b3201173ed90258bd7c67",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Aucune banque ne réclame d'identifiant par message et\n aucune n'impose un délai de 24 heures.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Aucune banque ne réclame d'identifiant par message et\n aucune n'impose un délai de 24 heures.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O04-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Un second message se présente au nom d'Hugo Vasseur et réclame un règlement immédiat sur des coordonnées jointes. Lisez son adresse jusqu'au dernier point, puis marquez-le d'un indicateur: Hugo est un vrai partenaire, quelqu'un usurpe son identité et il faudra l'en avertir.",
+   "empreinte_texte_dit": "92ef2fdc0222d349e7de7aacbe4883a44aacc555ae1dc5be6815b79ddddf5328",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 241624,
+   "duree_s": 15.04,
+   "caracteres_dits": 274,
+   "caracteres_factures": 274,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.012,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un second message se présente au nom du govasseur et récl\name un règlement immédiat sur des corps de nejointe.\n Lisez son adresse jusqu'au dernier point, puis marquez-le d\n'un indicateur.\n Hugo est un vrai partenaire.\n Quelqu'un usure peut son identité et il faudra l'en avertir\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un second message se présente au nom d'Hugo Vasseur et récl\name un règlement immédiat sur des coordonnées jointes.\n Lisez son adresse jusqu'au dernier point, puis marquez-le d\n'un indicateur.\n Hugo est un vrai partenaire. Quelqu'un usurpe son identité\n et il faudra l'en avertir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O04-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le vrai domaine est celui qui précède le tout dernier point de l'adresse. Le drapeau est dans la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "683d005064cf90815a1f6502bec5325e26e8099ff3ffad9041edc8d5bd018bea",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 131,
+   "caracteres_factures": 131,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le vrai domaine est celui qui précède le tout dernier point\n de l'adresse.\n Le drapeau est dans la barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le vrai domaine est celui qui précède le tout dernier point\n de l'adresse.\n Le drapeau est dans la barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O04-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Marqué avant d'être déplacé: on garde la trace de ce qu'on a identifié comme frauduleux.",
+   "empreinte_texte_dit": "fc81a05ce92dfee372d81377b51fe1fe4d7b6cb3e6d3499f65f992022010d6a6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 95338,
+   "duree_s": 5.88,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Marquez avant D, être déplacé.\n On garde la trace de ce qu'on a identifié comme fro du leu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Marqué à vendée, être déplacé.\n On garde la trace de ce qu'on a identifié comme frauduleux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O04-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Ce message est signalé, il peut maintenant sortir de votre file d'attente, sans être effacé, car il servira de preuve.",
+   "empreinte_texte_dit": "2fa8635fbc6a9a45fa5f4d0250a29c2ac40a49fb0cd427e6364bdf974bd69033",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 110385,
+   "duree_s": 6.84,
+   "caracteres_dits": 118,
+   "caracteres_factures": 118,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce message est signalé, il peut maintenant sortir de votre\n fil d'attente sans être effacé, car il servira de preuve.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ce message est signalé, il peut maintenant sortir de votre\n fil d'attente sans être effacé, car il servira de preuve.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O04-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Déplacer, puis Courrier indésirable: le message reste consultable.",
+   "empreinte_texte_dit": "e67f7c247caacc365a861e48355c17d6ea9a4c32f3d547983819939d2580c574",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Déplacez, puis couriez indésirable. Le message reste\n consultable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "déplacer, puis courrier indésirable.\n Le message reste consultable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O04-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Isolé sans être effacé: la preuve survit à la boîte de réception.",
+   "empreinte_texte_dit": "b99564ad05e930930237dc9154ce73012ac0e5f3d69194109ee85033f2c16160",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isolez sans être effacé.\n La preuve survit à la boîte de réception.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isolée sans être effacée.\n La preuve survit à la boîte de réception.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O04-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Reste les deux messages authentiques. Le relevé de compte vient de votre fournisseur habituel: rangez-le où il doit aller.",
+   "empreinte_texte_dit": "1ea2b176601aa9222851dbf2c2dda6d532caea098b4947afe23e508cd3aae0af",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 122,
+   "caracteres_factures": 122,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Restes les deux messages authentiques.\n Le relevé de compte vient de votre fournisseur habituel.\n Rangez-le où il doit aller.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Reste les deux messages authentiques.\n Le relevé de compte vient de votre fournisseur habituel.\n Rangez-le où il doit aller.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O04-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Son adresse est bien celle de la Quincaillerie Delmas, sans domaine ajouté après.",
+   "empreinte_texte_dit": "fd4f17ef5d4b45bfdb96e0e01828b48b2c7ce2f706e7e2c5d47d5432847fd055",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.041,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Son adresse est bien celle de la quinquairie Delmas, sans\n domaine ajoutée après.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Son adresse est bien celle de la quincaillerie d'Elmas,\n sans domaine ajouté après.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O04-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Julien Leroux confirme une réception signée: le dossier est clos. Rangez son message là où vous retrouverez ce client.",
+   "empreinte_texte_dit": "9dd94bff2fbcdd311e29b5b1fec05ca23e8caa0a62cd489b71c24c28d2291e0e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 112893,
+   "duree_s": 7.0,
+   "caracteres_dits": 118,
+   "caracteres_factures": 118,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Julien Le Roux confirme une réception signée. Le dossier\n est clos.\n Ranger son message là où vous retrouverez ce client.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Julien Leroux confirme une réception signée. Le dossier est\n clos.\n Rangez son message là où vous retrouverez ce client.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O04-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Ouvrez le message, puis Déplacer, puis le dossier des clients.",
+   "empreinte_texte_dit": "d4d98eaa78d32944f74ae460bb4857c9d0baddd98fb1836ba8459d311550e65e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis déplacer, puis le dossier des\n clients.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis déplacer, puis le dossier des\n clients.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O04-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Les vrais messages sont classés, les faux isolés. Le tri du matin ne prend que quelques minutes.",
+   "empreinte_texte_dit": "a29dfeadd3bbdeff4db258c42d4c8079cf262ae73b3cf125c3a0c6b5fe90f424",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les vrais messages sont classés, les faut isolés.\n Le tri du matin ne prend que quelques minutes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les vrais messages sont classés, les faut isolés.\n Le tri du matin ne prend que quelques minutes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "On ne trie pas un message d'après son objet ni d'après son ton: les deux s'imitent en trois minutes. L'adresse complète de l'expéditeur, en revanche, ne peut pas mentir sur son domaine, c'est le seul point de contrôle qui tient.",
+   "empreinte_texte_dit": "74497ad65081d675d96f6bf246746ff0b4bc907b5f3cf35a1b8ce0b06fb2d05d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 197738,
+   "duree_s": 12.28,
+   "caracteres_dits": 228,
+   "caracteres_factures": 228,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "On ne trie pas un message d'après son objet ni d'après son\n ton.\n Les deux s'imitent en trois minutes.\n L'adresse complète de l'expéditeur, en revanche, ne peut\n pas mentir sur son domaine.\n C'est le seul point de contrôle qui tient.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "On ne trie pas un message d'après son objet ni d'après son\n ton.\n Les deux s'imitent en trois minutes.\n L'adresse complète de l'expéditeur, en revanche,\n ne peut pas mentir sur son domaine.\n C'est le seul point de contrôle qui tient.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

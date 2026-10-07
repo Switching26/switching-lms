@@ -1,0 +1,1132 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1ovg008d6xxgmakfb81r",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Rendre la boîte propre à celui qui revient"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 26,
+  "caracteres_dits": 3537,
+  "duree_totale_s": 213.5,
+  "segments_valides": 26,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une passation réussie ne se juge pas à ce qu'on a traité, mais à ce que le titulaire retrouve en rentrant. Une boîte vidée sans explication est presque aussi pénible qu'une boîte pleine: il faut classer ce qui est clos, laisser marqué ce qui attend, et écrire en une fois ce qui s'est passé.",
+   "empreinte_texte_dit": "c025bca9d75b090655e918c5b24b44e30af988d7a23bd1d0e4a531bba279178c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 234519,
+   "duree_s": 14.6,
+   "caracteres_dits": 291,
+   "caracteres_factures": 291,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une passation réussie ne se juge pas à ce qu'on a traité,\n mais à ce que le titulaire retrouve en rentrant.\n Une boîte vidé sans explication est presque aussi pénible\n qu'une boîte pleine.\n Il faut classer ce qui est clos, laisser marquer ce qui\n attend, et écrire en une fois ce qui s'est passé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une passation réussie ne se juge pas à ce qu'on a traité,\n mais à ce que le titulaire retrouve en rentrant.\n Une boîte vidé sans explication est presque aussi pénible\n qu'une boîte pleine. Il faut classer ce qui est clos,\n laisser marquer ce qui attend et écrire en une fois ce qui\n s'est passé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O11-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Supprimez la semaine promo. Ce qui n'appelait aucune action pendant l'absence n'en appellera pas davantage au retour: le titulaire n'a pas à trier vos publicités.",
+   "empreinte_texte_dit": "a0e947e85363287937593d57dab6e0e1da595a33ea1134476495b42ac321555c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 147165,
+   "duree_s": 9.12,
+   "caracteres_dits": 162,
+   "caracteres_factures": 162,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Supprimer la semaine promo. Ce qui n'appelait aucune action\n pendant l'absence,\n n'en appellera pas davantage au retour. Le titulaire n'a\n pas attrillé vos publicités.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Supprimez la semaine promo.\n Ce qui n'appelait aucune action pendant l'absence n'en app\nellera pas davantage au retour.\n Le titulaire n'a pas à trier vos publicités.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O11-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Ouvrez le message, puis Supprimer.",
+   "empreinte_texte_dit": "c590c774022218992a0f639c9447ec5f0aba7b36c5ec9a3eda8e660d1be39807",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.111,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis supprimeur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis supprimez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O11-L03-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Ce qui n'appelait aucune action pendant l'absence n'en appellera pas davantage au retour.",
+   "empreinte_texte_dit": "9b8a69b5dff3ac1a54e98d3e48462c2c34caa72ba210a2fc07d157d3365d485c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce qui n'appelait aucune action pendant l'absence n'en app\nellera pas davantage au retour.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce qui n'appelait aucune action pendant l'absence n'en app\nellera pas davantage au retour.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O11-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Rangez la demande de Fleurs de Saison dans Chantiers en cours. Elle est traitée: vous avez confirmé la pose. Un message traité qui reste en boîte de réception laisse croire qu'il ne l'est pas.",
+   "empreinte_texte_dit": "179b149c601bc3b39ad0f6dfa4952fd7a5fbe3f7ac6a85562bef08181304588c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 169317,
+   "duree_s": 10.52,
+   "caracteres_dits": 192,
+   "caracteres_factures": 192,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger la demande de fleurs de saison dans chantier en\n cours. Elle est traité ? Vous avez confirmé la pause.\n Un message traité qui reste en boîte de réception laisse\n croire qu'il ne l'est pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rangez la demande de fleurs de saison dans chantier en\n cours.\n Elle est traité.\n Vous avez confirmé la pause.\n Un message traité qui reste en boîte de réception laisse\n croire qu'il ne l'est pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O11-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Déplacer, puis Chantiers en cours.",
+   "empreinte_texte_dit": "b627c4c5c616c00e3a410bf8344a5c74b65d63b9aa54b021cdf372188cab1540",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez puis chantier en cours.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez puis chantier en cours.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O11-L03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Traitée pendant l'absence, donc classée: Sonia n'aura pas à se demander où ça en est.",
+   "empreinte_texte_dit": "777eac9b64fce6f05f1f0bb95aa557a727ba5e8160eabfd93a67eaca4bfa86d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Traité pendant l'absence, donc classée, Sonia n'aura pas à\n se demander où ça en est.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Traité pendant l'absence, donc classé, Sonia n'aura pas à\n se demander où ça en est.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O11-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Posez un indicateur sur la livraison du 9 avril. Elle tombe après le retour de Sonia et demande une présence: c'est à elle de s'organiser, mais elle doit la voir immédiatement.",
+   "empreinte_texte_dit": "f3d6063498645c47419fc6ba0b19121e9994cfc982184fa464f40d3f117739d5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 150927,
+   "duree_s": 9.36,
+   "caracteres_dits": 176,
+   "caracteres_factures": 176,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Poser un indicateur sur la livraison du 9 avril.\n Elle tombe après le retour de Sonia et demande une présence\n.\n C'est à elle de s'organiser, mais elle doit l'avoir immédi\natement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "poser un indicateur sur la livraison du 9 avril.\n Elle tombe après le retour de Sonia et demande une présence\n.\n C'est à elle de s'organiser, mais elle doit la voir immédi\natement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O11-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Ouvrez le message, puis le drapeau. Ne le déplacez pas.",
+   "empreinte_texte_dit": "2862116eafd4445b1cd8371dc9364ced1a5bf76b93ecc277b5f5a29863e58c6b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis le drapeau.\n Ne le déplacez pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis le drapeau. Ne le déplacez pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O11-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Elle tombe après le retour: marquer, c'est laisser la décision à celle qui reprendra.",
+   "empreinte_texte_dit": "17acacbe80adbe199d12ce432edad2752ffbf70aee8f8977941bf6a3806da450",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Elle tombe après le retour, marquer, c'est laisser la déc\nision à celle qui reprendra.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Elle tombe après le retour, marquée, c'est laisser la déc\nision à celle qui reprendra.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O11-L03-03C",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Remettez la relance de Julien Leroux en non lu. Vous l'avez ouverte pendant l'absence pour savoir ce qu'elle disait, mais le devis de la mezzanine, c'est Sonia qui l'établira. Un message remis en non lu redevient gras dans la liste, comme s'il venait d'arriver: il arrêtera Sonia à son retour au lieu de se fondre dans ce qui est déjà traité.",
+   "empreinte_texte_dit": "4a8f2a8234b109482d14a1c9f8cd79f5d5158c5b848d31fe6ed350c66510dbbe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 300556,
+   "duree_s": 18.72,
+   "caracteres_dits": 342,
+   "caracteres_factures": 342,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Remettez la relance de Julien Le Roux en non-lu.\n Vous l'avez ouverte pendant l'absence pour savoir ce qu'\nelle disait,\n mais le devis de la mésanine, c'est Sonia qui l'aile, établ\nira.\n Un message remis en non-lu redevient gras dans la liste,\n comme s'il venait d'arriver.\n Il arrêtera Sonia à son retour au lieu de se fondre dans ce\n qui est déjà traité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Remettez la relance de Julien Leroux en non-lu.\n Vous l'avez ouverte pendant l'absence pour savoir ce qu'\nelle disait,\n mais le devis de la Maisannine, c'est Sonia qui, l'elle, ét\nablira.\n Un message remis en non-lu redevient gras dans la liste,\n comme s'il venait d'arriver.\n Il arrêtera Sonia à son retour au lieu de se fondre dans ce\n qui est déjà traité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O11-L03-03C",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Sélectionnez le message, puis le bouton Non lu du ruban.",
+   "empreinte_texte_dit": "2e7276417a71d864e53c4bbb7c4ae72f9cb0b0f42eb414a8f6455feb87588e90",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis le bouton non-lu du ruban.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis le bouton Non-lu du ruban.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O11-L03-03C",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Il repasse en gras: Sonia le verra comme s'il venait d'arriver.",
+   "empreinte_texte_dit": "2333a15aed0fcc563a346e7cdc013443b0a6b3ef32f1b335540c8e74f369e7b9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Il repas sangrat. Sonia le verra comme s'il venait d'ar\nriver.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Il repasse en gras.\n Sonia le verra comme s'il venait d'arriver.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O11-L03-03B",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Une passation se juge à ce que le titulaire retrouve, pas à ce que vous avez traité. Ce qui est clos est classé, ce qui n'appelait rien supprimé, ce qui attend reste marqué et visible. Une boîte vidée sans explication est presque aussi pénible qu'une boîte pleine. Le récapitulatif écrit est la seule trace de ce qui a été promis à un client en votre nom.",
+   "empreinte_texte_dit": "e10f3f7894a66b0fd250325eca65e6d990d7b8eed26eda3a40497f44d6b9b6c2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 312677,
+   "duree_s": 19.48,
+   "caracteres_dits": 355,
+   "caracteres_factures": 355,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une passation se juge à ce que le titulaire retrouve, pas à\n ce que vous avez traité.\n Ce qui est clos est classé.\n Ce qui n'appelait rien supprimé.\n Ce qui à temps reste marqué et visible.\n Une boîte vidée sans explication est presque aussi pénible\n qu'une boîte pleine.\n Le récapitulatif écrit est la seule trace de ce qui a été\n promis à un client en votre nom.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une passation se juge à ce que le titulaire retrouve, pas à\n ce que vous avez traité.\n Ce qui est clos est classé.\n Ce qui n'appelait rien supprimé.\n Ce qui a tant reste marqué et visible.\n Une boîte vidée sans explications est presque aussi pénible\n qu'une boîte pleine.\n Le récapitulatif écrit est la seule trace de ce qui a été\n promis à un client en votre\n nom.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O11-L03-04",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Ouvrez une nouvelle fenêtre de rédaction pour le récapitulatif de passation. Il s'écrit une fois, à la fin, pas au fil de l'eau, où il devient une suite de messages que personne ne relit.",
+   "empreinte_texte_dit": "32ac8777ab3cb6bfdde8736cf5d23b3de9c32701af5cc7a1808b400fea67dd14",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 164302,
+   "duree_s": 10.2,
+   "caracteres_dits": 187,
+   "caracteres_factures": 187,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez une nouvelle fenêtre de rédaction pour le récapitul\natif de passation.\n Il est écrit une fois à la fin, pas au fil de l'eau, où il\n devient une suite de messages\n que personne ne relit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "ouvrez une nouvelle fenêtre de rédaction pour le récapitul\natif de Passation.\n Il s'écrit une fois, à la fin, \"pas au fil de l'eau\",\n où il devient une suite de messages que personne ne relie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O11-L03-04",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Le bouton Nouveau message; sur téléphone, le ✚ à côté de la recherche.",
+   "empreinte_texte_dit": "cd2cb029255f90b3293ed03e9278a05b312fffd6832a2424bdfbe563e7dc1c1a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau message sur téléphone, le à côté de la\n recherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau message sur téléphone, le à côté de la\n recherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O11-L03-05",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Adressez-le à s.brunel@atelier-nord.fr et mettez n.kerbaj@atelier-nord.fr en copie. Le titulaire est destinataire, la gérante est informée: elle saura quels engagements ont été pris en son absence.",
+   "empreinte_texte_dit": "b99da39112210855dd98d408bd79f18b5673162627fa3de097917d7ab8f7df5f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 301810,
+   "duree_s": 18.8,
+   "caracteres_dits": 197,
+   "caracteres_factures": 197,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Addressez-le à S.brunel@atelier-nord.fr et mettez N.kerbay@\natelier-nord.fr en copie.\n Le titulaire est destinataire, la gérante est informée,\n elle saura quels engagements ont été pris en son absence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Adressez-le à s.brunel@atelier-nord.fr et mettez n.kerbaï@\natelier-nord.fr en copie.\n Le titulaire est destinataire, la gérante est informée,\n elle saura quels engagements\n ont été pris en son absence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O11-L03-05",
+   "role": "Étape 7 · aide",
+   "texte_dit": "L'adresse du titulaire dans À, celle de la gérante dans Cc.",
+   "empreinte_texte_dit": "c09eda35187a56c036a29623a4fea76bb37904eb78dbf567fa6711113f0b68ce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 59,
+   "caracteres_factures": 177,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "l'adresse du titulaire dans A, celle de la gérante dans CC.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "l'adresse du titulaire dans A, celle de la gérante dans CC.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O11-L03-05",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Le titulaire de la boîte et la gérante: l'un reprend le travail, l'autre suit le dossier.",
+   "empreinte_texte_dit": "bfa163025bea38a88ae7df07914699c42f701ec6413d82efe7a9baf984c72c18",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le titulaire de la boîte est la gérante, l'un reprend le\n travail, l'autre suit le dossier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le titulaire de la boîte est la gérante, l'un reprend le\n travail, l'autre suit le dossier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O11-L03-06",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Donnez un objet contenant le mot passation. Ce message doit se retrouver en une recherche le jour où quelqu'un demandera ce qui a été promis pendant l'absence.",
+   "empreinte_texte_dit": "edb30ed2820b4768333f010456f48807c1f362ab7643a15a8f5e8ebf9d12bf22",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 132119,
+   "duree_s": 8.2,
+   "caracteres_dits": 159,
+   "caracteres_factures": 159,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donner un objet contenant le mot \"passation\".\n Ce message doit se retrouver en une recherche le jour où\n quelqu'un demandera ce qui a été promis pendant l'absence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donner un objet contenant le mot \"passation\".\n Ce message doit se retrouver en une recherche le jour où\n quelqu'un demandera ce qui a été promis pendant l'absence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O11-L03-06",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Par exemple Passation, semaine du 6 avril. La formulation est libre.",
+   "empreinte_texte_dit": "06a1d12858c40fb5ea580b7ba0c06fbf0c4c94675407f295ff6381e19ab90ad6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par exemple, Passation, semaine du 6 avril.\n La formulation est libre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par exemple, Passation, semaine du 6 avril.\n La formulation est libre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O11-L03-06",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Un mot dans l'objet, et le récapitulatif se retrouve en une recherche dans six mois.",
+   "empreinte_texte_dit": "6976d1e5399aa5d4d64f14929cfb76dc4003cdb92cedcef8a2f3ea2291f48f8c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.04,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un mot dans l'objet et le récapitulatif se retrouvent en\n une recherche dans six mois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un mot dans l'objet et le récapitulatif se retrouve en une\n recherche dans six mois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "O11-L03-07",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Rédigez le récapitulatif, puis envoyez. Trois points: ce qui a été traité, ce qui reste ouvert, et ce qui a été promis à un client. Rien d'autre, un récapitulatif long ne se lit pas.",
+   "empreinte_texte_dit": "9ba62488ca12ac590ef77a298d1c000b20178fbb86b7960763a77b0d8f93f6a7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 201500,
+   "duree_s": 12.52,
+   "caracteres_dits": 182,
+   "caracteres_factures": 182,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez le récapitulatif, puis envoyez.\n 3 points.\n Ce qui a été traité, ce qui reste ouvert et ce qui a été\n promis à un client.\n Rien d'autre.\n Un récapitulatif long ne se lit pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger le récapitulatif, puis envoyer.\n 3. Ce qui a été traité, ce qui reste ouvert, et ce qui a\n été promis à un client.\n Rien d'autre, un récapitulatif long ne se lit pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "O11-L03-07",
+   "role": "Étape 9 · aide",
+   "texte_dit": "Trois informations sont attendues: le traité, l'ouvert, et l'engagement pris.",
+   "empreinte_texte_dit": "f930591785c8e53c34ce90b14b8d5095398f68974ae52d760d5cb9aa8a15bbde",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues. Le traité, l'ouvert et l\n'engagement pris.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues. Le traité, l'ouvert et l\n'engagement pris.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "O11-L03-07",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "Traité, en attente, à surveiller: c'est ce message qui évite la demi-journée perdue au retour.",
+   "empreinte_texte_dit": "c0775c0a0e07e4dd513cdd962f23b84ce8803af7cd4f700ebf760f49059640b5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 95338,
+   "duree_s": 5.88,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Traiter, en attente à surveiller, c'est ce message qui év\nite la demi-journée perdu au retour.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Traité, en attente à surveiller, c'est ce message qui évite\n la demi-journée perdue au retour.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Le récapitulatif de passation tient en trois points: ce qui a été traité, ce qui reste ouvert, et ce qui a été promis à qui. Envoyé au titulaire avec la hiérarchie en copie, il devient la référence du retour, et évite la demi-journée de reconstitution.",
+   "empreinte_texte_dit": "01e9d759b7ebd9a5a3a86bad42f80f32ef38b3095b7ab89104f1271619effe51",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 240370,
+   "duree_s": 14.96,
+   "caracteres_dits": 252,
+   "caracteres_factures": 252,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le récapitulatif de Passation tient en trois points.\n Ce qui a été traité, ce qui reste ouvert et ce qui a été\n promis à qui ?\n Envoyez au titulaire avec la hiérarchie en copie,\n il devient la référence du retour et évite la demi-journée\n de reconstitution.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le récapitulatif de Passation tient en trois points.\n Ce qui a été traité, ce qui reste ouvert et ce qui a été\n promis acquis.\n Envoyé au titulaire avec la hiérarchie en copie,\n il devient la référence du retour et évite la demi-journée\n de reconstitution.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

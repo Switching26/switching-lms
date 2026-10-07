@@ -1,0 +1,880 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1npb005d6xxgg32wbf2v",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Escalader sans court-circuiter"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 2802,
+  "duree_totale_s": 170.7,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un fournisseur ne répond plus depuis dix jours et le chantier attend. Il faut monter d'un cran, sans faire ce qui braque tout le monde: écrire au responsable en mettant l'interlocuteur d'origine en copie cachée, ou pire, en l'écartant. Escalader proprement, c'est rester lisible pour les deux.",
+   "empreinte_texte_dit": "d93e7d4683eb744f4c5e2a2ab21557e4a9e0606d6bf00d62782ce44f6dd937be",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 274225,
+   "duree_s": 17.08,
+   "caracteres_dits": 293,
+   "caracteres_factures": 293,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.012,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un fournisseur ne répond plus depuis dix jours et le chant\nier attend.\n Il faut monter d'un cran sans faire ce qui braque tout le\n monde.\n Écrire au responsable en mettant l'interlocuteur d'origine\n en copie cachée ou pire en L et quartant.\n Escalader proprement, c'est rester lisible pour les deux.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un fournisseur ne répond plus depuis dix jours et le chant\nier attend.\n Il faut monter d'un cran sans faire ce qui braque tout le\n monde.\n Écrire au responsable en mettant l'interlocuteur d'origine\n en copie cachée, ou pire, en L,\n écartant.\n Escalader proprement, c'est rester lisible pour les deux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O07-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le dossier Éléments envoyés. Votre demande date du 17 mars et n'a jamais reçu de réponse. Avant d'escalader, on relit ce qu'on a effectivement écrit, et quand.",
+   "empreinte_texte_dit": "86b4b7f1368118113b5f53d4adfa80f34b4be74661b75f3fa93ac0e8acabe7a0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 173079,
+   "duree_s": 10.76,
+   "caracteres_dits": 166,
+   "caracteres_factures": 166,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le dossier élément envoyé. Votre demande date du 17\n mars et n'a jamais reçu de réponse.\n Avant d'escalader, on relit ce qu'on a effectivement écrit\n et quand.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le dossier \"élément envoyé\". Votre demande date du\n 17 mars et n'a jamais reçu de réponse.\n Avant d'escalader, on relit ce qu'on a effectivement écrit\n et quand.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O07-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Colonne de gauche; sur téléphone, derrière le bouton ☰ en haut de la liste.",
+   "empreinte_texte_dit": "7a05832d100af71bbea476e3cedaf10e59abe7302fdfbd937e31335a7e253f63",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "colonne de gauche, sur téléphone, derrière le bouton en\n haut de la liste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "colonnes de gauche sur téléphone derrière le bouton en haut\n de la liste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O07-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Avant d'escalader, on vérifie que la demande initiale était claire. Sinon l'escalade se retourne contre vous.",
+   "empreinte_texte_dit": "93f266633fffeaed98f32bf4cecf0aa235756b2e149236a0597c7e29f016fa90",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 101608,
+   "duree_s": 6.28,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Avant d'escalader, on vérifie que la demande initiale était\n claire.\n Sinon l'escalade se retourne contre vous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Avant d'escalader, on vérifie que la demande initiale est\n éclair.\n Sinon l'escalade se retourne contre vous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O07-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ouvrez votre demande du 17 mars. Elle est courte, précise et sans ambiguïté: c'est ce qui vous autorise à monter d'un cran sans passer pour impatient.",
+   "empreinte_texte_dit": "cd90c569956922c5f8d1cb9d40adeeed26faa48bb6b29996f91d2692e701dad4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 147583,
+   "duree_s": 9.16,
+   "caracteres_dits": 150,
+   "caracteres_factures": 150,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez votre demande du 17 mars.\n Elle est courte, précise et sans ambiguïté.\n C'est ce qui vous autorise à monter d'un cran sans passer\n pour un patient.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez votre demande du 17 mars.\n Elle est courte, précise et sans ambiguïté.\n C'est ce qui vous autorise à monter d'un cran sans passer\n pour un patient.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O07-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "C'est le seul message de ce dossier.",
+   "empreinte_texte_dit": "16995e64d323ce70dd7b703edbfc1bb648055f486f74fd067904a91a62ee6907",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 31808,
+   "duree_s": 1.92,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le seul message de ce dossier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le seul message de ce dossier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O07-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Courte, précise, datée: c'est ce qui vous autorise à monter d'un cran.",
+   "empreinte_texte_dit": "5f6c6bfe7e77655599860275270b34c16feeb3517d1447bcbe6f210de931ee8f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 86979,
+   "duree_s": 5.36,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "courte, précise, datée, c'est ce qui vous autorise à monter\n d'un cran.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cours, précise, datée, c'est ce qui vous autorise à monter\n d'un cran.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O07-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Transférez-le à direction@quincaillerie-delmas.fr. Transférer plutôt que réécrire a un avantage décisif: le responsable lit le message d'origine, avec sa date, et constate lui-même le délai.",
+   "empreinte_texte_dit": "eac592ca79b12102e2b14cad60f7fc4ff59a410b2e66e9b2e0f4e281db846d32",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 210277,
+   "duree_s": 13.08,
+   "caracteres_dits": 190,
+   "caracteres_factures": 190,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.075,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Transférez-le à direction arobasekinkairi-delmas.fr.\n Transférez plutôt que réécrire à un avantage décisif.\n Le responsable lit le message d'origine avec sa date et\n constate lui-même le délai.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Transférez-le à direction@quincaillerie-delmas.fr.\n Transférez plutôt que réécrire a un avantage décisif.\n Le responsable lit le message d'origine avec sa date et\n constate lui-même le délai.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O07-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le bouton Transférer est dans la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "b183d913f242893402ad1667d64eb29f1c1e78165234562522d71ec17bb275e4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Transférer est dans la barre du haut du volet de\n lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton transféré est dans la barre du haut du volet de\n lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O07-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le transfert emporte la demande d'origine avec sa date: la direction voit ce qui a été demandé, et quand.",
+   "empreinte_texte_dit": "f91793890ecc943f475611ccd4b5535d54afcc3caa1fd39d53c8b951b2e7719b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le transfert emporte la demande d'origine avec sa date,\n la direction voit ce qui a été demandé et quand.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le transfert emporte la demande d'origine avec sa date.\n La direction voit ce qui a été demandé et quand.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O07-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Ajoutez compta@quincaillerie-delmas.fr sur la même ligne À. Votre interlocuteur d'origine reste destinataire principal: il voit ce qui est dit, et peut répondre. Le mettre en copie cachée serait parler dans son dos.",
+   "empreinte_texte_dit": "8efffc4cd1c5c7352c77738fe0df3f87d5a7af62fa71a3e0d9bd1a0c096323f0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 232847,
+   "duree_s": 14.48,
+   "caracteres_dits": 215,
+   "caracteres_factures": 215,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.07,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez \"Conta\" à Robasca, Incairis-Delmas.fr sur la même\n ligne A.\n Votre interlocuteur d'origine reste destinataire principale\n.\n Il voit ce qui est dit et peut répondre.\n Le maître en copie cachée serait parlé dans son dos.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez \"conta@quincaillerie-delmas.fr\" sur la même ligne A\n.\n Votre interlocuteur d'origine reste destinataire principal.\n Il voit ce qui est dit et peut répondre.\n Le maître en copie cachée serait parlé dans son dos.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O07-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Les deux adresses sur la ligne À, séparées par un point-virgule. Rien en Cci.",
+   "empreinte_texte_dit": "4a2fe0d7686b516c97a6640c7b2ec03bbd76e748ea32f12bb398fc7aa34d378b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les deux adresses sur la ligne A séparées par un point virg\nule.\n Rien en CCI.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les deux adresses sur la ligne A séparées par un point virg\nule.\n Rien en CCI.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O07-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Votre interlocuteur reste destinataire: escalader n'est pas court-circuiter.",
+   "empreinte_texte_dit": "b0fa803b16cbf7140364533e26004a1dec8f8bbad4b453a1ca560cbbe3cfb860",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Votre interlocuteur reste destinataire, et ce qu'à la dé n'\nest pas court-circuité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Votre interlocuteur reste destinataire. Escalader n'est pas\n court-circuité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O07-L02-04B",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Escalader proprement, c'est monter d'un cran sans parler dans le dos de personne. Transférer plutôt que réécrire: le responsable lit le message d'origine, avec sa date, et constate lui-même le délai. Garder l'interlocuteur d'origine en À: il voit ce qui est dit de lui et peut répondre. L'escalade qui braque n'est pas celle qui monte, c'est celle qui écarte.",
+   "empreinte_texte_dit": "d77699b5427e9d1c465aaae44cd8298b499b42a86fb8a71ca9c79f0ac0d8b070",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 318528,
+   "duree_s": 19.84,
+   "caracteres_dits": 359,
+   "caracteres_factures": 359,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Escaladé proprement, c'est monter d'un cran sans parler\n dans le dos de personne.\n Transférer plutôt que réécrire. Le responsable lit le\n message d'origine, avec sa date, et constate lui-même le dé\nlai.\n Garder l'interlocuteur d'origine en A, il voit ce qui est\n dit de lui et peut répondre.\n L'escalade qui braque n'est pas celle qui monte, c'est\n celle qui écarte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Escalader proprement, c'est monter d'un cran sans parler\n dans le dos de personne.\n Transférer plutôt que réécrire.\n Le responsable lit le message d'origine, avec sa date, et\n constate lui-même le délai.\n Garder l'interlocuteur d'origine en A, il voit ce qui est\n dit de lui et peut répondre.\n L'escalade qui braque n'est pas celle qui monte, c'est\n celle qui écarte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O07-L02-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot relance. Annoncer la nature du message évite qu'il soit lu comme une plainte: c'est un rappel de délai, pas une mise en cause.",
+   "empreinte_texte_dit": "5e2989205ccedccff59e90b0ea52644cfe94947cbe7b3168ed84c87f74902b02",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 147165,
+   "duree_s": 9.12,
+   "caracteres_dits": 156,
+   "caracteres_factures": 156,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot relance.\n Annoncez la nature du message et vide qu'il soit lu comme\n une plainte.\n C'est un rappel de délai, pas une mise en cause.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Compléter l'objet avec le mot relance.\n Annoncer la nature du message évite qu'il soit lu comme une\n plainte.\n C'est un rappel de délai, pas une mise en cause.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O07-L02-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe posé par Outlook.",
+   "empreinte_texte_dit": "5b37ef1a6ba9d469960ef8f4d33dad276ef5442a641414b727bd4beffed77c31",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.044,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet en gardant le préfix pos\né par Outlook.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe\n posé par Outlook.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O07-L02-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Rédigez, puis envoyez. Le message doit citer la référence de la commande et la conséquence concrète du retard, un chantier arrêté se comprend mieux qu'un mécontentement.",
+   "empreinte_texte_dit": "9da55824c38e1caa22c6b35d93c5897bded6809b27f5227ecd6dde44a01340c9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 140060,
+   "duree_s": 8.68,
+   "caracteres_dits": 169,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigé, puis envoyé. Le message doit citer la référence de\n la commande et la conséquence\n concrète du retard, un chantier arrêté se comprend mieux qu\n'un mécontentement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger, puis envoyer.\n Le message doit citer la référence de la commande et la\n conséquence concrète du retard.\n Un chantier arrêté se comprend mieux qu'un mécontentement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O07-L02-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Deux informations sont attendues: la référence, et ce que le retard bloque.",
+   "empreinte_texte_dit": "edfdacafce3a8b496c4c4ebac4a248208a7c2b9558a436290bc1d177137d9f53",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La référence est ce que le retard bloque.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La référence est ce que le retard bloque.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O07-L02-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Une conséquence concrète, pas un reproche: c'est ce qui fait bouger une direction.",
+   "empreinte_texte_dit": "6729c56f0e837b1c72a9c29e85eb5d24068970bfb9bfc949657ae065ce5365f9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une conséquence concrète, pas un reproche.\n C'est ce qui fait bouger une direction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une conséquence concrète, pas un reproche. C'est ce qui\n fait bouger une direction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une escalade honnête garde l'interlocuteur d'origine sur la ligne principale, aux côtés de son responsable: il voit exactement ce qui est dit de lui, et peut répondre. Le mettre en copie cachée reviendrait à parler dans son dos, ce qui se découvre toujours.",
+   "empreinte_texte_dit": "2a58c18d2b06a00051cb9a06e4d7f38bf75b47e0da372e98007c29660064caf5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 233265,
+   "duree_s": 14.52,
+   "caracteres_dits": 257,
+   "caracteres_factures": 257,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une escalade honnête garde l'interlocuteur d'origine sur la\n ligne principale,\n au côté de son responsable.\n Il voit exactement ce qui est dit de lui et peut répondre.\n Le maître en copie cachée reviendrait à parler dans son dos\n,\n ce qui se découvre toujours.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une escalade honnête garde l'interlocuteur d'origine sur la\n ligne principale,\n aux côtés de son responsable.\n Il voit exactement ce qui est dit de lui, et peut répondre.\n Le maître en copie cachée reviendrait à parler dans son dos\n, ce qui se découvre toujours.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

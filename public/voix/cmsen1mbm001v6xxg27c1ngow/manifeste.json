@@ -1,0 +1,876 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1mbm001v6xxg27c1ngow",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Choisir entre répondre et répondre à tous"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2664,
+  "duree_totale_s": 163.6,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Deux messages vous attendent. L'un demande une décision collective, l'autre appelle une remarque qui ne regarde qu'une personne. Aucun des deux ne vous dit sur quel bouton appuyer: c'est vous qui devez juger, avant de cliquer, qui a besoin de lire votre réponse.",
+   "empreinte_texte_dit": "a2804db493bef98172b788890543493ff84a020582e36977f0b8b199e1761610",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 217382,
+   "duree_s": 13.52,
+   "caracteres_dits": 262,
+   "caracteres_factures": 262,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux messages vous attendent.\n L'un demande une décision collective, l'autre appelle une\n remarque et qui ne regarde qu'une\n personne.\n Aucun des deux ne vous dit sur quel bouton appuyer.\n C'est vous qui devez juger, avant de cliquer, qui a besoin\n de lire votre réponse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux messages vous attendent.\n L'un demande une décision collective, l'autre appelle une\n remarque qui ne regarde qu'une personne.\n Aucun des deux ne vous dit sur quel bouton appuyer.\n C'est vous qui devez juger, avant de cliquer, qui a besoin\n de lire votre réponse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O02-E02-00",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message d'Hugo Vasseur et relevez les deux dates qu'il propose. Regardez aussi qui d'autre l'a reçu: c'est cette ligne de destinataires qui décidera, à l'étape suivante, entre Répondre et Répondre à tous.",
+   "empreinte_texte_dit": "eaf790b908f409dfccb848f24a2895f6f032f4af9e31216f240eece514a8551f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 205262,
+   "duree_s": 12.76,
+   "caracteres_dits": 214,
+   "caracteres_factures": 214,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message du govasseur et relevez les deux dates qu\n'il propose.\n Regardez aussi qui d'autre l'a reçu.\n C'est cette ligne de destinataire qui décidera, à, elle,\n étape suivante, entre répondre et répondre à tous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message du Govasseur et relevez les deux dates qu\n'il propose.\n Regardez aussi qui d'autres l'a reçu.\n C'est cette ligne de destinataire qui décidera à, elle, éta\npe suivante, entre répondre\n et répondre à tous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O02-E02-00",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet parle de la pose de l'escalier Leroux.",
+   "empreinte_texte_dit": "04ac1688478020556285cd3e67de701e1b0f33b8438cbbc68df26770728bedd6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle de la pause de l'escal\nier le roux.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle de la pose de l'escal\nier Leroux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O02-E02-00",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Deux dates, et trois personnes en attente de l'arbitrage. Le choix du bouton se lit dans l'en-tête.",
+   "empreinte_texte_dit": "229548b0a947b389c5d8d66ea106c856000c9d583bb83b6854e2242bedfce5ae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 101608,
+   "duree_s": 6.28,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "2 dates et 3 personnes en attente de l'arbitrage.\n Le choix du bouton se lit dans l'entête.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "deux dates et trois personnes en attente de l'arbitrage.\n Le choix du bouton se lit dans l'en-tête.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O02-E02-01",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Hugo attend un arbitrage. Répondez en retenant le jeudi, de façon que Sonia et Nadia sachent, elles aussi, quel créneau est bloqué.",
+   "empreinte_texte_dit": "680821624a7ab2d43b0387e3f777b53fed3add6cffe9503fd54f1c5fca2b4cff",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 130865,
+   "duree_s": 8.12,
+   "caracteres_dits": 131,
+   "caracteres_factures": 131,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Hugo attend un arbitrage, répondait en retenant le jeudi,\n de façon que Sonia et Nadia sachent,\n elles aussi, quel créneau est bloqué.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Hugo attend un arbitrage.\n Répondez en retenant le jeudi,\n de façon que Sonia et Nadia sachent, elles aussi,\n quels créneaux est bloqué.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O02-E02-01",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Tout le monde a besoin de connaître la date retenue: c'est le cas d'usage de Répondre à tous.",
+   "empreinte_texte_dit": "a251dbdefe43b339cbf5e7f4b500514702640f8b79f09a44d2032be2c518375a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tout le monde a besoin de connaître la date retenue.\n C'est le cas d'usage de répondre à tous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tout le monde a besoin de connaître la date retenue.\n C'est le cas d'usage de répondre à tous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O02-E02-01",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Tout le monde saura quelle date est retenue, sans avoir à se le redemander l'un à l'autre.",
+   "empreinte_texte_dit": "6f24ae6fd83f9152809155a5e9c91e6664a41d16fdea6dd760fb5f4c72c64807",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tout le monde saura quelle date est retenue, sans avoir à\n se le redemander l'un à l'autre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tout le monde saura quelle date est retenue, sans avoir à\n se le redemander l'un à l'autre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O02-E02-02",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Écrivez l'arbitrage. Votre message doit dire quelle date vous retenez et pourquoi l'autre ne convient pas, sans cela, Hugo reposera la question.",
+   "empreinte_texte_dit": "2663c5dd38a2d14e7085176f06a5195d4d558573fe32491c67ffde54fc2b2675",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 139224,
+   "duree_s": 8.64,
+   "caracteres_dits": 144,
+   "caracteres_factures": 144,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Écrivez l'arbitrage. Votre message doit dire quelle date\n vous retenez et pourquoi l'autre ne convient pas, sans cela\n Hugo reposera la question.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Écrivez l'arbitrage. Votre message doit dire quelle date\n vous retenez et pourquoi l'autre ne convient pas.\n Sans cela, Hugo reposera la question.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O02-E02-02",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Deux informations sont attendues: la date choisie, et ce qui empêche l'autre.",
+   "empreinte_texte_dit": "5ffa7d84bc0d53a3ddeeb7920b31394f51b58b782f6b8bb0815fc6c573dc8f39",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La date choisie et ce qui empêche l'autre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La date choisie et ce qui empêche l'autre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O02-E02-03",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Envoyez cet arbitrage.",
+   "empreinte_texte_dit": "6ce874dc44a6e7d7854cffc44b086bd64e8bc98f3609a9b0db0cf139bafe6dbc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 30555,
+   "duree_s": 1.84,
+   "caracteres_dits": 22,
+   "caracteres_factures": 22,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez cet arbitrage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez cet arbitrage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O02-E02-03",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le bouton Envoyer, en haut à gauche de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "d26fd1c07fd14d191936c822267e691ec18120ab62835cb090169935d5356810",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.054,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer en haut à gauche de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.054,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer en haut à gauche de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O02-E02-03",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "L'arbitrage est parti à l'ensemble du groupe: personne n'attendra une date déjà tranchée.",
+   "empreinte_texte_dit": "925f4da0a220df2793a44b11c2d916f5fc8f3d525a21bf1f6ad4e0fc9c7ad2f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'arbitrage est parti à l'ensemble du groupe.\n Personne n'attendra une date déjà tranchée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'arbitrage est parti à l'ensemble du groupe.\n Personne n'attendra une date déjà tranchée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O02-E02-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Second message: Nadia annonce l'envoi du devis 2026-141, avec le client j.leroux@habitat-du-nord.fr en copie. Vous avez repéré une erreur de montant et devez la prévenir. Écrivez-lui, en veillant à qui reçoit cette remarque.",
+   "empreinte_texte_dit": "1c56dc755c0af5b45376bd9f3a79d4e572198fd4006774f7adebd1e97c3fad69",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 279658,
+   "duree_s": 17.4,
+   "caracteres_dits": 224,
+   "caracteres_factures": 224,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.108,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Second message. Nadia annonce l'envoi du devis 2026 à 141\n avec le client J.Laurou à Robas Habitat, tiré du Tirénor.fr\n en copie.\n Vous avez repéré une erreur de montant et devez la prévenir\n. Écrivez-lui, en veillant à qui reçoit cette remarque.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Second message.\n Nadia annonce l'envoi du devis 2026 à 141 avec le client j.\nlerou@abitat-du-fr en copie.\n Vous avez repéré une erreur de montant et devez la prévenir\n.\n Écrivez-lui en veillant à qui reçoit cette remarque.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O02-E02-04",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Le client est en copie du message d'origine: Répondre à tous lui apprendrait qu'un devis qu'il a déjà reçu comporte une erreur.",
+   "empreinte_texte_dit": "1307f1bab588ad193203f4dfab92f09cc5ace382e292ca3f9de1f5ad33f3b2f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 114564,
+   "duree_s": 7.08,
+   "caracteres_dits": 127,
+   "caracteres_factures": 127,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le client est en copie du message d'origine.\n Répondra tous, lui apprendrait qu'un de vie qu'il a déjà re\nçu comporte une erreur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.012,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le client est en copie du message d'origine.\n Répondre à tous lui apprendrait qu'un devis qu'il a déjà re\nçu comporte une erreur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O02-E02-04",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Ici le client n'a rien à savoir d'une correction interne. Répondre suffisait, répondre à tous aurait nui.",
+   "empreinte_texte_dit": "4d085b06a5d4f44686022eba99e7405d9adc4aca78935c7db34f930c93e07706",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.03,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ici le client n'a rien à savoir d'une correction interne.\n Répondre suffisait, répondre à tous au rénu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ici le client n'a rien à savoir d'une correction interne.\n Répondre suffisait, répondre à tout s'aurait nuit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O02-E02-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Rédigez la remarque, puis envoyez-la. Elle doit citer la référence du devis et signaler qu'un montant est à corriger.",
+   "empreinte_texte_dit": "93511f44ca135a5010daf3b1237c5421b37f8133251307e761113bffa5485d26",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 111639,
+   "duree_s": 6.92,
+   "caracteres_dits": 117,
+   "caracteres_factures": 117,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigez la remarque, puis envoyez-la.\n Elle doit citer la référence du devis et signaler qu'un\n montant est à corriger.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigez la remarque, puis envoyez-la.\n Elle doit citer la référence du devis et signaler qu'un\n montant est à corriger.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O02-E02-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Deux informations sont attendues: la référence du devis, et la nature du problème.",
+   "empreinte_texte_dit": "5bbddfce15f140088dfc32d9811053cb19441a8e46d87df2f1f559ef261e3849",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La référence du devis et la nature du problème.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La référence du devis et la nature du problème.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O02-E02-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Deux messages, deux choix opposés, et c'est le destinataire, jamais le bouton, qui décide.",
+   "empreinte_texte_dit": "96a080b64828e9827e71ade65e06ee8ca43cf92ff43e4722b36b5d9838ab9ba7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux messages, deux choix opposés, et c'est le destinataire\n, jamais le bouton qui décide.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux messages, deux choix opposés, et c'est le destinataire\n, jamais le bouton, qui décide.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O02-E02-99",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "L'arbitrage est parti à tout le monde: la date est tranchée. Rangez-le dans Clients 2026. Ce fil se retrouvera par son client, jamais par le sujet de l'échange.",
+   "empreinte_texte_dit": "0d0b1e88013e6e35882e48cbbe8ce20d756417913d631f95072f1bab1dd71124",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 182274,
+   "duree_s": 11.32,
+   "caracteres_dits": 160,
+   "caracteres_factures": 160,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'arbitrage est parti à tout le monde.\n La date est tranchée.\n Rangez-le dans Client 2026.\n Ce fil se retrouvera par son client,\n jamais par le sujet de elle,\n et change.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'arbitrage est parti à tout le monde.\n La date est tranchée.\n Rangez-le dans Client 2026.\n Ce fil se retrouvera par son client,\n jamais par le sujet de elle,\n et change.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O02-E02-99",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Clients 2026.",
+   "empreinte_texte_dit": "e33a8b5a6fa6a2d16ce84102c722a35215a7c29c5edb87409a793722887de9f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacer dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O02-E02-99",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Rangé chez le client concerné: le fil ne réapparaîtra pas demain matin.",
+   "empreinte_texte_dit": "04b545f8b4dcf6df07876d847f80c81e27f7e7cd8a9016b4e5b1c6aea70810b1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ranger chez le client concerné, le fil ne réapparaîtra pas\n demain matin.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rangé chez le client concerné, le fil ne réapparaîtra pas\n demain matin.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "La règle tient en une question posée avant le clic: qui a besoin de MA réponse? Sur une coordination, tout le monde; sur une remarque individuelle, une seule personne. Le bouton ne se déduit pas de l'en-tête reçu, il se déduit de ce que vous allez écrire.",
+   "empreinte_texte_dit": "33a88c51841faac0916fb4aa95b10fb311a96d636e4ccf3e6c92ad4f0e17a632",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 241624,
+   "duree_s": 15.04,
+   "caracteres_dits": 255,
+   "caracteres_factures": 255,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La règle tient une question posée avant le clic qui a\n besoin de M à réponse,\n sur une coordination, tout le monde, sur une remarque\n individuelle, une seule personne.\n Le bouton ne se déduit pas de l'en être reçu, il se déduit\n de ce que vous allez écrire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La règle tient en une question posée avant le clic \"Qui a\n besoin de MA réponse ?\"\n Sur une coordination, tout le monde, sur une remarque\n individuelle, une seule personne.\n Le bouton ne se déduit pas de l'en-tête reçue, il se déduit\n de ce que vous allez écrire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

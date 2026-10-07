@@ -1,0 +1,880 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1nz200636xxgpkt21t7b",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Répondre court, tout de suite"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 2553,
+  "duree_totale_s": 152.0,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un message auquel on peut répondre en moins de deux minutes doit être traité immédiatement: le rouvrir plus tard coûtera plus cher que de l'expédier maintenant. Encore faut-il savoir écrire court sans écrire sec, trois messages, trois réponses brèves, et aucune qui donne l'impression d'être expédiée.",
+   "empreinte_texte_dit": "aa905a72be79480c4b541488f55cab814198c7e5b80e4c0e208d1dc96702abe8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 271299,
+   "duree_s": 16.88,
+   "caracteres_dits": 301,
+   "caracteres_factures": 301,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un message auquel on peut répondre en moins de deux minutes\n doit être traité immédiatement.\n Le rouvrir plus tard coûtera plus cher que de l'expédier\n maintenant.\n Encore faut-il savoir écrire cours sans écrire sec, trois\n messages, trois réponses breves\n et aucune qui donne l'impression d'être expédier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un message auquel on peut répondre en moins de deux minutes\n doit être traité immédiatement.\n Le rouvrir plus tard coûtera plus cher que de l'expédier\n maintenant.\n Encore faut-il savoir écrire court sans écrire sec, trois\n messages, trois réponses brèves\n et aucune qui donne l'impression d'être expédié.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O08-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la question d'Hugo. Une question fermée, une réponse d'une ligne: c'est exactement le cas où répondre maintenant coûte moins cher que d'y revenir.",
+   "empreinte_texte_dit": "f9d4fbbd4c2091be64e60414cc7d78957b57c494853968e1faac01eeffdad9b1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 153,
+   "caracteres_factures": 153,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la question du go. Une question fermée, une réponse\n d'une ligne. C'est exactement le cas où répondre maintenant\n coûte moins cher que d'y revenir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la question d'Ugo.\n Une question fermée, une réponse d'une ligne.\n C'est exactement le cas où répondre maintenant coûte moins\n cher que d'y revenir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O08-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui demande une référence de vis.",
+   "empreinte_texte_dit": "c77afa6f54c14d9e75b5bc3fffb02e6836109ec43edc3a5b54627eb7d0f7d368",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui demande une référence de vis.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui demande une référence de vis.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O08-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Une question fermée, une réponse d'une ligne: le cas exact où répondre tout de suite fait gagner du temps.",
+   "empreinte_texte_dit": "07e4ef07f47b0435831c89bed8efda3745f000582e5b32873e9a05734e5e9ee6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une question fermée, une réponse d'une ligne.\n Le cas exact ou répondre tout de suite fait gagner du temps\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une question fermée, une réponse d'une ligne.\n Le cas exact où répondre tout de suite fait gagner du temps\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O08-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Répondez-lui en indiquant la référence CH-88 et la longueur retenue. Court ne veut pas dire sec: gardez la formule d'appel et la politesse, supprimez seulement ce qui n'apporte rien.",
+   "empreinte_texte_dit": "7bd4aee061b7ad0f8c621755559e621f23951440125ee43cac30bc8ea384d41e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 188125,
+   "duree_s": 11.68,
+   "caracteres_dits": 182,
+   "caracteres_factures": 182,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez-lui, en indiquant la référence CH-88 et la longue\nur retenue.\n Cour ne veut pas dire sec. Gardez la formule d'appel et la\n politesse.\n Supprimez seulement ce qui n'apporte rien.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez-lui en indiquant la référence CH 88 et la longueur\n retenue.\n Cour ne veut pas dire sec.\n Gardez la formule d'appel et la politesse.\n Supprimez seulement ce qui n'apporte rien.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O08-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Deux informations sont attendues: la référence, et une précision de pose.",
+   "empreinte_texte_dit": "8d38a06452d1cddc111913c4fbced9f57a8b3eac26bcb01d4c7f1dec8790ae6a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La référence est une précision de pause.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La référence et une précision de pause.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O08-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Court ne veut pas dire sec: la formule d'appel tient en trois mots et change tout.",
+   "empreinte_texte_dit": "54d88b05404ef4f5512d93ad9d6f9d95a098041939ec5b1945e93169d31aee81",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cour ne veut pas dire sec.\n La formule d'appel tient en trois mots et change tout.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "\"Cour\" ne veut pas dire sec.\n La formule d'appel tient en trois mots et change tout.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O08-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Envoyez cette réponse. Moins de deux minutes, message traité. Le fil est clos, et il ne réapparaîtra pas dans votre liste ce soir.",
+   "empreinte_texte_dit": "d13d75e014edbb9fff28b60bc3419893cec7150b61aa1aed140b76fc08ff9011",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 145075,
+   "duree_s": 9.0,
+   "caracteres_dits": 130,
+   "caracteres_factures": 130,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyez cette réponse.\n Moins de 2 minutes, message traité.\n Le fil est clos et il ne réapparaîtra pas dans votre liste\n ce soir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyez cette réponse.\n Moins de deux minutes.\n Message traité.\n Le fil est clos et il ne réapparaîtra pas dans votre liste\n ce soir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O08-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le bouton Envoyer, premier de la barre du haut.",
+   "empreinte_texte_dit": "29de634f6e8d916334d2a30d68f58c301f36131e5f3d9f631422dce85dc59f83",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer premier de la barre du haut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer premier de la barre du haut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O08-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Moins de deux minutes, message traité, fil clos.",
+   "empreinte_texte_dit": "975fb5c3870a89d55160fe1622d50950e33225416ccccb5228293ab7acba2714",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Moins de 2 minutes, message traité, filclot.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Moins de deux minutes.\n Message traité.\n File clos.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O08-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rangez le message d'Hugo dans Fournisseurs. Traité, donc sorti de la file d'attente. C'est ce geste, et pas la réponse, qui vide vraiment une boîte.",
+   "empreinte_texte_dit": "93fe2b06c907405d001532c03dee0b486f3b0e1522fec6b9116f7a333a3321db",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 150927,
+   "duree_s": 9.36,
+   "caracteres_dits": 148,
+   "caracteres_factures": 148,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger le message du go d'enfournisseur.\n Traiter, donc sortie de la file d'attente.\n C'est ce geste et pas la réponse qui vide vraiment une boî\nte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger le message d'Ugo dans Fournisseur.\n Traiter, donc sorti de la file d'attente.\n C'est ce geste, et pas la réponse, qui vide vraiment une\n boîte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O08-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Déplacer, puis Fournisseurs, Hugo est un partenaire extérieur.",
+   "empreinte_texte_dit": "adfe3563552936001d922857089cf56392637ae4950b5b3f41220248250f18c7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.051,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez, puis fournisseur, Hugo est un partenaire ext\nérieur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "déplacé, puis fournisseur, Hugo est un partenaire extérieur\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O08-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "C'est ce geste, et pas la réponse, qui fait baisser le nombre de messages en attente.",
+   "empreinte_texte_dit": "e03743a2d8cbd14170d182fa902079137b7afc08d9fa9ba06601766978f800ca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est ce geste et pas la réponse qui fait baisser le nombre\n de messages en attente.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est ce geste, et pas la réponse, qui fait baisser le\n nombre de messages en attente.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O08-L02-04B",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "C'est le classement, et non la réponse, qui vide une boîte. Un message répondu mais laissé en place occupe la même surface qu'un message non traité: vous le relirez, vous vous demanderez si vous avez répondu, et vous irez le vérifier dans les envoyés. Retenez aussi la nuance de ton: court ne veut pas dire sec, on supprime ce qui n'apporte rien, jamais la politesse.",
+   "empreinte_texte_dit": "3c905238ed30cebc27d317c314b6d2507093c11aa12dd67dc977c63e5cb9cce6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 332739,
+   "duree_s": 20.72,
+   "caracteres_dits": 367,
+   "caracteres_factures": 367,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le classement et non la réponse qui vit d'une boîte.\n Un message répondu mais laissé en place occupe la même\n surface qu'un message non traité.\n Vous le relirez, vous vous demanderez si vous avez répondu\n et vous irez le vérifier dans les envoyés.\n Retenez aussi la nuance de ton.\n Cour ne veut pas dire sec, on supprime ce qui n'apporte\n rien, jamais la politesse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le classement, et non la réponse, qui vide une boîte.\n Un message répondu mais laissé en place occupe la même\n surface qu'un message non traité.\n Vous le relirez, vous vous demanderez si vous avez répondu,\n et vous irez le vérifier dans\n les envoyés.\n Retenez aussi la nuance de ton.\n \"Cour\" ne veut pas dire sec.\n On supprime ce qui n'apporte rien.\n Jamais la politesse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O08-L02-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Ouvrez la demande de Sonia. Deuxième cas: une question interne qui appelle un oui ou un non, et qui n'a aucune raison d'attendre l'après-midi.",
+   "empreinte_texte_dit": "1fbb9c1c7880f4c41d3c761db81e996aff8363476b07e7511b7460c8e3e24573",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 130447,
+   "duree_s": 8.08,
+   "caracteres_dits": 142,
+   "caracteres_factures": 142,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrait la demande de Sonia.\n Deuxième cas, une question interne qui appelle un oui ou un\n non et qui n'a aucune raison d'attendre l'après-midi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de Sonia.\n Deuxième cas, une question interne qui appelle un oui ou un\n non et qui n'a aucune raison d'attendre l'après-midi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O08-L02-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "C'est le message qui demande une matinée de congé.",
+   "empreinte_texte_dit": "cb5ee5876a98c0377f02e3c5f21d2f519241e8a3a3e82587a56760f7e7c58526",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui demande une matinée de congés.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui demande une matinée de congé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O08-L02-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Répondez-lui et envoyez. Votre réponse doit trancher, d'accord ou non, et dire ce qui est prévu jeudi à l'atelier, pour qu'elle sache sur quoi vous vous fondez.",
+   "empreinte_texte_dit": "65ceafb462303bcbbe2fcced9f5d77634176b1a8db0229bdb7f89e6f9d49096d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 141314,
+   "duree_s": 8.76,
+   "caracteres_dits": 160,
+   "caracteres_factures": 160,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez-lui et envoyez. Votre réponse doit trancher, d'\naccord ou non,\n et dire ce qui est prévu jeudi à l'atelier pour qu'elle s\nache sur quoi vous vous fonder.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez-lui et envoyez.\n Votre réponse doit trancher, d'accord ou non,\n et dire ce qui est prévu jeudi à l'atelier,\n pour qu'elle sache sur quoi vous vous fondez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O08-L02-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Deux informations sont attendues: votre réponse, et ce qui se passe jeudi.",
+   "empreinte_texte_dit": "f22aa3ddfb04995fbd81b5ea272a4893230577eb2612c29a106035cf478bad34",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Votre réponse est ce qui\n se passe jeudi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Votre réponse est ce qui\n se passe jeudi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O08-L02-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Trancher fait avancer: une réponse qui n'ose pas décider oblige l'autre à réécrire.",
+   "empreinte_texte_dit": "4e929d16275419fe57bf8658c3a211513204d17c803ff9573c4866244de133dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Tranché fait avancer. Une réponse qui n'ose pas décider obl\nige l'autre à réécrire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trancher fait avancer.\n Une réponse qui n'ose pas décider oblige l'autre à réécrire\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une réponse courte n'est pas une réponse brutale: elle garde la formule d'appel, la formule de politesse, et l'information exacte. Ce qu'on supprime, ce sont les phrases qui n'apportent rien, pas la courtoisie.",
+   "empreinte_texte_dit": "a8b06911d9ce81290617802d39e58a6e53ae3d5d1dfc48d9bff8364531dea3b2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 194813,
+   "duree_s": 12.12,
+   "caracteres_dits": 210,
+   "caracteres_factures": 210,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une réponse courte n'est pas une réponse brutale.\n Elle garde la formule d'appel, la formule de politesse et l\n'information exacte.\n Ce qu'on supprime, ce sont les phrases qui n'apportent rien\n, pas la courtoisie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une réponse courte n'est pas une réponse brutale.\n Elle garde la formule d'appel, la formule de politesse et l\n'information exacte.\n Ce qu'on supprime, ce sont les phrases qui n'apportent rien\n, pas la courtoisie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

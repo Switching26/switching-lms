@@ -1,0 +1,754 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1nqn005h6xxgi3j1vdj0",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Le message de synthèse qui clôt un fil"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 2452,
+  "duree_totale_s": 145.2,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un échange à quatre finit toujours pareil: personne ne sait plus ce qui a été décidé, et chacun se souvient d'une version différente. Le message de synthèse règle cela en trois lignes, ce qui est décidé, qui fait quoi, pour quand. Il s'écrit une fois, et remplace six messages de vérification.",
+   "empreinte_texte_dit": "7ee7da84d48a3de2d7d39c4cdbb2a8cf34d51b38f2186035006cd586a5dc787f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 322290,
+   "duree_s": 20.08,
+   "caracteres_dits": 293,
+   "caracteres_factures": 293,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un échange à quatre finit toujours pareil.\n Personne ne sait plus ce qui a été décidé et chacun se souv\nient d'une version différente.\n Le message de synthèse règle cela en trois lignes.\n Ce qui est décidé, qui fait quoi, pour quand.\n Il est écrit une fois et remplace six messages de vér\nification.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un échange à quatre finit toujours pareil.\n Personne ne sait plus ce qui a été décidé, et chacun se sou\nvient d'une version différente.\n Le message de synthèse règle cela en trois lignes.\n Ce qui est décidé, qui fait quoi, pour quand.\n Il s, écrit une fois, et remplace six messages de vér\nification.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O07-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le dernier message du fil. Hugo propose une organisation; personne ne l'a encore validée, et trois personnes attendent de savoir si elle tient.",
+   "empreinte_texte_dit": "816f71d58e817ee92c83f863dc7dd2706e0109e0fdde79483edf188a25f471af",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 138806,
+   "duree_s": 8.6,
+   "caracteres_dits": 150,
+   "caracteres_factures": 150,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le dernier message du fil. Hugo propose une\n organisation.\n Personne ne l'a encore validée et trois personnes attendent\n de savoir si elle tient.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le dernier message du fil.\n Hugo propose une organisation.\n Personne ne l'a encore validée,\n et trois personnes attendent de savoir si elle tient.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O07-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui propose une date pour la reprise.",
+   "empreinte_texte_dit": "d6f8c1780da73cd48b61621ff63bec6940ea352c7f3ccd318407143ad953bbd9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui propose une date pour la reprise.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui propose une date pour la reprise.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O07-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre à tous. Une synthèse ne vaut que si elle atteint tous les participants: envoyée à un seul, elle crée une deuxième version de la vérité.",
+   "empreinte_texte_dit": "c5d9044da5467430bc21089e63d68e610d281cae964acf03181b6bacba9b1302",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 156,
+   "caracteres_factures": 156,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur « Répondre à tous ».\n Une synthèse ne vaut que si elle atteint tous les\n participants.\n Envoyez à un seul, elle crée une deuxième version de la\n vérité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur « Répondre à tous ».\n Une synthèse ne vaut que si elle atteint tous les\n participants.\n Envoyée à un seul, elle crée une deuxième version de la\n vérité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O07-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le deuxième bouton de la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "4940a9f09947d0ee5825fccad2eb39f5d74b388a5327f4ce90cbaaaef1e56f04",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le deuxième bouton de la barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le deuxième bouton de la barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O07-L03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Une synthèse envoyée à une partie du groupe crée un second fil au lieu d'en fermer un.",
+   "empreinte_texte_dit": "0e7bc735a713d31a04229811d3c334fc73cf81d4f0cb191640e75b2a247f2630",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 74022,
+   "duree_s": 4.56,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une synthèse envoyée à une partie du groupe crée un second\n fil au lieu d'enfermer un.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une synthèse envoyée à une partie du groupe crée un second\n fil au lieu d'enfermer un.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O07-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot décision. C'est ce mot qui distingue le message de synthèse des douze qui l'ont précédé, et qui permettra de le retrouver dans six mois par une recherche.",
+   "empreinte_texte_dit": "5ffdff13a4db2399f7b219406f8e174d6c6e78f893159e1ed9e7032ac29409b2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 149673,
+   "duree_s": 9.28,
+   "caracteres_dits": 184,
+   "caracteres_factures": 184,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot \"décision\".\n C'est ce mot qui distingue le message de synthèse des douze\n qu'ils ont précédé\n et qui permettra de le retrouver dans six mois par une\n recherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Compléter l'objet avec le mot \"Décision\".\n C'est ce mot qui distingue le message de synthèse des 12\n qui l'ont précédé\n et qui permettra de le retrouver dans 6 mois par une\n recherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O07-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Ajoutez le mot à la fin de l'objet. Les accents ne sont pas pris en compte.",
+   "empreinte_texte_dit": "534e6aaa7d08ac1445dc81e6426b4e4a318c9ee96599d1f60f96aae55f57328b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet. Les accents ne sont pas\n pris en compte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet.\n Les accents ne sont pas pris en compte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O07-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le mot décision distingue ce message des douze qui l'ont précédé, dans la liste comme dans la recherche.",
+   "empreinte_texte_dit": "5e6b02d6610ef9b81baa84329d9c4bf2738689133bb40032fa1c275126487c72",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 104,
+   "caracteres_factures": 104,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le mot Décision distingue ce message des 12 qui l'ont\n précédé dans la liste comme dans la recherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le mot « décision » distingue ce message des 12 qui l'ont\n précédé dans la liste comme dans la recherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O07-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rédigez la synthèse. Trois éléments, et rien d'autre: la date retenue, qui apporte les fixations, et qui prévient le client. Ne racontez pas la discussion, énoncez ce qui est décidé.",
+   "empreinte_texte_dit": "027ef6cb5a6283443c4bde1fb06e6ab09c46cb20d1ce4b235156a8b6d1e4bf7b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 193559,
+   "duree_s": 12.04,
+   "caracteres_dits": 182,
+   "caracteres_factures": 182,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.046,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigé la synthèse. Trois éléments et rien d'autre.\n La date retenue qui apporte les fixations et qui prévient\n le client.\n Ne racontez pas la discussion et non c'est ce qui est\n décidé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigé la synthèse. Trois éléments et rien d'autre. La date\n retenue qui apporte les fixations et qui prévient le client\n.\n Ne racontez pas la discussion, énoncez ce qui est décidé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O07-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Trois informations sont attendues: la date, la personne chargée des fixations, et celle qui prévient le client.",
+   "empreinte_texte_dit": "adf7938a3254cdd14b327d33eb781666fb449c991dde78b322e5a70a486d2d43",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 99100,
+   "duree_s": 6.12,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues.\n La date, la personne chargée des fixations,\n et celle qui prévient le client.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues.\n La date, la personne chargée des fixations et celle qui pré\nvient le client.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O07-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Trois faits, rien d'autre. Une synthèse qui argumente relance la discussion qu'elle devait clore.",
+   "empreinte_texte_dit": "781a221f1fb1ff9dd4d1c3fbcb710a9efa369cdb69240e11ac0d5d042bc4ef2c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 106205,
+   "duree_s": 6.56,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois faits, rien d'autre.\n Une synthèse qui argumente relance la discussion qu'elle\n devait clore.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois faits, rien d'autre.\n Une synthèse qui argumente relance la discussion qu'elle\n devait clore.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O07-L03-04B",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Une synthèse n'est pas un résumé de la discussion: c'est l'énoncé de ce qui est décidé. Quoi, qui, pour quand, rien d'autre. Raconter l'échange le rouvre; en énoncer le résultat le clôt. Elle part à tous les participants: envoyée à un seul, elle crée une deuxième version de la vérité, le problème même qu'elle devait résoudre.",
+   "empreinte_texte_dit": "70d9f8a736ca4effa396778c62bc1c6582ede246b8e93d7b326c6fce903e4abc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 349457,
+   "duree_s": 21.76,
+   "caracteres_dits": 327,
+   "caracteres_factures": 327,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une synthèse n'est pas un résumé de la discussion.\n C'est là, énoncé de ce qui est décidé.\n Quoi ? Qui ? Pour quand ? Rien d'autre.\n Racontez-elle et change le rouvre.\n En énoncé le résultat le clos.\n Elle part à tous les participants.\n Envoyez à un seul, elle crée une deuxième version de la\n vérité,\n le problème même qu'elle devait résoudre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une synthèse n'est pas un résumé de la discussion.\n C'est la.\n Énoncer de ce qui est décidé.\n Quoi ? Qui ? Pour quand ? Rien d'autre.\n Raconter elle, échange le rouvre.\n En énoncer le résultat, le clos.\n Elle part à tous les participants.\n Envoyée à un seul, elle crée une deuxième version de la\n vérité,\n le problème même qu'elle devait résoudre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O07-L03-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Envoyez la synthèse. Les quatre participants ont désormais le même texte sous les yeux. C'est ce message-là qu'on rouvrira en cas de désaccord, pas les douze précédents.",
+   "empreinte_texte_dit": "59e90f2bdca6ccbaf2f39c6f66f3fb615454e23298a649855bf42e1e6925b4ef",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 141314,
+   "duree_s": 8.76,
+   "caracteres_dits": 169,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyez la synthèse. Les quatre participants ont désormais\n le même texte sous les yeux.\n C'est ce message-là qu'on rouvrira en cas de désaccord, pas\n les 12 précédents.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyez la synthèse.\n Les quatre participants ont désormais le même texte sous\n les yeux.\n C'est ce message-là qu'on rouvrira en cas de désaccord, pas\n les 12 précédents.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O07-L03-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Le bouton Envoyer, premier de la barre du haut.",
+   "empreinte_texte_dit": "29de634f6e8d916334d2a30d68f58c301f36131e5f3d9f631422dce85dc59f83",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 46437,
+   "duree_s": 2.84,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer, premier de la barre du haut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer, premier de la barre du haut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O07-L03-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Les quatre participants ont le même texte sous les yeux. C'est ce message qu'on rouvrira dans trois semaines.",
+   "empreinte_texte_dit": "ecb40e78b38793eed020e871916f9d3c172b266b2dd9157789a8eb1f25c5d00e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les quatre participants ont le même texte sous les yeux.\n C'est ce message qu'on rouvrira dans trois semaines.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les quatre participants ont le même texte sous les yeux.\n C'est ce message qu'on rouvrira dans trois semaines.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une synthèse ne raconte pas la discussion: elle énonce la décision, le responsable et la date. Envoyée à tous les participants, elle devient la référence commune, et son objet permet de la retrouver plus tard, quand quelqu'un affirmera le contraire.",
+   "empreinte_texte_dit": "99c1ecd503b40a189bf384845541adda40ac7aac9a21cee04dd1d4fcfb6a0bcc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 211113,
+   "duree_s": 13.12,
+   "caracteres_dits": 249,
+   "caracteres_factures": 249,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une synthèse ne raconte pas la discussion, elle énonce sa\n décision, le responsable est la date.\n Envoyée à tous les participants, elle devient la référence\n commune\n et son objet permet de la retrouver plus tard quand quelqu'\nun affirmera le contraire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une synthèse ne raconte pas la discussion.\n Elle énonce la décision, le responsable et la date.\n Envoyée à tous les participants, elle devient la référence\n commune\n et son objet permet de la retrouver plus tard quand quelqu'\nun affirmera le contraire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,841 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1ngt004r6xxgvo8yedwe",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Relancer sans braquer"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 2702,
+  "duree_totale_s": 160.8,
+  "segments_valides": 20,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Relancer est un exercice délicat: trop tôt on agace, trop tard on perd le marché, et mal écrit on se fâche avec un client qui avait simplement oublié. La relance efficace tient en trois éléments et ne contient jamais de reproche, parce que dans la plupart des cas, le silence n'en méritait aucun.",
+   "empreinte_texte_dit": "8a6355eedf640944f654513bb34887f64f14bb2ca4c9413d2cd6e0c4a3958cde",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 265448,
+   "duree_s": 16.52,
+   "caracteres_dits": 296,
+   "caracteres_factures": 296,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Relancer est un exercice délicat.\n Trop tôt on agace, trop tard on perd le marché,\n et mal écrit on se fâche avec un client qui avait\n simplement oublié.\n La relance efficace tient en trois éléments et ne contient\n jamais de reproche,\n parce que dans la plupart des cas, le silence n'en méritait\n aucun.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Relancer est un exercice délicat.\n Trop tôt on agace, trop tard on perd le marché, et mal\n écrit on se fâche avec un client qui avait simplement oubli\né.\n La relance efficace tient en trois éléments et ne contient\n jamais de reproches.\n Parce que dans la plupart des cas, le silence n'en méritait\n aucun.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O06-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le dossier Éléments envoyés. Votre devis est parti le 15 mars et n'a reçu aucune réponse. Une relance commence toujours par relire ce qu'on a écrit.",
+   "empreinte_texte_dit": "8c4ca4e911e569ffcac06811ed0a3db1be77ccdf71b26374234446f2367b737f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 142568,
+   "duree_s": 8.84,
+   "caracteres_dits": 155,
+   "caracteres_factures": 155,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le dossier élément envoyé. Votre devis est parti le\n 15 mars et n'a reçu aucune réponse.\n Une relance commence toujours par relire ce qu'on a écrit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le dossier \"élément envoyé\". Votre devis est parti\n le 15 mars et n'a reçu aucune réponse.\n Une relance commence toujours par relire ce qu'on a écrit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O06-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Colonne de gauche; sur téléphone, derrière le bouton ☰ en haut de la liste.",
+   "empreinte_texte_dit": "7a05832d100af71bbea476e3cedaf10e59abe7302fdfbd937e31335a7e253f63",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "colonne de gauche, sur téléphone, derrière le bouton en\n haut de la liste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "colonnes de gauche sur téléphone derrière le bouton en haut\n de la liste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O06-L03-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Une relance commence toujours par relire ce qu'on a réellement envoyé, et quand.",
+   "empreinte_texte_dit": "f5afec6ea6b02aa1a7205c2bda96cce87d1449c9221da3942e854b517aea54b5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une relance commence toujours par relire ce qu'on a réell\nement envoyé et quand.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une relance commence toujours par relire ce qu'on a réell\nement envoyé et quand.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O06-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ouvrez le message du devis 2026-152. Notez la date et le contenu: ce sont eux que la relance va rappeler, sans les reprocher.",
+   "empreinte_texte_dit": "c3459bb741434299b5a434cdc1d066fc20e52142dd2f3207eea5e1b1c4207fd1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 135462,
+   "duree_s": 8.4,
+   "caracteres_dits": 125,
+   "caracteres_factures": 125,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message du devis 2026 à 152.\n Notez la date et le contenu.\n Ce sont eux que la relance va rappeler sans les reprocher.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message du devis 2026 à 152.\n Notez la date et le contenu.\n Ce sont eux que la relance va rappeler sans les reprocher.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O06-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "C'est le seul message de ce dossier.",
+   "empreinte_texte_dit": "16995e64d323ce70dd7b703edbfc1bb648055f486f74fd067904a91a62ee6907",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 30973,
+   "duree_s": 1.88,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le seul message de ce dossier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le seul message de ce dossier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O06-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Transférez-le à accueil@cabinet-vermeulen.fr. Faire suivre l'envoi d'origine plutôt que réécrire présente un avantage: le devis repart avec, et le destinataire retrouve la version exacte dont on parle.",
+   "empreinte_texte_dit": "9ba925505ce467863a5324ca4ca3eed57ccbdd8d5408ec722958ef1860f20211",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 225742,
+   "duree_s": 14.04,
+   "caracteres_dits": 201,
+   "caracteres_factures": 201,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.056,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Transfairez-le à accueil à Robase, cabinet-vermelone.fr.\n Faire suivre l'envoi d'origine plutôt que réécrire présente\n un avantage.\n Le devis repart avec, et le destinataire retrouve la\n version exacte dont on parle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Transférez-le à accueil@cabinet-vermelun.fr\n Faire suivre l'envoi d'origine plutôt que réécrire présente\n un avantage.\n Le devis repart avec et le destinataire retrouve la version\n exacte dont on parle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O06-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le bouton Transférer est dans la barre du haut; la pièce jointe suit toute seule.",
+   "empreinte_texte_dit": "fa51c9dcb6d436468bcbafe17dfed2eb0c69636a192982d416befcd058759bc4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Transférer est dans la barre du haut.\n La pièce jointe suit toute seule.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton transféré est dans la barre du haut.\n La pièce jointe suit toute seule.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O06-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Faire suivre l'envoi d'origine évite de réécrire, et emporte la preuve de la date.",
+   "empreinte_texte_dit": "1438b16d1b1308220ea3c240b4135ffc898e07dfb9344073645053a6e69518a1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Faire suivre l'envoi d'origine évite de réécrire et emporte\n la preuve de la date.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Faire suivre l'envoi d'origine évite de réécrire et emporte\n la preuve de la date.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O06-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot relance. Annoncer la nature du message est une politesse: le destinataire sait qu'il s'agit d'un rappel et non d'un nouveau devis à examiner.",
+   "empreinte_texte_dit": "9c7636088a8d2c400f796920f7e194b44f281d84fe148fde496229c8a644bd8e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 150927,
+   "duree_s": 9.36,
+   "caracteres_dits": 171,
+   "caracteres_factures": 171,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot relance.\n Anoncer la nature du message est une politesse.\n Le destinataire sait qu'il s'agit d'un rappel et non d'un\n nouveau devis à examiner.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Compléter l'objet avec le mot \"relance\".\n Annoncer la nature du message est une politesse.\n Le destinataire sait qu'il s'agit d'un rappel et non d'un\n nouveau devis à examiner.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O06-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe.",
+   "empreinte_texte_dit": "fdfcfbca8acc5f16ec12c12eedca8dfeac3783ba92e405eec4d2a72f09c5e877",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet en gardant le préfix.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet en gardant le préfixe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O06-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Annoncer la nature du message est une politesse: le destinataire sait avant d'ouvrir.",
+   "empreinte_texte_dit": "1c23d3c567365d4a441c74172668026ed50b982a061c9adb01504e9b990b0ec9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Annoncez la nature du message et une politesse. Le destin\nataire sait avant d'ouvrir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Annoncer la nature du message est une politesse.\n Le destinataire sait avant d'ouvrir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O06-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Rédigez la relance. Trois éléments: la date du premier envoi, la référence du devis, et une échéance, la validité de trente jours donne une raison naturelle de répondre. Aucun reproche.",
+   "empreinte_texte_dit": "433de94150c00793492864732e97ad5ee659c0daef700216d9a2458ff0f1e356",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 196484,
+   "duree_s": 12.2,
+   "caracteres_dits": 185,
+   "caracteres_factures": 185,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédigé la relance. Trois éléments, la date du premier envoi\n, la référence du devis et une échéance.\n La validité de 30 jours donne une raison naturelle de\n répondre. Aucun reproche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédiger la relance. Trois éléments, la date du premier env\noi, la référence du devis et une échéance.\n La validité de 30 jours donne une raison naturelle de\n répondre. Aucun reproche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O06-L03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Trois informations sont attendues: la date, la référence, et l'échéance.",
+   "empreinte_texte_dit": "0ac85ee418633e47d334b5253a9e4177f448017a8bb8ca8ab15553cd47984804",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 94502,
+   "duree_s": 5.84,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues.\n La date, la référence et elle, échéance.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues.\n La date, la référence, et elle, échéance.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O06-L03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Une date, une référence, une échéance: la relance devient factuelle et cesse d'être un reproche.",
+   "empreinte_texte_dit": "9c3373601c6a92fe14e4f11aee0c396b0d283b87fb25772ebcb42a64ba62b912",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 133373,
+   "duree_s": 8.28,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une date, une référence, une échéance.\n La relance devient factuelle et cesse d'être un reproche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "une date, une référence, une échéance.\n La relance devient factuelle et cesse d'être un reproche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O06-L03-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Une relance ne réclame rien: elle redonne les moyens de répondre. La date du premier envoi, la référence, une échéance ne sont pas là pour mettre en cause, mais pour épargner toute recherche. Dans l'immense majorité des cas, le silence n'est pas un refus, c'est un oubli, un message qui laisse cette porte ouverte obtient une réponse.",
+   "empreinte_texte_dit": "330333fd92e5a3cab07138cf77eadae1c7b6e351f14e35a62d8349de4d23a111",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 299302,
+   "duree_s": 18.64,
+   "caracteres_dits": 334,
+   "caracteres_factures": 334,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une relance ne réclame rien, elle redonne les moyens de\n répondre.\n La date du premier envoi, la référence, une échéance, ne\n sont pas là pour mettre en\n cause, mais pour épargner toute recherche.\n Dans l'immense majorité des cas, le silence n'est pas un\n refus, c'est un oubli, un message\n qui laisse cette porte ouverte, obtient une réponse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une relance ne réclame rien, elle redonne les moyens de\n répondre.\n La date du premier envoi, la référence, une échéance, ne\n sont pas là pour mettre en cause,\n mais pour épargner toute recherche.\n Dans l'immense majorité des cas, le silence n'est pas un\n refus, c'est un oubli.\n Un message qui laisse cette porte ouverte obtient une\n réponse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O06-L03-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Envoyez la relance. Elle donne au destinataire tout ce qu'il faut pour répondre en une ligne, et lui laisse la possibilité d'avoir simplement oublié, ce qui est presque toujours le cas.",
+   "empreinte_texte_dit": "f2f3007c8dc8364f64c9ac163592fba3791df21ed0ac61b0bf8a1d547e9ae485",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 149673,
+   "duree_s": 9.28,
+   "caracteres_dits": 185,
+   "caracteres_factures": 185,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Envoyez la relance.\n Elle donne au destinataire tout ce qu'il faut pour répondre\n en une ligne et lui laisse la possibilité d'avoir\n simplement oublié, ce qui est presque toujours le cas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Envoyez la relance.\n Elle donne au destinataire tout ce qu'il faut pour répondre\n en une ligne, et lui laisse\n la possibilité d'avoir simplement oublié, ce qui est\n presque toujours le cas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O06-L03-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le bouton Envoyer, premier de la barre du haut.",
+   "empreinte_texte_dit": "29de634f6e8d916334d2a30d68f58c301f36131e5f3d9f631422dce85dc59f83",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 46437,
+   "duree_s": 2.84,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer, premier de la barre du haut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer, premier de la barre du haut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O06-L03-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Le destinataire a tout pour répondre en une ligne, et une porte de sortie qui évite de se braquer.",
+   "empreinte_texte_dit": "89aa8e06fb4020f1179f2f0cb6c1d5c633e6e560067b24ef454f7422919826b9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le destinataire a tout pour répondre en une ligne et une\n porte de sortie qui évite de se braquer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le destinataire a tout pour répondre en une ligne et une\n porte de sortie qui évite de se braquer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une relance rappelle le contexte, redonne l'information utile et propose une échéance. Elle ne contient ni reproche, ni comme je vous l'ai déjà écrit, ni point d'exclamation. Dans neuf cas sur dix, votre message dormait au fond d'une boîte.",
+   "empreinte_texte_dit": "5cb87ced88502e1aad2320a5e2ce0a23c76e2731c8981e3ccba2522f92accf8e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 210277,
+   "duree_s": 13.08,
+   "caracteres_dits": 240,
+   "caracteres_factures": 720,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une relance rappelle le contexte, redonne l'information ut\nile et propose une échéance.\n Elle ne contient ni reproche, ni comme je voulais déjà\n écrit, ni point d'exclamation.\n Dans 9K/10, votre message dormait au fond d'une boîte."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une relance rappelle le contexte, redonne l'information utile et propose une échéance. Elle ne contient ni reproche, ni comme je vous l'ai déjà écrit, ni point d'exclamation. Dans 9 cas sur 10, votre message dormait au fond d'une boîte.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

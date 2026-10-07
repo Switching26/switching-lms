@@ -1,0 +1,1000 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1m8p001n6xxgcsimui6v",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Transférer : ce qui suit le message, ce qui ne suit pas"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 25,
+  "caracteres_dits": 3611,
+  "duree_totale_s": 216.9,
+  "segments_valides": 25,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Transférer, c'est envoyer à un tiers un message qu'il n'a pas reçu. Le geste ressemble à une réponse, mais il obéit à des règles inverses: le destinataire n'est pas rempli, l'objet change de préfixe, et les pièces jointes, elles, suivent. C'est la différence la plus utile et la moins connue entre les deux boutons.",
+   "empreinte_texte_dit": "b7ca8125bf4e012a019eb5f051c9893a2f89c0c36e6a17de187f06794df3bdc7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 301810,
+   "duree_s": 18.8,
+   "caracteres_dits": 315,
+   "caracteres_factures": 315,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Transférer, c'est envoyer à un tiers un message qu'il n'a\n pas reçu.\n Le geste ressemble à une réponse, mais il obéit à des règ\nles inverses.\n Le destinataire n'est pas rempli, l'objet change de préfixe\n et les pièces jointes, elles, suivent.\n C'est la différence la plus utile et la moins connue entre\n les deux boutons.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Transféré, c'est envoyé à un tiers un message qu'il n'a pas\n reçu.\n Le geste ressemble à une réponse, mais il obéit à des règ\nles inverses.\n Le destinataire n'est pas rempli, l'objet change de préfixe\n et les pièces jointes,\n elles, suivent.\n C'est la différence la plus utile et la moins connue entre\n les deux boutons.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O02-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message de la quincaillerie avant de le faire suivre. Il accuse réception de votre commande, avec deux documents joints, et Sonia doit connaître la date de livraison pour organiser l'atelier.",
+   "empreinte_texte_dit": "bf314fba612c53f9a26f79ab44df8365f7589d3ef3f5f34460d356fd406e85b7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 173079,
+   "duree_s": 10.76,
+   "caracteres_dits": 201,
+   "caracteres_factures": 201,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de la quinquairie avant de le faire\n suivre.\n Il accuse réception de votre commande, avec deux documents\n joints,\n et Sonia doit connaître la date de livraison pour organiser\n l'atelier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de la quincaillerie avant de le faire\n suivre.\n Il accuse réception de votre commande, avec deux documents\n joints, et Sonia doit connaître\n la date de livraison pour organiser l'atelier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O02-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet parle de la commande CD-1187.",
+   "empreinte_texte_dit": "e85b62054bde0f4b67401c79744731e0001385a62659ed86423013432b4331d2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 59,
+   "caracteres_factures": 177,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle de la commande CD1-1-8-\n7.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle de la commande CD1-1-87\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O02-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Sonia n'était pas destinataire: ce n'est donc pas une réponse qu'il faut, mais un transfert. Cliquez sur Transférer et regardez ce qui change par rapport à Répondre.",
+   "empreinte_texte_dit": "e8e8af2b5a60af77ff963d5b1e8bb5ce94d673790a2c2eec3839b9d64429edcb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 160958,
+   "duree_s": 10.0,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sonia N était pas destinataire. Ce n'est donc pas une\n réponse qu'il faut, mais un transfert.\n Cliquez sur « Transférer » et regardez ce qui change par\n rapport à « Répondre ».",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sonia N était pas destinataire.\n Ce n'est donc pas une réponse qu'il faut, mais un transfert\n.\n Cliquez sur Transférer et regardez ce qui change par\n rapport à répondre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O02-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Transférer est le troisième de la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "0174e27c6af3a90f2b1a2a1b3b28c7fa895d0aeee03d1354847d450e0bc7c203",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Transférer est le troisième de la barre du haut\n du volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton transféré est le troisième de la barre du haut du\n volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O02-L03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le champ À est vide et l'objet porte TR:. Un transfert ne suppose aucun destinataire.",
+   "empreinte_texte_dit": "7a4c49b4efe4383a44f50b0e2e721762f0ee108db77f4cc7d02b7b72539e3a74",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le champ A est vide et l'objet porte-tère.\n Un transfert ne suppose aucun destinataire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le champ A est vide et l'objet porte TR.\n Un transfert ne suppose aucun destinataire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O02-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Saisissez s.brunel@atelier-nord.fr dans le champ À. Première différence avec une réponse: le champ est vide. Outlook ne peut pas deviner à qui vous faites suivre, et un transfert sans destinataire ne part nulle part.",
+   "empreinte_texte_dit": "f7442924e71d038cadd662d70f440c07434cb94fb81e4681adf1da5598a813d2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 224488,
+   "duree_s": 13.96,
+   "caracteres_dits": 216,
+   "caracteres_factures": 216,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Saisissez S.brunel@atelier-nor.fr dans le champ A. Première\n différence avec une réponse. Le champ est vide.\n Outlook ne peut pas deviner à qui vous faites suivre et un\n transfert sans destinataire ne part nulle part.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Saisissez s.brunel@atelier-nord.fr dans le champ A.\n Première différence avec une réponse, le champ est vide.\n Outlook ne peut pas deviner à qui vous faites suivre\n et un transfert sans destinataire ne part nulle part.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O02-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le champ À est la première ligne de la fenêtre de rédaction: il est vide, contrairement à une réponse.",
+   "empreinte_texte_dit": "7830c91a3a4cb85dc797cd5f84fc2d4ffcdb0d698eefa63bd2617ec58d3dc3a4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le champ A est la première ligne de la fenêtre de rédaction\n.\n Il est vide, contrairement à une réponse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le champ A est la première ligne de la fenêtre de rédaction\n.\n Il est vide, contrairement à une réponse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O02-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Première différence avec une réponse: c'est vous qui choisissez à qui le message part.",
+   "empreinte_texte_dit": "7a8b416e0817faff6523261f9a4b48464184f29d4358d16a086aad2a045be024",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Première différence avec une réponse. C'est vous qui chois\nissez à qui le message part.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Première différence avec une réponse.\n C'est vous qui choisissez à qui le message part.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O02-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Retirez Conditions-tarifaires-Atelier-Nord.pdf avec sa croix, et gardez le bon de commande. Les tarifs négociés ne regardent pas l'atelier.",
+   "empreinte_texte_dit": "1b60594eb6fb4ea0da8e71c49774fc15e199a3e8c217ff54930de59f047081ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 136716,
+   "duree_s": 8.48,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retirez condition tarifère atelier nord.pdf avec sa croix\n et gardez le bon de commande.\n Les tarifs négociés ne regardent pas l'atelier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retirez condition tarifaire atelier nord.pdf avec sacroix\n et gardez le bon de commande.\n Les tarifs négociés ne regardent pas l'atelier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O02-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Chaque pièce jointe porte une petite croix ✕ à droite de son nom: elle la retire du message.",
+   "empreinte_texte_dit": "7a9dc9a0946dbaab1d1eca73da0ad88c0de0237fe35748be4840a6cf685c7da0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Chaque pièce jointe porte une petite croix à droite de son\n nom. Elle la retire du message.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Chaque pièce jointe porte une petite croix à droite de son\n nom. Elle la retire du message.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O02-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Deuxième différence: les pièces jointes suivent, et il faut retirer celles qui ne regardent pas le destinataire.",
+   "empreinte_texte_dit": "41aba5de6e3b166781b29825a069482bb6636ed5753782e9d59d796be8223f5a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 112,
+   "caracteres_factures": 112,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deuxième différence, les pièces jointes suivent et il faut\n retirer celles qui ne regardent pas le destinataire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deuxième différence, les pièces jointes suivent et il faut\n retirer celles qui ne regardent pas le destinataire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O02-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot livraison sans toucher au préfixe. Notez qu'il porte TR: et non RE:.",
+   "empreinte_texte_dit": "93aca315a8db305c51866533c3192bb037f7fdd4d1f179e8658a2ddab2931f96",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 104951,
+   "duree_s": 6.48,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.035,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot « livraison » sans toucher au\n préfix.\n Notez qu'il porte TR et non R.E.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot « livraison » sans toucher au\n préfixe.\n Notez qu'il porte « TR » et non « RE ».",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O02-L03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Cliquez à la fin du champ Objet et ajoutez le mot: le TR: du début doit rester.",
+   "empreinte_texte_dit": "42ab9b33eebac7fa34182ce8e8cf9dd9062f6804cc2888d76ed75af5823cdd1b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 90741,
+   "duree_s": 5.6,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez à la fin du champ objet et ajoutez le mot le TR du\n début doit rester.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez à la fin du champ objet et ajoutez le mot. Le TR du\n début doit rester.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O02-L03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Troisième différence: TR: et non RE:. Le préfixe dit d'un coup d'œil ce qui est arrivé au message.",
+   "empreinte_texte_dit": "7426e945018ede017b83a3e71d98dff38b437e8b1310540ca599df0877b2a8f9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.08,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Troisième différence, TR et non R.E.\n Le préfix dit d'un coup D, oie ce qui est arrivé au message\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Troisième différence, \"tr\" et non \"re\".\n Le préfixe dit d'un coup d'œil ce qui est arrivé au message\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O02-L03-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Un transfert est l'inverse exact d'une réponse, sur trois points. Le champ À arrive vide. L'objet porte TR: et non RE:. Et surtout les pièces jointes suivent, ce qu'une réponse ne fait jamais. C'est ce troisième point qui fait qu'un document interne se retrouve chez un tiers quand on transfère sans regarder.",
+   "empreinte_texte_dit": "316ecaedd9031539a15416c077a9bb293fe08cf9da466fe027ece8ed22eb980a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 271299,
+   "duree_s": 16.88,
+   "caracteres_dits": 309,
+   "caracteres_factures": 309,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un transfert est l'inverse exact d'une réponse sur trois\n points.\n Le champ A arrive vide.\n L'objet porte TR et non R.E.\n Et surtout les pièces jointes suivent.\n Ce qu'une réponse ne fait jamais.\n C'est ce troisième point qui fait qu'un document interne se\n retrouve chez un tiers quand on transfert sans regarder.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un transfert est l'inverse exact d'une réponse sur trois\n points.\n Le champ A arrive vide, l'objet porte TR et non RE.\n Et surtout les pièces jointes suivent, ce qu'une réponse ne\n fait jamais.\n C'est ce troisième point qui fait qu'un document interne se\n retrouve chez un tiers quand on transfert sans regarder.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O02-L03-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Écrivez un mot d'accompagnement. Un transfert nu, sans une ligne d'explication, oblige le destinataire à deviner ce qu'on attend de lui. Dites ce que Sonia doit en faire et rappelez le délai annoncé.",
+   "empreinte_texte_dit": "ae82c445d9f769224dc217c6162a5b61d963e6d361f1bc0dd4fcf7b84f410510",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 186871,
+   "duree_s": 11.6,
+   "caracteres_dits": 199,
+   "caracteres_factures": 199,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Écrivez un mot d'accompagnement.\n Un transfert nu, sans une ligne d'explication, oblige le\n destinataire à deviner ce qu'on\n attend de lui.\n Dites ce que Sonia doit en faire et rappelez le délai ann\noncé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Écrivez un mot d'accompagnement.\n Un transfert nu, sans une ligne d'explication, oblige le\n destinataire à deviner ce qu'on attend de lui.\n Dites ce que Sonia doit en faire et rappelez le délai ann\noncé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O02-L03-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Deux informations sont attendues: ce que vous demandez à Sonia, et le délai annoncé par le fournisseur.",
+   "empreinte_texte_dit": "367dbf72da93970266ca0eb27b938e405011e2d6b546bd6a376118a80876955e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues, ce que vous demandez à\n Sonia et le délai annoncé par le fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Ce que vous demandez à Sonia est le délai annoncé par le\n fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O02-L03-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Envoyez le transfert. Une pièce jointe, un destinataire choisi, un objet préfixé TR: et un mot d'explication: le message est utilisable tel quel par quelqu'un qui n'a jamais vu la conversation.",
+   "empreinte_texte_dit": "d3143caefefa3948904318995e517af658ce709b09db9dca18300c3fe2e0a5a6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 190633,
+   "duree_s": 11.84,
+   "caracteres_dits": 193,
+   "caracteres_factures": 193,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez le transfert. Une pièce jointe, un destinataire cho\nisi,\n un objet préfique CTR et un mot d'explication.\n Le message est utilisable tel quel par quelqu'un qui n'a\n jamais vu la conversation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez le transfert, une pièce jointe, un destinataire cho\nisi, un objet préfixé \"tr\" et un mot d'explication.\n Le message est utilisable tel quel par quelqu'un qui n'a\n jamais vu la conversation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O02-L03-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "2667ca0a7beb4de62970e73906b0981a06f7bf5161f8353b2db14b5b268ebc42",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O02-L03-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Un destinataire choisi, une seule pièce jointe, un objet préfixé et un mot d'explication: le transfert est complet.",
+   "empreinte_texte_dit": "65987cf4a47522b3947028a94fe8da025f9af417a136ba54d443597215c576ae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 127939,
+   "duree_s": 7.92,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un destinataire choisi une seule pièce jointe, un objet pré\nfixé et un mot d'explication. Le transfert est complet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "un destinataire choisi, une seule pièce jointe, un objet\n préfixé et un mot d'explication.\n Le transfert est complet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "O02-L03-08",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Dans la liste, le message d'origine porte maintenant une flèche ➜, la marque du transfert, différente du ↩ de la réponse. Ouvrez le dossier Éléments envoyés pour retrouver ce que vous venez de faire suivre.",
+   "empreinte_texte_dit": "4999b188c9dce49d4e1f285f29f2a669bf5d0cf37efd3fdb1e3b2c7da8ddb6dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 202754,
+   "duree_s": 12.6,
+   "caracteres_dits": 206,
+   "caracteres_factures": 206,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.098,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dans la liste, le message d'origine porte maintenant une fl\nèche, la marque du transfert,\n différente du flèche courbe gauche de la réponse.\n Ouvrez le dossier élément envoyé pour retrouver ce que vous\n venez de faire suivre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.098,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dans la liste, le message d'origine porte maintenant une fl\nèche, la marque du transfert,\n différente du flèche courbe gauche de la réponse.\n Ouvrez le dossier « éléments envoyés » pour retrouver ce\n que vous venez de faire suivre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "O02-L03-08",
+   "role": "Étape 9 · aide",
+   "texte_dit": "Le dossier Éléments envoyés est dans la colonne de gauche, sous la Boîte de réception.",
+   "empreinte_texte_dit": "3700b9ca2783c2f224cc66bda2a0646d19f1ce9f175778a96a5efe210c631a4e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le dossier élément envoyé est dans la colonne de gauche\n sous la boîte de réception.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le dossier éléments envoyés est dans la colonne de gauche\n sous la boîte de réception.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "O02-L03-08",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "Le message d'origine porte maintenant une flèche de transfert, différente de la flèche de réponse.",
+   "empreinte_texte_dit": "ee14c359274408fba4a4f9314ae8b1316fc4e7c627a642006a1a896b7f2e2d46",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Le message d'origine porte maintenant une flèche de\n transfert, différente de la flèche de réponse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Le message d'origine porte maintenant une flèche de\n transfert différente de la flèche de réponse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Retenez l'inverse exact d'une réponse: le champ À est vide, à vous de choisir qui reçoit, l'objet porte TR:, et les pièces jointes du message d'origine partent avec. C'est pratique, et c'est précisément ce qui fait qu'un document interne se retrouve chez un tiers quand on transfère sans regarder.",
+   "empreinte_texte_dit": "73eecaac17de493e17a8ce960d0e54f82f482b7dcd77c9a6b8030f0259f1583e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 289689,
+   "duree_s": 18.04,
+   "caracteres_dits": 297,
+   "caracteres_factures": 297,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retenez l'inverse exacte d'une réponse.\n Le champ à évide avoue de choisir qui reçoit, l'objet porte\n TR,\n et les pièces jointes du message d'origine partent avec.\n C'est pratique et c'est précisément ce qui fait qu'un\n document interne se retrouve chez un tiers quand on transf\nère sans regarder.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Retenez l'inverse exacte d'une réponse.\n Le champ A est vide, à vous de choisir qui reçoit, l'objet\n porte TR, et les pièces\n jointes du message d'origine partent avec.\n C'est pratique, et c'est précisément ce qui fait qu'un\n document interne se retrouve\n chez un tiers quand on transfère sans regarder.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

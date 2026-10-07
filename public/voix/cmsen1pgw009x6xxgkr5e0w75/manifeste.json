@@ -1,0 +1,964 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1pgw009x6xxgkr5e0w75",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Traiter deux demandes entrantes le même matin"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2486,
+  "duree_totale_s": 150.4,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "L'un vous donne toutes les informations et attend un devis; l'autre écrit trois lignes sans rien préciser. Ils n'appellent pas la même réponse, mais ils appellent tous les deux une réponse aujourd'hui.",
+   "empreinte_texte_dit": "653c6c099a4b293d669d5c242e8617002422e6ba3edc87caf90a263c3ed95c95",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 180184,
+   "duree_s": 11.2,
+   "caracteres_dits": 201,
+   "caracteres_factures": 201,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'un vous donne toutes les informations et attend un de vie\n, l'autre écrit trois lignes sans rien préciser.\n Ils n'appellent pas la même réponse, mais ils appellent\n tous les deux une réponse aujourd'hui.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'un vous donne toutes les informations et attend un devis,\n l'autre écrit trois lignes\n sans rien préciser.\n Ils n'appellent pas la même réponse, mais ils appellent\n tous les deux une réponse aujourd'hui.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O13-E01-00",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la demande de la Brasserie du Canal et vérifiez qu'elle contient bien tout ce qu'il faut pour chiffrer: les cotes, l'usage du local, l'échéance. C'est cette lecture qui distingue une demande exploitable d'une demande à compléter, et donc la réponse à donner.",
+   "empreinte_texte_dit": "d631ffe1b5b0569bb8686f73e26446a1a28ca8bdf9e2f2a1569e2adc21760fce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 247057,
+   "duree_s": 15.36,
+   "caracteres_dits": 265,
+   "caracteres_factures": 265,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de la brasserie du canal et vérifiez qu'\nelle contient bien tout ce qu'il faut pour chiffrer.\n Les cotes, l'usage du local, elle, échéance.\n C'est cette lecture qui distingue une demande exploitable,\n d'une demande à compléter et donc la réponse à donner.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de la brasserie du canal et vérifiez qu'\nelle contient bien tout ce qu'il faut pour chiffrer.\n Les cotes, l'usage du local, L, échéance.\n C'est cette lecture qui distingue une demande exploitable,\n d'une demande à compléter et donc la réponse à donner.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O13-E01-00",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet annonce des cotes jointes.",
+   "empreinte_texte_dit": "2102142681db1f5c8bb0d9e06754118c670d283d40c3623723aa5213a2081694",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet annonce des codes jointes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet annonce des codes jointes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O13-E01-00",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Tout y est: vous pouvez chiffrer sans relancer. C'est rare, et c'est ce qui permet de répondre le jour même.",
+   "empreinte_texte_dit": "e78cacf57b3c3f4182c5e495c8825e57cfcc9f68656247a2165462401eedeff1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 114982,
+   "duree_s": 7.12,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Tout y est. Vous pouvez chiffrer sans relancer.\n C'est rare et c'est ce qui permet de répondre le jour même.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Tout y est. Vous pouvez chiffrer sans relancer. C'est rare\n et c'est ce qui permet de répondre le jour même.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O13-E01-01",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "La Brasserie du Canal a tout donné: répondez-lui en joignant le devis définitif, attention aux deux fichiers de même référence.",
+   "empreinte_texte_dit": "6204cb2ec8c739f069b360e83f5c85b365c61bedb34f0cb029ea67589e0db4d1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 124177,
+   "duree_s": 7.68,
+   "caracteres_dits": 127,
+   "caracteres_factures": 127,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La brasserie du canal a tout donné. Répondez-lui en jo\nignant le devis définitif.\n Attention aux deux fichiers de même référence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La brasserie du canal a tout donné.\n Répondez-lui en joignant le devis définitif.\n Attention aux deux fichiers de même référence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O13-E01-01",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Ouvrez son message, Répondre, puis Joindre. Le suffixe brouillon désigne une version de travail.",
+   "empreinte_texte_dit": "52ccd2fc784baf8ef2e0c5245afac76f0f11d51fbffdfe548a6f66952f317ee3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez son message, répondre, puis joindre.\n Le suffix brouillant désigne une version de travail.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez son message, répondre, puis joindre.\n Le suffixe brouillon désigne une version de travail.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O13-E01-01",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le devis définitif, pas le brouillon: deux fichiers voisins, une seule version qui engage.",
+   "empreinte_texte_dit": "7e5ebc7efdb0248c80b474401540298906596678517e11b558e853157a902450",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le devis définitif, pas le brouillon.\n Deux fichiers voisins, une seule version qui engage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le devis définitif, pas le brouillon.\n Deux fichiers voisins, une seule version qui engage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O13-E01-02",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Complétez l'objet avec la référence 2026-190, sans retirer le préfixe posé par Outlook.",
+   "empreinte_texte_dit": "891b2acd6af2ec080a6f1344b20db0926f9481e8721d2b083fdacd5e34de7e25",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec la référence 2026 à 190 sans retirer\n le préfix posé par Outlook.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec la référence 2026 à 190 sans retirer\n le préfixe posé par Outlook.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O13-E01-02",
+   "role": "Étape 3 · aide",
+   "texte_dit": "La référence est celle du fichier joint.",
+   "empreinte_texte_dit": "e2c620cacace3e30592e5b93825a3f6dd90a80c22f26502a6c53eb476d8f4637",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 40168,
+   "duree_s": 2.44,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La référence est celle du fichier joint.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La référence est celle du fichier joint.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O13-E01-03",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rédigez le message et envoyez-le. Il doit citer la durée de validité du devis et ce qu'il couvre.",
+   "empreinte_texte_dit": "3055974ecebb923e713fe4acf5fa16c0e74ad133543688b85ee63899ac24cd1e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez le message et envoyez-le.\n Il doit citer la durée de validité du devis et ce qu'il cou\nvre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez le message et envoyez-le.\n Il doit citer la durée de validité du devis et ce qu'il cou\nvre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O13-E01-03",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Deux informations sont attendues: la validité, et le périmètre.",
+   "empreinte_texte_dit": "7a355e72f3fd5d95672f1a423c8add00845dca4c8c381933a0504fd2b6e22a76",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La validité est le périmètre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La validité et le périmètre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O13-E01-03",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Durée de validité et périmètre: les deux questions que le client poserait sinon par retour.",
+   "empreinte_texte_dit": "cb6062aee8009189752158cfb09d258998f3f8ec67d8067cded662ad114d3f6c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Durée de validité et périmètre. Les deux questions que le\n client poserait sinon par retour.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Durée de validité et périmètre. Les deux questions que le\n client poserait sinon par retour.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O13-E01-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Le Cabinet Vermeulen, lui, n'a rien précisé. Répondez-lui quand même, c'est votre réponse qui doit apporter les questions utiles.",
+   "empreinte_texte_dit": "3f778f5bb948a074b834940bd54ac9a5a1a2c9f8866627ccdcdd02c1d8d83d3a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 122506,
+   "duree_s": 7.6,
+   "caracteres_dits": 129,
+   "caracteres_factures": 129,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le cabinet vermelaine, lui, n'a rien précisé.\n Répondez-lui quand même, c'est votre réponse qui doit app\norter les questions utiles.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le cabinet Vermeulen, lui, n'a rien précisé.\n Répondez-lui quand même, c'est votre réponse qui doit app\norter les questions utiles.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O13-E01-04",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Ouvrez son message, puis Répondre.",
+   "empreinte_texte_dit": "442941b2b43beacf36bb9684e1026cf6f17d144870dec9a0061375caaa0cda22",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez son message, puis répondre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez son message, puis répondre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O13-E01-04",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Répondre à qui n'a rien précisé fait avancer le dossier: c'est votre réponse qui apporte le cadre.",
+   "empreinte_texte_dit": "b93820c2075cad25b00b5ce645ce1b374c831ff6ec62a8a8051018495e04a7ba",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 86979,
+   "duree_s": 5.36,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondre à qui n'a rien précisé fait avancer le dossier.\n C'est votre réponse qui apporte le cadre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondre à qui n'a rien précisé fait avancer le dossier.\n C'est votre réponse qui apporte le cadre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O13-E01-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Rédigez cette réponse et envoyez-la. Elle doit confirmer que vous faites ce type de travaux et demander ce qui vous manque pour avancer.",
+   "empreinte_texte_dit": "6a07d4942e85cc5d4ac890572debed56d4f1f00cef3c77617a18af154e72acdd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 128357,
+   "duree_s": 7.96,
+   "caracteres_dits": 136,
+   "caracteres_factures": 136,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez cette réponse et envoyez-la.\n Elle doit confirmer que vous faites ce type de travaux et\n demandez ce qui vous manque pour avancer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez cette réponse et envoyez-la.\n Elle doit confirmer que vous faites ce type de travaux et\n demander ce qui vous manque\n pour avancer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O13-E01-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Deux informations sont attendues: votre capacité à le faire, et ce qu'il vous faut.",
+   "empreinte_texte_dit": "221bb00253a0de4c94f2581a4ee6948c2ac4b8136bd15a476af5f620f8ae632c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Votre capacité à le faire\n est ce qu'il vous faut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Votre capacité à le faire\n est ce qu'il vous faut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O13-E01-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Deux demandes, deux réponses le même matin, et aucun prospect laissé sans nouvelle.",
+   "empreinte_texte_dit": "b898221dbe6b7324e650d2f91b441ec4e0dde7c9b6a88301f43c913721653f41",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux demandes, deux réponses le même matin et aucun\n prospect laissé sans nouvelles.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux demandes, deux réponses le même matin et aucun\n prospect laissé sans nouvelles.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O13-E01-99",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Le devis est parti le jour même de la demande. Rangez-le dans Prospects. Un prospect n'est pas encore un client: le dossier où il attend dit à lui seul où en est la relation.",
+   "empreinte_texte_dit": "7d470690962b675d80e6822c3240b96842e0a34a32d104ba69a5f7faf9e85fcb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 153853,
+   "duree_s": 9.56,
+   "caracteres_dits": 174,
+   "caracteres_factures": 174,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le devis est parti le jour même de la demande. Rangez-le\n dans Prospect.\n Un Prospect n'est pas encore un client. Le dossier où il\n attendit à lui seul, où on est la relation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le devis est parti le jour même de la demande.\n Rangez-le dans Prospect.\n Un Prospect n'est pas encore un client.\n Le dossier où il attendit à lui seul ou en est la relation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O13-E01-99",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Prospects.",
+   "empreinte_texte_dit": "603ac507df7de5d73504e0bba755b09df35bbb5faf57ffec77181ee58cf9d6ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Prospect.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Prospect.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O13-E01-99",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Chez les prospects, pas chez les clients: rien n'est signé tant que le devis n'est pas accepté.",
+   "empreinte_texte_dit": "e5f2ab23e27fd7ee598b8aa2964f595f2a8c80458369255a5501a403be7941f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Chez les prospects, pas chez les clients.\n Rien n'est signé tant que le devis n'est pas accepté.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Chez les prospects, pas chez les clients.\n Rien n'est signé tant que le devis n'est pas accepté.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "On ne répond pas de la même façon à une demande complète et à une demande vague, mais on répond aux deux le jour même. Le prospect qui reçoit un accusé de réception le matin ne compare plus que des délais: il a déjà classé votre entreprise comme sérieuse.",
+   "empreinte_texte_dit": "5c9d185aac193fbf842fb019554fd9e3c87b921991b577e75d5753a0989c1691",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 217382,
+   "duree_s": 13.52,
+   "caracteres_dits": 255,
+   "caracteres_factures": 255,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "On ne répond pas de la même façon à une demande complète et\n à une demande vague, mais on répond aux deux le jour même.\n Le prospect qui reçoit un accusé de réception le matin ne\n compare plus que des délais. Il a déjà classé votre entre\nprise comme sérieuse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "On ne répond pas de la même façon à une demande complète et\n à une demande vague,\n mais on répond au 2 le jour même.\n Le prospect qui reçoit un accusé de réception le matin ne\n compare plus que des délais.\n Il a déjà classé votre entreprise comme sérieuse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

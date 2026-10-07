@@ -1,0 +1,1047 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1mr0002z6xxg3983sd28",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Le nom peut mentir, l'adresse beaucoup moins"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 24,
+  "caracteres_dits": 3973,
+  "duree_totale_s": 237.2,
+  "segments_valides": 24,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une fraude par messagerie ne ressemble jamais à une fraude: elle ressemble à un message ordinaire, d'un expéditeur connu, sur un sujet en cours. L'endroit où elle se trahit le plus souvent, c'est l'adresse réelle de l'expéditeur, celle qui s'affiche en petit, à côté du nom. Vous allez apprendre à la lire avant tout le reste.",
+   "empreinte_texte_dit": "ae104831f57928396a26e41678bec474f5cc5a2c239b1db002b33a6f0faf2898",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 270463,
+   "duree_s": 16.84,
+   "caracteres_dits": 326,
+   "caracteres_factures": 326,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une fraude par messagerie ne ressemble jamais à une fraude.\n Elle ressemble à un message ordinaire d'un expéditeur connu\n sur un sujet en cours.\n L'endroit où elle se trahit le plus souvent, c'est l'ad\nresse réelle de l'expéditeur,\n celle qui s'affiche en petit, à côté du nom.\n Vous allez apprendre à la lire avant tout le reste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une fraude par messagerie ne ressemble jamais à une fraude.\n Elle ressemble à un message ordinaire d'un expéditeur connu\n sur un sujet en cours.\n L'endroit où elle se trahit le plus souvent, c'est l'ad\nresse réelle de l'expéditeur, celle qui s'affiche en petit,\n à côté du nom.\n Vous allez apprendre à la lire avant tout le reste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O04-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la facture de la Quincaillerie Delmas. Regardez l'adresse de l'expéditeur, en haut: compta@quincaillerie-delmas.fr. C'est celle de votre fournisseur habituel, retenez-la, elle va servir de point de comparaison.",
+   "empreinte_texte_dit": "cca79a33489a794b23cac64fb1b1466d902117b8274b8bc2959767815578f12a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 229503,
+   "duree_s": 14.28,
+   "caracteres_dits": 217,
+   "caracteres_factures": 217,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.083,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez la facture de la quinquairie d'Elmas.\n Regardez l'adresse de l'expéditeur.\n En haut.\n Compte à Arobase quinquairie-elmas.fr.\n C'est celle de votre fournisseur habituel.\n Retenez-la.\n Elle va servir de point de comparaison.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez la facture de la quincaillerie Delmas.\n Regardez l'adresse de l'expéditeur.\n En haut.\n Comptat@quincaillerie-delmas.fr\n C'est celle de votre fournisseur habituel, retenez-la.\n Elle va servir de point de comparaison.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O04-L01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet parle de la facture lettres Q et D, numéro quatre mille cinq cent vingt avec une échéance.",
+   "empreinte_texte_dit": "d86d8998a065810bbef64a482b606ec39d84e1bd3f106994da5f339b3b178afc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 106623,
+   "duree_s": 6.6,
+   "caracteres_dits": 120,
+   "caracteres_factures": 120,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle de la facture lettre Q&D n° 4520 avec une échéance.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.018,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "4520"
+       ],
+       "entendus": [
+        "8520"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "C'est le message dont l'objet parle de la facture lettre Q&\nD n°8520 avec une échéance."
+     }
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle de la facture lettre Q&D, numéro 4520, avec une échéance.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O04-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Voici l'adresse authentique. C'est elle qui servira de point de comparaison, pas le nom affiché.",
+   "empreinte_texte_dit": "263bf5f84bde8e2674d26bcd9a7cd79170533ebd88935b2d09b9b306f4c39380",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Voici l'adresse authentique.\n C'est elle qui servira de point de comparaison, pas le nom\n affiché.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Voici l'adresse authentique.\n C'est elle qui servira de point de comparaison, pas le nom\n affiché.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O04-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Trente minutes plus tard, un second message arrive de la même comptabilité. Ouvrez-le et comparez son adresse à celle que vous venez de lire.",
+   "empreinte_texte_dit": "6e5bbfec0a25b73a73c4bb7bd83df11f6f1d03aeb2f69f99619ebc18505b6a19",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 135462,
+   "duree_s": 8.4,
+   "caracteres_dits": 141,
+   "caracteres_factures": 141,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "30 minutes plus tard, un second message arrive de la même\n comptabilité.\n Ouvrez-le et comparez son adresse à celle que vous venez de\n lire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "30 minutes plus tard, un second message arrive de la même\n comptabilité.\n Ouvrez-le et comparez son adresse à celle que vous venez de\n lire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O04-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "C'est le message dont l'objet commence par urgent et parle de coordonnées bancaires.",
+   "empreinte_texte_dit": "a6351637700bb0f6484c496ff51015bd4ae04d6ad5fa856a88ef994609a0b10a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet commence par urgent et parle\n de coordonnées bancaires.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet commence par urgent et parle\n de coordonnées bancaires.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O04-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le nom affiché est identique, l'adresse non. Le nom se choisit librement; imiter un domaine demande au moins d'en acheter un qui lui ressemble.",
+   "empreinte_texte_dit": "2b5f108c12e9757c451ef074cc627f5c1c24a99d0d6a20438775b83ad6778266",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 135462,
+   "duree_s": 8.4,
+   "caracteres_dits": 143,
+   "caracteres_factures": 143,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le nom affiché est identique, l'adresse non.\n Le nom se choisit librement.\n Imiter un domaine demande au moins d'en acheter un qui lui\n ressemble.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le nom affiché est identique, l'adresse nom.\n Le nom se choisit librement.\n Imiter un domaine demande au moins d'en acheter un qui lui\n ressemble.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O04-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Marquez ce message d'un indicateur: vous allez le traiter, pas l'ignorer. Comparez les deux adresses caractère par caractère, quincaillerie-de1mas.fr contre celle que vous venez de lire.",
+   "empreinte_texte_dit": "236bae51391d92d901b3bbf23513033f379979c7d659451d8119f8e4114709bb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 191051,
+   "duree_s": 11.88,
+   "caracteres_dits": 186,
+   "caracteres_factures": 186,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.04,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Marquez ce message d'un indicateur. Vous allez le traiter,\n pas l'ignorer.\n Comparez les deux adresses caractères par caractère,\n qu'un caillerie tirait de 1ma.fr contre celle que vous v\nenez de lire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.04,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Marquez ce message d'un indicateur. Vous allez le traiter,\n pas l'ignorer.\n Comparer les deux adresses caractère par caractère, quinqu\nairie-1ma.fr\n contre celles que vous venez de lire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O04-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le petit drapeau est dans la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "1f3bb7824734e38d22a49ac2f89f4ca7e0a63e0c735c9ea52ecf81ead79928d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le petit drapeau est dans la barre du haut du volet de\n lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le petit drapeau est dans la barre du haut du volet de\n lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O04-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Dans quincaillerie-de1mas.fr, le l a été remplacé par un 1. À l'écran, presque rien ne les distingue.",
+   "empreinte_texte_dit": "f369bc9b2b91f54307772b6cfa9e742e474a2baf1730264ec8f97016a3d182b8",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 134208,
+   "duree_s": 8.32,
+   "caracteres_dits": 101,
+   "caracteres_factures": 486,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.082,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donc, un caillerie tirait de 1ma.fr, le L a été remplacé par un 1. A l'écran, presque rien ne les distingue.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.082,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "1"
+       ],
+       "entendus": [
+        "1",
+        "1"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Donc un caillerie tirait de 1 ma.fr, le L a été remplacé\n par un 1.\n A l'écran, presque rien ne les distingue."
+     }
+    },
+    "moteur_second_medium": {
+     "wer": 0.049,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Dans quincaillerie-de-Hama.fr, le L a été remplacé par un 1. À l'écran, presque rien ne les distingue.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O04-L01-03B",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Le nom affiché est déclaratif; l'adresse, beaucoup moins. N'importe qui peut écrire Quincaillerie Delmas: c'est un champ libre. Le domaine, lui, se falsifie à une lettre près, le chiffre 1 à la place de la lettre L. On lit donc l'adresse caractère par caractère, contre une adresse dont on est sûr. Trois signaux valent contrôle: adresse imitée, urgence, changement d'habitude. Une adresse correcte ne prouve pourtant rien à elle seule: elle peut être imitée par un expéditeur qui truque ce qu'il affiche, et le compte d'un vrai fournisseur peut avoir été piraté. C'est la demande inhabituelle qui déclenche la vérification, pas la seule lecture de l'adresse.",
+   "empreinte_texte_dit": "9354336bda0761dd126380640bba11b91a4bba290cdd33ca20b08bd5bf759cfc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 615697,
+   "duree_s": 38.4,
+   "caracteres_dits": 659,
+   "caracteres_factures": 659,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Le nom affiché est déclaratif.\n L'adresse, beaucoup moins.\n N'importe qui peut écrire qu'un caïry d'elle masse, c'est\n un champ libre.\n Le domaine, lui, se falsifie à une lettre près.\n Le chiffre 1 à la place de la lettre L.\n On lit donc l'adresse caractère par caractère, contre une\n adresse dont on est sûr.\n Trois signaux valent contrôle.\n Adresse imité.\n Urgence.\n Changement d'habitude.\n Une adresse correcte ne prouve pourtant rien à elle seule.\n Elle peut être imité par un expéditeur qui truque ce qu'il\n affiche,\n et le compte d'un vrai fournisseur peut avoir été piraté.\n C'est la demande inhabituelle qui déclenche la vérification\n.\n Pas la seule lecture de l'adresse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.003,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Le nom affiché est déclaratif.\n L'adresse, beaucoup moins.\n N'importe qui peut écrire qu'un cahierie d'Elmas, c'est un\n champ libre.\n Le domaine, lui, se falsifie à une lettre près.\n Le chiffre 1 a la place de la lettre L.\n On lit donc l'adresse caractère par caractère, contre une\n adresse dont on est sûr.\n Trois signaux valent contrôle.\n Adresse imitée.\n Urgence.\n Changement d'habitude.\n Une adresse correcte ne prouve pourtant rien à elle seule.\n Elle peut être imitée par un expéditeur qui trucse ce qui l\n'affiche,\n et le compte d'un vrai fournisseur peut avoir été piraté.\n C'est la demande inhabituelle qui déclenche la vérification\n.\n Pas la seule lecture de l'adresse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O04-L01-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Ouvrez le troisième message, celui du colis. Notez au passage que Nouveau-rib.pdf n'a pas été ouvert: un document joint à un message douteux ne s'ouvre pas pour voir, c'est souvent lui qui porte le programme malveillant.",
+   "empreinte_texte_dit": "5161157d07a9cbd573cbe014f2416aaa31beb34b8c8501ada79174ff30d79e22",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 216964,
+   "duree_s": 13.48,
+   "caracteres_dits": 220,
+   "caracteres_factures": 220,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le troisième message, celui du colis.\n Notez au passage que nouveauripe.pdf n'a pas été ouvert.\n Un document joint à un message douteux ne s'ouvre pas pour\n voir.\n C'est souvent lui qui porte le programme malveillant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le troisième message, celui du colis.\n Notez au passage que nouveauri.pdf n'a pas été ouvert.\n Un document joint à un message douteux ne s'ouvre pas pour\n voir.\n C'est souvent lui qui porte le programme malveillant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O04-L01-04",
+   "role": "Étape 5 · aide",
+   "texte_dit": "C'est le message dont l'objet dit qu'un colis n'a pas pu être livré.",
+   "empreinte_texte_dit": "af5108d5e8303dc689a48b0c67baf66bd479195718d00d0b4afee157d8de4e45",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet dit qu'un colis n'a pas pu\n être livré.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet dit qu'un colis n'a pas pu\n être livré.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O04-L01-04",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "La pièce jointe n'a pas été ouverte, un document venu d'un expéditeur douteux ne s'ouvre pas pour voir.",
+   "empreinte_texte_dit": "85f20edf599ea09dbec4a5780e04fb1a89566db206b96f68388355d16b488b63",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 101608,
+   "duree_s": 6.28,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La pièce jointe n'a pas été ouverte, un document venu d'un\n expéditeur douteux ne s'ouvre pas pour voir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La pièce jointe n'a pas été ouverte, un document venu d'un\n expéditeur douteux ne s'ouvre pas pour voir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O04-L01-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Supprimez ce message. Même mécanique, autre déguisement: un domaine inconnu, un délai de 24 heures, et 2 euros et 90 centimes, assez faible pour qu'on paie sans réfléchir.",
+   "empreinte_texte_dit": "2225fcdca0d80d9e5d020639bfb9c25e5994785c72df1828c89421273b212e3f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 193141,
+   "duree_s": 12.0,
+   "caracteres_dits": 171,
+   "caracteres_factures": 171,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Suprimez ce message.\n Même mécanique, autre déguisement.\n Un domaine inconnu, un délai de 24 heures et 2,90 € à ses\n faibles pour qu'on paie sans réfléchir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Supprimez ce message.\n Même mécanique, autre déguisement.\n Un domaine inconnu, un délai de 24 heures et 2,90 €,\n assez faible pour qu'on paie sans réfléchir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O04-L01-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Ouvrez le message, puis cliquez sur Supprimer dans la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "502a1bf3ac318023ba6d4423cbe1102397ca741c42a3d76055724debcb5e28da",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.062,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis cliquez sur Suprêmeur dans la barre\n du haut du volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis cliquez sur « Supremer » dans la\n barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O04-L01-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Un domaine qui n'est celui d'aucun transporteur connu: la même mécanique sous un autre déguisement.",
+   "empreinte_texte_dit": "e59be11fa3dee762cfddbf7d8f2abb7fc7ee98b07642dfc1a03f8ee1cab0264f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un domaine qui n'est celui d'aucun transporteur connu,\n la même mécanique sous un autre déguisement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un domaine qui n'est celui d'aucun transporteur connu, la\n même mécanique sous un autre déguisement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O04-L01-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Le faux fournisseur, lui, mérite mieux que la corbeille: il vise votre argent, et il reviendra. Rangez-le dans le dossier Courrier indésirable, il y reste consultable si votre banque ou votre assureur vous en demande la trace.",
+   "empreinte_texte_dit": "c8637d8044efcbdac6b29cc05b4dee751b291aea95bae5eba2639648813f8cd4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 232847,
+   "duree_s": 14.48,
+   "caracteres_dits": 226,
+   "caracteres_factures": 226,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le faux fournisseur, lui, mérite mieux que la corbeille.\n Il vise votre argent et il reviendra.\n Rangez-le dans le dossier courrier indésirable.\n Il y reste consultable si votre banque ou votre assureur\n vous en demande la trace.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le faux fournisseur, lui, mérite mieux que la corbeille.\n Il vise votre argent et il reviendra.\n Rangez-le dans le dossier courrier indésirable.\n Il y reste consultable si votre banque ou votre assureur\n vous en demandent la trace.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O04-L01-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Ouvrez le message, puis Déplacer, puis choisissez Courrier indésirable.",
+   "empreinte_texte_dit": "c1ae2c5c71fbfdd0a49ba9bc9f0f15ffa51af070cafecca60724b61b7b247124",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis déplacer, puis choisissez courrier\n indésirable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis déplacer, puis choisissez \"Courrier\n indésirable\".",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O04-L01-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Le courrier indésirable garde la trace; la corbeille l'aurait effacée. Ce message-là vise votre argent.",
+   "empreinte_texte_dit": "1e778f48eef356b27fb14ef271a975239bc751aab55e3285e024ba083ddd7d30",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 111639,
+   "duree_s": 6.92,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le courrier indésirable garde la trace.\n La corbeille l'aurait effacée.\n Ce message-là vise votre argent.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le courrier indésirable garde la trace.\n La corbeille l'aurait effacé.\n Ce message-là vise votre argent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O04-L01-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Rangez enfin la vraie facture dans le dossier Fournisseurs. Aucun des trois messages n'a reçu de réponse, c'est le point le plus important.",
+   "empreinte_texte_dit": "3fab4b4a9f2b31d1c499d7535f7e98c95f51ca0d290ba1226f7c8c2e57eb8c6d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 109967,
+   "duree_s": 6.8,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ranger enfin la vraie facture dans le dossier fournisseur.\n Aucun des trois messages n'a reçu de réponse. C'est le\n point le plus important.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ranger enfin la vraie facture dans le dossier fournisseur.\n Aucun des trois messages n'a reçu de réponse, c'est le\n point le plus important.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O04-L01-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Ouvrez la vraie facture, puis Déplacer, puis Fournisseurs.",
+   "empreinte_texte_dit": "f017d33acd4c2f74b4ab1e84821cfbef29e0ae3ad5a849566afa757393cd3f82",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez la vraie facture, puis déplacer, puis fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez la vraie facture, puis déplacer, puis fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O04-L01-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Boîte nette: le vrai message classé, les deux faux isolés, et pas une seule réponse envoyée.",
+   "empreinte_texte_dit": "b93a0233afdc38dfa514cf182301def49edb6070fae2bb1d410d361a0ce53b7e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Boîte nette. Le vrai message classé, les deux faux isolés\n et pas une seule réponse envoyée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Boîte nette.\n Le vrai message classé, les deux faux isolés, et pas une\n seule réponse envoyée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Trois signaux valent contrôle: une adresse qui imite un domaine connu à une lettre près, une urgence qui interdit de vérifier, et une demande qui change les habitudes, un rib, un mot de passe, un virement. Un seul de ces trois suffit à décrocher le téléphone avant de répondre. Et retenez l'inverse: une adresse qui paraît juste n'est pas un feu vert, elle fait seulement tomber un signal sur trois.",
+   "empreinte_texte_dit": "9876bb86398089a50e8f363a727083ed0f19a09aa6ee26d4db7ce24ff3a0c24e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 352383,
+   "duree_s": 21.96,
+   "caracteres_dits": 399,
+   "caracteres_factures": 399,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Trois signaux valent contrôle. Une adresse qui imite un dom\naine connu à une lettre près,\n une urgence qui interdit de vérifier et une demande qui\n change les habitudes.\n Un rib, un mot de passe, un virement.\n Un seul de ces trois suffit à décrocher le téléphone avant\n de répondre.\n Et retenez l'inverse. Une adresse qui paraît juste n'est\n pas un feu vert.\n Elle fait seulement tomber un signal sur trois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "3 signaux valent contrôle. Une adresse qui imite un domaine\n connu à une lettre près, une urgence qui interdit de vér\nifier\n et une demande qui change les habitudes. Un RIB, un mot de\n passe, un virement.\n Un seul de ces trois suffit à décrocher le téléphone avant\n de répondre. Et retenez l'inverse.\n Une adresse qui paraît juste n'est pas un feu vert. Elle\n fait seulement tomber un signal sur 3.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,1099 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1pmc00ab6xxgl7e8y76m",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Accuser réception sans s'engager"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 24,
+  "caracteres_dits": 3132,
+  "duree_totale_s": 186.5,
+  "segments_valides": 23,
+  "segments_plusieurs_essais": 4,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Le premier message d'une réclamation n'est pas celui qui règle le problème: c'est celui qui empêche qu'il grossisse. Il doit partir vite, dire qu'on a lu, annoncer une vérification et une date, et surtout ne rien reconnaître avant d'avoir vu. Ce que vous écrivez aujourd'hui pourra vous être opposé dans six mois.",
+   "empreinte_texte_dit": "1f1a6912e4d3f8e0ee81dd4ff4234464763bf0fffcd749e21a53cbc83636b4a9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 290525,
+   "duree_s": 18.08,
+   "caracteres_dits": 313,
+   "caracteres_factures": 313,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le premier message d'une réclamation n'est pas celui qui rè\ngle le problème.\n C'est celui qui empêche qu'il grossisse.\n Il doit partir vite, dire qu'on a lu, annoncer une vér\nification et une date et surtout ne\n rien reconnaître avant d'avoir vu.\n Ce que vous écrivez aujourd'hui pourra vous être opposé\n dans 6 mois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le premier message d'une réclamation n'est pas celui qui rè\ngle le problème, c'est\n celui qui empêche qu'il grossisse.\n Il doit partir vite, dire qu'on a lu, annoncer une vér\nification et une date, et surtout\n ne rien reconnaître avant d'avoir vu.\n Ce que vous écrivez aujourd'hui pourra vous être opposé\n dans six mois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O14-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la réclamation de Julien Leroux. Deux griefs, une échéance jeudi, et un ton sec. Lisez d'abord: c'est le seul moment où vous saurez exactement ce qui est reproché.",
+   "empreinte_texte_dit": "318cea850f7968c2dc466acf31342cd03cf1db27e609181e5ba79c6181e2f026",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 173079,
+   "duree_s": 10.76,
+   "caracteres_dits": 170,
+   "caracteres_factures": 510,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la réclamation de Julien Le Roux.\n Deux griènes, une échéance jeudi et un ton sec.\n Lisez d'abord, c'est le seul moment où vous saurez\n exactement ce qui est reproché.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la réclamation de Julien Leroux. Deux griffes, une é\nchéance jeudi et un ton sec.\n Lisez d'abord, c'est le seul moment où vous saurez\n exactement ce qui est reproché.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O14-L01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message d'Habitat du Nord.",
+   "empreinte_texte_dit": "6ce3642d712c00aed042563703cd53a53569663202fab8938f9266ec2c09cb5a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message d'habitat du Nord.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message d'Habitat du Nord.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O14-L01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Deux griefs et une échéance. Le ton est sec, mais les faits sont là: ce sont eux qu'on traite.",
+   "empreinte_texte_dit": "46daccf76fc3650e8f5bdc19a0c5977b289e14a819b20c2c0d6a97908ab6f26b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 94,
+   "caracteres_factures": 188,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux grièves et une échéance.\n Le ton est sec, mais les faits sont là.\n Ce sont eux qui ont traité.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux grièves et une échéance.\n Le ton est sec, mais les faits sont là.\n Ce sont eux qu'on traite.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O14-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre. L'accusé de réception part aujourd'hui, avant même que vous ayez vu le chantier: c'est ce délai-là qui empêche le mécontentement de monter d'un cran.",
+   "empreinte_texte_dit": "9da0986d3359c282d8103ecd81754bf2c76234bffbd574f73d6fea6d5fae02b8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 146329,
+   "duree_s": 9.08,
+   "caracteres_dits": 171,
+   "caracteres_factures": 171,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre.\n L'accusé de réception part aujourd'hui, avant même que vous\n ayez vu le chantier.\n C'est ce délai-là qui empêche le mécontentement de monter d\n'un cran.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur « Répondre ».\n L'accusé de réception part aujourd'hui, avant même que vous\n ayez vu le chantier.\n C'est ce délai-là qui empêche le mécontentement de monter d\n'un cran.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O14-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Répondre, premier de la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "d0928159643c47ab6e9cbdf7ad84ed2bf895b25e91884eefe819e29deca7edd1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre, premier de la barre du haut du volet de\n lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre, premier de la barre du haut du volet de\n lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O14-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "L'accusé de réception part aujourd'hui, avant même d'avoir vu le chantier. C'est le silence qui envenime.",
+   "empreinte_texte_dit": "ca003761d63c91d9f6265cbef743d6429926895a65dfac5f032481826fa600a2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'accusé de réception part aujourd'hui, avant même d'avoir\n vu le chantier.\n C'est le silence qui en venime.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'accusé de réception par aujourd'hui, avant même d'avoir\n vu le chantier.\n C'est le silence qui en venime.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O14-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot réclamation. L'objet reçu exprime une humeur; le vôtre doit nommer un dossier.",
+   "empreinte_texte_dit": "17422f63b28884fe7431044a484d3e7cab0bd1614b4c1b6321aa959ae25294dd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot « réclamation ».\n L'objet reçu exprime une humeur, le vôtre doit nommer un\n dossier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot réclamation.\n L'objet reçu exprime une humeur, le vôtre doit nommer un\n dossier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O14-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe.",
+   "empreinte_texte_dit": "fdfcfbca8acc5f16ec12c12eedca8dfeac3783ba92e405eec4d2a72f09c5e877",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet en gardant le préfix.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet en gardant le préfixe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O14-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "L'objet reçu exprimait une humeur; le vôtre nomme le sujet. Le dossier redevient traitable.",
+   "empreinte_texte_dit": "9604b890562b36edacb91c61de800642060a7baee6cde4a593a5529e8e010470",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'objet reçu exprime une humeur, le vôtre nomme le sujet,\n le dossier redevient traitable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'objet reçu exprime à une humeur.\n Le vôtre nomme le sujet.\n Le dossier redevient traitable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O14-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rédigez l'accusé de réception. Trois éléments: la reprise des deux griefs, l'annonce d'une vérification, une date de retour. Rien de plus, n'écrivez aucune reconnaissance de responsabilité.",
+   "empreinte_texte_dit": "99b4d34a9f0901ac7f03ac75b12114955002f7cdedf1e8cad6ea4210825148c7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 214039,
+   "duree_s": 13.32,
+   "caracteres_dits": 189,
+   "caracteres_factures": 567,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.035,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "3",
+       "2"
+      ],
+      "entendus": [
+       "3"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "Rédiger l'accusé de réception. Trois éléments. La reprise des degrés F, l'annonce d'une vérification, une date de retour. Rien de plus. N. Écrivez aucune reconnaissance de responsabilité.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.035,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "3",
+        "2"
+       ],
+       "entendus": [
+        "3"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Rédigez l'accusé de réception.\n Trois éléments.\n La reprise des degrés F,\n l'annonce d'une vérification,\n une date de retour.\n Rien de plus.\n N. Écrivez aucune reconnaissance de responsabilité."
+     },
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger l'accusé de réception. Trois éléments. La reprise des 2 griefs. L'annonce d'une vérification. Une date de retour. Rien de plus. N. Écrivez aucune reconnaissance de responsabilité.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "51ae8c7eea8bea4f410ce157d034aa8edd1eb451236a5563bce1faf3b7ebb154",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Rédiger l'accusé de réception. Trois éléments. La reprise des 2 griefs. L'annonce d'une vérification. Une date de retour. Rien de plus. N. Écrivez aucune reconnaissance de responsabilité.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Rédiger l'accusé de réception. Trois éléments. La reprise des 2 griefs. L'annonce d'une vérification. Une date de retour. Rien de plus. N. Écrivez aucune reconnaissance de responsabilité.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.283330",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O14-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Annoncez ce que vous allez faire et quand. Ne concluez pas sur la responsabilité.",
+   "empreinte_texte_dit": "753c9bb50caa0d5a1e088f4cb5003251a1778dc754e1c0208ac34df843e131f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "annoncez ce que vous allez faire et quand.\n Ne concluez pas sur la responsabilité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Annoncez ce que vous allez faire et quand.\n Ne concluez pas sur la responsabilité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O14-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Les deux griefs repris, une vérification annoncée, une date: le client n'a plus de raison de relancer.",
+   "empreinte_texte_dit": "a3f09a79bb674418ca097ac6e425492a3d8a2d27d1369a3b25b759a8a8263c6e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 102,
+   "caracteres_factures": 204,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les deux griffes reprises, une vérification annoncée, une\n date, le client n'a plus de raison de relancer.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les deux grilles F repris, une vérification annoncée, une\n date, le client n'a plus de raison de relancer.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O14-L01-04B",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Le premier message d'une réclamation ne règle rien: il empêche que cela grossisse. Trois éléments, et aucun quatrième: la reprise des griefs, l'annonce d'une vérification, une date de retour. La raison est sérieuse, tout ce que vous écrivez avant d'avoir vu le chantier pourra vous être opposé. Reconnaître une responsabilité par courtoisie ferme une porte qu'on ne rouvre plus.",
+   "empreinte_texte_dit": "c3bc68a92a3fac2d17ce1cdbf7dec196c391065cfb8df0e5916a01eb1bf0af73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 328977,
+   "duree_s": 20.48,
+   "caracteres_dits": 378,
+   "caracteres_factures": 378,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le premier message d'une réclamation ne règle rien.\n Il empêche que cela grossisse.\n Trois éléments et aucun quatrième.\n La reprise des griffes, l'annonce d'une vérification, une\n date de retour.\n La raison est sérieuse, tout ce que vous écrivez avant d'\navoir vu le chantier pourra vous être opposé.\n Reconnaître une responsabilité par courtoisie ferme une\n porte qu'on ne rouvre plus.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le premier message d'une réclamation ne règle rien.\n Il empêche que cela grossisse.\n Trois éléments et aucun quatrième.\n La reprise des griefs,\n l'annonce d'une vérification, une date de retour.\n La raison est sérieuse, tout ce que vous écrivez avant d'\navoir vu le chantier pourra vous être opposé.\n Reconnaître une responsabilité par courtoisie ferme une\n porte qu'on ne rouvre plus.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O14-L01-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Mettez n.kerbaj@atelier-nord.fr en copie. Une réclamation écrite est un risque pour l'entreprise: la gérante doit le savoir dès le premier échange, pas le découvrir au troisième.",
+   "empreinte_texte_dit": "289c81d916ccdd1a339271c8bae55c12979cd2a515aa575775d0c77648d3c97f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 199410,
+   "duree_s": 12.4,
+   "caracteres_dits": 178,
+   "caracteres_factures": 178,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Mettez n.kerbaï@atelier-nor.fr en copie.\n Une réclamation écrite est un risque pour l'entreprise.\n La gérante doit le savoir dès le premier échange, pas le\n découvrir au troisième.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Mettez n.kerbeil@atelier-nord.fr en copie.\n Une réclamation écrite est un risque pour l'entreprise.\n La gérante doit le savoir dès le premier échange, pas le\n découvrir au troisième.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O14-L01-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Le champ Cc, deuxième ligne de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "678992d2aff978ec3954bcbef786944c6e17324b5f92c2d57ed0b621a4438686",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le champ CC, deuxième ligne de la fenêtre de rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le champ c'est c'est deuxième ligne de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O14-L01-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Une réclamation écrite est un risque pour l'entreprise: la gérante ne doit pas l'apprendre plus tard.",
+   "empreinte_texte_dit": "9c57ffed4976121db21b5736f98b03ef60618d038bed2009614bc3bb9650aab2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 86979,
+   "duree_s": 5.36,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une réclamation écrite est un risque pour l'entreprise.\n La gérante ne doit pas la prendre plus tard.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une réclamation écrite est un risque pour l'entreprise.\n La gérante ne doit pas la prendre plus tard.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O14-L01-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Envoyez l'accusé de réception. Vous n'avez rien concédé, rien nié, et pourtant le client sait qu'il est pris au sérieux. C'est exactement ce que doit faire ce premier message.",
+   "empreinte_texte_dit": "6d8551fd56b42cd7b8029a606ae049ee593b48dcb33077a0059f9f1435ef37a8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 168063,
+   "duree_s": 10.44,
+   "caracteres_dits": 175,
+   "caracteres_factures": 175,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyez l'accusé de réception.\n Vous n'avez rien concedé, rien nier, et pourtant le client\n sait qu'il est pris au sérieux.\n C'est exactement ce que doit faire ce premier message.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyez l'accusé de réception.\n Vous n'avez rien concédé, rien nié, et pourtant le client\n sait qu'il est pris au sérieux.\n C'est exactement ce que doit faire ce premier message.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O14-L01-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le bouton Envoyer.",
+   "empreinte_texte_dit": "5312d049302acca3d951dcd032c4fcb7ea3dea9954a07313da4af16292dec5bd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 25957,
+   "duree_s": 1.56,
+   "caracteres_dits": 18,
+   "caracteres_factures": 18,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O14-L01-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Rien concédé, rien nié, et le client sait qu'il a été entendu.",
+   "empreinte_texte_dit": "3969006de03794035202ebe1fb2095d077e18b65df4c5d821296ac092dd2e564",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rien qu'on cédait, rien nier, et le client sait qu'il a été\n entendu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rien qu'on s'aidait, rien nier, et le client sait qu'il a\n été entendu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O14-L01-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Posez un indicateur sur la réclamation. Vous vous êtes engagée sur une date. Tant que la vérification n'a pas eu lieu, ce message n'est pas traité, il est ouvert.",
+   "empreinte_texte_dit": "5908638d507f16dbbeda2940f62982c5c14bb1997d66bb9258dfd245f7ca5263",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 145075,
+   "duree_s": 9.0,
+   "caracteres_dits": 162,
+   "caracteres_factures": 162,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Posez un indicateur sur la réclamation.\n Vous vous êtes engagé sur une date.\n Tant que la vérification n'a pas eu lieu, ce message n'est\n pas traité.\n Il est ouvert.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Posez un indicateur sur la réclamation.\n Vous vous êtes engagé sur une date.\n Tant que la vérification n'a pas eu lieu, ce message n'est\n pas traité.\n Il est ouvert.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O14-L01-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Ouvrez le message, puis le drapeau. Ne le rangez pas encore.",
+   "empreinte_texte_dit": "c01c2c261fb7f6ed173f77abf078b2713b2cf936b94d851ca419ea1bb8ec9836",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis le drapeau. Ne le rangez pas encore\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis le drapeau. Ne le rangez pas encore\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O14-L01-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Vous vous êtes engagée sur une date: le message reste en vue tant que la vérification n'est pas faite.",
+   "empreinte_texte_dit": "b25649c9fa4521f1f4b5c7e50187bbe5196190804d8386d94b07e6148643a6ae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous vous êtes engagé sur une date.\n Le message reste en vue tant que la vérification n'est pas\n faite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous vous êtes engagé sur une date.\n Le message reste en vue tant que la vérification n'est pas\n faite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Nous vérifions et nous vous répondons vendredi calme un client. C'est de notre faute, nous remboursons écrit avant d'avoir vu le chantier vous engage sur une somme que vous ne devez peut-être pas. La rapidité porte sur la réponse, jamais sur la conclusion.",
+   "empreinte_texte_dit": "389306835975490b9c5fb200802447a15f8c244a66d87505c641be57266c2a58",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 230339,
+   "duree_s": 14.32,
+   "caracteres_dits": 256,
+   "caracteres_factures": 256,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nous vérifions et nous vous répondons vendredi, calme un\n client.\n C'est de notre faute, nous remboursons écrit avant d'avoir\n vu le chantier vous engage sur une somme que vous ne devez\n peut-être pas.\n La rapidité porte sur la réponse, jamais sur la conclusion.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nous vérifions et nous vous répondons vendredi « calme un\n client ».\n C'est de notre faute, nous remboursons écrit avant d'avoir\n vu le chantier vous engage sur une somme que vous ne devez\n peut-être pas.\n La rapidité porte sur la réponse, jamais sur la conclusion.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

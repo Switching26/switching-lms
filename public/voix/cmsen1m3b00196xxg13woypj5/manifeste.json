@@ -1,0 +1,497 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1m3b00196xxg13woypj5",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "S'évaluer — Prise en main d'Outlook"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 12,
+  "caracteres_dits": 2229,
+  "duree_totale_s": 133.3,
+  "segments_valides": 12,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Quatre messages vous attendent. Un seul ne peut pas attendre demain: la mairie relance sur un marché public dont le devis est prêt. Vous avez le temps de traiter celui-là et de laisser une boîte propre derrière vous. Tout se joue au premier essai, sans aide: c'est le principe de l'épreuve. Seule l'enveloppe est notée, ce que vous écrivez dans le corps du message ne l'est pas. La rédaction, elle, est relue à part par votre formateur, sur cinq points: des faits exacts, l'action attendue clairement demandée, un ton professionnel, un message court, une ouverture et une clôture.",
+   "empreinte_texte_dit": "22563e44ea9fc510bf76b7aa3cb636cf81d17db5d3e35c29f4a2ed574b7d48f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 557183,
+   "duree_s": 34.76,
+   "caracteres_dits": 580,
+   "caracteres_factures": 1160,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "4 messages vous attendent. Un seul ne peut pas attendre\n demain. La mairie relance sur\n un marché public dont le devis est prêt. Vous avez le temps\n de traiter celui-là et\n de laisser une boîte propre derrière vous. Tout se joue au\n premier essai, sans aide.\n C'est le principe de « épreuve ». Seul l'enveloppe est not\née, ce que vous écrivez dans le\n corps du message ne l'est pas. La rédaction « elle » est\n relue à part par votre formateur,\n sur cinq points. Des faits exacts, l'action attendue\n clairement demandé, un ton professionnel,\n un message court, une ouverture et une clôture.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Quatre messages vous attendent.\n Un seul ne peut pas attendre demain.\n La mairie relance sur un marché public dont le devis est\n prêt.\n Vous avez le temps de traiter celui-là et de laisser une\n boîte propre derrière vous.\n Tout se joue au premier essai, sans aide.\n C'est le principe de « épreuve ».\n Seule l'enveloppe est notée, ce que vous écrivez dans le\n corps du message ne l'est\n pas.\n La rédaction, elle, est relue à part par votre formateur,\n sur cinq points.\n D'effets exacts, l'action a tendu clairement demandé, un\n ton professionnel, un message\n court, une ouverture et une clôture.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O01-EV01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message de la Ville de Lambersart. Lisez-le entièrement: il contient la référence du marché et le délai.",
+   "empreinte_texte_dit": "08a445afd73b0818a065131f3a93b6b0520f855dfc3bf6510e79008c917033a1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 119998,
+   "duree_s": 7.44,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de la ville de Lambeursart. Lisez-le ent\nièrement. Il contient la référence du marché et le délai.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de la ville de l'Ambursar.\n Lisez-le entièrement.\n Il contient la référence du marché et le délai.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O01-EV01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Répondez à ce message. Le service des marchés doit être le seul destinataire de la ligne principale.",
+   "empreinte_texte_dit": "fccf5cfb73d7065848503975690091b2f54ce381f78712e4c150c292d9824234",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondez à ce message. Le service des marchés doit être le\n seul destinataire de la ligne principale.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondez à ce message.\n Le service des marchés doit être le seul destinataire de la\n ligne principale.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O01-EV01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "S'agissant d'un marché public, la gérante n.kerbaj@atelier-nord.fr doit recevoir une copie de votre réponse, sans que la mairie sache qu'elle la reçoit.",
+   "empreinte_texte_dit": "894368a071a2998a275409593c9cb410e28db503839b7c25e0ddd17c64a0b5cd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 167645,
+   "duree_s": 10.4,
+   "caracteres_dits": 152,
+   "caracteres_factures": 152,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "S'agissant d'un marché public, la gérante n.kerbaj@atelier-\nnord.fr doit recevoir une copie de votre réponse sans que la\n mairie sache qu'elle la reçoit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "S'agissant d'un marché public, la gérante n.carbage@atelier\n-nord.fr\n doit recevoir une copie de votre réponse sans que la mairie\n sache qu'elle la reçoit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O01-EV01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "La mairie demande que la référence du marché soit rappelée. Complétez l'objet de votre réponse pour qu'il contienne MP-2026-24, sans en retirer le préfixe.",
+   "empreinte_texte_dit": "9b3f0bd899a954ebc0b3603302d5d351bc9cdf7b538ce94e26033add6c564e93",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 141314,
+   "duree_s": 8.76,
+   "caracteres_dits": 155,
+   "caracteres_factures": 465,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La mairie demande que la référence du marché soit rappelée.\n Complétez l'objet de votre réponse pour qu'il contienne MP\n2026-24 sans en retirer le préfix."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La mairie demande que la référence du marché soit rappelée. Complétez l'objet de votre réponse pour qu'il contienne MP 202 6-24 sans en retirer le préfixe.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O01-EV01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Joignez le devis. Trois fichiers portent un nom voisin: un seul est la version définitive destinée à un dossier de marché public.",
+   "empreinte_texte_dit": "95f08427276bf0a32154f164a7d723cef11cd119fd06c1bb3bf3faff06c02dfe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 124177,
+   "duree_s": 7.68,
+   "caracteres_dits": 129,
+   "caracteres_factures": 129,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Joignez le devis.\n Trois fichiers portent un nom voisin.\n Un seul est la version définitive destinée à un dossier de\n marché public.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Joignez le devis.\n Trois fichiers portent un nom voisin.\n Un seul est la version définitive destinée à un dossier de\n marché public.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O01-EV01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Rédigez le corps du message avec vos mots. Cette étape n'entre pas dans la note: ce qui se vérifie automatiquement, c'est l'enveloppe, pas votre façon d'écrire. Écrivez simplement une réponse complète, comme vous l'enverriez vraiment.",
+   "empreinte_texte_dit": "a722dcacbdfe6f801b6e8471efa5911b23524b5248ba7f673bbc3820b59e3b32",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 222398,
+   "duree_s": 13.84,
+   "caracteres_dits": 234,
+   "caracteres_factures": 234,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigez le corps du message avec vos mots.\n Cette étape n'entre pas dans la note.\n Ce qui se vérifie automatiquement, c'est l'enveloppe, pas\n votre façon d'écrire.\n Écrivez simplement une réponse complète, comme vous l'enver\nriez vraiment.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigez le corps du message avec vos mots.\n Cette étape n'entre pas dans la note.\n Ce qui se vérifie automatiquement, c'est l'enveloppe, pas\n votre façon d'y écrire.\n Écrivez simplement une réponse complète, comme vous l'enver\nriez vraiment.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O01-EV01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Relisez les quatre lignes du haut et le nom du fichier attaché, puis envoyez votre réponse.",
+   "empreinte_texte_dit": "ddf2a1a2714c80b80621efa1a9739aa20798d9bc114f86e6549e3098ba8bd6ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Relisez les quatre lignes du haut et le nom du fichier\n attaché puis envoyez votre réponse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Relisez les quatre lignes du haut et le nom du fichier\n attaché, puis envoyez votre réponse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O01-EV01-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Le marché est traité pour aujourd'hui. Rangez le message de la mairie dans le dossier des clients.",
+   "empreinte_texte_dit": "c179b3aa462255d05d7664619f06d3f833aa389e94800f8e49b2155b45be428e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le marché est traité pour aujourd'hui.\n Ranger le message de la mairie dans le dossier des clients.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le marché est traité pour aujourd'hui.\n Rangez le message de la mairie dans le dossier des clients.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "O01-EV01-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Sortez de la file d'attente les deux messages commerciaux: le déstockage et la lettre d'information.",
+   "empreinte_texte_dit": "739bf232453afb2c5094da08642a47aea70331cec008a50be903500d74950012",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sortez de la file datante les deux messages commerciaux.\n Le déstockage est la lettre d'information.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sortez de la file d'attente les deux messages commerciaux,\n le déstockage et la lettre d'information.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "O01-EV01-10",
+   "role": "Étape 10 · consigne",
+   "texte_dit": "Reste le message d'Hugo Vasseur: la pose est terminée, mais la facture du client reste à établir et vous partez sur chantier. Marquez-le pour ne pas l'oublier, et laissez-le dans votre boîte de réception.",
+   "empreinte_texte_dit": "6009052efa3673217f758dd21d669dd2cb9aa8b1a61662a229593a0344f676bd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 191887,
+   "duree_s": 11.92,
+   "caracteres_dits": 204,
+   "caracteres_factures": 204,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Reste le message du govasseur.\n La pause est terminée, mais la facture du client reste à ét\nablir et vous partez sur chantier.\n Marquez-le pour ne pas l'oublier et laissez-le dans votre\n boîte de réception.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Reste le message du Govasseur.\n La pause est terminée, mais la facture du client reste à ét\nablir et vous partez sur\n chantier.\n Marquez-le pour ne pas l'oublier et laissez-le dans votre\n boîte de réception.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "L'épreuve portait sur ce qui se vérifie objectivement: le bon destinataire, la bonne place de chacun, la bonne pièce, le bon rangement. C'est aussi ce que votre interlocuteur constate en recevant votre message, il ne saura jamais combien de temps vous avez mis à l'écrire.",
+   "empreinte_texte_dit": "5f896f6fdd625030cffc3a3a3816938adfe2e61ff7aa5a52ba9774f66c7edabd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 270463,
+   "duree_s": 16.84,
+   "caracteres_dits": 272,
+   "caracteres_factures": 272,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.012,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Elle épreuve portait sur ce qui se vérifie objectivement,\n le bon destinataire, la bonne place de chacun, la bonne pi\nèce, le bon rangement.\n C'est aussi ce que votre interlocuteur constate en recevant\n votre message. Il ne saura jamais combien de temps vous\n avez mis à elle, écrire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.037,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "\"Elle\" et \"preuve\" portaient sur ce qui se vérifie\n objectivement.\n Le bon destinataire, la bonne place de chacun, la bonne pi\nèce, le bon rangement.\n C'est aussi ce que votre interlocuteur constate en recevant\n votre message.\n Il ne saura jamais combien de temps vous avez mis à \"elle\"\n écrire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

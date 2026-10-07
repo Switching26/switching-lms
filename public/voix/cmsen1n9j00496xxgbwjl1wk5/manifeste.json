@@ -1,0 +1,681 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1n9j00496xxgbwjl1wk5",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Régler un litige avec une preuve"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 1527,
+  "duree_totale_s": 94.0,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Le client affirme n'avoir rien reçu. Vous l'avez pourtant envoyé le 11 mars. Trouvez la preuve, renvoyez-la telle quelle, et rangez ce qui est traité. Aucune de ces trois choses ne se fait de mémoire.",
+   "empreinte_texte_dit": "375862e42461ac9c10cc901a60fc740731caae67cb51ed287338ca6d9beecc6a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 200664,
+   "duree_s": 12.48,
+   "caracteres_dits": 200,
+   "caracteres_factures": 200,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le client affirme n'avoir rien reçu.\n Vous l'avez pourtant envoyé le 11 mars.\n Trouvez la preuve, renvoyez-la telle qu'elle,\n et rangez ce qui est traité.\n Aucune de ces trois choses ne se fait de mémoire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le client affirme n'avoir rien reçu.\n Vous l'avez pourtant envoyé le 11 mars.\n Trouvez la preuve, renvoyez-la telle quelle et rangez ce\n qui est traité.\n Aucune de ces trois choses ne se fait de mémoire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O05-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la réclamation de Julien Leroux et relevez la référence qu'il cite.",
+   "empreinte_texte_dit": "ea394bc45a235328d2d24d5f5363404d0123ddc74bb5ccabf8203edbf2a589cc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez la réclamation de Julien Le Roux et relevez la réf\nérence qu'il cite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez la réclamation de Julien Leroux et relevez la réf\nérence qu'il cite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O05-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message non lu, en tête de la liste.",
+   "empreinte_texte_dit": "3520d14b295dd60cff0a7040f8cf6989f73858b498fe91cc70ebcce4351e78de",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 42675,
+   "duree_s": 2.6,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message non-lu, en tête de la liste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message non lu en tête de la liste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O05-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Allez chercher la preuve là où elle se trouve: le dossier qui garde une copie de tout ce que vous envoyez.",
+   "empreinte_texte_dit": "1d3db89ec75160e82d8601413522a2c0f5185b33f08941ac27a829ba3c008132",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Allez chercher la preuve là où elle se trouve, le dossier\n qui garde une copie de tout ce que vous envoyez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Allez chercher la preuve là où elle se trouve, le dossier\n qui garde une copie de tout ce que vous envoyez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O05-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Éléments envoyés, dans la colonne de gauche; sur téléphone, derrière le bouton ☰.",
+   "empreinte_texte_dit": "7435371af07c0ef3d45d079776e1a477275888017424046cfe3f84f1e96bca7c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "élément envoyé dans la colonne de gauche sur téléphone\n derrière le bouton.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Elément envoyé dans la colonne de gauche sur téléphone\n derrière le bouton.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O05-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "La preuve de votre envoi est dans les envoyés: la date, l'adresse exacte et la pièce jointe.",
+   "empreinte_texte_dit": "ced4802762499b022c8ec1b019e06086441ecd10dda259cd9f7b1802cfcfd03b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La preuve de votre envoi est dans les envoyés, la date, l'\nadresse exacte et la pièce jointe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La preuve de votre envoi est dans les envoyés, la date, l'\nadresse exacte et la pièce jointe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O05-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Filtrez ce dossier sur la référence du contrat pour isoler le bon message.",
+   "empreinte_texte_dit": "04e1a11290620a006135667318f38c8c5f6cd29de2444d77a199e44e4c5f0830",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Filtrez ce dossier sur la référence du contrat pour isoler\n le bon message.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Filtrez ce dossier sur la référence du contrat pour isoler\n le bon message.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O05-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "La référence figure dans le message du client.",
+   "empreinte_texte_dit": "f5483d712c30dafd8b2006f62d119ea3066303d377882aaf2792ee905e1cc366",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 46,
+   "caracteres_factures": 46,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La référence figure dans le message du client.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La référence figure dans le message du client.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O05-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "La référence isole le bon message d'un coup, même dans un dossier chargé.",
+   "empreinte_texte_dit": "9c36e6f9eb49bfcadf458dcde2f15623900356265016e69053cce4919cabc5f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La référence isole le bon message d'un coup, même dans un\n dossier chargé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La référence isole le bon message d'un coup, même dans un\n dossier chargé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O05-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Renvoyez cet envoi au client, de façon qu'il reçoive le document d'origine et non une nouvelle copie.",
+   "empreinte_texte_dit": "bb5034d9cf6a3e80946bf586040cf9d9be948549184b3b4c3d523d39b71ca2a6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Renvoyez cet envoi aux clients, de façon qu'ils reçoivent\n le document d'origine et n'ont une nouvelle copie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Renvoyez cet envoi au client de façon qu'il reçoive le\n document d'origine et non une nouvelle copie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O05-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Ouvrez le message trouvé, puis Transférer: la pièce jointe suit.",
+   "empreinte_texte_dit": "3c5def666e2881128fe5b30c2518013f78446af0326053033c2d4eebc7dce94e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message trouvé, puis transférez la pièce jointe-\nsuits.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message Trouver, puis transférez la pièce jointe\n suis.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O05-E02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le client reçoit le document d'origine, avec sa date: une nouvelle copie n'aurait rien prouvé.",
+   "empreinte_texte_dit": "22bdfcd9825798560361bdf524a3d4f0c82c96040e02dba144e62d2f8065c7b4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le client reçoit le document d'origine avec sa date.\n Une nouvelle copie n'aurait rien prouvé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le client reçoit le document d'origine avec sa date.\n Une nouvelle copie n'aurait rien prouvé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O05-E02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Écrivez un mot neutre et envoyez. Il doit citer la date du premier envoi et la référence du contrat, sans reproche.",
+   "empreinte_texte_dit": "52f820714ab378d48eb78aa06301ae4c5c16ec756cb7d2cf0a5f94ec1ca5422c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 111221,
+   "duree_s": 6.88,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Écrivez un mot neutre et envoyez.\n Il doit citer la date du premier envoi et la référence du\n contrat, sans reproche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Écrivez un mot neutre et envoyez.\n Il doit citer la date du premier envoi et la référence du\n contrat, sans reproche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O05-E02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Deux informations sont attendues: la date d'envoi, et la référence.",
+   "empreinte_texte_dit": "1746b7685573f680211f40416a2dc93880ea54f1cbd7ab8cbc58f48582eefc4b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La date d'envoi et la référence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La date d'envoi et la référence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O05-E02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Un ton neutre et deux faits datés: le litige se règle sans que personne ait à se justifier.",
+   "empreinte_texte_dit": "0c582f31ead3e49f889a3fbc53f757cf15f429614a5cee4a2430fe319ede000c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 91,
+   "caracteres_factures": 182,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un ton neutre et deux faits datés, le litige se règle sans\n que personne ait à se justifier.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un ton neutre et deux faits datés, le litige se règle sans\n que personne ait à se justifier.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "On ne répond jamais je vous l'ai bien envoyé: on renvoie l'original, avec sa date. Le ton reste neutre, dans neuf cas sur dix, le message était bien parti et il dort dans les indésirables du destinataire.",
+   "empreinte_texte_dit": "63cae504feb81a6c4d78e1b7ddc979a01b377e001bcd541ad445c9c0acba08a9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 202754,
+   "duree_s": 12.6,
+   "caracteres_dits": 204,
+   "caracteres_factures": 612,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "On ne répond jamais je voulais bien envoyer, on renvoie l'\noriginal avec sa date.\n Le ton reste neutre, dans 9 cas sur 10, le message était\n bien parti et il dort dans les indésirables du destinataire\n."
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "On ne répond jamais « je voulais bien envoyer », on renvoie l'original avec sa date. Le ton reste neutre, dans 9K sur 10, le message était bien parti et il dort dans les indésirables du destinataire.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,681 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1mxb003f6xxg8cxizvg9",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Vérifier ailleurs, sans jamais répondre"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 2146,
+  "duree_totale_s": 124.6,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Le message se présente au nom de Julien Leroux et annonce un nouveau compte bancaire pour le règlement d'une facture. Vous n'allez ni répondre, ni ignorer: vous allez vérifier auprès du vrai Julien Leroux, avertir votre gérante, et isoler la tentative. Trois gestes, dans cet ordre, aucun d'eux ne consiste à cliquer Répondre.",
+   "empreinte_texte_dit": "c0a70ccf653b4707ea878cb39ce6b6f0e8f8091be75ea0219f37387544f64aca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 301810,
+   "duree_s": 18.8,
+   "caracteres_dits": 326,
+   "caracteres_factures": 978,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le message se présente au nom de Julien Le Roux et annonce\n un nouveau compte bancaire pour le règlement d'une facture.\n Vous n'allez ni répondre ni ignorer.\n Vous allez vérifier auprès du vrai Julien Le Roux, avertir\n votre gérante et isoler la tentative.\n Trois gestes, dans cet ordre, aucun deux ne consiste à cl\niquer répondre."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le message se présente au nom de Julien Leroux et annonce un nouveau compte bancaire pour le règlement d'une facture. Vous n'allez ni répondre ni ignorer. Vous allez vérifier auprès du vrai Julien Leroux, avertir votre gérante et isoler la tentative. Trois gestes. Dans cet ordre, aucun de eux ne consiste à cliquer Répondre.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O04-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message et comparez son adresse à celle que vous connaissez de Julien Leroux: j.leroux@habitat-du-nord.fr. Un caractère manque.",
+   "empreinte_texte_dit": "3ca65e8810a7f07e25b9e67eb5e69481ceb31387987c15bf1a54f34958376921",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 158032,
+   "duree_s": 9.8,
+   "caracteres_dits": 137,
+   "caracteres_factures": 274,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.104,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message et comparez son adresse à celle que vous\n connaissez de Julien Le Roux.\n g.leurou@habitatiraisdu-nor.fr\n Un caractère manque.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message et comparez son adresse à celle que vous\n connaissez de Julien Leroux.\n j.leroux@habitat-du-nord.fr\n Un caractère manque.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O04-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Regardez le domaine, après l'arobase: le trait d'union entre habitat et du a disparu.",
+   "empreinte_texte_dit": "d3fd3fd93295bd25d2340d6f3ee708b04f5e85b12ea2e045eb9d335659f996e0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Regardez le domaine après l'arrobase.\n Le trait d'union entre habitat est dû à disparu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Regardez le domaine, après l'arobase.\n Le trait d'union entre habitat et dieu a disparu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O04-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Vérifiez auprès du vrai Julien Leroux. Attention au chemin que vous prenez: la vérification ne doit passer par aucun élément du message suspect.",
+   "empreinte_texte_dit": "cedc07f6e2bda93e03fd7050ef14ffaf9077cdc059f5cb8b9ce1273ef1079006",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 144657,
+   "duree_s": 8.96,
+   "caracteres_dits": 144,
+   "caracteres_factures": 144,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Vérifiez auprès du vrai Julien Le Roux.\n Attention au chemin que vous prenez.\n La vérification ne doit passer par aucun élément du message\n suspect.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Vérifiez auprès du vrai Julien Leroux.\n Attention au chemin que vous prenez.\n La vérification ne doit passer par aucun élément du message\n suspect.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O04-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Répondre écrirait à l'adresse frauduleuse: c'est un nouveau message qu'il faut, vers l'adresse que vous connaissez.",
+   "empreinte_texte_dit": "6cd23a2f991129eb48c4e967c30e94bc334a4abcb5b6b1ffb25709d3cd30048e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Répondre et crierez à l'adresse frauduleuse.\n C'est un nouveau message qu'il faut vers l'adresse que vous\n connaissez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Répondre écrirait à l'adresse frauduleuse.\n C'est un nouveau message qu'il faut vers l'adresse que vous\n connaissez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O04-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Vous partez de l'adresse que vous connaissez. Répondre au message serait tombé chez l'escroc.",
+   "empreinte_texte_dit": "f4fc985f5dbc30e3732c2b4b7577b425c0b342c16b16988f1ba14b22cf3f15fb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 79874,
+   "duree_s": 4.92,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Vous partez de l'adresse que vous connaissez.\n Répondre au message serait tombé chez les scros.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Vous partez de l'adresse que vous connaissez.\n Répondre au message serait tombé chez l'escroc.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O04-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Votre gérante doit savoir qu'une tentative vise l'entreprise: mettez-la en copie, sans que cela change le destinataire principal.",
+   "empreinte_texte_dit": "389301520d5e2fff1da2560f7a9922d8b5a1328364a8d43b3280635976d312c0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 129,
+   "caracteres_factures": 129,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Votre gérante doit savoir qu'une tentative vise l'entre\nprise.\n Mettez-la en copie sans que cela change le destinataire\n principal.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Votre gérante doit savoir qu'une tentative vise l'entre\nprise.\n Mettez-la en copie sans que cela change le destinataire\n principal.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O04-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le champ Cc est la deuxième ligne de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "563689df9e71764e48ebd42207a3521865af2ba468265e8f2da76f7d017dcf05",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 61,
+   "caracteres_factures": 122,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.061,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le champ cc est la deuxième ligne de la fenêtre de réd\naction.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.061,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le champ CC est la deuxième ligne de la fenêtre de réd\naction.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O04-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "La gérante saura qu'une tentative vise l'entreprise, souvent, il y en a d'autres derrière.",
+   "empreinte_texte_dit": "8a9a0bad624c38c6c70c3f41451340497c5bc6441e8514c68fb480d560a61b36",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La gérante sera qu'une tentative vise l'entreprise, souvent\n, il y en a d'autres derrière.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La gérante saura qu'une tentative vise l'entreprise,\n souvent, il y en a d'autres derrière.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O04-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Donnez un objet contenant le mot coordonnées, rédigez la vérification, puis envoyez. Le texte doit citer la référence de la facture et signaler qu'aucun virement n'a été fait, c'est cette phrase qui rassure votre client.",
+   "empreinte_texte_dit": "ad0ca37b1d591edd5eeaae1023f4e3a812e5c286abfa8c7e3ed8144b26a6f5c8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 204426,
+   "duree_s": 12.72,
+   "caracteres_dits": 220,
+   "caracteres_factures": 220,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez un objet contenant le mot coordonné, rédigez la vér\nification, puis envoyez.\n Le texte doit citer la référence de la facture et signaler\n qu'aucun virement n'a été\n fait.\n C'est cette phrase qui rassure votre client.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez un objet contenant le mot coordonné, rédigez la vér\nification, puis envoyez.\n Le texte doit citer la référence de la facture et signaler\n qu'aucun virement n'a été\n fait.\n C'est cette phrase qui rassure votre client.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O04-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Deux informations sont attendues: la référence de la facture, et le fait que rien n'a été payé.",
+   "empreinte_texte_dit": "81d0510466091e0bf0f057f07904e961ea683934c34aa2a809fe8cf47bb77966",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La référence de la facture est le fait que rien n'a été pay\né.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La référence de la facture est le fait que rien n'a été pay\né.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O04-E02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "La référence citée permet au client de retrouver le dossier et de trancher sans hésiter.",
+   "empreinte_texte_dit": "5e7eb5a39e7404c83d387da7c3e68ea0815647feaff806fe557bef4bf90a4b77",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La référence citée permet aux clients de retrouver le doss\nier et de trancher sans hésiter.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La référence citée permet au client de retrouver le dossier\n et de trancher sans hésiter.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O04-E02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Isolez enfin la tentative sans l'effacer: elle servira de preuve si le vrai Julien Leroux dépose plainte.",
+   "empreinte_texte_dit": "8a90a101df24aea7561e2cb644e7b5b9f50ecab091bb8da65d519247325aa997",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 106205,
+   "duree_s": 6.56,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isolez enfin la tentative sans les facer.\n Elle servira de preuve si le vrai Julien Le Roux dépose\n plainte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isoler enfin la tentative sans l'effacer.\n Elle servira de preuve si le vrai Julien Leroux dépose\n plainte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O04-E02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Ouvrez le message frauduleux, puis Déplacer, puis Courrier indésirable.",
+   "empreinte_texte_dit": "d30221c2d410ba6a7100c0bfded26bc65c4cf5d8ccf64460fb4fcf9054eb7155",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message frauduleux, puis déplacer, puis courrier\n indésirable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message frauduleux, puis déplacer, puis courrier\n indésirable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O04-E02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Isolée, pas effacée: si le vrai Julien Leroux dépose plainte, ce message compte.",
+   "empreinte_texte_dit": "ba4eabcf2045184ae48cf41b971139c90b4706775f6d43c9298b11c1109229e1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.044,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isolée, pas effacée. Si le vrai Julien Le Roux dépose plain\nte, ce message compte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isolés, pas effacés.\n Si le vrai Julien Leroux dépose plainte, ce message compte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Répondre à un message frauduleux, même pour poser une question, apprend à l'escroc que votre adresse est lue et que quelqu'un l'a remarqué. La vérification se fait toujours par un canal indépendant: une adresse que vous connaissez déjà, ou un numéro de téléphone que vous n'avez pas tiré du message suspect.",
+   "empreinte_texte_dit": "863fac5ab4473f4db7641a2ede92b889303490568d0e13d24e67791935fd4222",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 248311,
+   "duree_s": 15.44,
+   "caracteres_dits": 307,
+   "caracteres_factures": 307,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Répondre à un message frauduleux, même pour poser une\n question, apprend à les scrolls que votre adresse est lue\n et que quelqu'un l'a remarqué.\n La vérification se fait toujours par un canal indépendant,\n une adresse que vous connaissez déjà, ou un numéro de\n téléphone que vous n'avez pas tiré du message suspect.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Répondre à un message frauduleux, même pour poser une\n question,\n apprend à l'escroc que votre adresse est lue et que quelqu'\nun l'a remarquée.\n La vérification se fait toujours par un canal indépendant,\n une adresse que vous connaissez déjà\n ou un numéro de téléphone que vous n'avez pas tiré du\n message suspect.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

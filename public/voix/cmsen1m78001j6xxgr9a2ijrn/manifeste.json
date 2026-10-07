@@ -1,0 +1,990 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1m78001j6xxgr9a2ijrn",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Répondre à tous : quand, et quand surtout pas"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 25,
+  "caracteres_dits": 3383,
+  "duree_totale_s": 200.2,
+  "segments_valides": 25,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Répondre à tous est le geste le plus mal utilisé de toute la messagerie professionnelle. Utilisé au bon moment, il évite trois échanges. Utilisé au mauvais, il envoie un désaccord interne à un client, ou un merci à quarante personnes. Vous allez voir les deux cas, dans l'ordre.",
+   "empreinte_texte_dit": "772d7b3fd13c070e4212987522bcd53128d0fe95ba72e8af01bfe220b94ad225",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 249983,
+   "duree_s": 15.56,
+   "caracteres_dits": 278,
+   "caracteres_factures": 278,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondre à tous est le geste le plus mal utilisé de toute\n la messagerie professionnelle.\n Utilisé au bon moment, il évite trois échanges.\n Utilisé au mauvais, il envoie un désaccord interne à un\n client ou un merci à 40 personnes.\n Vous allez voir les deux cas dans l'ordre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondre à tous est le geste le plus mal utilisé de toute\n la messagerie professionnelle.\n Utilisé au bon moment, il évite trois échanges.\n Utilisé au mauvais, il envoie un désaccord interne à un\n client ou un merci à quarante personnes.\n Vous allez voir les deux cas dans l'ordre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O02-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Hugo propose une organisation pour jeudi et attend l'accord de chacun. Ouvrez son message et regardez son en-tête: il est adressé à vous et à Sonia, avec Rémi en copie.",
+   "empreinte_texte_dit": "87091576769cd0d40512f36e8c85f5cc795ad6fe9e9c257bae5d5d4602e261e5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 155942,
+   "duree_s": 9.68,
+   "caracteres_dits": 168,
+   "caracteres_factures": 168,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Hugo propose une organisation pour jeudi et attend l'accord\n de chacun.\n Ouvrez son message et regardez son en tête.\n Il est adressé à vous et à Sonia, avec Rémi en copie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Hugo propose une organisation pour jeudi et attend l'accord\n de chacun.\n Ouvrez son message et regardez son en tête.\n Il est adressé à vous et à Sonia, avec Rémi en copie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O02-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet demande qui fait quoi jeudi.",
+   "empreinte_texte_dit": "d330c34eec053b75377caca5679fde7b09e77b2fc5277f7c51ba6a0f601111e7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 53124,
+   "duree_s": 3.24,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.03,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet demande qui fait quoi je dis.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet demande qui fait quoi jeudi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O02-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre à tous. Ici votre accord intéresse tout le monde: Sonia doit savoir qu'elle n'a pas à le donner deux fois, et Rémi doit pouvoir prévenir l'accueil.",
+   "empreinte_texte_dit": "212a46be18081279b3f82775504c9e20a13e5ea84b846b42411fca9af368f1bb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 160958,
+   "duree_s": 10.0,
+   "caracteres_dits": 168,
+   "caracteres_factures": 168,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur « Répondre à tous ».\n Ici votre accord intéresse tout le monde.\n Sonia doit savoir qu'elle n'a pas à le donner deux fois et\n Rémi doit pouvoir prévenir l'accueil.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur \"répondre à tous\".\n Ici votre accord intéresse tout le monde.\n Sonia doit savoir qu'elle n'a pas à le donner deux fois, et\n Rémi doit pouvoir prévenir l'accueil.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O02-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Répondre à tous est le deuxième de la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "c826333a6580ba0772022cfd6ffa486fb2414e3b0615b2ae529c5e159c947d89",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre à tous est le deuxième de la barre du\n haut du volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre à tous est le deuxième de la barre du\n haut du volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O02-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Tous les destinataires d'origine sont repris d'un coup: c'est là toute la différence avec Répondre.",
+   "empreinte_texte_dit": "6cb9826394105772d0145fadb2c88213719143d5838675a08511ff1c1c6dfc07",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 88651,
+   "duree_s": 5.48,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tous les destinataires d'origine sont repris d'un coup.\n C'est là toute la différence avec répondre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tous les destinataires d'origine sont repris d'un coup.\n C'est là toute la différence avec répondre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O02-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Outlook a repris l'expéditeur et les autres destinataires, en vous retirant vous-même de la liste, on ne s'écrit pas à soi. Rédigez votre accord: il doit dire ce que vous prenez en charge et confirmer le créneau de jeudi.",
+   "empreinte_texte_dit": "bf64b2bb9190663345eb46f2591f05c0c708ec19619570565493a075c5d2e1eb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 200246,
+   "duree_s": 12.44,
+   "caracteres_dits": 221,
+   "caracteres_factures": 221,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Outlook a repris l'expéditeur et les autres destinataires\n en vous retirant vous-même de la liste, on ne vaisse, écrit\n pas à soi.\n Rédigez votre accord. Il doit dire ce que vous prenez en\n charge et confirmez le créneau de jeudi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Outlook a repris l'expéditeur et les autres destinataires.\n En vous retirant vous-même de la liste, on ne vaisse,\n écris pas à soi.\n Rédigez votre accord.\n Il doit dire ce que vous prenez en charge et confirmez le\n créneau de jeudi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O02-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Deux informations sont attendues: la part du travail que vous assurez, et la confirmation du jour.",
+   "empreinte_texte_dit": "b7078293dea07a6f47f6401a379a46128f6bf966c5a0f369f8d3aa0afbca93b0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 90741,
+   "duree_s": 5.6,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La part du travail que vous assurez et la confirmation du\n jour.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La part du travail que vous assurez et la confirmation du\n jour.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O02-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Vous avez été retiré de la liste: on ne s'écrit pas à soi-même.",
+   "empreinte_texte_dit": "7b03cba3240c1ee4f38d67730199d6da395457ea6c0ee01e10a3cc220f5980f1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous avez été retirés de la liste. On ne se écrit pas à soi\n-même.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous avez été retiré de la liste. On ne s'écrit pas à soi-\nmême.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O02-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Envoyez cette réponse. Les quatre personnes concernées reçoivent la même information au même moment: c'est exactement ce à quoi sert Répondre à tous.",
+   "empreinte_texte_dit": "9c12904ad01eba9d3cebbf1eba9c49dbc2b8b9521c8fb8b9e78a748085cda841",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 149673,
+   "duree_s": 9.28,
+   "caracteres_dits": 149,
+   "caracteres_factures": 149,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez cette réponse. Les 4 personnes concernées reçoivent\n la même information au même moment. C'est exactement ce à\n quoi sert.\n Répondra tous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez cette réponse.\n Les quatre personnes concernées reçoivent la même\n information au même moment.\n C'est exactement ce à quoi sert.\n Répondre à tous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O02-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le bouton Envoyer, en haut à gauche de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "d26fd1c07fd14d191936c822267e691ec18120ab62835cb090169935d5356810",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.054,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer en haut à gauche de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.054,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer en haut à gauche de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O02-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Les quatre personnes concernées reçoivent la même information au même moment.",
+   "empreinte_texte_dit": "97b60b266178119c647a81194c5ffd81af6ce1aef4a431aaabe124fccc8e954f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les quatre personnes concernées reçoivent la même\n information au même moment.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les quatre personnes concernées reçoivent la même\n information au même moment.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O02-L02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Deuxième cas, l'inverse du premier. Ouvrez le message de Nadia Kerbaj: un point d'avancement adressé à cinq personnes, dont deux personnes de l'école en copie.",
+   "empreinte_texte_dit": "7585f075a12cf9d0a008dfd8a4e7faa56fcf006341ec70ca27845bf3420e4005",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 166809,
+   "duree_s": 10.36,
+   "caracteres_dits": 159,
+   "caracteres_factures": 159,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.049,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "2e cas, l'inverse du premier. Ouvrez le message de Nadia\n Carbaj, un point d'avancement adressé à 5 personnes, dont 2\n personnes de l'aile école en copie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.074,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deuxième cas, l'inverse du premier.\n Ouvrez le message de Nadia Carbage, un point d'avancement\n adressé à cinq personnes,\n dont deux personnes de l'aile écolent en copie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O02-L02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "C'est le message dont l'objet parle d'un point d'avancement.",
+   "empreinte_texte_dit": "1a6f78aa57fd036bb201b4f573dcd181aa4f64479e09bb1f8cd118ba122dfc8a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle d'un point d'avancement\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle d'un point d'avancement\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O02-L02-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Vous voulez seulement signaler à Nadia un retard de livraison interne, cela ne regarde pas le client. Faisons d'abord l'erreur: cliquez sur Répondre à tous et observez qui se retrouve destinataire.",
+   "empreinte_texte_dit": "cd2b926c5f6530ea8492f73a847615c94af0bac9528f0bd4b3dd75a333452889",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 176004,
+   "duree_s": 10.92,
+   "caracteres_dits": 197,
+   "caracteres_factures": 197,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous voulez seulement signaler à Nadia un retard de livra\nison interne, cela ne regarde pas le client.\n Faisons d'abord l'erreur. Cliquez sur Répondre à tous et\n observez qui se retrouve destinataire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous voulez seulement signaler à Nadia un retard de livra\nison interne, cela ne regarde pas le client.\n Faisons d'abord l'erreur. Cliquez sur \"Répondre à tous\" et\n observez qui se retrouve destinataire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O02-L02-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Le deuxième bouton de la barre du haut, comme tout à l'heure.",
+   "empreinte_texte_dit": "0dcace9098441c79a34cb8b55827d3999419c561cda9041a61a4df7068131f6f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le deuxième bouton de la barre du haut. Comme tout à l'\nheure.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le deuxième bouton de la barre du haut, comme tout à l'\nheure.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O02-L02-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Cinq destinataires, dont deux à l'école, et votre remarque ne concerne que Nadia.",
+   "empreinte_texte_dit": "3dfdf399c091a29454b46413ce3d2b9a6dc3fe3c82292c80c373badf73f5cb5a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 94084,
+   "duree_s": 5.8,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "5 destinataires dont 2 à L, école et votre remarque ne\n concerne que Nadia.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "5 destinataires, dont 2 à L, école et votre remarque ne\n concerne que Nadia.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O02-L02-06B",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Regardez la ligne des destinataires: votre remarque interne est en route vers le client. Vous n'avez rien fait de fautif, le bouton a fait son travail, reprendre tout le monde. Il ne juge pas si votre réponse concerne tout le monde. La question n'est donc jamais qui a écrit? Mais qui a besoin de lire ma réponse?",
+   "empreinte_texte_dit": "1b7831756cbadd5b543fe4a687a3e190e7496f0c00d0437e1fc3f19437759238",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 272553,
+   "duree_s": 16.96,
+   "caracteres_dits": 313,
+   "caracteres_factures": 313,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Regardez la ligne des destinataires. Votre remarque interne\n est en route vers le client.\n Vous n'avez rien fait de fautif, le goutton a fait son\n travail, reprendre tout le monde.\n Il ne juge pas si votre réponse concerne tout le monde.\n La question n'est donc jamais qui a écrit. Mais qui a\n besoin de lire ma réponse ?",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Regardez la ligne des destinataires. Votre remarque interne\n est en route vers le client.\n Vous n'avez rien fait de fautif ? Le bouton a fait son\n travail ? Reprendre tout le monde.\n Il ne juge pas si votre réponse concerne tout le monde.\n La question n'est donc jamais qui a écrit. Mais qui a\n besoin de lire ma réponse ?",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O02-L02-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Ne gardez que Nadia dans le champ À, et videz le champ Cc. Cinq destinataires, dont deux à l'école: votre remarque interne partirait chez le client. Rien n'est perdu, une réponse se corrige.",
+   "empreinte_texte_dit": "9110d590ea59dab30508fe547494d43b2c57a16c06abf3a6a40535be73d4e28d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 208605,
+   "duree_s": 12.96,
+   "caracteres_dits": 190,
+   "caracteres_factures": 190,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.04,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ne gardez que Nadia dans le champ A et videz le champ CEC.\n Cinq destinataires, dont deux à L, écollent.\n Votre remarque interne partirait chez le client.\n Rien n'est perdu, une réponse se corrige.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ne gardez que Nadia dans le champ A et videz le champ CC.\n Cinq destinataires, dont deux à L, écollent.\n Votre remarque interne partirait chez le client.\n Rien n'est perdu, une réponse se corrige.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O02-L02-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Effacez le contenu du champ Cc, puis ne laissez dans le champ À que l'adresse de Nadia.",
+   "empreinte_texte_dit": "0358d73a41ed014918ea39b21e9d2e9aea29b36b4e4d62e7494b2b95e7277ce8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 87,
+   "caracteres_factures": 174,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Éfacez le contenu du champ CEC puis ne laissez dans le\n champ à que l'adresse de Nadia.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Effacer le contenu du chant cc, puis ne laisser dans le\n chant à que l'adresse de Nadia.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O02-L02-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Une seule adresse reste. Le client n'apprendra rien d'un retard interne.",
+   "empreinte_texte_dit": "012a6c4683a0e8b1612cdc9342724f9b14acd8111c4e81b2f3d6b4283fb2e94f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une seule adresse reste. Le client n'apprendra rien d'un\n retard interne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Une seule adresse reste. Le client n'apprendra rien d'un\n retard interne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "O02-L02-08",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Envoyez. Le réflexe à garder: après Répondre à tous, relire la ligne des destinataires avant le texte. C'est le seul moment où l'erreur est encore réparable.",
+   "empreinte_texte_dit": "b9f7ba58abdf1dddc1403b7f41f0ab2bebcbb533842d75b6aa9449aaf53ad4f2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 147165,
+   "duree_s": 9.12,
+   "caracteres_dits": 157,
+   "caracteres_factures": 157,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez. Le réflexe à garder.\n Après, répondra tous.\n Relire la ligne des destinataires avant le texte.\n C'est le seul moment où l'erreur est encore réparable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyer. Le réflexe à garder. Après répondre à tous.\n Relire la ligne des destinataires avant le texte. C'est le\n seul moment où l'erreur est encore réparable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "O02-L02-08",
+   "role": "Étape 9 · aide",
+   "texte_dit": "Le bouton Envoyer, une fois les destinataires ramenés à la seule personne concernée.",
+   "empreinte_texte_dit": "3f7ec1755ca281d229b6e829878da07b49ea347535cec6cbd85b5a6a8edf4614",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer une fois les destinataires ramenés à la\n seule personne concernée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton « Envoyer », une fois les destinataires ramenés à\n la seule personne concernée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "O02-L02-08",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "Le réflexe à garder: après Répondre à tous, relire la ligne des destinataires avant le texte.",
+   "empreinte_texte_dit": "77b9dcbb5419db3725d0d52d714c629dd34db67da7bbb5375725f064efc6282b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le réflexe à garder.\n Après répondre à tous, relire la ligne des destinataires\n avant le texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le réflexe à garder.\n Après répondre à tous, relire la ligne des destinataires\n avant le texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "La question à se poser avant d'appuyer n'est pas qui a écrit? Mais qui a besoin de lire ma réponse?. Sur une coordination à trois, tout le monde. Sur une remarque qui ne concerne qu'une personne, elle seule. Et une réponse reste modifiable: retirer une adresse de trop est un geste ordinaire, pas un aveu.",
+   "empreinte_texte_dit": "70b6e84502b7767dfd9dc8eb6685c2b1180fdb033a8d1ccd346919eb7851558f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 301810,
+   "duree_s": 18.8,
+   "caracteres_dits": 305,
+   "caracteres_factures": 305,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La question à se poser avant d'appuyer n'est pas qui a\n écrit, mais qui a besoin de lire ma réponse ?\n Sur une coordination à trois, tout le monde.\n Sur une remarque qui ne concerne qu'une personne, elle\n seule.\n Et une réponse reste modifiable.\n Retirer une adresse de trop est un geste ordinaire, pas un\n aveu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La question à se poser avant d'appuyer n'est pas qui a\n écrit, mais qui a besoin de lire ma réponse.\n Sur une coordination à trois, tout le monde.\n Sur une remarque qui ne concerne qu'une personne, elle\n seule. Et une réponse reste modifiable.\n Retirer une adresse de trop est un geste ordinaire, pas un\n aveu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

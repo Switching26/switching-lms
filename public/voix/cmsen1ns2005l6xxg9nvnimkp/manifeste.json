@@ -1,0 +1,672 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1ns2005l6xxg9nvnimkp",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Répartir les rôles sur un même message"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 15,
+  "caracteres_dits": 1845,
+  "duree_totale_s": 120.9,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un client valide un chantier. Il faut lancer la fabrication, informer l'atelier, et permettre à la gérante de suivre sans apparaître devant le client. À vous de décider qui doit agir, qui doit savoir, et qui doit rester invisible, puis d'écrire un message que chacun comprend.",
+   "empreinte_texte_dit": "a4e75aff2fffab5167b3c75165a2b8b233f532c42ad0104c26d6af6b9d35d76a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 286346,
+   "duree_s": 17.84,
+   "caracteres_dits": 276,
+   "caracteres_factures": 276,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un client valide un chantier.\n Il faut lancer la fabrication, informer l'atelier et\n permettre à la gérante de suivre sans apparaître devant le\n client.\n À vous de décider qui doit agir, qui doit savoir et qui\n doit rester invisible, puis d'écrire un message que chacun\n comprend.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un client valide un chantier.\n Il faut lancer la fabrication, informer l'atelier et\n permettre à la gérante de suivre sans apparaître devant le\n client.\n À vous de décider qui doit agir, qui doit savoir et qui\n doit rester invisible, puis D) écrire un message que chacun\n comprend.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O07-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la validation d'Habitat du Nord: elle autorise la fabrication et pose une question sur la date de pose.",
+   "empreinte_texte_dit": "86cccc996edd571c69e11888f5d7e001c6d2f3e0ad23a66a42e5d9915b959cd8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la validation d'habitat du Nord, elle autorise la\n fabrication et pose une question sur la date de pause.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la validation d'Habitat du Nord, elle autorise la\n fabrication et pose une question sur la date de pause.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O07-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui valide les plans et autorise la suite.",
+   "empreinte_texte_dit": "fd09d18cf0be0dfd364c9fdb3cbcf626cbdb8d469af44d214f276fd3279e334d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui valide les plans et autorise la suite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui valide les plans et autorise la suite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O07-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Répondez en plaçant chacun à sa place. Doivent agir: le client, qui attend la date, et h.vasseur@menuiserie-vasseur.fr, qui fabrique. Doit savoir: s.brunel@atelier-nord.fr. Doit suivre sans être vue du client: n.kerbaj@atelier-nord.fr.",
+   "empreinte_texte_dit": "864deab76858d1b4ecb649efad35570795feba4883de30abd3ede0d7514cdad5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 313513,
+   "duree_s": 19.52,
+   "caracteres_dits": 235,
+   "caracteres_factures": 235,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez en plaçant chacun à sa place.\n Doit-vous agir ?\n Le client, qui attend la date, et H.vasseur@menuiserie-vas\nseur.fr qui fabrique.\n Doit savoir\n S.brunel@atelier-nor.fr\n Doit suivre sans être vu du client.\n N.carbage@atelier-nor.fr",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez en plaçant chacun à sa place.\n Doit-tu agir ?\n Le client, qui attend la date, et h.vasseur@menuiserie-v\nasseur.fr qui fabrique.\n Doit savoir.\n s.brunel@atelier-nord.fr\n Doit suivre sans être vu du client.\n n.carbage@atelier-nord.fr",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O07-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "À pour ceux qui agissent, Cc pour informer, Cci pour rester invisible. Le champ Cci s'affiche par le bouton du même nom.",
+   "empreinte_texte_dit": "d2ac113aac72cb6179b405e1c90b9b75da353b327b0402ea4ee426505ae5309c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 144657,
+   "duree_s": 8.96,
+   "caracteres_dits": 120,
+   "caracteres_factures": 120,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "A pour ceux qui agissent, CC pour informer, CCI pour rester\n invisible.\n Le champ CCI s'affiche par le bouton du même nom.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "A pour ceux qui agissent, CC pour informer, CCI pour rester\n invisible.\n Le champ CCI s'affiche par le bouton du même nom.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O07-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le champ À désigne les personnes qui agissent. Le champ Cc informe la personne qui doit savoir. Le champ Cci informe discrètement la personne qui suit : trois lignes, trois rôles.",
+   "empreinte_texte_dit": "5b95768271c553174dca670073109d951ca4ee4d9bc08d6d9b30c57f09bc2ec4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 200664,
+   "duree_s": 12.48,
+   "caracteres_dits": 179,
+   "caracteres_factures": 179,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Le champ assign désigne les personnes qui agissent.\n Le champ CC informe la personne qui doit savoir.\n Le champ CCI informe discrètement la personne qui suit.\n Trois lignes, trois rôles.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Le champ Assine désigne les personnes qui agissent.\n Le champ CC informe la personne qui doit savoir.\n Le champ CCI informe discrètement la personne qui suit.\n Trois lignes, trois rôles.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O07-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot fabrication, en gardant le préfixe posé par Outlook.",
+   "empreinte_texte_dit": "b324cdabd0e534314ded70e9bc48398090486ef43e330e4ae7ea6b9b4d5603ff",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot « fabrication » en gardant le\n préfix posé par Outlook.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot Fabrication en gardant le\n préfixe posé par Outlook.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O07-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le mot ne figure pas encore dans l'objet repris: ajoutez-le à la fin.",
+   "empreinte_texte_dit": "af43623700ddad64e63674a7fa820b6e984b87d455e8cfb18970d0e5181183e8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le mot ne figure pas encore dans l'objet repris. Ajoutez-le\n à la fin.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le mot ne figure pas encore dans l'objet repris. Ajoutez-le\n à la fin.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O07-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rédigez le message et envoyez-le. Il doit annoncer le lancement de la fabrication et donner la date de pose que le client réclame.",
+   "empreinte_texte_dit": "16a83e0913c12e82ea8b21181c79d134e063fdb55a6b0fe4b61282e487a1bf39",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 112893,
+   "duree_s": 7.0,
+   "caracteres_dits": 130,
+   "caracteres_factures": 130,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez le message et envoyez-le.\n Il doit annoncer le lancement de la fabrication et donner\n la date de pause que le client réclame.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez le message et envoyez-le.\n Il doit annoncer le lancement de la fabrication et donner\n la date de pause que le client réclame.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O07-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Deux informations sont attendues: le lancement, et la date de pose.",
+   "empreinte_texte_dit": "fe46a1acc626c81f3ab30a5d54a0a289657526753c212d65c7770d68f3c593bc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Le lancement et la date\n de pause.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le lancement et la date de pause.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O07-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "La fabrication est lancée et la date est donnée: le client n'a plus de question à poser.",
+   "empreinte_texte_dit": "3a35cea25b5778c882416d459c2827cc1400f5658d3a4bb6802406a87757a7d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La fabrication est lancée et la date est donnée.\n Le client n'a plus de questions à poser.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La fabrication est lancée et la date est donnée.\n Le client n'a plus de questions à poser.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O07-E01-99",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Chacun sait ce qu'il a à faire et le client a sa date. Rangez-le dans Clients 2026.",
+   "empreinte_texte_dit": "52d29cc9d4bc09fefcca7b3b7b50cd4fd45546281b9e775a198633ad19d45412",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Chacun sait ce qu'il a à faire et le client a sa date.\n Rangez-le dans Client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Chacun sait ce qu'il a à faire et le client a sa date.\n Rangez-le dans Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O07-E01-99",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Clients 2026.",
+   "empreinte_texte_dit": "e33a8b5a6fa6a2d16ce84102c722a35215a7c29c5edb87409a793722887de9f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 86979,
+   "duree_s": 5.36,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O07-E01-99",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Rangé: la fabrication vit maintenant dans l'atelier, plus dans votre boîte.",
+   "empreinte_texte_dit": "a3597131c8500bd4ee0b7341b0b535bc5b6c9a313ce09507800d3966d176515c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger, la fabrication vit maintenant dans l'atelier, plus\n dans votre boîte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger. La fabrication vit maintenant dans l'atelier, plus\n dans votre boîte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Sur un même message, trois lignes d'adresses valent trois rôles. Se tromper de ligne ne se voit pas à l'envoi: cela se voit quand personne n'agit parce que chacun croyait être juste en copie.",
+   "empreinte_texte_dit": "33e6e7c8cf29b2988ee2657a4f68d726df2fb719d863dd82c3924ab2a400230c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 163466,
+   "duree_s": 10.16,
+   "caracteres_dits": 191,
+   "caracteres_factures": 191,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un même message, trois lignes d'adresse valent trois rô\nles.\n Ce trompé de ligne ne se voit pas à l'envoi.\n Cela se voit qu'en personne n'agit parce que chacun croyait\n être juste en copie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un même message, trois lignes d'adresse valent trois rô\nles.\n Se tromper de ligne ne se voit pas à l'envoi.\n Cela se voit quand personne n'agit parce que chacun croyait\n être juste en copie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

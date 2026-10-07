@@ -1,0 +1,670 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1ooc007v6xxgqj7fisg0",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Arbitrer une journée déjà pleine"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 15,
+  "caracteres_dits": 1494,
+  "duree_totale_s": 87.3,
+  "segments_valides": 15,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Votre mercredi est occupé toute la journée. Deux invitations arrivent, l'une sur ce mercredi, l'autre sur un jour encore libre. Consultez votre agenda avant de répondre, et répondez aux deux: celle qu'on décline autant que celle qu'on accepte.",
+   "empreinte_texte_dit": "63f13e53652470d838968c5dcfc0af76d66ff80e1ebd1c82fbeac0509601ca03",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 214875,
+   "duree_s": 13.36,
+   "caracteres_dits": 243,
+   "caracteres_factures": 243,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Votre mercredi est occupée toute la journée.\n Deux invitations arrivent.\n L'une sur ce mercredi, l'autre sur un jour encore libre.\n Consultez votre agenda avant de répondre et répondez aux\n deux,\n celles qu'on décline autant que celles qu'on accepte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Votre mercredi est occupé toute la journée.\n Deux invitations arrivent, l'une sur ce mercredi, l'autre\n sur un jour encore libre.\n Consultez votre agenda avant de répondre, et répondez aux\n deux, celles qu'on décline\n autant que celles qu'on accepte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O10-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Consultez d'abord votre agenda: c'est lui, et non votre mémoire, qui doit décider de vos réponses.",
+   "empreinte_texte_dit": "20d106522d242b2d36103971de2bc94c84216995d3c89f7a3ad4079df43ba666",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 88651,
+   "duree_s": 5.48,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Consultez d'abord votre agenda.\n C'est lui et non votre mémoire qui doit décider de vos rép\nonses.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Consultez d'abord votre agenda.\n C'est lui, et non votre mémoire, qui doit décider de vos\n réponses.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O10-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "L'icône du calendrier; sur téléphone, la barre du bas.",
+   "empreinte_texte_dit": "25cb9d39cfa848e736592ff373841b4b0eecbb7a5f740618400141a9a965118c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'icône du calendrier sur téléphone, la barre du bas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'icône du calendrier sur téléphone, la barre du bas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O10-E02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "C'est l'agenda qui décide des réponses, jamais le souvenir qu'on a de sa semaine.",
+   "empreinte_texte_dit": "7d351c06e71ee1bd713b2e228d62757e5e7ab838c05e8efa37167ed6b82696c7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est l'agenda qui décide des réponses.\n Jamais le souvenir qu'on a de sa semaine.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est l'agenda qui décide des réponses.\n Jamais le souvenir qu'on a de sa semaine.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O10-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Revenez au courrier et ouvrez l'invitation de Fleurs de Saison: elle tombe sur une journée déjà entièrement occupée.",
+   "empreinte_texte_dit": "81fc1f5f14dea60c83b6e501c7997c87ab39344a922aa0024de90586b137957c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 116,
+   "caracteres_factures": 116,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.045,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Revenez au courrier et ouvrez l'invitation de fleurs de sa\nison.\n Elle tombe sur une journée déjà entièrement occupée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.045,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Revenez au courrier et ouvrez l'invitation de fleurs de sa\nison.\n Elle tombe sur une journée déjà entièrement occupée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O10-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Basculez d'abord sur Courrier, puis ouvrez le message qui parle de la vitrine.",
+   "empreinte_texte_dit": "77f1b43be2cafbcffcfe709ad852d77f0df0cbcb455a06feb26c34636c01ab93",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Basculez d'abord sur courrier, puis ouvrez le message qui\n parle de la vitrine.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Basculer d'abord sur courrier, puis ouvrez le message qui\n parle de la vitrine.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O10-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Répondez à cette invitation de la façon qui permet à l'organisateur d'avancer sans vous attendre.",
+   "empreinte_texte_dit": "d1c5610f32e6af55bc155f4961128f350b70e85bc1cff8d43bf6eb98f4094402",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez à cette invitation, de la façon qui permet à l'\norganisateur d'avancer sans vous attendre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez à cette invitation de la façon qui permet à l'\norganisateur d'avancer sans vous attendre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O10-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le bouton Refuser est le troisième de l'encadré bleu, sous le texte.",
+   "empreinte_texte_dit": "c9c6b4c492b837373b879a0c382cfb15da401fa61deba857f723b991d966c90d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Refuser est le troisième de l'encadrait bleu sous\n le texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Refuser est le troisième de l'encadré bleu sous\n le texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O10-E02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "L'organisateur peut avancer sans vous attendre: un refus vaut mieux qu'un silence.",
+   "empreinte_texte_dit": "9bee9e010ae398eda5e2d9b672264e3ba73284813168090e130db24585ccae9c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'organisateur peut avancer sans vous attendre. Un refus v\naut mieux qu'un silence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'organisateur peut avancer sans vous attendre.\n Un refus vaut mieux qu'un silence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O10-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Ouvrez l'invitation d'Hugo Vasseur: elle porte sur le mardi, encore libre.",
+   "empreinte_texte_dit": "be1fd20fb4f329b415726e686616cacc2f786e9f5c42e9086d769cd01015c83a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez l'invitation du govasseur, elle porte sur le mardi\n encore libre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez l'invitation du Govasseur, elle porte sur le mardi\n encore libre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O10-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "C'est le message qui propose une revue de plans.",
+   "empreinte_texte_dit": "a9c79a0d1cf9445887659260203871cd0c0b0798ce2407f75bca773f40ee9a6a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 43511,
+   "duree_s": 2.64,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui propose une revue de plan.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui propose une revue de plan.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O10-E02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Acceptez-la, de façon que le rendez-vous s'inscrive réellement dans votre agenda avec ses participants.",
+   "empreinte_texte_dit": "4d58f39ab1d967c97591a7a6b59af5edcdb40f96304cfeba851d3a882f7cf0d0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 88651,
+   "duree_s": 5.48,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Acceptez-la, de façon que le rendez-vous s'inscrive réell\nement dans votre agenda avec ses participants.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Acceptez-la, de façon que le rendez-vous s'inscrive réell\nement dans votre agenda avec ses participants.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O10-E02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Le bouton Accepter, premier des trois de l'encadré bleu.",
+   "empreinte_texte_dit": "6dd2d9c515d699498014e381ff20780de1a195a53dd8085ab1029c12a078524e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Accepter, premier des trois de l'encadrée bleue.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Accepter, premier des trois de l'encadré bleu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O10-E02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Acceptée, donc inscrite avec ses participants. Deux invitations, deux réponses opposées, un seul critère.",
+   "empreinte_texte_dit": "3da7fd649efa20669c4045c63098804128987422d0c5ea04e4210d8e305c1f20",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 113728,
+   "duree_s": 7.04,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Accepter donc inscrit avec ses participants.\n Deux invitations, deux réponses opposées, un seul critère.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Accepter, donc inscrite avec ses participants.\n Deux invitations, deux réponses opposées, un seul critère.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Répondre à une invitation qu'on décline coûte un clic et fait gagner une demi-journée à l'organisateur. Ne pas répondre le laisse réserver une salle, préparer des documents, et vous attendre.",
+   "empreinte_texte_dit": "1d6044b80b4970a939040b33e93f220d6032462fd763acbc827ba400eb86a4ac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 171407,
+   "duree_s": 10.64,
+   "caracteres_dits": 191,
+   "caracteres_factures": 191,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondre à une invitation qu'on décline, coûte un clic et\n fait gagner une demi-journée à l'organisateur.\n Ne pas répondre, le laisse réserver une salle, préparer des\n documents et vous attendre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondre à une invitation qu'on décline coûte un clic et\n fait gagner une demi-journée à l'organisateur.\n Ne pas répondre le laisse réserver une salle, préparez des\n documents et vous attendre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,920 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1nnv00596xxgfqy4q4lj",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Qui mettre en copie, et quand arrêter"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2993,
+  "duree_totale_s": 179.9,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Mettre quelqu'un en copie coûte un clic et lui coûte une lecture. Multipliée par vingt messages et cinq personnes, l'habitude produit des boîtes que plus personne ne lit, donc des informations qui passent inaperçues au moment où elles comptent. La règle tient en une question, et vous allez l'appliquer trois fois.",
+   "empreinte_texte_dit": "34503cd3276be35b935bcf260eaa02d7f70085bab0422b0eeb6f46462ddfa9ce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 272971,
+   "duree_s": 17.0,
+   "caracteres_dits": 314,
+   "caracteres_factures": 314,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Mettre quelqu'un en copie coûte un clic et lui coûte une\n lecture.\n Multiplié par 20 messages et 5 personnes, l'habitude\n produit des boîtes que plus personne ne lit,\n donc des informations qui passent inaperçues au moment où\n elle compte.\n La règle tient une question et vous allez l'appliquer 3\n fois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Mettre quelqu'un en copie coûte un clic et lui coûte une\n lecture.\n Multiplié par 20 messages et 5 personnes, l'habitude\n produit des boîtes que plus personne ne lit,\n donc des informations qui passent inaperçues au moment où\n elles comptent.\n La règle tient en une question et vous allez l'appliquer\n trois fois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O07-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message d'Habitat du Nord. Un désordre est signalé et le solde de la facture est suspendu: trois personnes sont concernées, mais pas de la même manière.",
+   "empreinte_texte_dit": "cbefb05cf5752e210a34ddb2ef46bd000e3f3e18b447de6355d82783a63d023a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 140060,
+   "duree_s": 8.68,
+   "caracteres_dits": 162,
+   "caracteres_factures": 162,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message d'habitat du Nord.\n Un désordre est signalé et le solde de la facture est\n suspendu.\n Trois personnes sont concernées, mais pas de la même\n manière.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message d'Habitat du Nord.\n Un désordre est signalé et le solde de la facture est\n suspendu.\n Trois personnes sont concernées, mais pas de la même\n manière.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O07-L01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui parle d'un désordre constaté à la réception.",
+   "empreinte_texte_dit": "f9be85be4807d15960e5d4a094d3b56649ee8ddacee5f2724dc8e97271b6fb45",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message qui parle d'un désordre constaté à la ré\nception.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message qui parle d'un désordre constaté à la ré\nception.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O07-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre à tous. Le message est arrivé à vous et à Sonia: on repart de tous les destinataires, quitte à en retirer ensuite. C'est plus sûr que d'en oublier un.",
+   "empreinte_texte_dit": "dbb9a77b7dc6968538ef21ac96aba69e1c4729bac00aeea15b9d2ee4cc882d06",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 168899,
+   "duree_s": 10.48,
+   "caracteres_dits": 171,
+   "caracteres_factures": 171,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre à tous.\n Le message est arrivé à vous et à Sonia.\n On repart de tous les destinataires,\n quitte à en retirer ensuite.\n C'est plus sûr que d'en oublier un.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cliquez sur \"Répondre à tous\".\n Le message est arrivé à vous et à Sonia.\n On repart de tous les destinataires, quitte à en retirer\n ensuite.\n C'est plus sûr que d'en oublier un.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O07-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le deuxième bouton de la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "4940a9f09947d0ee5825fccad2eb39f5d74b388a5327f4ce90cbaaaef1e56f04",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le deuxième bouton de la bar du haut du volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le deuxième bouton de la barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O07-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "On repart de tous les destinataires d'origine, puis on ajuste. L'inverse fait toujours oublier quelqu'un.",
+   "empreinte_texte_dit": "af69ce9f37b48265959016d5a9eea261421c234391a8de4cec5a950fc4c4dd1b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "On repart de tous les destinataires d'origine, puis on\n ajuste.\n L'inverse fait toujours oublier quelqu'un.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "On repart de tous les destinataires d'origine, puis on\n ajuste.\n L'inverse fait toujours oublier quelqu'un.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O07-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Ajoutez h.vasseur@menuiserie-vasseur.fr dans le champ À. Hugo a posé l'escalier: il devra agir, donc il rejoint la ligne principale. Une copie ne suffirait pas, on n'agit pas sur ce qu'on reçoit pour information.",
+   "empreinte_texte_dit": "70744a116e6571113fa24cf5d25e827ece7e8924094f27cdc388010117d399ed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 262104,
+   "duree_s": 16.32,
+   "caracteres_dits": 212,
+   "caracteres_factures": 212,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ajoutez H.vasseur@menuiserie-vasseur.fr dans le champ A.\n Hugo a posé l'escalier.\n Il devra agir, donc il rejoint la ligne principale.\n Une copie ne suffirait pas, on n'agit pas sur ce qu'on reço\nit pour information.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ajoutez h.vasseurs@menuiserie-vasseurs.fr dans le champ A.\n Hugo a posé l'escalier.\n Il devra agir, donc il rejoint la ligne principale.\n Une copie ne suffirait pas, on n'agit pas sur ce qu'on reço\nit pour information.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O07-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Deux adresses sur la ligne À, séparées par un point-virgule.",
+   "empreinte_texte_dit": "6699b5cb0dc4bee4ec6405c3fd74d0f55bb8cf09e104b9e253fba90e464eefc6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux adresses sur la ligne A séparées par un point virgule.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "deux adresses sur la ligne A, séparées par un point virgule\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O07-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Hugo a posé cet escalier: il doit agir, donc il va sur la ligne principale.",
+   "empreinte_texte_dit": "82d8427e3b67888433523dc9d976da4930b14248ce1bf8becee002a552a9002d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Hugo a posé cet escalier. Il doit agir, donc il va sur la\n ligne principale.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Hugo a posé cet escalier. Il doit agir, donc il va sur la\n ligne principale.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O07-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Mettez n.kerbaj@atelier-nord.fr en copie. La gérante doit savoir qu'un solde est suspendu, c'est de l'argent, mais elle n'a rien à faire sur ce message. Sa place est la copie, pas la ligne principale.",
+   "empreinte_texte_dit": "7f18e7f4d1d6017abcd826ca1226f2fd8666148f9f7279caff642c383b52a00a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 225742,
+   "duree_s": 14.04,
+   "caracteres_dits": 200,
+   "caracteres_factures": 200,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.058,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "mette n.carby@atelier-nor.fr en copie.\n La gérante doit savoir qu'un sol des suspendus, c'est de l'\nargent,\n mais elle n'a rien à faire sur ce message.\n Sa place est la copie, pas la ligne principale.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Mettez n.carbaye@atelier-nord.fr en copie.\n La gérante doit savoir qu'un solde est suspendu, c'est de l\n'argent, mais elle n'a rien à\n faire sur ce message.\n Sa place est la copie, pas la ligne principale.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O07-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le champ Cc est la deuxième ligne de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "563689df9e71764e48ebd42207a3521865af2ba468265e8f2da76f7d017dcf05",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.061,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le champ CC est la deuxième ligne de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.061,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le champ CC est la deuxième ligne de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O07-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "La gérante doit savoir qu'un solde est suspendu, sans avoir à intervenir: c'est exactement le rôle de la copie.",
+   "empreinte_texte_dit": "c2f349dac4e13eae380038233d15ccf6cf8ea57c1d499a8d924d092b84eb826a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.039,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La gérante doit savoir qu'un sol des suspendus, sans avoir\n à intervenir,\n c'est exactement le rôle de la copie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La gérante doit savoir qu'un solde est suspendu sans avoir\n à intervenir.\n C'est exactement le rôle de la copie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O07-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Retirez Sonia de la ligne À. Elle n'a ni posé cet escalier, ni à intervenir.",
+   "empreinte_texte_dit": "a62a9489ddd5258f25368a8d0577d60f27ffac2b84a5c4f60c586c4ea66b47f2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Retirez Sonia de la ligne A.\n Elle n'a ni posé cet escalier, ni à intervenir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Retirez Sonia de la ligne A.\n Elle n'a ni posé cet escalier, ni à intervenir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O07-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Effacez son adresse dans le champ À; les deux autres restent.",
+   "empreinte_texte_dit": "57c3ff19a08111f69756228b41e2d83ef3050e61cf027b65e93303796f0c7f0d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.1,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "et facez son adresse dans le champ A, les deux autres rest\nent.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.067,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Effacer son adresse dans le champ A, les deux autres rest\nent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O07-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Laisser quelqu'un au cas où lui coûte une lecture inutile, tous les jours.",
+   "empreinte_texte_dit": "0fd8d41edfef82c0ca405c4c261bf3cb1b389f9f88744f8ab3b8864bbdbbf8e0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Laissez quelqu'un au cas où lui coûte une lecture inutile\n tous les jours.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Laissez quelqu'un au cas où lui coûte une lecture inutile\n tous les jours.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O07-L01-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Au cas où est ce qui tue une messagerie d'équipe. Hugo passe en À parce qu'il doit agir, la gérante en copie parce qu'elle doit savoir, Sonia sort parce qu'elle n'a ni à agir ni à savoir. Le troisième geste est le plus difficile: une copie coûte une lecture, et multipliée par vingt messages, elle produit des boîtes que plus personne ne lit.",
+   "empreinte_texte_dit": "0d9d78acf8fd80610f5d31acddc130d1255a020e5748065ef9749ea3b796b45b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 311005,
+   "duree_s": 19.36,
+   "caracteres_dits": 342,
+   "caracteres_factures": 342,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Au cas où est ce qui tue une messagerie D, équipe.\n Hugo passant A parce qu'il doit agir,\n la gérante en copie parce qu'elle doit savoir,\n Sonia sort parce qu'elle n'a ni à agir ni à savoir.\n Le troisième geste est le plus difficile.\n Une copie coûte une lecture\n et multiplié par 20 messages,\n elle produit des boîtes que plus personne ne lit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Au cas où est-ce qu'il tue une messagerie de D, équipe.\n Hugo passant A parce qu'il doit agir, la gérante en copie\n parce qu'elle doit savoir,\n Sonia sort parce qu'elle n'a ni à agir ni à savoir.\n Le troisième geste est le plus difficile.\n Une copie coûte une lecture et, multipliée par 20 messages,\n elle produit des boîtes\n que plus personne ne lit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O07-L01-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Rédigez la réponse. Elle doit reconnaître le désordre signalé et annoncer une date d'intervention: sur un litige, une date vaut mieux que dix formules d'excuse.",
+   "empreinte_texte_dit": "e052450a96c8cf30ecf54e199e1df751f8ff4488fe10028e64139752a9f9dbbc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 160540,
+   "duree_s": 9.96,
+   "caracteres_dits": 160,
+   "caracteres_factures": 160,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédigé la réponse.\n Elle doit reconnaître le désordre signalé et annoncer une\n date d'intervention.\n Sur un litige, une date vaut mieux que dix formules d'exc\nuse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédigez la réponse.\n Elle doit reconnaître le désordre signalé et annoncer une\n date d'intervention.\n Sur un litige, une date vaut mieux que dix formules d'exc\nuse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O07-L01-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Deux informations sont attendues: le défaut reconnu, et la date à laquelle vous intervenez.",
+   "empreinte_texte_dit": "41a203910aca9e010540a8ce7ffc8b6b4b463ae13bac8d9d2761082df3d270f1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le défaut reconnu est la date à laquelle vous intervenez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le défaut reconnu et la date à laquelle vous intervenez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O07-L01-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Envoyez. Deux personnes savent qu'elles doivent agir, une troisième est informée, et personne n'a reçu un message qui ne le concernait pas.",
+   "empreinte_texte_dit": "4b1427a07ecb51e9ca0da992b22ebb2f2ac0a207cb086c6386b8b783d28e4fac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 125849,
+   "duree_s": 7.8,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Envoyez.\n Deux personnes savent qu'elles doivent agir, une troisième\n est informée et personne n'a\n reçu un message qui ne le concernait pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Envoyer. Deux personnes savent qu'elles doivent agir, une\n troisième est informée et personne n'a reçu un message qui\n ne le concernait pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O07-L01-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Le bouton Envoyer, premier de la barre du haut.",
+   "empreinte_texte_dit": "29de634f6e8d916334d2a30d68f58c301f36131e5f3d9f631422dce85dc59f83",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer, premier de la barre du haut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer, premier de la barre du haut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O07-L01-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Deux personnes savent qu'elles doivent agir, une troisième est informée, et personne n'a reçu un message pour rien.",
+   "empreinte_texte_dit": "ca938cfd9e99b10f6913ba4aba2c55f2ed7dd4f72f88e853b8bd627767748c4d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux personnes savent qu'elles doivent agir, une troisième\n est informée et personne n'a reçu un message pour rien.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux personnes savent qu'elles doivent agir, une troisième\n est informée et personne n'a reçu un message pour rien.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "La question à se poser avant chaque copie: cette personne devra-t-elle agir à partir de ce message, ou seulement le savoir? Si elle doit agir, sa place est sur la ligne principale. Si elle doit seulement savoir, la copie. Si ni l'un ni l'autre, on ne la met pas, c'est le cas le plus fréquent.",
+   "empreinte_texte_dit": "3e317fa78955364f11d33fe3b899c75acc9cb3ce4207d761a5688d3d1990deac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 263358,
+   "duree_s": 16.4,
+   "caracteres_dits": 293,
+   "caracteres_factures": 293,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La question a se posé avant chaque copie.\n Cette personne devra-t-elle agir à partir de ce message, ou\n seulement le savoir ?\n Si elle doit agir, sa place est sur la ligne principale.\n Si elle doit seulement savoir, la copie.\n Si ni l'un ni l'autre, on ne la met pas, c'est le cas le\n plus fréquent.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La question à se poser avant chaque copie.\n Cette personne devra-t-elle agir à partir de ce message, ou\n seulement le savoir ?\n Si elle doit agir, sa place est sur la ligne principale.\n Si elle doit seulement savoir, la copie.\n Si ni l'un ni l'autre, on ne la met pas, c'est le cas le\n plus fréquent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

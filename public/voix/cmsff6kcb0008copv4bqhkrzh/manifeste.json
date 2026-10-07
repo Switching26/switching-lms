@@ -1,0 +1,877 @@
+{
+ "chapitre": {
+  "chapterId": "cmsff6kcb0008copv4bqhkrzh",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Répondre à un message et y joindre un fichier"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 3108,
+  "duree_totale_s": 189.4,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Rémi Tissot attend son devis. Vous savez écrire un message de zéro; celui-ci répond à un message reçu, et il emporte deux fichiers. Deux gestes nouveaux, donc: le bouton Répondre et le bouton Joindre. Ce que ces deux gestes déclenchent en coulisses fait l'objet de modules entiers plus loin, ici, on apprend à les faire.",
+   "empreinte_texte_dit": "cca2ca26fd806e83070ab04f6a54ea17751b6f27a2cd58c5e2ac017cd973daed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 298884,
+   "duree_s": 18.6,
+   "caracteres_dits": 320,
+   "caracteres_factures": 640,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rémiti-saut attend son devis.\n Vous savez écrire un message de zéro ?\n Celui-ci répond à un message reçu et il emporte deux fich\niers.\n Deux gestes nouveaux, donc le bouton Répondre et le bouton\n Joindre.\n Ce que ces deux gestes déclenchent en coulisses fait l'ob\njet de modules entiers plus loin, ici on apprend à les faire\n.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rémy Tissot a Tenson de vie.\n Vous savez écrire un message de zéro ?\n Celui-ci répond à un message reçu et il emporte deux fich\niers.\n Deux gestes nouveaux, donc le bouton Répondre et le bouton\n Joindre.\n Ce que ces deux gestes déclenchent en coulisses fait l'ob\njet de modules entiers plus loin.\n Ici, on apprend à les faire.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O01-L04-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la demande de Rémi Tissot. Relisez-la avant d'y répondre: il demande un devis et un plan. Une réponse qui n'apporte qu'une des deux choses vaudra un aller-retour de plus.",
+   "empreinte_texte_dit": "6fb4319051a169dad443d095474df7bfe92086f7f0ddec9f492d5db43c73845d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 168063,
+   "duree_s": 10.44,
+   "caracteres_dits": 177,
+   "caracteres_factures": 177,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de Remiti-Sau. Relisez-la avant d'y\n répondre.\n Il demande un devis et un plan.\n Une réponse qui n'apporte qu'une des deux choses vaudra un\n aller-retour de plus.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de Rémi Tissot. Relisez-la avant d'y\n répondre.\n Il demande un devis et un plan.\n Une réponse qui n'apporte qu'une des deux choses vaudra un\n aller-retour de plus.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O01-L04-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet parle d'un comptoir d'accueil.",
+   "empreinte_texte_dit": "afdaabac0797f9b706e43cad0f62c36f03bac2e097b5171e4d9119799c86c0d1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle d'un comptoir d'accueil\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle d'un comptoir d'accueil\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O01-L04-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre. Le bouton est en haut du volet de lecture. Une fenêtre de rédaction s'ouvre, déjà partiellement remplie: ce qu'Outlook y a mis à votre place, et ce qu'il a laissé de côté, sera le sujet du module 2.",
+   "empreinte_texte_dit": "dc438cf1cf0797d0fbb24649465cfc8d5402f6bf308d61e5fa8975acec1a1fbb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 219890,
+   "duree_s": 13.68,
+   "caracteres_dits": 220,
+   "caracteres_factures": 220,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre, le bouton est en haut du volet de\n lecture.\n Une fenêtre de rédaction s'ouvre déjà partiellement remplie\n.\n Ce caoutelou qui a mis à votre place et ce qu'il a laissé\n de côté sera le sujet du module 2.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre, le bouton est en haut du volet de\n lecture.\n Une fenêtre de rédaction s'ouvre, déjà partiellement rempl\nie.\n Ce caoutelou qui a mis à votre place, et ce qu'il a laissé\n de côté,\n sera le sujet du module 2.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O01-L04-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Répondre est en haut du volet de lecture, à gauche.",
+   "empreinte_texte_dit": "52d7ff6148deaf4895890269728f8638b95c58c01b7821ad98a9e0c45dbd0a98",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre est en haut du volet de lecture à gauche\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre est en haut du volet de lecture, à\n gauche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O01-L04-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "La fenêtre s'ouvre déjà remplie en partie: répondre évite de retaper l'adresse.",
+   "empreinte_texte_dit": "72083db1fd4a3373b5c9bcc5967c0311215820b21f2188a76c93c002a5879408",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La fenêtre s'ouvre déjà remplie en partie.\n Répondrez vite de retaper l'adresse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La fenêtre s'ouvre déjà remplie en partie.\n Répondrez vite de retaper l'adresse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O01-L04-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Cliquez sur Joindre. Le bouton porte un trombone. Une liste des fichiers de votre poste s'ouvre: c'est là qu'on choisit ce qui partira avec le message.",
+   "empreinte_texte_dit": "61e35ecd4b5985480ff6e3dc723ce1abeca6f9ecde556242e12290dde5908415",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 142986,
+   "duree_s": 8.88,
+   "caracteres_dits": 151,
+   "caracteres_factures": 151,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur Joindre. Le bouton Portent trombones.\n Une liste des fichiers de votre poste s'ouvre.\n C'est là qu'on choisit ce qui partira avec le message.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur \"Joindre\". Le bouton porte un trombone.\n Une liste des fichiers de votre poste s'ouvre.\n C'est là qu'on choisit ce qui partira avec le message.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O01-L04-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le bouton Joindre porte un trombone, dans la barre du haut de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "1942453300d7a69f3273a98b6e261157c9d294e1a3079a6f654b64c80809a437",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Joindre porte un trombone dans la bar du haut de\n la fenêtre de rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton joindre porte un trombone dans la barre du haut\n de la fenêtre de rédaction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O01-L04-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "La liste des fichiers de votre poste s'affiche. Un clic sur une ligne attache le fichier.",
+   "empreinte_texte_dit": "0240f7a13ca6977c9e6be2ccd404af687d3c2c823f256788c11208b073fe3a02",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La liste des fichiers de votre poste s'affiche.\n Un clic sur une ligne attache le fichier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La liste des fichiers de votre poste s'affiche.\n Un clic sur une ligne attache le fichier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O01-L04-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Joignez Devis-2026-118.pdf. Cliquez sur sa ligne: la liste se referme et le nom du fichier apparaît sous les lignes d'adresses, avec une croix à droite pour le retirer.",
+   "empreinte_texte_dit": "84d1d299dcd45c2b3e03ea94f32482a3c35005f4c34d962e28bf20d189a1f916",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 180184,
+   "duree_s": 11.2,
+   "caracteres_dits": 168,
+   "caracteres_factures": 504,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Joignez deux vis 2026-118.pdf.\n Cliquez sur sa ligne.\n La liste se referme et le nom du fichier apparaît sous les\n lignes d'adresse avec une croix à droite pour le retirer."
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Joigné de vise 2026-118.pdf. Cliquez sur sa ligne. La liste se referme et le nom du fichier apparaît sous les lignes d'adresse, avec une croix à droite pour le retirer.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O01-L04-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Cliquez sur la ligne du fichier dans la liste ouverte: elle se referme et le fichier s'attache.",
+   "empreinte_texte_dit": "28f0362414db17845a2ee0777ba51667ca580e307e6cf4434733d61f03fdebfe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur la ligne du fichier dans la liste ouverte.\n Elle se referme et le fichier s'attache.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur la ligne du fichier dans la liste ouverte.\n Elle se referme et le fichier s'attache.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O01-L04-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le devis est attaché. Son nom apparaît sous l'objet: c'est ce que verra votre destinataire.",
+   "empreinte_texte_dit": "7eb5cfc763e77641a74db7e197e40d2b4183286e4f4686ce2d6df0a098d1ab2c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le devis est attaché, son nom apparaît sous l'objet, c'est\n ce que verra votre destinataire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le devis est attaché.\n Son nom apparaît sous l'objet.\n C'est ce que verra votre destinataire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O01-L04-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Joignez aussi Plan-comptoir.pdf, le second document demandé. Un message peut porter plusieurs fichiers: ils s'ajoutent les uns à côté des autres. Laissez Photos-atelier.zip de côté, le module 9 dira pourquoi.",
+   "empreinte_texte_dit": "c6caa3e7b31a9245cba87ed3202101732340e76ef2447c08c2f48dc4f8c8d176",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 233265,
+   "duree_s": 14.52,
+   "caracteres_dits": 208,
+   "caracteres_factures": 208,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Joignez aussi plan comptoir.pdf le second document demandé.\n Un message peut porter plusieurs fichiers.\n Il s'ajoute les uns à côté des autres.\n Laissez photo atelier.zip de côté.\n Le module 9 dira pourquoi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Joignez aussi plan-comptoir.pdf, le second document demandé\n.\n Un message peut porter plusieurs fichiers.\n Ils s'ajoutent les uns à côté des autres.\n Laissez photo-atelier.zip de côté.\n Le module 9 dira pourquoi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O01-L04-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Rouvrez Joindre, puis cliquez sur Plan-comptoir.pdf. Les deux fichiers doivent apparaître côte à côte.",
+   "empreinte_texte_dit": "c35db75349adb7a56908c0c62b7b18f077a6858b3664ede324e5028901e0f8e9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rouvrez joindre, puis cliquez sur plan comptoir.pdf.\n Les deux fichiers doivent apparaître côte à côte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "R'ouvrez Joindre, puis cliquez sur plan-contoir.pdf.\n Les deux fichiers doivent apparaître côte à côte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O01-L04-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Les deux documents demandés sont joints, côte à côte sous l'objet.",
+   "empreinte_texte_dit": "f696bb0736d4a7b670b58be8aa83c507d94b1b521c278450085f6ffb7fb5ba73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les deux documents demandés sont joints, côte à côte, sous\n l'objet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Les deux documents demandés sont joints, côte à côte, sous\n l'objet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O01-L04-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Vous venez d'utiliser deux gestes dont vous ne connaissez pas encore les pièges. C'est volontaire. Répondre a rempli des lignes à votre place: lesquelles, et surtout laquelle il a oubliée, se joue au module 2. Joindre a attaché un fichier sans vérifier ni que c'est le bon, ni qu'il arrivera: le module 9 y consacrera trois leçons.",
+   "empreinte_texte_dit": "89b0b399a5abec75a1f571789e0432f35c42a45604adf4fb3621dfa17ae8c3bc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 315185,
+   "duree_s": 19.64,
+   "caracteres_dits": 331,
+   "caracteres_factures": 331,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous venez d'utiliser deux gestes dont vous ne connaissez\n pas encore les pièges.\n C'est volontaire.\n Répondre à rempli des lignes à votre place.\n Lesquelles, et surtout laquelles il a oublié, se jouent au\n module 2.\n Joindra attacher un fichier sans vérifier ni que c'est le\n bon, ni qu'il arrivera.\n Le module 9, il consacrera trois leçons.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous venez d'utiliser deux gestes dont vous ne connaissez\n pas encore les pièges.\n C'est volontaire.\n Répondre à rempli des lignes à votre place.\n Lesquelles, et surtout laquelle il a oublié, se jouent au\n module 2.\n Joindre à attacher un fichier sans vérifier ni que c'est le\n bon, ni qu'il arrivera.\n Le module 9 y consacrera trois leçons.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O01-L04-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Rédigez la réponse. Elle doit annoncer que les documents sont joints et indiquer un délai que vous vous engagez à tenir. Une pièce jointe sans un mot d'accompagnement laisse le destinataire deviner ce qu'il doit en faire.",
+   "empreinte_texte_dit": "d09e9d495c0bf6fb31118cc016fca82502156b0204460a6ac79e2e390931f32d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 198992,
+   "duree_s": 12.36,
+   "caracteres_dits": 221,
+   "caracteres_factures": 221,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.057,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigez la réponse.\n Elles doivent annoncer que les documents sont joints et ind\niquer un délai que vous vous engagez à tenir.\n Une pièce jointe sans un mot d'accompagnement laisse le\n destinataire deviner ce qu'ils doivent en faire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigez la réponse.\n Elle doit annoncer que les documents sont joints et ind\niquer un délai que vous vous engagez à tenir.\n Une pièce jointe sans un mot d'accompagnement laisse le\n destinataire deviner ce qu'il doit en faire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O01-L04-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Deux informations sont attendues: la présence des documents, et un délai.",
+   "empreinte_texte_dit": "59b3ae8fd98f1ddd64d113bd7bff4f8dde629155cf9652d506862494a8041c1e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La présence des documents et un délai.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La présence des documents et un délai.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O01-L04-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Envoyez le message. Vos deux fichiers partent avec lui. La fenêtre se referme: la réponse est partie, pièces comprises.",
+   "empreinte_texte_dit": "1849d5f171c073eb53e50533a7bc2ff240a04772f304c253831cd14edab3429f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 130447,
+   "duree_s": 8.08,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.028,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez le message. Vos deux fichiers partent avec lui.\n La fenêtre se referme. La réponse est partie. Pies comprise\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez le message. Vos deux fichiers partent avec lui.\n La fenêtre se referme. La réponse est partie.\n Pièces comprises.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O01-L04-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "2667ca0a7beb4de62970e73906b0981a06f7bf5161f8353b2db14b5b268ebc42",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O01-L04-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "La réponse est partie avec ses deux fichiers.",
+   "empreinte_texte_dit": "a49617b586a119951d1d0a08c25875a1caeda3c09fd449ef036ef3261614f767",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La réponse est partie avec ces deux fichiers.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La réponse est partie avec ces deux fichiers.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Deux gestes acquis: répondre plutôt que réécrire, et attacher un fichier au message. Ce que Répondre remplit à votre place, et ce qu'il oublie, est le sujet du module 2. Comment choisir le bon fichier, et pourquoi certains ne partiront jamais, est celui du module 9.",
+   "empreinte_texte_dit": "785e6cf1c87461ef6022d4d86a133b9ab8872f94e228afcc4e05ed34f5979d82",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 248311,
+   "duree_s": 15.44,
+   "caracteres_dits": 266,
+   "caracteres_factures": 532,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "2 gestes acquis. Répondre plutôt que réécrire et attacher\n un fichier au message.\n Ce que répondre rempli à votre place, et ce qu'il oublie,\n est le sujet du module 2.\n Comment choisir le bon fichier et pourquoi certains ne\n partiront jamais, et celui du module 9 ?",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux gestes acquis.\n Répondre plutôt que réécrire et attacher un fichier au\n message.\n Ce que répondre remplit à votre place et ce qui l'oublie\n est le sujet du module 2.\n Comment choisir le bon fichier et pourquoi certains ne\n partiront jamais est celui du module 9.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

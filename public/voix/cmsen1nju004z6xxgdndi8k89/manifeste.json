@@ -1,0 +1,884 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1nju004z6xxgdndi8k89",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Une relance et une réponse, deux tons différents"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 21,
+  "caracteres_dits": 2429,
+  "duree_totale_s": 150.6,
+  "segments_valides": 21,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un fournisseur ne vous a pas livré, un client attend une confirmation. Le premier appelle une relance ferme mais courtoise, le second une réponse brève et rassurante. Même boîte, même clavier, deux registres différents, et la même exigence: l'information exacte, du premier coup.",
+   "empreinte_texte_dit": "4f8cde8180e5e6036b7cee456f69a319732fb17b63e6f904e3b5790203501c0a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 278822,
+   "duree_s": 17.36,
+   "caracteres_dits": 279,
+   "caracteres_factures": 279,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un fournisseur ne vous a pas livré, un client attend une\n confirmation.\n Le premier appelle une relance ferme mais courtoise, le\n second une réponse brève et rassurante.\n Même boîte, même clavier, deux registres différents et la\n même exigence.\n L'information exacte, du premier coup.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un fournisseur ne vous a pas livré, un client attend une\n confirmation.\n Le premier appelle une relance ferme mais courtoise, le\n second une réponse brève et rassurante.\n Même boîte, même clavier, deux registres différents et la\n même exigence.\n L'information exacte du premier coup.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O06-E02-00",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message de la Quincaillerie Delmas et notez la date d'expédition qu'il annonce. Une relance ne vaut que par les faits qu'elle cite: c'est cette date, écrite par le fournisseur lui-même, qui rendra votre message incontestable.",
+   "empreinte_texte_dit": "fe03e83a406aec05e79ef22145c856d5f337cd2edb9879c1cb9496264cb09004",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 213621,
+   "duree_s": 13.28,
+   "caracteres_dits": 235,
+   "caracteres_factures": 235,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de la quinquairie Delmas et notez la date\n d'expédition qu'il annonce.\n Une relance ne vaut que par l'effet qu'elle cite.\n C'est cette date, écrite par le fournisseur lui-même, qui\n rendra votre message incontestable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de la quincaillerie d'Elmas et notez la\n date d'expédition qu'il annonce.\n Une relance ne vaut que par les faits qu'elle cite.\n C'est cette date, écrite par le fournisseur lui-même, qui\n rendra votre message incontestable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O06-E02-00",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet porte la référence CD-1204.",
+   "empreinte_texte_dit": "08991c7c8978512d1e116e68b97f068964c0651793ae7e3231a1ba55ddae618f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 57,
+   "caracteres_factures": 171,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet porte la référence CD1204.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet porte la référence CD1-204.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O06-E02-00",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "La date promise vient d'eux. Une relance qui cite l'engagement du fournisseur ne se discute pas.",
+   "empreinte_texte_dit": "1ac925cccff89d9c8927006bde0b7a9cc6c83758f59c5a81efaaecf36e066809",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La date promise vient d'eux.\n Une relance qui cite l'engagement du fournisseur ne se disc\nute pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La date promise vient d'eux.\n Une relance qui cite l'engagement du fournisseur ne se disc\nute pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O06-E02-01",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "La commande CD-1204 devait arriver le 20 mars, nous sommes le 26. Relancez le fournisseur en répondant à son message d'expédition.",
+   "empreinte_texte_dit": "c432c5ebda2d039d89cc23a5e843cb99b290f7cbf0749b130368f7292b77d107",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 136298,
+   "duree_s": 8.44,
+   "caracteres_dits": 130,
+   "caracteres_factures": 390,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La commande CD1204 devait arriver le 20 mars, nous sommes\n le 26.\n Relancer le fournisseur en répondant à son message d'expéd\nition.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La commande CD1-204 devait arriver le 20 mars, nous sommes\n le 26.\n Relancez le fournisseur en répondant à son message d'expéd\nition.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O06-E02-01",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Ouvrez son message dans la liste, puis Répondre: le fil de la commande est conservé.",
+   "empreinte_texte_dit": "0e014a7ef5d1dc72e71f787efbe2895d37923a1c44b67d309b66c66c4e5b31b1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez son message dans la liste, puis répondrez, le fil de\n la commande est conservé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez son message dans la liste, puis répondre.\n Le fil de la commande est conservé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O06-E02-02",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Écrivez la relance et envoyez-la. Elle doit citer la référence de la commande, la date de livraison annoncée, et rester factuelle, aucune formule d'impatience.",
+   "empreinte_texte_dit": "40c562e289a890a1e794ac6789a8025b67006d3f83db2de245a853f27a7b6bc4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 155524,
+   "duree_s": 9.64,
+   "caracteres_dits": 159,
+   "caracteres_factures": 159,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Écrivez la relance et envoyez-la.\n Elle doit citer la référence de la commande, la date de liv\nraison annoncée et rester factuelle.\n Aucune formule d'impatience.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Écrivez la relance et envoyez-la.\n Elle doit citer la référence de la commande, la date de liv\nraison annoncée et rester factuelle.\n Aucune formule d'impatience.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O06-E02-02",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Deux informations sont attendues: la référence, et la date annoncée.",
+   "empreinte_texte_dit": "a7b7448fa733ee92b22ebdb3e260d70e98c208739a6d81edd4e5f9782c727ce3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La référence est la date annoncée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La référence et la date annoncée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O06-E02-02",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Référence, date annoncée, demande précise: une relance factuelle se répond, une plainte se discute.",
+   "empreinte_texte_dit": "dc9b1c42bcf91bd0d4d6742cf5e840ba39662c58382dc77bac2c88f97e069f2f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 118326,
+   "duree_s": 7.32,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Référence, date annoncée, demande précise.\n Une relance factuelle se répond, une plainte se discute.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "référence, date annoncée, demande précise, une relance fact\nuelle se répond, une plainte se discute.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O06-E02-03",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Second message: Rémi Tissot demande si la pose de jeudi est confirmée. Répondez-lui, à lui seul.",
+   "empreinte_texte_dit": "8f9b4ab29a68dfc9f3df67aa8ccf90e77cde8439aa1382ae03022607c14977ca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 122506,
+   "duree_s": 7.6,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Second message.\n Rémiti-saut demande si la pause de jeudi est confirmée.\n Répondez-lui à lui seul.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Second message. Rémi Tissot demande si la pause de jeudi\n est confirmée. Répondez-lui à lui seul.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O06-E02-03",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Ouvrez son message, puis Répondre.",
+   "empreinte_texte_dit": "442941b2b43beacf36bb9684e1026cf6f17d144870dec9a0061375caaa0cda22",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 47273,
+   "duree_s": 2.88,
+   "caracteres_dits": 34,
+   "caracteres_factures": 34,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez son message, puis répondre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez son message, puis répondre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O06-E02-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot confirmée: il doit porter la réponse à lui seul, pour l'accueil qui la lira en diagonale.",
+   "empreinte_texte_dit": "91b6cd9a3eb8e5212449b9fadaf09efcc1fc60bdfc8171bed39cb1a7546d27c7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 106623,
+   "duree_s": 6.6,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot «confirmer ».\n Il doit porter la réponse à lui seul pour l'accueil qu'il\n alliera en diagonale.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot confirmé.\n Il doit porter la réponse à lui seul, pour l'accueil qui la\n lira en diagonale.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O06-E02-04",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Ajoutez le mot à la fin de l'objet. Les accents ne sont pas pris en compte.",
+   "empreinte_texte_dit": "534e6aaa7d08ac1445dc81e6426b4e4a318c9ee96599d1f60f96aae55f57328b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet. Les accents ne sont pas\n pris en compte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet.\n Les accents ne sont pas pris en compte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O06-E02-04",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "L'objet porte la réponse à lui seul: l'accueil peut la lire sans ouvrir le message.",
+   "empreinte_texte_dit": "150ee0847973a444d1d21559998e54d6bf63ef52e1ff40b47a9d28f518b1ed06",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'objet porte la réponse à lui seul.\n L'accueil peut la lire sans ouvrir le message.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'objet porte la réponse à lui seul.\n L'accueil peut la lire sans ouvrir le message.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O06-E02-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Écrivez la confirmation et envoyez. Deux informations suffisent: le jour et l'heure d'arrivée sur place. Trois lignes valent mieux qu'un paragraphe.",
+   "empreinte_texte_dit": "7e6b0bf8635520c0c7d89f6d6d06eac368318cd18e80af9fc93a3f40257168fd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 147165,
+   "duree_s": 9.12,
+   "caracteres_dits": 148,
+   "caracteres_factures": 148,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Écrivez la confirmation et envoyez.\n Deux informations suffisent.\n Le jour est l'heure d'arriver sur place.\n Trois lignes valent mieux qu'un paragraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Écrivez la confirmation et envoyez.\n Deux informations suffisent.\n Le jour et l'heure d'arrivée sur place.\n Trois lignes valent mieux qu'un paragraphe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O06-E02-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Deux informations sont attendues: le jour, et l'heure.",
+   "empreinte_texte_dit": "9357269b9e7bbd12af68cf5ae7da4e288ca85a15af98bc14be964f63e33324cc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Le jour et l'heure.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues, le jour et l'heure.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O06-E02-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Deux tons différents dans la même matinée, et chacun adapté à qui le reçoit.",
+   "empreinte_texte_dit": "c13e7255a944c13d8aee9fb824a0ce3b15e355b3a73be57135311323600ee66b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 76,
+   "caracteres_factures": 152,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux tons différents dans la même matinée et chacun adapté\n à qui le reçoit.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux tons différents dans la même matinée et chacun adapté\n à qui le reçoit.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O06-E02-99",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "La relance est partie; le fournisseur a la balle. Rangez-le dans Fournisseurs. La balle est chez lui: ce n'est plus à vous d'y penser chaque matin.",
+   "empreinte_texte_dit": "51e70710b4480b98534276e31e65ab456fbcd8455dc395a71e242785d2eea3fe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 147,
+   "caracteres_factures": 147,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La relance est partie, le fournisseur à la balle.\n Rangez-le dans fournisseur, la balle est chez lui.\n Ce n'est plus à vous d'y penser chaque matin.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La relance est partie. Le fournisseur a la balle.\n Rangez-le dans fournisseur. La balle est chez lui.\n Ce n'est plus à vous d'y penser chaque matin.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O06-E02-99",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Fournisseurs.",
+   "empreinte_texte_dit": "3336bee2e9fcb8d49a77b6a21e8a5f945553cf3072510cbd457936c316072d76",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacer dans le ruban et\n choisissez fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O06-E02-99",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Classé selon son expéditeur, pas selon le chantier dont il parle.",
+   "empreinte_texte_dit": "676026953c87a84ffbc8d6e14799f5949ebb81b7095ccd390cb82b82e7f6f779",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 71515,
+   "duree_s": 4.4,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "classé selon son expéditeur, pas selon le chantier dont il\n parle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "classé selon son expéditeur, pas selon le chantier dont il\n parle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Fermeté et courtoisie ne s'opposent pas: ce qui rend une relance efficace, ce sont les faits, une date, une référence, une conséquence, pas le ton. Et une confirmation courte vaut mieux qu'un long message qui noie la seule information attendue.",
+   "empreinte_texte_dit": "265b2652163c2af4b5e706f32e5d158e6c5b15eb419b1f1c217822bab586370c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 239116,
+   "duree_s": 14.88,
+   "caracteres_dits": 244,
+   "caracteres_factures": 244,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Fermeté et courtoisie ne s'opposent pas.\n Ce qui rend une relance efficace, ce sont les faits, une\n date, une référence, une conséquence, pas le ton.\n Et une confirmation courte vaut mieux qu'un long message\n qui nous a la seule information attendue.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Fermeté et courtoisie ne s'opposent pas.\n Ce qui rend une relance efficace, ce sont les faits, une\n date, une référence, une conséquence, pas le ton.\n Et une confirmation courte vaut mieux qu'un long message\n qui noie la seule information attendue.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,960 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1lu1000l6xxggc1oxcpv",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Relire, corriger, renoncer : les gestes de sécurité"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 24,
+  "caracteres_dits": 3968,
+  "duree_totale_s": 239.2,
+  "segments_valides": 24,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "La facture de la Quincaillerie Delmas comporte une erreur: 24 charnières facturées, 12 livrées. Vous allez le leur signaler. L'occasion d'apprendre les trois gestes qui évitent les ennuis: ce qu'Outlook refuse d'envoyer, ce qu'il envoie sans rien dire, et comment renoncer proprement à un message commencé.",
+   "empreinte_texte_dit": "ddc1b6079155e727fcd2d3859599595ce095c091ea3f2254e631eb46cd9666f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 287182,
+   "duree_s": 17.88,
+   "caracteres_dits": 306,
+   "caracteres_factures": 306,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.039,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La facture de la quinquaierie Delmas comporte une erreur.\n 24 charnières facturées, 12 livrées.\n Vous allez le leur signaler.\n L'occasion d'apprendre les trois gestes qui évite les enn\nuis.\n Ce caoutelouc refuse d'envoyer, ce qui l'envoie sans rien\n dire,\n et comment renoncer proprement à un message commencé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La facture de la quincaillerie d'Elmas comporte une erreur.\n 24 charnières facturées, 12 livrées.\n Vous allez le leur signaler.\n L'occasion d'apprendre les trois gestes qui évitent les enn\nuis.\n Ce caoutelouc refuse d'envoyer, ce qu'il envoie sans rien\n dire,\n et comment renoncer proprement à un message commencé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O01-L05-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Cliquez sur Nouveau message. Ce signalement mérite un message à lui, avec son propre objet, plutôt qu'une réponse noyée dans le fil de la facture.",
+   "empreinte_texte_dit": "97bcfd31c17022ace8b898cbad2e648308f68afc8a0c07b46013997d076a07bc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 140060,
+   "duree_s": 8.68,
+   "caracteres_dits": 146,
+   "caracteres_factures": 146,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur Nouveau message.\n Ce signalement mérite un message à lui avec son propre\n objet plutôt qu'une réponse noyée dans le fil de la facture\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur Nouveau message.\n Ce signalement mérite un message à lui, avec son propre\n objet,\n plutôt qu'une réponse noyée dans le fil de la facture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O01-L05-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Le bouton Nouveau message, en haut de la colonne de gauche; sur téléphone, le ✚ à côté de la recherche.",
+   "empreinte_texte_dit": "301d602698980f7b180d772c547b18688ab62a4f6a6c23537c40674bbb5fddac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 119998,
+   "duree_s": 7.44,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau message en haut de la colonne de gauche\n sur téléphone, le à côté de la recherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau message en haut de la colonne de gauche,\n sur Téléphone, le à côté de la recherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O01-L05-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Faisons d'abord l'erreur exprès. Cliquez sur Envoyer alors que le message est encore vide. Regardez ce qui se passe: la fenêtre reste ouverte et rien ne part.",
+   "empreinte_texte_dit": "a9307c4ed81e00f961cad7637667b21c68a17161630bd15f31cdeb42c912cc79",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 153853,
+   "duree_s": 9.56,
+   "caracteres_dits": 158,
+   "caracteres_factures": 158,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faisons d'abord l'erreur exprès.\n Cliquez sur Envoyer, alors que le message est encore vide.\n Regardez ce qui se passe.\n La fenêtre reste ouverte et rien ne part.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Faisons d'abord l'erreur exprès.\n Cliquez sur « Envoyer » alors que le message est encore\n vide.\n Regardez ce qui se passe.\n La fenêtre reste ouverte et rien ne part.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O01-L05-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Cliquez simplement sur Envoyer sans avoir rien saisi: le geste est volontaire.",
+   "empreinte_texte_dit": "c5230325553df25c50e219800e9e0b661cad33f933d1a0a502cbe0f6dbd20efd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez simplement sur « Envoyer sans avoir rien saisi ».\n Le geste est volontaire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez simplement sur « Envoyer sans avoir rien saisi ».\n Le geste est volontaire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O01-L05-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Rien n'est parti: sans destinataire, Outlook refuse. Mais il n'a rien dit de l'objet vide ni du texte absent.",
+   "empreinte_texte_dit": "5cff007c695a856f26390de8c97ef22bb2344db80557c526af05af5f04abedca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rien n'est parti, sans destinataire, outlook refuse, mais\n il n'a rien dit de l'objet vide ni du texte absent.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rien n'est parti. Sans destinataire, Outlook refuse.\n Mais il n'a rien dit de l'objet vide ni du texte absent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O01-L05-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Notez ce qu'Outlook n'a pas dit: l'objet est vide, le texte aussi. Saisissez compta@quincaillerie-delmas.fr dans le champ À pour corriger le seul défaut qui le bloquait.",
+   "empreinte_texte_dit": "2a5865a6d2c64174618984d0c6e2d1cd19ba929dc3d58cdda4f96e50ab8fa3a9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 183528,
+   "duree_s": 11.4,
+   "caracteres_dits": 169,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.088,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Notez ce cas au Tlouc n'a pas dit.\n L'objet est vide, le texte aussi.\n Saisissez comptares au base qu'un caillerie-delmas.fr\n dans le champ à pourcorriger le seul défaut qui le bloquait\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.044,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Notez ce qu'Outlook n'a pas dit.\n L'objet est vide, le texte aussi.\n Saisissez \"conta@quincairie-delmas.fr\" dans le champ à pour\n corriger le seul défaut qui le bloquait.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O01-L05-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "L'adresse figure en haut du message de la Quincaillerie Delmas, dans votre boîte.",
+   "empreinte_texte_dit": "82e4649f7490e762cca78313a6351e7183618e369c91ef3b70bc66c0143a822c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.042,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'adresse figure en haut du message de la quinquairie Del\nmas dans votre boîte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'adresse figure en haut du message de la quincaillerie d'\nElmas dans votre boîte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O01-L05-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Cette fois l'envoi serait accepté, objet vide et message vide compris. Le contrôle, c'est vous.",
+   "empreinte_texte_dit": "0c8344ebb987b665a9c02bd76a129b03442ccfe9a19c5ccb909f021f4c97e234",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cette fois l'envoi serait accepté, objet vide et message\n vide compris.\n Le contrôle, c'est vous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cette fois, l'envoi serait accepté, objet vide et message\n vide compris.\n Le contrôle, c'est vous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O01-L05-03B",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Vous venez de mesurer ce qu'Outlook surveille, et c'est peu. Il a refusé un message sans destinataire. Rien dit de l'objet vide, rien du texte vide. La seule erreur dont il vous protège est celle que vous auriez remarquée seul. L'objet oublié, la pièce manquante, l'adresse presque juste: tout cela part sans un mot. La relecture est le seul filet. Hors de cet atelier: le vrai Outlook sait rappeler ou remplacer un message, mais seulement entre collègues d'une même organisation Microsoft 365 et tant que le message n'a pas été lu; certaines messageries offrent aussi quelques secondes pour annuler l'envoi. On les décrit, on les situe, vers un client ou un fournisseur, aucune des deux ne s'applique.",
+   "empreinte_texte_dit": "bf91a70bd34890b46b61132e964968514ebe816659cf361edd642529972d0d73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 652478,
+   "duree_s": 40.72,
+   "caracteres_dits": 702,
+   "caracteres_factures": 702,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous venez de mesurer ce qu'Outlook surveille.\n Et c'est peu.\n Il a refusé un message sans destinataire.\n Rien dit de l'objet vide, rien du texte vide.\n La seule erreur dont il vous protège est celle que vous aur\niez remarqué seule.\n L'objet oublié, la pièce manquante.\n L'adresse presque juste.\n Tout cela par sans un mot.\n La relecture est le seul filet.\n Or de cet atelier, le vrai Outlook s'est rappelé ou remplac\né un message,\n mais seulement entre collègues d'une même organisation\n Microsoft 365 étant que le message n'a pas été lu.\n Certaines messageries offrent aussi quelques secondes pour\n annuler l'envoi.\n On les décrit, on les situe, vers un client ou un fournisse\nur, aucune des deux ne s'applique.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous venez de mesurer ce qu'Outlook surveille. Et c'est peu\n.\n Il a refusé un message sans destinataire.\n Rien dit de l'objet vide, rien du texte vide.\n La seule erreur dont il vous protège est celle que vous aur\niez remarqué seule.\n L'objet oublié, la pièce manquante, l'adresse presque juste\n. Tout cela part sans un mot.\n La relecture est le seul filet. Hors de cet atelier, le\n vrai Outlook s'est rappelé ou remplacé un message,\n mais seulement entre collègues d'une même organisation\n Microsoft\n 365 et tant que le message n'a pas été lu,\n certaines messageries offrent aussi quelques secondes pour\n annuler l'envoi. On les décrit, on les situe, vers un\n client ou un fournisseur.\n Aucune des deux ne s'applique.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O01-L05-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Donnez-lui un objet contenant le numéro lettres Q et D, numéro quatre mille quatre cent soixante et onze. Un objet vide part sans avertissement, et arrive chez un service qui traite cent messages par jour: le vôtre finirait au fond de la pile.",
+   "empreinte_texte_dit": "90d32c69ecf69578041d8e4729d7d3e21668edd9a4b0e644ea2d7bad0aa52612",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 209859,
+   "duree_s": 13.04,
+   "caracteres_dits": 243,
+   "caracteres_factures": 243,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "donnez-lui un objet contenant le numéro lettres Q&D n°4471.\n Un objet vide part sans avertissement et arrive chez un\n service qui traite 100 messages par jour.\n Le vôtre finirait au fond de la pile.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez-lui un objet contenant le numéro lettre Q&D numéro 4\n471.\n Un objet vide part sans avertissement et arrive chez un\n service qui traite 100 messages par jour.\n Le vôtre finirait au fond de la pile.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O01-L05-04",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Par exemple Facture lettres Q et D, numéro quatre mille quatre cent soixante et onze, erreur de quantité. La formulation est libre, la référence doit y être.",
+   "empreinte_texte_dit": "e75c4878895076f984d7a1daa2a67b47bedee395b30f8055feda046ff1dc0107",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 160958,
+   "duree_s": 10.0,
+   "caracteres_dits": 157,
+   "caracteres_factures": 157,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par exemple, facture lettre Q&D n° 4.471, erreur de quant\nité.\n La formulation est libre, la référence doit y être.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Par exemple, facture-lettre Q&D, numéro 4471, erreur de\n quantité.\n La formulation est libre, la référence doit y être.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O01-L05-04",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "L'objet porte le numéro de facture: un service qui traite cent messages par jour saura lequel ouvrir.",
+   "empreinte_texte_dit": "7c6d0c615b6100981388d22ad91c916fe266ca562285979fa5d42effe02ace57",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 101608,
+   "duree_s": 6.28,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'objet porte le numéro de facture.\n Un service qui traite 100 messages par jour sera lequel ouv\nrir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'objet porte le numéro de facture.\n Un service qui traite 100 messages par jour sera lequel ouv\nrir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O01-L05-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Rédigez le signalement. Il doit rappeler le numéro de la facture et dire ce qui ne correspond pas: 24 charnières facturées, 12 reçues. Restez factuel, un message écrit sous le coup de l'agacement ne s'efface pas.",
+   "empreinte_texte_dit": "58a5e0a26c2ad2777719006738de136ff7af2c8be238c4f53a3b8e73f902be66",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 222398,
+   "duree_s": 13.84,
+   "caracteres_dits": 212,
+   "caracteres_factures": 212,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigez le signalement. Il doit rappeler le numéro de la\n facture et dire ce qui ne correspond pas.\n 24 charnières facturées, 12 reçus.\n Restez factuel. Un message écrit sous le cou de l'agacement\n ne s'efface pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigé le signalement.\n Il doit rappeler le numéro de la facture et dire ce qui ne\n correspond pas.\n 24 charnières facturées, 12 reçues.\n Restez factuel. Un message écrit sous le coup de l'ag\nacement ne s'efface pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O01-L05-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Deux informations sont attendues: le numéro de la facture, et l'écart de quantité constaté.",
+   "empreinte_texte_dit": "7c021f334862ddd8ba253532c4d75171263e829ae15921cefe96795b10fbe3f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 104951,
+   "duree_s": 6.48,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Le numéro de la facture\n et elle écart de quantité constatée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le numéro de la facture et elle, écar de quantité constatée\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O01-L05-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Relisez une dernière fois les trois lignes du haut, puis le texte. Envoyez le message. À partir de cet instant il ne vous appartient plus: vers un destinataire extérieur, rien ne permet de le reprendre.",
+   "empreinte_texte_dit": "f12c6d63423ef416626d57830982da3d5795778ea9cbd811d61cb35c2e8bff1a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 182692,
+   "duree_s": 11.36,
+   "caracteres_dits": 202,
+   "caracteres_factures": 202,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Relisez une dernière fois les trois lignes du haut, puis le\n texte.\n Envoyez le message.\n À partir de cet instant, il ne vous appartient plus.\n Vers un destinataire extérieur, rien ne permet de le rep\nrendre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Relisez une dernière fois les trois lignes du haut, puis le\n texte.\n Envoyez le message.\n À partir de cet instant, il ne vous appartient plus.\n Vers un destinataire extérieur, rien ne permet de le rep\nrendre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O01-L05-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le bouton Envoyer est le premier de la barre du haut.",
+   "empreinte_texte_dit": "21cec0fa7055106b596636bdf3e5d78d43e87fcfba49d227ed0413de57301c2d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 53542,
+   "duree_s": 3.28,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O01-L05-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Parti chez un fournisseur extérieur: plus rien ne permet de le reprendre.",
+   "empreinte_texte_dit": "bce2b4697e1cb99474b6081b7950358e35019b65e916b9f9e52dae57dc96008a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Partie chez un fournisseur extérieur. Plus rien ne permet\n de le reprendre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Partie chez un fournisseur extérieur. Plus rien ne permet\n de le reprendre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O01-L05-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Dernier geste utile: savoir renoncer. Il arrive qu'on commence un message et qu'on préfère téléphoner. Ouvrez une nouvelle fenêtre de rédaction pour en faire l'essai.",
+   "empreinte_texte_dit": "5d84711976da10f618d879c6b0af966290d908e85acd8acd8ddc44a3782b698d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 136716,
+   "duree_s": 8.48,
+   "caracteres_dits": 166,
+   "caracteres_factures": 166,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dernier geste utile, savoir renoncer.\n Il arrive qu'on commence un message et qu'on préfère télé\nphoner.\n Ouvrez une nouvelle fenêtre de rédaction pour en faire\n laisser.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Dernier geste utile, savoir renoncer.\n Il arrive qu'on commence un message et qu'on préfère télé\nphoner.\n Ouvrez une nouvelle fenêtre de rédaction pour en faire\n laisser.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O01-L05-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Le même bouton Nouveau message qu'au début de la leçon.",
+   "empreinte_texte_dit": "5b32e5604b3615b2dab87d97329dc32d5cdc36a7a02f5b536ec96a8ef2bf067d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le même bouton, nouveau message qu'au début de la leçon.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le même bouton, nouveau message qu'au début de la leçon.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "O01-L05-08",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Cliquez sur la croix pour abandonner ce message. La fenêtre se referme, rien n'est envoyé et rien n'est conservé.",
+   "empreinte_texte_dit": "d589258cb76b5929c4451bfd030d856a382d3131083e7210d71bb2f554aa30b8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 127939,
+   "duree_s": 7.92,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur la croix pour abandonner ce message.\n La fenêtre se referme, rien n'est envoyé et rien n'est\n conservé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur la croix pour abandonner ce message.\n La fenêtre se referme.\n Rien n'est envoyé et rien n'est conservé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "O01-L05-08",
+   "role": "Étape 9 · aide",
+   "texte_dit": "La croix ✕ est à droite de la barre du haut de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "96a23230fffc2533187a8bb8d62f8a5bb412d6cd9e86ac54ec0d99f39562f74a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La croix est à droite de la barre du haut de la fenêtre de\n rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La croix est à droite de la barre du haut de la fenêtre de\n rédaction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "O01-L05-08",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "La fenêtre s'est refermée: rien n'a été envoyé, et rien n'a été conservé.",
+   "empreinte_texte_dit": "aa5015f773e52fb5d9f70b3121c6e03597370d041fd657b7f23d8dbfe96469e5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La fenêtre s'est refermée. Rien n'a été envoyé et rien n'a\n été conservé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La fenêtre s'est refermée.\n Rien n'a été envoyé et rien n'a été conservé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Outlook ne vous protège que d'une seule erreur: le message sans destinataire. L'objet vide, la pièce oubliée, l'adresse presque juste, le ton maladroit, tout cela part sans un mot. La relecture avant le clic n'est pas une précaution de débutant: c'est la seule sur laquelle vous pouvez compter, parce que le rappel d'un message ne fonctionne qu'entre collègues d'une même organisation, et jamais chez un client.",
+   "empreinte_texte_dit": "af460f88d4413a31a1074f260c29cfd31848a5544d1a110b09c18902ff72ad75",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 368266,
+   "duree_s": 22.96,
+   "caracteres_dits": 411,
+   "caracteres_factures": 411,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Outlook ne vous protège que d'une seule erreur.\n Le message sans destinataire.\n L'objet vide, la pièce oubliée, l'adresse presque juste, le\n ton maladroit, tout cela\n par sans un mot.\n La relecture avant le clic n'est pas une précaution de\n débutant.\n C'est la seule sur laquelle vous pouvez compter, parce que\n le rappel d'un message\n ne fonctionne qu'entre collègues d'une même organisation et\n jamais chez un client.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Outlook ne vous protège que d'une seule erreur. Le message\n sans destinataire.\n L'objet vide, la pièce oubliée, l'adresse presque juste, le\n ton maladroit, tout cela part sans un mot.\n La relecture avant le clic n'est pas une précaution de\n débutant.\n C'est la seule sur laquelle vous pouvez compter, parce que\n le rappel d'un message ne fonctionne qu'entre collègues d'\nune même organisation et jamais chez un client.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

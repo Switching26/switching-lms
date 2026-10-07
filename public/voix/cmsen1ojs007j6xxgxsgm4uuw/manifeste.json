@@ -1,0 +1,963 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1ojs007j6xxgxsgm4uuw",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Une semaine de chantier posée d'un bout à l'autre"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2779,
+  "duree_totale_s": 171.7,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un chantier ne tient pas parce qu'on s'en souvient: il tient parce que chaque jalon a une date, une heure de début et une heure de fin. Vous allez poser une semaine complète, en respectant l'ordre logique, on ne pose pas avant d'avoir livré, et sans jamais laisser deux créneaux se chevaucher.",
+   "empreinte_texte_dit": "c09844d9a2e46a73b31422766c1fdaf813bc655f131fceed1600dbdbb7d583ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 240370,
+   "duree_s": 14.96,
+   "caracteres_dits": 293,
+   "caracteres_factures": 293,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un chantier ne tient pas parce qu'on s'en souvient, il t\nient parce que chaque jalon a une date, une heure de début\n et une heure de fin.\n Vous allez poser une semaine complète en respectant l'ordre\n logique, on ne pose pas avant d'avoir livré et sans jamais\n laisser deux créneaux se chevaucher.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un chantier ne tient pas parce qu'on s'en souvient, il t\nient parce que chaque\n jalon a une date, une heure de début et une heure de fin.\n Vous allez poser une semaine complète en respectant l'ordre\n logique, on ne pose\n pas avant d'avoir livré et sans jamais laisser deux créne\naux se chevaucher.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O10-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le planning d'Habitat du Nord. Trois jalons, trois horaires, un lieu commun. Rien à décider: tout est à reporter, exactement.",
+   "empreinte_texte_dit": "568728c70bac51e7d767ac5eed5acff81c7f361d6cd988674411e04151804afc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 153435,
+   "duree_s": 9.52,
+   "caracteres_dits": 132,
+   "caracteres_factures": 132,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le planning d'habitat du Nord.\n Trois jalons, trois horaires, un lieu commun.\n Rien à décider.\n Tout est à reporter. Exactement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le planning d'habitats du Nord.\n Trois jalons, trois horaires, un lieu commun.\n Rien n'a décidé. Tout est à reporter.\n Exactement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O10-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui détaille l'organisation de la semaine.",
+   "empreinte_texte_dit": "0b715b6a2f93563c164910bb30705b3f0c9ce6305b1f8eb0a2cc577589856248",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui détaille l'organisation de la semaine.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui détaille l'organisation de la semaine.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O10-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Trois jalons, trois horaires, un lieu commun. Rien à décider: tout à reporter.",
+   "empreinte_texte_dit": "74056909db26a6474d8035f3a6aa3bba995525bdb8256f5ae9c9ab8e78a7c3eb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois jalons, trois horaires, un lieu commun, rien n'a\n décidé.\n Tout à reporter.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois jalons, trois horaires, un lieu commun, rien à déc\nider. Tout à reporter.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O10-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Basculez sur le Calendrier, agenda vide. C'est le moment de le remplir: un planning qui reste dans un message n'existe pour personne.",
+   "empreinte_texte_dit": "518a32283866b646805c12fc23b51ec94039f56024e0e6974c5933cc3218e6d6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 136716,
+   "duree_s": 8.48,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.012,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Basculer sur le calendrier, agent David. C'est le moment de\n le remplir.\n Un planning qui reste dans un message n'existe pour\n personne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Basculez sur le calendrier, Agenda vide.\n C'est le moment de le remplir.\n Un planning qui reste dans un message n'existe pour\n personne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O10-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "L'icône du calendrier; sur téléphone, la barre du bas.",
+   "empreinte_texte_dit": "25cb9d39cfa848e736592ff373841b4b0eecbb7a5f740618400141a9a965118c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "l'icône du calendrier sur téléphone, la barre du bas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "l'icône du calendrier, sur téléphone, la barre du bas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O10-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Un planning qui reste dans un message ne prévient personne le jour venu.",
+   "empreinte_texte_dit": "35a51f48086c874bba9ef6369769f0c08bfb80e913ded34ba0c2b7d62a863f37",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un planning qui reste dans un message ne prévient personne\n le jour venu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un planning qui reste dans un message ne prévient personne\n le jour venu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O10-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Posez la livraison: objet Livraison matériaux Beaulieu, le mardi 3 mars 2026, de 08:00 à 09:30, lieu Résidence Beaulieu. Notez l'heure de fin: 09:30, et non une heure et demie.",
+   "empreinte_texte_dit": "83c8745d254fcdd07728e8d6d0a3cef579d052b5016c7b447f2a2d05b026d69d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 206097,
+   "duree_s": 12.8,
+   "caracteres_dits": 176,
+   "caracteres_factures": 176,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Posez la livraison.\n Objet livraison matériaux beau lieu le mardi 3 mars 2026,\n de 8h à 9h30, lieu résidence beau lieu.\n Notez l'heure de fin.\n 9h30 et non 1h30.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Posez la livraison.\n Objet livraison matériaux Beaulieu, le mardi 3 mars 2026,\n de 8h à 9h30,\n lieu résidence Beaulieu.\n Notez l'heure de fin.\n 9h30 et non 1h30.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O10-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Nouveau rendez-vous, cinq champs, puis Enregistrer.",
+   "empreinte_texte_dit": "219bad70d4380f9409115cabb9a4eec02e71bea11cadf4026d3d88af8388a681",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 51,
+   "caracteres_factures": 51,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nous vous rendez-vous, cinq champs, puis enregistrez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nouveau rendez-vous. 5 chants, puis enregistrés.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O10-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Posez la pose: objet Pose Beaulieu, le mercredi 4 mars 2026, de 08:00 à 17:00, même lieu. Une journée entière se bloque comme le reste, et elle dira aux autres de ne rien vous proposer ce jour-là.",
+   "empreinte_texte_dit": "f5514f5476e712321930577810f8f1c901e89dec24bedecea39624a9e728dc5b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 191051,
+   "duree_s": 11.88,
+   "caracteres_dits": 196,
+   "caracteres_factures": 392,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Posez la pause.\n Objet pose beau lieu, le mercredi 4 mars 2026, de 8h à 17h,\n même lieu.\n Une journée entière se bloque comme le reste et elle dira\n aux autres de ne rien vous proposer ce jour-là.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Posez la pause.\n Objet pause beau lieu, le mercredi 4 mars 2026, de 8h à 17h\n, même lieu.\n Une journée entière se bloque comme le reste et elle dira\n aux autres de ne rien vous proposer\n ce jour-là.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O10-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Nouveau rendez-vous, mercredi 4 mars, de 8 h à 17 h.",
+   "empreinte_texte_dit": "2b970dd1c7f331810dca3d342f8955d1381c6c3b6119e52833db93d37c41f7c7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nouveau rendez-vous, mercredi 4 mars, de 8h à 17h.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nouveau rendez-vous, mercredi 4 mars, de 8h à 17h.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O10-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Une journée entière bloquée: c'est ce qui empêchera d'accepter une réunion mercredi.",
+   "empreinte_texte_dit": "8cb55ee42582974a5f97ae9a3ec3eef2a4f9c270ecb71a347c8db08d05b59797",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.04,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une journée entière bloquée, c'est ce qui empêchera d'accep\nter une réunion mercredi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.04,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une journée entière bloquée, c'est ce qui empêchera d'accep\nter une réunion mercredi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O10-L02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Posez la réception: objet Réception de chantier Beaulieu, le vendredi 6 mars 2026, de 10:00 à 11:00, même lieu. Le jeudi reste libre: c'est la marge qui absorbera un retard de pose.",
+   "empreinte_texte_dit": "15763ed6720b9c089a6a43daa62922d9b4a05a2bec2e9c1688da60975ee6f8f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 188543,
+   "duree_s": 11.72,
+   "caracteres_dits": 181,
+   "caracteres_factures": 543,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Poser la réception.\n Objet réception de chantier Beaulieu, le vendredi 6 mars 20\n26, de 10h à 11h, même lieu.\n Le jeudi reste libre.\n C'est la marge qui absorbera un retard de pause."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Posez la réception. Objet réception de chantier Beaulieu, le vendredi 6 mars 2026, de 10h à 11h, même lieu. Le jeudi reste libre. C'est la marge qui absorbera un retard de pause.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O10-L02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Nouveau rendez-vous, vendredi 6 mars, de 10 h à 11 h.",
+   "empreinte_texte_dit": "03b469a85e38436a00e9c823a090d2954e69dd33315e3ef6975bc50141718c03",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nous vous rendez-vous vendredi 6 mars de 10h à 11h.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nouveau rendez-vous vendredi 6 mars de 10h à 11h.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O10-L02-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "La marge est un jalon, même si rien n'y est écrit. Vous avez laissé le jeudi vide exprès: c'est ce qui absorbera un retard de livraison sans faire tomber la réception du vendredi. La règle d'ordre va avec: on ne pose pas avant d'avoir livré, et deux créneaux ne se chevauchent jamais. Un planning resté dans un message n'existe pour personne.",
+   "empreinte_texte_dit": "2d284a0e3db32331ebae72dbe3742678012b20d31633140f46ef2f681b5e7ef8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 308915,
+   "duree_s": 19.24,
+   "caracteres_dits": 342,
+   "caracteres_factures": 342,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La marge est un jalon, même si rien n'y est écrit.\n Vous avez laissé le jeudi vide exprès.\n C'est ce qui absorbera un retard de livraison sans faire\n tomber la réception du vendredi.\n La règle d'ordre va avec.\n On ne pose pas avant d'avoir livré et deux créneaux ne se\n chevauchent jamais.\n Un planning resté dans un message n'existe pour personne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La marge est un jalon, même si rien n'y est écrit.\n Vous avez laissé le jeudi vide exprès.\n C'est ce qui absorbera un retard de livraison sans faire\n tomber la réception du vendredi.\n La règle d'ordre va avec.\n On ne pose pas avant d'avoir livré, et deux créneaux ne se\n chevauchent jamais.\n Un planning resté dans un message n'existe pour personne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O10-L02-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Revenez au Courrier. Trois blocs posés, un jour de marge: la semaine est lisible d'un coup d'œil, par vous comme par quiconque vous demandera vos disponibilités.",
+   "empreinte_texte_dit": "0b15f0995c44f1b561b40bab0556da212ba2a097d4fc63373d04e8d9bf8c162d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 165137,
+   "duree_s": 10.24,
+   "caracteres_dits": 161,
+   "caracteres_factures": 161,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.053,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Revenez au courrier. Trois blocs posés, un jour de marge.\n La semaine est lisible d'un coup d'oeil, oeil, par vous\n comme par quiconque vous demandera vos disponibilités.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Revenez au courrier.\n Trois blocs posés, un jour de marge.\n La semaine est lisible d'un coup d'œil.\n Par vous comme par quiconque vous demandera vos disponibil\nités.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O10-L02-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le bouton Courrier, à côté du Calendrier.",
+   "empreinte_texte_dit": "eff110771bd4f44155977e2b33967127b0f66df89ad30ecff3a018b215289023",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton courrier à côté du calendrier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Courrier à côté du calendrier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O10-L02-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Trois blocs posés, un jour de marge: la semaine est lisible d'un coup d'œil.",
+   "empreinte_texte_dit": "784c8ea2a633d0bcfdfee24b00ee65756cfdde1b7427ecaf79bd3b32e6f08b39",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 91159,
+   "duree_s": 5.64,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois blocs posés, un jour de marge.\n La semaine est lisible d'un coup d'œil.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois blocs posés, un jour de marge.\n La semaine est lisible d'un coup d'œil.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O10-L02-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Rangez le planning dans Clients 2026. Il est reporté à l'agenda: le garder en boîte de réception ferait croire qu'il reste quelque chose à en faire.",
+   "empreinte_texte_dit": "4ef4844f18455c1358a23722246294da079dcf3587ec032ec8838b86ea7ab8a4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 137970,
+   "duree_s": 8.56,
+   "caracteres_dits": 148,
+   "caracteres_factures": 148,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger le planning dans Client 2026.\n Il est reporté à l'agenda.\n Le garder en boîte de réception ferait croire qu'il reste\n quelque chose à en faire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger le planning dans Client 2026.\n Il est reporté à l'agenda.\n Le garder en boîte de réception ferait croire qu'il reste\n quelque chose à en faire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O10-L02-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Ouvrez le message, puis Déplacer, puis Clients 2026.",
+   "empreinte_texte_dit": "bebcd3fb4871fe8e8dbdc6a73c054a8a11c6a6f0ecd11bbcde18444648b9d944",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis déplacer, puis Client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis déplacer, puis Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O10-L02-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Reporté à l'agenda, donc classé. Le garder en réception ferait croire qu'il reste à traiter.",
+   "empreinte_texte_dit": "34f1c95e71477e57801c537130b2b8da8b335bfa81401a771eb392166007e2d7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.055,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Reportez à l'agenda donc classé. Le garder en réception fer\nait croire qu'il reste à traiter.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "reporté à l'agenda, donc classé.\n Le garder en réception ferait croire qu'il reste à traiter.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Les heures de fin comptent autant que les heures de début: c'est elles qui disent ce qui reste disponible. Un créneau sans borne de sortie transforme une intervention d'une heure en journée bloquée, et fait refuser des rendez-vous qu'on aurait pu tenir.",
+   "empreinte_texte_dit": "47931ed7d90a18e79c6a2ec01a4e57382dcc141e1392e7159fd9bafc73a4fe00",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 208605,
+   "duree_s": 12.96,
+   "caracteres_dits": 253,
+   "caracteres_factures": 253,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les heures de fin comptent autant que les heures de début.\n C'est elle qui dit ce qui reste disponible.\n Un créneau sans borne de sorties transforme une\n intervention d'une heure en journée bloquée,\n et fait refuser des rendez-vous qu'on aurait pu tenir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les heures de fin comptent autant que les heures de début.\n C'est elles qui disent ce qui reste disponible.\n Un créneau sans borne de sortie transforme une intervention\n d'une heure en journée\n bloquée et fait refuser des rendez-vous qu'on aurait pu\n tenir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

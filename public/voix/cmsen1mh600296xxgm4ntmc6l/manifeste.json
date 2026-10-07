@@ -1,0 +1,1007 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1mh600296xxgm4ntmc6l",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Ouvrir son agenda et poser un rendez-vous"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 24,
+  "caracteres_dits": 3303,
+  "duree_totale_s": 201.9,
+  "segments_valides": 23,
+  "segments_plusieurs_essais": 5,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Outlook ne sert pas qu'au courrier: le même écran porte votre agenda. Trois rendez-vous sont à poser cette semaine, la prise de mesures, la livraison des panneaux, la pose du comptoir. Vous allez apprendre à les créer, et à voir d'un coup d'œil une journée qui en contient déjà deux.",
+   "empreinte_texte_dit": "76233d94b9f3741e6ebd1da09cce95fee90d6d2cf435ceff2d9360f6a0106aa8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 253745,
+   "duree_s": 15.8,
+   "caracteres_dits": 283,
+   "caracteres_factures": 283,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Outlook ne sert pas qu'au courrier.\n Le même écran porte votre agenda.\n Trois rendez-vous sont à poser cette semaine.\n La prise de mesure, la livraison des panneaux, la pose du\n comptoir.\n Vous allez apprendre à les créer et avoir d'un coup d'œuf,\n œil, une journée qui en contient déjà deux.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Outlook ne sert pas qu'au courrier.\n Le même écran porte votre agenda.\n Trois rendez-vous sont à poser cette semaine.\n La prise de mesure, la livraison des panneaux, la pose du\n comptoir.\n Vous allez apprendre à les créer, et avoir d'un coup d'œil\n une journée qui en contient déjà deux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O03-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Basculez sur le Calendrier. Rémi vous a récapitulé la semaine par message; il faut maintenant la poser dans votre agenda, sinon elle n'existe que dans un fil de discussion.",
+   "empreinte_texte_dit": "0a94d479427aad2104cd1813b3c56b357e30324ce40a9b039e9c8993a20ffec3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 155524,
+   "duree_s": 9.64,
+   "caracteres_dits": 172,
+   "caracteres_factures": 172,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Basculez sur le calendrier. Rémi vous a récapitulé la\n semaine par message.\n Il faut maintenant la poser dans votre agenda.\n Sinon, elle n'existe que dans un fil de discussion.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Basculer sur le calendrier. Rémi vous a récapitulé la\n semaine par message.\n Il faut maintenant la poser dans votre agenda, sinon elle n\n'existe que dans un fil de discussion.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O03-L01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Sur ordinateur, l'icône du calendrier est en bas de la colonne des dossiers; sur téléphone, dans la barre du bas.",
+   "empreinte_texte_dit": "ff18968d7c0b4a8ac42d562497795c035a78fa0b3805312acc5084cc23a670f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sur ordinateur, l'icône du calendrier est en bas de la\n colonne des dossiers.\n Sur téléphone, dans la barre du bas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sur ordinateur, l'icône du calendrier est en bas de la\n colonne des dossiers.\n Sur téléphone, dans la barre du bas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O03-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Voici la semaine du 2 mars, du lundi au vendredi, encore vide. Cliquez sur Nouveau rendez-vous: une fiche s'ouvre avec les cinq seules informations qui comptent.",
+   "empreinte_texte_dit": "9e75059dd689d42e820d6afa5820d010a35e5a5eddb4cb720b2826836c4a6a17",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 146329,
+   "duree_s": 9.08,
+   "caracteres_dits": 161,
+   "caracteres_factures": 161,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Voici la semaine du 2 mars, du lundi au vendredi, encore\n vide.\n Cliquez sur Nouveau rendez-vous.\n Une fiche s'ouvre avec les cinq seules informations qui\n comptent.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Voici la semaine du 2 mars, du lundi au vendredi, encore\n vide.\n Cliquez sur Nouveau Rendez-vous.\n Une fiche s'ouvre avec les 5 seules informations qui compt\nent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O03-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Nouveau rendez-vous est en haut à gauche de la vue Calendrier.",
+   "empreinte_texte_dit": "ac8d5dd0581733aa7523ab3fafc01627ada94e0f7eff3fd2e3978c50592a89c4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton nouveau rendez-vous est en haut à gauche de la\n vue calendrier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau Rendez-vous est en haut à gauche de la\n vue calendrier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O03-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "La fiche s'ouvre vide: un rendez-vous se décrit par un objet, un jour, une heure de début et une heure de fin.",
+   "empreinte_texte_dit": "b9247f16ef57b1858ab7b77c1cb3025b06d48b7a99350d865b2533fd45af6329",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La fiche s'ouvre vide. Un rendez-vous se décrit par un\n objet, un jour, une heure de début et une heure de fin.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'affiche s'ouvre vide. Un rendez-vous se décrit par un\n objet, un jour, une heure de début et une heure de fin.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O03-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Renseignez la prise de mesures: objet Prise de mesures, comptoir, le mardi 3 mars 2026, de 09:00 à 11:00, lieu École des Arts de Lambersart. Puis enregistrez: le rendez-vous n'existe qu'une fois enregistré.",
+   "empreinte_texte_dit": "8bc418bce4539c2c2d86522c5d568759479bdce85ecf98591e3e54fabdc2cab8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 252073,
+   "duree_s": 15.68,
+   "caracteres_dits": 206,
+   "caracteres_factures": 618,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Renseignez la prise de mesure, objet, prise de mesure,\n comptoir, le mardi 3 mars 2026, de 9h à 11h, lieu école des\n arts de Lambersart.\n Puis, enregistrez. Le rendez-vous n'existe qu'une fois en\nregistré."
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Renseignez la prise de mesure Objet-Prise de mesure-Comptoir le mardi 3 mars 2026, de 9h à 11h, lieu École des Arts de Lambert-Sartre. Puis, enregistrez. Le rendez-vous n'existe qu'une fois enregistré.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O03-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Remplissez les cinq champs de la fiche, puis cliquez sur Enregistrer en bas à droite.",
+   "empreinte_texte_dit": "19623b71a6000caa083cc9c1e253fa0c5b769d3407e1e0f26c35ef4145e9e0e6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Remplissez les cinq champs de la fiche, puis cliquez sur En\nregistrer en bas à droite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Remplissez les cinq champs de la fiche, puis cliquez sur En\nregistrer en bas à droite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O03-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le bloc apparaît dans la colonne du mardi, à la hauteur de son horaire. L'agenda dessine la journée.",
+   "empreinte_texte_dit": "c05abf3ac3f6f622475dc3b464d4e6a9c12eb053e5dece87f3f1688dcbe42f21",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 101608,
+   "duree_s": 6.28,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bloc apparaît dans la colonne du mardi, à la hauteur de\n son horaire.\n L'agenda dessine la journée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bloc apparaît dans la colonne du mardi, à la hauteur de\n son horaire.\n L'agenda dessine la journée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O03-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Le rendez-vous apparaît dans la colonne du mardi. Ouvrez une nouvelle fiche pour la livraison des panneaux.",
+   "empreinte_texte_dit": "593c38fe31fea47e006cf4ae0de74da3e95e96246134b4c3cfaea865c63a0dd4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le rendez-vous apparaît dans la colonne du mardi. Ouvrez\n une nouvelle fiche pour la livraison des panneaux.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le rendez-vous apparaît dans la colonne du mardi. Ouvrez\n une nouvelle fiche pour la livraison des panneaux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O03-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le même bouton Nouveau rendez-vous, en haut de la vue Calendrier.",
+   "empreinte_texte_dit": "f047e9f8e4e8ea77eae51eec5205abbf8993d0a929fa5911c1bc9ae1902daa92",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le même bouton nouveau rendez-vous en haut de la vue calend\nrier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le même bouton Nouveau Rendez-vous en haut de la vue calend\nrier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O03-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Posez la livraison: objet Livraison des panneaux, le jeudi 5 mars 2026, de 08:00 à 09:00, lieu École des Arts de Lambersart. Une heure suffit: mieux vaut un créneau juste qu'une matinée entière bloquée pour rien.",
+   "empreinte_texte_dit": "8a6ff7833d4809dc44af0a4d3e6646d1c18622f0ce729034487b9287577a5fcf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 211531,
+   "duree_s": 13.16,
+   "caracteres_dits": 212,
+   "caracteres_factures": 636,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Posez la livraison, objet livraison des panneaux, le jeudi\n 5 mars 2026, de 8h à 9h, lieu école des arts de l'Ambersard\n.\n Une heure suffit. Mieux vaut un créneau juste qu'une matin\née entière bloquée pour rien."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Posez la livraison. Objet livraison des panneaux, le jeudi 5 mars 2026, de 8h à 9h, lieu « École des Arts de l'Ambersart ». Une heure suffit. Mieux vaut un créneau juste qu'une matinée entière bloquée pour rien.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O03-L01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Même fiche que précédemment, avec la date du jeudi 5 mars.",
+   "empreinte_texte_dit": "3c252abad458c01edba043bcab1837a84c95cfa95398c34e8fd14fbc283712bc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 63155,
+   "duree_s": 3.88,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Même fiche que précédemment avec la date du jeudi 5 mars.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Même fiche que précédemment, avec la date du jeudi 5 mars.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O03-L01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Deuxième bloc posé, un autre jour. Chaque rendez-vous vit dans sa colonne.",
+   "empreinte_texte_dit": "3f18cc1537eccdd6ba57ca1eac95021a39c07f17628ad5599dcbec45d1d628d6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deuxième bloc posé, un autre jour.\n Chaque rendez-vous vit dans sa colonne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deuxième bloc posé, un autre jour.\n Chaque rendez-vous vit dans sa colonne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O03-L01-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Un rendez-vous tient en cinq informations, et deux sont celles qu'on oublie sur un carnet. L'objet, le jour, l'heure de début, l'heure de fin, le lieu. L'heure de fin dit si l'après-midi est libre, sans elle, un agenda ne sert à rien pour arbitrer. Le lieu évite l'appel de dix heures moins cinq.",
+   "empreinte_texte_dit": "e2e1628db85e15c1645bf18c954de558591fef3d8d99a52ecd2ac678b9c97f73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 299302,
+   "duree_s": 18.64,
+   "caracteres_dits": 296,
+   "caracteres_factures": 296,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.039,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un rendez-vous tient en cinq informations et deux sont cell\nes qu'on oublie sur un carnet.\n L'objet, le jour, l'heure de début, l'heure de fin, le lieu\n.\n L'heure de fin d'ici l'après-midi est libre, sans elle,\n un agenda ne sert à rien pour arbitrer.\n Le lieu évite l'appel de 10h - 5.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un rendez-vous tient en cinq informations, et deux sont\n celles qu'on oublie sur un carnet.\n L'objet, le jour, l'heure de début, l'heure de fin, le lieu\n.\n L'heure de fin d'ici l'après-midi est libre, sans elle, un\n agenda ne sert à rien pour arbitrer.\n Le lieu évite l'appel de 10h-5.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O03-L01-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Reste la pose, le même jour. Ouvrez une troisième fiche: deux rendez-vous peuvent parfaitement cohabiter dans une journée, tant que leurs horaires ne se chevauchent pas.",
+   "empreinte_texte_dit": "b0434c64c2c199a279a23ea810e06b09a530afd4f4677da4acefd8647441d3b1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 156778,
+   "duree_s": 9.72,
+   "caracteres_dits": 169,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Reste la pause, le même jour.\n Ouvrez une troisième fiche.\n Deux rendez-vous peuvent parfaitement cohabiter dans une\n journée tant que leurs horaires ne\n se chevauchent pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Reste la pause, le même jour.\n Ouvrez une troisième fiche.\n Deux rendez-vous peuvent parfaitement cohabiter dans une\n journée, tant que leurs horaires ne se chevauchent pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O03-L01-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Toujours le bouton Nouveau rendez-vous.",
+   "empreinte_texte_dit": "0e262d2588d0a9267f73312b2b68cb99538ec2ee7eab6e8651278295d986830f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 31808,
+   "duree_s": 1.92,
+   "caracteres_dits": 39,
+   "caracteres_factures": 39,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.048,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Toujours le bouton \"Nous vous rendez-vous\".",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Toujours le bouton Nouveau Rendez-vous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O03-L01-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Posez la pose du comptoir: objet Pose du comptoir, le jeudi 5 mars 2026, de 14:00 à 17:00, lieu École des Arts de Lambersart. La colonne du jeudi porte maintenant deux blocs, l'un le matin, l'autre l'après-midi.",
+   "empreinte_texte_dit": "4dd61c64928fc98760f9399a7ca654d773e5036600fd02d8c3f8294e1e061a46",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 243714,
+   "duree_s": 15.16,
+   "caracteres_dits": 211,
+   "caracteres_factures": 633,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Poser la pause du comptoir.\n Objet pause du comptoir, le jeudi 5 mars 2026,\n de 14h à 17h,\n lieu école des arts de Lambersart.\n La colonne du jeudi porte maintenant deux blocs,\n l'un le matin, l'autre l'après-midi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Posez la pose du comptoir.\n Objet pose du comptoir, le jeudi 5 mars 2026, de 14h à 17h,\n lieu Ecole des Arts de l'Ambersart.\n La colonne du jeudi porte maintenant deux blocs, l'un le\n matin, l'autre l'après-midi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O03-L01-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Même fiche, jeudi 5 mars, mais sur le créneau de l'après-midi.",
+   "empreinte_texte_dit": "8cf7d7004ba8989cc2045164e43f0856d41dc307caa5351bc66b381105821c9d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Même fiche, jeudi 5 mars, mais sur le créneau de l'après-m\nidi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Même fiche, jeudi 5 mars, mais sur le créneau de l'après-m\nidi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O03-L01-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Deux rendez-vous le même jeudi, à des heures différentes: ils cohabitent sans se gêner.",
+   "empreinte_texte_dit": "8259d736f1fd6fbf92375b74af41bac6d9e6963a925cc19a400c561056695b2f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 87,
+   "caracteres_factures": 261,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "2"
+      ],
+      "entendus": []
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "De rendez-vous le même jeudi à des heures différentes. Ils cohabitent sans se gêner.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.024,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "2"
+       ],
+       "entendus": []
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "De rendez-vous le même jeudi à des heures différentes.\n Ils cohabitent sans se gêner."
+     },
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux rendez-vous le même jeudi, à des heures différentes. Ils cohabitent sans se gêner.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "4d6e37f92df4a9d3dc84d10fd58b3245ac8d642901e0e5c29156c0e0564b77e4",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Deux rendez-vous le même jeudi, à des heures différentes. Ils cohabitent sans se gêner.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Deux rendez-vous le même jeudi, à des heures différentes. Ils cohabitent sans se gêner.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.350112",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "O03-L01-08",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Votre semaine est lisible d'un coup d'œil: deux jours occupés, trois libres. Revenez au Courrier, votre boîte n'a pas bougé pendant que vous étiez dans l'agenda.",
+   "empreinte_texte_dit": "d39478f1c3bce064eb0796b40285dc205b28012f45a003461a26aec6cbcad9b5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 152599,
+   "duree_s": 9.48,
+   "caracteres_dits": 161,
+   "caracteres_factures": 161,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.047,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Votre semaine est visible d'un coup, œil, deux jours occup\nés, trois libres.\n Revenez au courrier. Votre boîte n'a pas bougé pendant que\n vous étiez dans l'agenda.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Votre semaine est visible d'un coup.\n Euil.\n Deux jours occupés.\n Trois libres.\n Revenez au courrier.\n Votre boîte n'a pas bougé pendant que vous étiez dans l'ag\nenda.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "O03-L01-08",
+   "role": "Étape 9 · aide",
+   "texte_dit": "Le bouton Courrier est à côté de celui du Calendrier.",
+   "empreinte_texte_dit": "d8eb514b854723431e6a42f61b04cc08d27714a3173cbf2f5975dc0e458ca76e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 48527,
+   "duree_s": 2.96,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton courrier est à côté de celui du calendrier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton courrier est à côté de celui du calendrier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "O03-L01-08",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "Deux jours occupés, trois libres, lisible d'un coup d'œil. Votre boîte n'a pas bougé pendant ce temps.",
+   "empreinte_texte_dit": "1e398f5c798a13ef5c03bf194390b1300844150879e6ded460b0dfb78a2b2926",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 102,
+   "caracteres_factures": 306,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "2 jours occupés, 3 libres, lisibles d'un coup d'œuf, œil.\n Votre boîte n'a pas bougé pendant ce temps.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux jours occupés, trois libres, lisible d'un coup d'œil.\n Votre boîte n'a pas bougé pendant ce temps.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un rendez-vous se résume à cinq informations: ce que c'est, quel jour, de quelle heure à quelle heure, et où. C'est peu, et c'est exactement ce qui manque quand on note un rendez-vous sur un carnet: l'heure de fin, qui dit si l'après-midi est libre, et le lieu, qui évite l'appel de dix heures moins cinq.",
+   "empreinte_texte_dit": "000eba68bb56cb3dfe47f69e6598183433b2980ace943d23e2b70e87e25f2c5b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 294287,
+   "duree_s": 18.32,
+   "caracteres_dits": 305,
+   "caracteres_factures": 305,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un rendez-vous se résume à 5 informations.\n Ce que c'est, quel jour, de quelle heure à quelle heure, et\n où.\n C'est peu, et c'est exactement ce qui manque quand on note\n un rendez-vous sur un carnet.\n L'heure de fin, qui dit si l'après-midi est libre, est le\n lieu, qui évite l'appel de 10h - 5.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un rendez-vous se résume à cinq informations. Ce que c'est,\n quel jour, de quelle heure\n à quelle heure et où. C'est peu et c'est exactement ce qui\n manque quand on note un\n rendez-vous sur un carnet. L'heure de fin, qui dit si l'\naprès-midi est libre, est le\n lieu qui évite l'appel de 10h-5.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

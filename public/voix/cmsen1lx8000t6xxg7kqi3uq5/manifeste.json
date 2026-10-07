@@ -1,0 +1,648 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1lx8000t6xxg7kqi3uq5",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Se repérer dans une boîte que vous ne connaissez pas"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 1910,
+  "duree_totale_s": 109.6,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Sonia est en congé et vous reprenez sa messagerie. Vous ne connaissez ni ses correspondants, ni ses dossiers. Quatre gestes suffisent pour s'y retrouver: filtrer, ouvrir, vérifier ce qui est parti, et revenir. À vous de jouer, sans qu'on vous montre le chemin cette fois.",
+   "empreinte_texte_dit": "caacdc56fba16aa7e1454685a0b171804f96b783b19721d2e5338662926ab633",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 244968,
+   "duree_s": 15.24,
+   "caracteres_dits": 271,
+   "caracteres_factures": 271,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sonia est en congé et vous reprenez sa messagerie.\n Vous ne connaissez ni ses correspondants ni ses dossiers.\n 4 gestes suffisent pour s'y retrouver.\n Filtrez, ouvrir, vérifiez ce qui est parti et revenir.\n À vous de jouer, sans qu'on vous montre le chemin cette\n fois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Sonia est en congé et vous reprenez sa messagerie.\n Vous ne connaissez ni ses correspondants ni ses dossiers.\n Quatre gestes suffisent pour s'y retrouver.\n Filtrez, ouvrir, vérifiez ce qui est parti et revenir.\n À vous de jouer sans qu'on vous montre le chemin cette fois\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O01-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Un seul message parle de la vitrine d'une boutique. Ne parcourez pas la liste: filtrez la boîte pour ne garder que celui-là.",
+   "empreinte_texte_dit": "dac26b32dce85d4f81a6824efb6205919a9d23099adcd6b6f87297ef9c5921e5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un seul message parle de la vitrine d'une boutique.\n Ne parcourez pas la liste.\n Filtrez la boîte pour ne garder que celui-là.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un seul message parle de la vitrine d'une boutique.\n Ne parcourrez pas la liste.\n Filtrez la boîte pour ne garder que celui-là.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O01-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Le champ de recherche est en haut de la liste des messages: il filtre le dossier ouvert sur l'expéditeur, l'objet et le texte.",
+   "empreinte_texte_dit": "8704ca67c14d54bdff1a496baf048cf49cd8c571689031f182ace3f336d6841d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 125431,
+   "duree_s": 7.76,
+   "caracteres_dits": 126,
+   "caracteres_factures": 126,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le champ de recherche est en haut de la liste des messages.\n Il filtre le dossier ouvert sur l'expéditeur, l'objet et le\n texte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le champ de recherche est en haut de la liste des messages.\n Il filtre le dossier ouvert sur l'expéditeur, l'objet et le\n texte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O01-E01-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Un seul message reste affiché. Les autres ne sont pas partis: ils sont masqués par le filtre.",
+   "empreinte_texte_dit": "068f18f7ef69ad2b7a35ee990b2a5f40c3b09409d4853d7478407bb5d0bebb6a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un seul message reste affiché.\n Les autres ne sont pas partis. Ils sont masqués par le fil\ntre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un seul message reste affiché.\n Les autres ne sont pas partis, ils sont masqués par le fil\ntre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O01-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ouvrez le message qui reste affiché et lisez-le: le client demande de décaler la pose.",
+   "empreinte_texte_dit": "39e8243a8587b944f3ac2f1041289135bafc99c43b3c5a2e520f61fd27be23a5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message qui reste affiché et lisez-le.\n Le client demande de décaler la pose.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez le message qui reste affiché et lisez-le.\n Le client demande de décaler la pause.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O01-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Cliquez sur la ligne du message dans la liste filtrée.",
+   "empreinte_texte_dit": "cf7f148575aba10da1ed56faa7951337461fde9d4b3f5fc0dd8a0f321dc7b997",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur la ligne du message dans la liste filtrée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur la ligne du message dans la liste filtrée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O01-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Avant de répondre quoi que ce soit, il faut savoir ce que Sonia a déjà écrit à ce client. Retirez d'abord le filtre, sinon vous ne verrez qu'une partie de ce que vous cherchez.",
+   "empreinte_texte_dit": "3c9a412fedff869a243982f0e1e028b766854ae4edcd506032c8d882fc4fec11",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 142568,
+   "duree_s": 8.84,
+   "caracteres_dits": 176,
+   "caracteres_factures": 176,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Avant de répondre quoi que ce soit, il faut savoir ce que\n Sonya a déjà écrit à ce client.\n Retirez d'abord le filtre, sinon vous ne verrez qu'une\n partie de ce que vous cherchez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Avant de répondre quoi que ce soit, il faut savoir ce que\n Sonya a déjà écrit à ce client.\n Retirez d'abord le filtre, sinon vous ne verrez qu'une\n partie de ce que vous cherchez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O01-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Videz complètement le champ de recherche: il ne doit plus contenir un seul caractère.",
+   "empreinte_texte_dit": "97e2334271455500e10aa12b9c5823a3968151ebe905fc78d964e7cc311eaf14",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vider complètement le champ de recherche. Il ne doit plus\n contenir un seul caractère.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vidé complètement le champ de recherche.\n Il ne doit plus contenir un seul caractère.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O01-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "La boîte est revenue au complet: on ne cherche bien que dans une liste entière.",
+   "empreinte_texte_dit": "aea724ca6f0362af26699a33af61f199ee0b0cc00aa98fadf48e8fd1cf3e06d4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La boîte est revenue au complet. On ne cherche bien que\n dans une liste entière.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La boîte est revenue au complet. On ne cherche bien que\n dans une liste entière.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O01-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Allez voir ce qui est parti de cette boîte: Sonia a confirmé la pose à ce même client la veille. C'est cette information qui rend la réponse possible.",
+   "empreinte_texte_dit": "90bc98a588c15e85481a12540ebadf9f6c2f0cc785d4dddd1c5f3d50bc63f7a4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 149673,
+   "duree_s": 9.28,
+   "caracteres_dits": 150,
+   "caracteres_factures": 150,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Aller voir ce qui est parti de cette boîte.\n Sonya a confirmé la pause à ce même client la veille.\n C'est cette information qui rend la réponse possible.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Allez voir ce qui est parti de cette boîte.\n Sonja a confirmé la pause à ce même client la veille.\n C'est cette information qui rend la réponse possible.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O01-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Tout ce qu'on envoie est rangé automatiquement dans le dossier Éléments envoyés, dans la colonne de gauche.",
+   "empreinte_texte_dit": "5e5decf8f0a905e18473ff998108c1ba7fba13630527eb9dd9a60901ca2453f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tout ce qu'on envoie est rangé automatiquement dans le doss\nier élément envoyé dans la colonne de gauche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Tout ce qu'on envoie est rangé automatiquement dans le doss\nier « Elément envoyé » dans la colonne de gauche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O01-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "La réponse de Sonia était ici. Les envoyés portent la moitié de l'histoire qu'on ne voit jamais en réception.",
+   "empreinte_texte_dit": "a3600e98ed06fe12fc98623fff916e44395f4fc5b3ffffd7130fc8a8652e35d5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 109,
+   "caracteres_factures": 109,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.03,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La réponse de Sonia était ici. Les envoyés portent la mo\nitié de l'histoire qu'on ne voit jamais en réception.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La réponse de Sonia était ici.\n Les envoyés portent la moitié de l'histoire qu'on ne voit\n jamais en réception.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O01-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Vous avez les deux versions de l'histoire. Revenez à la file d'attente pour reprendre le travail.",
+   "empreinte_texte_dit": "214dc234e10075473ecc2648dd5cf57d9a9d2f7caee980bf06dcf52048d1c2c6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 87397,
+   "duree_s": 5.4,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous avez les deux versions de l'histoire. Revenez à la\n file d'attente pour reprendre le travail.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous avez les deux versions de l'histoire.\n Revenez à la file d'attente pour reprendre le travail.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O01-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "La Boîte de réception est le premier dossier de la colonne de gauche.",
+   "empreinte_texte_dit": "f57ba4b37e2f570393c654029ceda4bb59f20055baf9bc0b5a50c096c459f96f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La boîte de réception est le premier dossier de la colonne\n de gauche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "La boîte de réception est le premier dossier de la colonne\n de gauche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O01-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Vous avez les deux versions avant d'écrire une ligne. C'est l'ordre qui évite les réponses à côté.",
+   "empreinte_texte_dit": "4fd6e3f0b54b9506ca4859a8ca1ed2d2fca11b214a37f287f98f4ef865ad0ca5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous avez les deux versions avendées, écrire une ligne.\n C'est l'ordre qui évite les réponses à côté.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous avez les deux versions avant D, écrire une ligne.\n C'est l'ordre qui évite les réponses à côté.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Vous savez entrer dans une messagerie inconnue et y retrouver une information en quelques secondes. C'est exactement ce qu'on attend de vous le jour où vous reprenez un dossier en cours.",
+   "empreinte_texte_dit": "bb98ed600724710f8217126a33822a7f994b0e237c74ed4c3d2dba28bdd7ee92",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 154688,
+   "duree_s": 9.6,
+   "caracteres_dits": 186,
+   "caracteres_factures": 186,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous savez entrer dans une messagerie inconnue et y\n retrouver une information en quelques\n secondes.\n C'est exactement ce qu'on attend de vous, le jour où vous\n reprenez un dossier en cours.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous savez entrer dans une messagerie inconnue et y\n retrouver une information en quelques secondes.\n C'est exactement ce qu'on attend de vous, le jour où vous\n reprenez un dossier en cours.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

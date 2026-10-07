@@ -1,0 +1,926 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1m5s001f6xxgx6fnipmf",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Répondre : ce qu'Outlook remplit à votre place"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 23,
+  "caracteres_dits": 3607,
+  "duree_totale_s": 214.5,
+  "segments_valides": 23,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Vous savez écrire de zéro. La plupart des messages que vous enverrez ne partiront pourtant pas d'une feuille blanche: ce sont des réponses. Outlook y remplit trois choses tout seul, le destinataire, l'objet, et le lien avec le message d'origine. Encore faut-il savoir ce qu'il remplit, ce qu'il oublie, et ce que vous restez seul à devoir vérifier.",
+   "empreinte_texte_dit": "3450f2c8a2223a8ac3c9fe0321f8f86514c02392c312b573f003459bffdccadf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 319782,
+   "duree_s": 19.92,
+   "caracteres_dits": 348,
+   "caracteres_factures": 348,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous savez écrire de zéro.\n La plupart des messages que vous en verrez ne partiront\n pourtant pas d'une feuille blanche.\n Ce sont des réponses.\n Outlook y remplit trois choses tout seul.\n Le destinataire, l'objet et le lien avec le message d'\norigine.\n Encore faut-il savoir ce qu'il remplit, ce qu'il oublie et\n ce que vous restez seul à devoir vérifier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous savez écrire de zéro.\n La plupart des messages que vous enverrez ne partiront\n pourtant pas d'une feuille blanche.\n Ce sont des réponses.\n Outlook y remplit trois choses tout seul.\n Le destinataire, l'objet et le lien avec le message d'\norigine.\n Encore faut-il savoir ce qu'il remplit, ce qu'il oublie et\n ce que vous restez seul à devoir vérifier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O02-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Rémi Tissot vous transmet les cotes et attend une confirmation. Ouvrez son message et lisez-le: une réponse commence toujours par la lecture complète de ce à quoi on répond.",
+   "empreinte_texte_dit": "9134de7aa2dfbaf2b07a1bc5e6bddbd85918065929bb8019b21cccd27b0f4178",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 150091,
+   "duree_s": 9.32,
+   "caracteres_dits": 173,
+   "caracteres_factures": 173,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "RémitiSauve vous transmet les codes et attend une\n confirmation.\n Ouvrez son message et lisez-le.\n Une réponse commence toujours par la lecture complète de ce\n à quoi on répond.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rémy Tissot vous transmet les cotes et attend une\n confirmation.\n Ouvrez son message et lisez-le.\n Une réponse commence toujours par la lecture complète de ce\n à quoi on répond.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O02-L01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet parle des cotes définitives.",
+   "empreinte_texte_dit": "8472105f3aaf7877645ff71285ab990be92c4f7d93578525e620b46526a342a1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle des codes définitives.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.059,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle des codes définitifs.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O02-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Trois boutons s'offrent à vous en haut du volet de lecture: Répondre, Répondre à tous, Transférer. Cliquez sur Répondre, celui qui écrit à l'expéditeur, et à lui seul.",
+   "empreinte_texte_dit": "f8664865eb8f18e1d63467ace27919f78892304dab92ceddf229c60ca1f5be46",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 183528,
+   "duree_s": 11.4,
+   "caracteres_dits": 167,
+   "caracteres_factures": 167,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois boutons s'offrent à vous en haut du volet de lecture.\n Répondre, répondre à tous, transférer.\n Cliquez sur \"Répondre\", celui qui écrit à l'expéditeur et à\n lui seul.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Trois boutons s'offrent à vous en haut du volet de lecture.\n Répondre, Répondre à tous, Transférer.\n Cliquez sur Répondre, celui qui écrit à l'expéditeur et à\n lui seul.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O02-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Répondre est le premier de la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "b43f114e0dcad0b508c66703191c88b8a4c7c95ff15439294869087eee08c07b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre est le premier de la barre du Haut du\n volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre est le premier de la barre du haut du\n volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O02-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le destinataire est déjà là et l'objet porte RE:. Répondre remplit trois choses à votre place.",
+   "empreinte_texte_dit": "8f78bf3cb56c75ba37b45201ad84c1c254e98fdb53f65c143bd5615a9ef07f88",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le destinataire est déjà là et l'objet porte R.E.\n Répondre rempli trois choses à votre place.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le destinataire est déjà là et l'objet porte R.E.\n Répondre remplit trois choses à votre place.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O02-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Ajoutez direction@ecole-arts-lambersart.fr dans le champ Cc pour que l'école reste informée. Regardez d'abord ce qu'Outlook a rempli seul, et ce qu'il a laissé vide.",
+   "empreinte_texte_dit": "7d0f329bc8a8ff7bfe20d614cca44113ef921f32ae978aa1858256f718f0654b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 208605,
+   "duree_s": 12.96,
+   "caracteres_dits": 165,
+   "caracteres_factures": 495,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.052,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez direction@école-art-ambersart.fr dans le champ CC\n pour qu'elle, école reste informée.\n Regardez d'abord ce coutelou qui a rempli seul et ce qui l'\na laissé vide.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ajoutez direction@école-art-l'ambersart.fr dans le champ cc\n pour que L, École, reste informé.\n Regardez d'abord ce qu'Outlook a rempli seul et ce qu'il a\n laissé vide.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O02-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "L'adresse figure dans l'en-tête du message d'origine, sur la ligne Cc.",
+   "empreinte_texte_dit": "43cabbd36c7c5680328ad22455b9143d516e4f8c7e3cf01284c802f8feea787e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'adresse figure dans l'entête du message d'origine sur la\n ligne CC.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'adresse figure dans l'entête du message d'origine sur la\n ligne CC.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O02-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Répondre n'avait gardé que l'expéditeur: une copie reçue ne se reconduit pas toute seule.",
+   "empreinte_texte_dit": "f5eab5c0608b1814a98aef373e78d7424104449f209964ea9efa52a029c1e5d2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondre n'avait gardé que l'expéditeur.\n Une copie reçue ne se reconduit pas toute seule.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondre n'avait gardé que l'expéditeur.\n Une copie reçue ne se reconduit pas toute seule.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O02-L01-03B",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Répondre remplit trois choses et en oublie une, c'est l'oubli qui compte. Le champ À et l'objet étaient déjà remplis; l'adresse qui était en copie du message reçu, elle, avait disparu. Si vous répondez sans regarder, la personne que l'expéditeur tenait à informer cesse de l'être, et personne ne vous le signalera.",
+   "empreinte_texte_dit": "6df4ae58b84f6ee7cccdce6920fe4e4335cc63bfce432296f5ce741ad5cf227f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 296795,
+   "duree_s": 18.48,
+   "caracteres_dits": 314,
+   "caracteres_factures": 628,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondre rempli trois choses et en oublie une, c'est l'ou\nbli qui compte.\n Le champ A et l'objet étaient déjà remplis.\n L'adresse qui était en copie du message reçu L avait dispar\nu.\n Si vous répondez sans regarder,\n la personne que l'expéditeur tenait à informer cesse de l'L\n, être et personne ne vous le signalera.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondre remplit trois choses et en oublie une, c'est l'ou\nbli qui compte.\n Le chant \"À\" et l'objet étaient déjà remplis.\n L'adresse qui était en copie du message reçu \"L\" avait\n disparu.\n Si vous répondez sans regarder, la personne que l'expédite\nur tenait à informer cesse de \"L\", \"être\", et personne ne\n vous le signalera.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O02-L01-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Complétez l'objet avec la référence 2026-118 en gardant le préfixe RE: intact.",
+   "empreinte_texte_dit": "09e42a9658416d54ca626c7eaad5e096025dc162c1fc07e68f0b5089260a0731",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec la référence 2026 à 118 en gardant\n le préfix RE intact.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec la référence 2026 à 118 en gardant\n le préfixe RE intact.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O02-L01-04",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Cliquez à la fin du champ Objet et ajoutez la référence: ne touchez pas au début de la ligne.",
+   "empreinte_texte_dit": "d73f295e6387a51f5bccafbf5a1957d9b6183a9ea3595726865d15635d7ff6b2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez à la fin du champ objet et ajoutez la référence.\n Ne touchez pas au début de la ligne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez à la fin du champ Objet et ajoutez la référence.\n Ne touchez pas au début de la ligne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O02-L01-04",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Le RE: n'est pas décoratif: c'est le repère qui garde votre message dans le même fil, chez votre correspondant.",
+   "empreinte_texte_dit": "8db7f7b1cce4a1ff88cd797da5724c8edc3898082d879b407d351a146a4eb047",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 117072,
+   "duree_s": 7.24,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le R.E. n'est pas décoratif.\n C'est le repère qui garde votre message dans le même fil\n chez votre correspondant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le RE n'est pas décoratif.\n C'est le repère qui garde votre message dans le même fil\n chez votre correspondant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O02-L01-04B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Le RE: n'est pas une décoration: c'est le repère visible du fil. Un objet conservé range votre message dans la même conversation chez votre correspondant, et lui rappelle en une ligne de quoi il s'agit. Remplacer l'objet, c'est risquer que la réponse arrive comme un message neuf. D'où la règle, on complète un objet de réponse, on ne le remplace jamais. Le rapprochement s'appuie aussi sur des informations que vous ne voyez pas, ajoutées par la messagerie; l'objet reste ce que vous, vous maîtrisez.",
+   "empreinte_texte_dit": "f2e1f3e0071a087b979337191105e798407473e782c4a0aed5d5e41e526b4f0c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 435557,
+   "duree_s": 27.16,
+   "caracteres_dits": 501,
+   "caracteres_factures": 501,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.003,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le R.E. n'est pas une décoration, c'est le repère visible\n du fil.\n Un objet conservé range votre message dans la même\n conversation chez votre correspondant\n et lui rappelle en une ligne de quoi il s'agit.\n Remplacer l'objet, c'est risquer que la réponse arrive\n comme un message neuf.\n D'où la règle, on complète un objet de réponse, on ne le\n remplace jamais.\n Le rapprochement s'appuie aussi sur des informations que\n vous ne voyez pas, ajoutées par la messagerie.\n L'objet reste ce que vous, vous maîtriser.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le RE n'est pas une décoration, c'est le repère visible du\n fil.\n Un objet conservé range votre message dans la même\n conversation chez votre correspondant\n et lui rappelle en une ligne de quoi il s'agit.\n Remplacer l'objet, c'est risquer que la réponse arrive\n comme un message neuf.\n D'où la règle, on complète un objet de réponse, on ne le\n remplace jamais.\n Le rapprochement s'appuie aussi sur des informations que\n vous ne voyez pas, ajoutées par la messagerie.\n L'objet reste ce que vous, vous maîtrisez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O02-L01-05",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Rédigez la réponse. Rémi pose une question précise: il faut y répondre. Votre message doit confirmer que la fabrication peut démarrer et rappeler les cotes retenues, pour qu'un désaccord se voie tout de suite plutôt que devant le comptoir fini.",
+   "empreinte_texte_dit": "1667a0f214b0f5546d19acac0a3fd856782040b2ab574eee0d0ece5fd096e691",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 202754,
+   "duree_s": 12.6,
+   "caracteres_dits": 244,
+   "caracteres_factures": 244,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigez la réponse. Rémi pose une question précise. Il faut\n y répondre.\n Votre message doit confirmer que la fabrication peut démarr\ner et rappeler les cotes retenues\n pour qu'un désaccord se voit tout de suite plutôt que\n devant le comptoir fini.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rédigé la réponse, Rémi pose une question précise.\n Il faut y répondre.\n Votre message doit confirmer que la fabrication peut démarr\ner et rappeler les codes retenus,\n pour qu'un désaccord se voie tout de suite plutôt que\n devant le comptoir fini.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O02-L01-05",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Deux informations sont attendues: la confirmation du démarrage, et les cotes que vous retenez.",
+   "empreinte_texte_dit": "8d455a44cc39cb9e0b6bf65c44f8a33d6c558fcca4cc3875726d0dbf3d0de8e0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 88651,
+   "duree_s": 5.48,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues, la confirmation du démar\nrage et les codes que vous retenez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n La confirmation du démarrage et les codes que vous retenez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O02-L01-06",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Envoyez la réponse. Elle partira à Rémi et à la direction de l'école, avec l'objet préfixé, trois éléments qu'Outlook a préparés, et qu'il vous appartenait de vérifier.",
+   "empreinte_texte_dit": "5ed9945e7d77c03a67346a599a25134fa3123d374fe1666747ce57c2bb7e8192",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 159704,
+   "duree_s": 9.92,
+   "caracteres_dits": 168,
+   "caracteres_factures": 168,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.039,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez la réponse. Elle partira à Rémi et à la direction\n de l'aile, école, avec l'objet pré fixé, trois éléments\n outlook à préparer et qu'il vous appartenait de vérifier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.049,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Envoyez la réponse.\n Elle partira à Rémi et à la direction de l'aile, école,\n avec l'objet préfixé,\n trois éléments qu'Outlook a préparé et qu'il vous apparten\nait de vérifier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O02-L01-06",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "2667ca0a7beb4de62970e73906b0981a06f7bf5161f8353b2db14b5b268ebc42",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O02-L01-06",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Partie à Rémi et à la direction. Trois éléments qu'Outlook avait préparés, un seul que vous avez ajouté.",
+   "empreinte_texte_dit": "6d463384b37b356dc02ddeffbf4e233cbcd509bc07caef4722ef273d8066a0ee",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 110385,
+   "duree_s": 6.84,
+   "caracteres_dits": 104,
+   "caracteres_factures": 104,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Partis à Rémi et à la direction.\n Trois éléments Coutlook avait préparé, un seul que vous\n avez ajouté.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Partie à Rémi et à la direction.\n Trois éléments qu'Outlook avait préparés, un seul que vous\n avez ajouté.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "O02-L01-07",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Une flèche de réponse est apparue sur le message d'origine : c'est la trace de votre réponse. Ouvrez le message publicitaire juste au-dessous, et comparez.",
+   "empreinte_texte_dit": "562d1e3f56104a6457fefc46c14e35f4de83969f047379aecc358ae47ad556ab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 135462,
+   "duree_s": 8.4,
+   "caracteres_dits": 155,
+   "caracteres_factures": 155,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Une flèche de réponse est apparue sur le message d'origine.\n C'est la trace de votre réponse.\n Ouvrez le message publicitaire juste au-dessous et comparez\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Une flèche de réponse est apparue sur le message d'origine.\n C'est la trace de votre réponse.\n Ouvrez le message publicitaire juste au-dessous et comparez\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "O02-L01-07",
+   "role": "Étape 9 · aide",
+   "texte_dit": "C'est le message dont l'objet parle des nouveautés du mois.",
+   "empreinte_texte_dit": "3d84cbf6c0c56d9e4e80fe64f44825de07819a9b3383fa8966ebc5a22bc7e0a2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle des nouveautés du mois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle des nouveautés du mois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "O02-L01-07",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "Une flèche de réponse est apparue sur le message d'origine : la trace de votre réponse, visible dans la liste.",
+   "empreinte_texte_dit": "cc0169d1e760aa57784e9549ea896d1f1ee28894da8028c209cde1a061eb4e20",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 104951,
+   "duree_s": 6.48,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Une flèche de réponse est apparue sur le message d'origine,\n la trace de votre réponse visible dans la liste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Une flèche de réponse est apparue sur le message d'origine.\n La trace de votre réponse, visible dans la liste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Répondre écrit à l'expéditeur, et à lui seul. L'objet reprend celui d'origine avec RE: devant, ce qui range votre message dans le même fil chez votre correspondant. Et rien n'est figé: une réponse se modifie comme un message ordinaire, destinataires compris.",
+   "empreinte_texte_dit": "4db2a45a8051cd099e447db0be9f45303c8a194be8852179e4995aceb3268174",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 240370,
+   "duree_s": 14.96,
+   "caracteres_dits": 258,
+   "caracteres_factures": 258,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondre écrit à l'expéditeur et à lui seul.\n L'objet reprend celui d'origine avec RE, devant, ce qui\n range votre message dans le même fil chez votre correspond\nant.\n Et rien n'est figé.\n Une réponse se modifie comme un message ordinaire destinata\nire compris.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Répondrez cri à l'expéditeur et à lui seul.\n L'objet reprend celui d'origine avec R E, devant,\n ce qui range votre message dans le même fil chez votre\n correspondant.\n Et rien est figé.\n Une réponse se modifie comme un message ordinaire, destin\nataire compris.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

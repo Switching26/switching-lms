@@ -1,0 +1,939 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1min002d6xxgdgfijhew",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Lire un agenda déjà rempli et s'y glisser"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2776,
+  "duree_totale_s": 168.9,
+  "segments_valides": 21,
+  "segments_plusieurs_essais": 5,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Poser un rendez-vous dans un agenda vide est facile. Le vrai geste, c'est d'en poser un dans une semaine déjà occupée, sans écraser ce qui existe. Vous allez lire votre semaine, y placer deux nouveaux rendez-vous aux moments réellement libres, et découvrir la seule chose qu'Outlook refuse d'enregistrer.",
+   "empreinte_texte_dit": "477bf9377be65b728be5f59b345c338bccc24e0a365db8ab5cb7028403092416",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 270045,
+   "duree_s": 16.8,
+   "caracteres_dits": 304,
+   "caracteres_factures": 304,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Posez un rendez-vous dans un agenda vide et facile.\n Le vrai geste, c'est d'en poser un dans une semaine déjà\n occupée, sans écraser\n ce qui existe.\n Vous allez lire votre semaine, y placer deux nouveaux\n rendez-vous au moment réellement\n libre et découvrir la seule chose qu'Outlook refuse d'en\nregistrer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Posez un rendez-vous dans un agenda vide et facile.\n Le vrai geste, c'est d'en poser un dans une semaine déjà\n occupée, sans écraser ce qui existe.\n Vous allez lire votre semaine, y placer deux nouveaux\n rendez-vous au moment réellement libre,\n et découvrir la seule chose qu'Outlook refuse d'enregistrer\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O03-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Nadia vous demande de caler deux créneaux. Avant de les poser au hasard, il faut voir ce qui occupe déjà la semaine. À vous : basculez sur le Calendrier.",
+   "empreinte_texte_dit": "60b8b2c9acd5987344e00583a305d3eb4fa36683c75af155b7d87e0c4e697721",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 147165,
+   "duree_s": 9.12,
+   "caracteres_dits": 153,
+   "caracteres_factures": 153,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Nadia vous demande de caler deux créneaux. Avant de les\n poser au hasard, il faut voir\n ce qui occupe déjà la semaine. À vous, basculez sur le\n calendrier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Nadia vous demande de caler deux créneaux.\n Avant de les poser au hasard, il faut voir ce qui occupe\n déjà la semaine.\n À vous, basculer sur le calendrier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O03-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "L'icône du calendrier est en bas de la colonne des dossiers; sur téléphone, dans la barre du bas.",
+   "empreinte_texte_dit": "a2113f9a9f263b8e06a757fd6965660f5381e4446a58408141af28f7b9892995",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'icône du calendrier est en bas de la colonne des dossiers\n, sur téléphone, dans la barre du bas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'icône du calendrier est en bas de la colonne des dossiers\n, sur téléphone, dans la barre du bas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O03-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Regarder avant de poser: c'est ce qui évite deux rendez-vous à la même heure.",
+   "empreinte_texte_dit": "974f1564f515efd1d75060d7bc25fadb393665fa621848e50a1e5309c5f21d6f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 77,
+   "caracteres_factures": 231,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Regardez avant de poser. C'est ce qui évite deux rendez-\nvous à la même heure.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Regardez avant de poser. C'est ce qui évite deux rendez-\nvous à la même heure.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O03-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ouvrez une fiche de rendez-vous. Votre semaine porte déjà trois rendez-vous: mardi matin, et deux fois jeudi. Lundi et mercredi sont entièrement libres, ce sont eux qui accueilleront les demandes de Nadia.",
+   "empreinte_texte_dit": "b63c478fdd66afb4df290d4cebe992e1a5c3012897ec40901d029c4cdf0f50db",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 175168,
+   "duree_s": 10.88,
+   "caracteres_dits": 205,
+   "caracteres_factures": 205,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez une fiche de rendez-vous. Votre semaine porte déjà\n trois rendez-vous.\n Mardi matin et deux fois jeudi.\n Lundi et mercredi sont entièrement libres. Ce sont eux qui\n accueilliront les demandes de Nadia.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Ouvrez une fiche de rendez-vous.\n Votre semaine porte déjà trois rendez-vous, mardi matin et\n deux fois jeudi.\n Lundi et mercredi sont entièrement libres, ce sont eux qui\n accueilleront les demandes de Nadia.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O03-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Nouveau rendez-vous est en haut à gauche de la vue Calendrier.",
+   "empreinte_texte_dit": "ac8d5dd0581733aa7523ab3fafc01627ada94e0f7eff3fd2e3978c50592a89c4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton nouveau rendez-vous est en haut à gauche de la\n vue calendrier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau Rendez-vous est en haut à gauche de la\n vue calendrier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O03-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Testons d'abord ce qu'Outlook refuse. Cliquez sur Enregistrer alors que la fiche est vide. La fenêtre reste ouverte et rien ne s'inscrit.",
+   "empreinte_texte_dit": "012ef9b8d100dcfb02cb53e389db0904acb0e9867d0f5dc36f76262cee11230b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 124177,
+   "duree_s": 7.68,
+   "caracteres_dits": 137,
+   "caracteres_factures": 137,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.072,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Testons d'abord ce cas au clou creuse.\n Cliquez sur Enregistrer, alors que la fiche est vide.\n La fenêtre reste ouverte et rien ne s'inscrit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Testons d'abord ce qu'Outlook refuse.\n Cliquez sur Enregistrer alors que l'affiche est vide.\n La fenêtre reste ouverte et rien ne s'inscrit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O03-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Cliquez sur Enregistrer, en bas à droite de la fiche, sans avoir rien saisi: le geste est volontaire.",
+   "empreinte_texte_dit": "2cc4d86f19152610906f823d2f529628e041ea22e2878f79b14428fa5f182dd6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 104951,
+   "duree_s": 6.48,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur Enregistrer, en bas à droite de la fiche, sans\n avoir rien saisi.\n Le geste est volontaire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Cliquez sur Enregistrer en bas à droite de la fiche sans\n avoir rien saisi.\n Le geste est volontaire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O03-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Rien ne s'enregistre: une fiche sans objet ni horaire ne décrit aucun rendez-vous.",
+   "empreinte_texte_dit": "2fd5865132900a96010385b42a4be372dbb5902c98db2a9a74e8949238a9b9a8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rien ne s'enregistre. Une fiche sans objet ni horaire ne\n décrit aucun rendez-vous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Rien ne s'enregistre. Une fiche sans objet ni horaire ne\n décrit aucun rendez-vous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O03-L02-03B",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Vous venez de trouver la seule chose qu'un agenda refuse: un rendez-vous sans objet. La raison est mécanique, dans la colonne d'un jour, on ne lit que le titre. À retenir en creux: ni le lieu ni l'heure de fin ne sont exigés, alors que ce sont eux qui rendent l'agenda utile. Comme pour le courrier, le logiciel ne protège pas de l'erreur la plus coûteuse.",
+   "empreinte_texte_dit": "734e1a818d7176eb867de530617a7edf79797ededd4b17737a40dbdf6b1ebee3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 334411,
+   "duree_s": 20.84,
+   "caracteres_dits": 356,
+   "caracteres_factures": 356,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous venez de trouver la seule chose qu'un agenda refuse,\n un rendez-vous sans objet.\n La raison est mécanique. Dans la colonne d'un jour, on ne\n lit que le titre.\n À retenir en creux, ni le lieu ni l'heure de fin ne sont ex\nigées, alors que ce sont eux qui rendent agenda utile.\n Comme pour le courrier, le logiciel ne protège pas de l'er\nreur la plus coûteuse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Vous venez de trouver la seule chose qu'un agenda refuse,\n un rendez-vous sans objet.\n La raison est mécanique.\n Dans la colonne d'un jour, on ne lit que le titre.\n À retenir en creux, ni le lieu ni l'heure de fin ne sont ex\nigés, alors que ce sont\n eux qui rendent l'agenda utile.\n Comme pour le courrier, le logiciel ne protège pas de l'er\nreur la plus coûteuse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O03-L02-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Renseignez maintenant le point d'atelier: objet Point d'atelier hebdomadaire, le lundi 2 mars 2026, de 08:00 à 09:00, lieu Atelier Nord. Puis enregistrez.",
+   "empreinte_texte_dit": "03e0c9eebdd19618a593b5d040b7a1bf5fcbef2d9504f77ce9c46e6be352211f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 182692,
+   "duree_s": 11.36,
+   "caracteres_dits": 154,
+   "caracteres_factures": 462,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Renseignez maintenant le point d'atelier.\n Objet point d'atelier hebdomadaire, le lundi 2 mars 2026 de\n 8h à 9h, lieu atelier Nord.\n Puis enregistrez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Renseignez maintenant le point d'atelier.\n Objet point d'atelier hebdomadaire, le lundi 2 mars 2026 de\n 8h à 9h, lieu Atelier Nord.\n Puis enregistrez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O03-L02-04",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Complétez les cinq champs de la fiche déjà ouverte, puis Enregistrer.",
+   "empreinte_texte_dit": "57ca695ecf09d808724ca7bea58c3392ed9eb9e8c56b23afe896fafb65e7052f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Complétez les cinq champs de la fiche déjà ouverte, puis en\nregistrez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Complétez les cinq champs de la fiche déjà ouverte, puis en\nregistrez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O03-L02-04",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Le lundi est désormais occupé de 8 h à 9 h, avant tout le reste de la semaine.",
+   "empreinte_texte_dit": "5dbc07f1d1c6351a032b700b080a9cb7f02ca1151f29f187a3a493b3325dba29",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le lundi est désormais occupé de 8h à 9h avant tout le\n reste de la semaine.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le lundi est désormais occupé de 8h à 9h, avant tout le\n reste de la semaine.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O03-L02-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Le lundi est désormais occupé de 8 h à 9 h. Ouvrez une seconde fiche pour la visite du fournisseur.",
+   "empreinte_texte_dit": "99a7a461038af5c0bfd77972c0aba7d642e5c9dc5ab889ec26fbc5d46a53750d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 111221,
+   "duree_s": 6.88,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le lundi est désormais occupé de 8h à 9h. Ouvrez une second\ne fiche pour la visite du fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le lundi est désormais occupé de 8 heures à 9 heures.\n Ouvrez une seconde fiche pour la visite du fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O03-L02-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Le même bouton Nouveau rendez-vous.",
+   "empreinte_texte_dit": "054c35dbfba93df3e964ef3b9a8ebe1e79f59486a26a23f61acfd14a595ec466",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.053,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le même bouton, nous vous rendez-vous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le même bouton « Nouveau rendez-vous ».",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O03-L02-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Posez la visite: objet Visite du fournisseur, le mercredi 4 mars 2026, de 14:00 à 15:30, lieu Atelier Nord. Notez l'heure de fin: 15:30, et non une heure et demie.",
+   "empreinte_texte_dit": "4fe780d2d87d4e09dcd8ec2b2ad5fa090b977a68994e821ad61190c1eb44d2b7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 207769,
+   "duree_s": 12.92,
+   "caracteres_dits": 163,
+   "caracteres_factures": 489,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Poser la visite.\n Objet visite du fournisseur, le mercredi 4 mars 2026, de 14\nh à 15h30, lieu atelier Nord.\n Notez l'heure de fin, 15h30 et non 1h30.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Posez la visite.\n Objet visite du fournisseur, le mercredi 4 mars 2026, de 14\nh à 15h30, lieu Atelier Nord.\n Notez l'heure de fin, 15h30 et non 1h30.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O03-L02-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le champ Fin accepte les demi-heures: saisissez 15:30.",
+   "empreinte_texte_dit": "5ec913e912a390bd541aa3431d4e33c3da5f4503d0ce27ed1defdb7365c02ad9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le champ fin accepte les demi-heures, saisissez 15h30.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.071,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le champ fin accepte les demi-heures. Saisissez 15h30.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O03-L02-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Cinq rendez-vous, quatre jours occupés, aucun chevauchement.",
+   "empreinte_texte_dit": "95903c2a0b3fdb66bd9e84e023dad1046c276fd118acc4127d5372916202adcb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 60,
+   "caracteres_factures": 180,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.107,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "5",
+       "4"
+      ],
+      "entendus": [
+       "4"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "Sainte rendez-vous, quatre jours occupés, aucun chevauchement.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.107,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "5",
+        "4"
+       ],
+       "entendus": [
+        "4"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Sainte rendez-vous, quatre jours occupés, aucun chevauch\nement."
+     },
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "5 rendez-vous, 4 jours occupés, aucun chevauchement.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "9bcefa2bc927363c2f83dd86acda5a08b2c7edf6536d3ff55e74b7c761f4a2c4",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "5 rendez-vous, 4 jours occupés, aucun chevauchement.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.171,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "5 rendez-vous, 4 jours occupés, aucun chevauchement.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.266110",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O03-L02-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Cinq rendez-vous, quatre jours occupés, et aucun chevauchement. Revenez au Courrier pour prévenir Nadia que c'est calé.",
+   "empreinte_texte_dit": "b944d87710bd3267ea49beff34e7b8d2d9909ec42c1d1b77d3b9f490b4dcb4dc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 113728,
+   "duree_s": 7.04,
+   "caracteres_dits": 119,
+   "caracteres_factures": 238,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "5 rendez-vous, 4 jours occupés et aucun chevauchement.\n Revenez au courrier pour prévenir Nadia que c'est calé.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "5 rendez-vous, 4 jours occupés et aucun chevauchement.\n Revenez au courrier pour prévenir Nadia que c'est calé.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O03-L02-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Le bouton Courrier est à côté de celui du Calendrier.",
+   "empreinte_texte_dit": "d8eb514b854723431e6a42f61b04cc08d27714a3173cbf2f5975dc0e458ca76e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton courrier est à côté de celui du calendrier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Le bouton Courrier est à côté de celui du calendrier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O03-L02-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "L'agenda tient debout: chaque créneau a été choisi en voyant les autres.",
+   "empreinte_texte_dit": "0e5c3930357945a2fa5ccef27979dc2a8a72ba2dbf7f2145af8137b03a3a37ed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'agenda tient debout. Chaque créneau a été choisi en voy\nant les autres.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "L'agenda tient debout. Chaque créneau a été choisi en voy\nant les autres.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un agenda ne se lit pas jour par jour mais en creux: ce qu'on cherche, ce sont les trous. Et retenez la règle d'Outlook: un rendez-vous sans objet ne s'enregistre pas, il n'aurait aucun sens dans une colonne où l'on ne lit que le titre.",
+   "empreinte_texte_dit": "bb712ed73b40a057b1803b34a1daf045c2139390e21324379fbcfb33f48c8bf0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 221144,
+   "duree_s": 13.76,
+   "caracteres_dits": 236,
+   "caracteres_factures": 236,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un agenda ne se lit pas jour par jour mais en creux.\n Ce qu'on cherche, ce sont les trous.\n Et retenez la règle d'outlook.\n Un rendez-vous sans objet ne s'enregistre pas.\n Il n'aurait aucun sens dans une colonne où l'on ne lit que\n le titre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "ok": true,
+     "transcription": "Un agenda ne se lit pas jour par jour mais en creux.\n Ce qu'on cherche, ce sont les trous.\n Et retenez la règle d'Outlook.\n Un rendez-vous sans objet ne s'enregistre pas.\n Il n'aurait aucun sens dans une colonne où l'on ne lit que\n le titre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

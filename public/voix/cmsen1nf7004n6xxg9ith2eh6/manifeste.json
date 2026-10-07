@@ -1,0 +1,720 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1nf7004n6xxg9ith2eh6",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Une demande claire : quoi, pour quand, par qui"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 2449,
+  "duree_totale_s": 147.7,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Il existe une famille de messages qui produit systématiquement un aller-retour: ceux où l'on demande quelque chose sans dire précisément quoi, ni pour quand, ni qui doit s'en charger. Trois informations manquantes, trois messages de plus. Vous allez apprendre à les mettre toutes les trois du premier coup.",
+   "empreinte_texte_dit": "b4dbb1a75ba578aee58878f95da930ae9a3886bf9d1e1ec124877438f342cad2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 255835,
+   "duree_s": 15.92,
+   "caracteres_dits": 306,
+   "caracteres_factures": 306,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Il existe une famille de messages qui produit systémat\niquement un aller-retour,\n ce où l'on demande quelque chose, sans dire précisément\n quoi,\n ni pour quand, ni qui doit s'en charger.\n Trois informations manquantes, trois messages de plus.\n Vous allez apprendre à les mettre toutes les trois du\n premier coup ?",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Il existe une famille de messages qui produit systémat\niquement un aller-retour,\n ceux où l'on demande quelque chose sans dire précisément\n quoi, ni pour quand, ni qui doit s'en charger.\n Trois informations manquantes, trois messages de plus.\n Vous allez apprendre à les mettre toutes les trois du\n premier coup.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O06-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message d'Hugo Vasseur. Il propose son aide sans savoir ce qu'on attend de lui: c'est à vous de le lui dire précisément.",
+   "empreinte_texte_dit": "df62941bce13477d99e6d765c6472fe37cf94fc176ec046f73316a550f86c871",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 123342,
+   "duree_s": 7.64,
+   "caracteres_dits": 130,
+   "caracteres_factures": 130,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message du govasseur. Il propose son aide sans\n savoir ce qu'on attend de lui.\n C'est à vous de le lui dire précisément.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message d'Hugo Vasseur.\n Il propose son aide sans savoir ce qu'on attend de lui.\n C'est à vous de le lui dire précisément.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O06-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui annonce une disponibilité la semaine prochaine.",
+   "empreinte_texte_dit": "3a6890ac3ff038c65fd30e685a0bef1e227df6ebd5430023ef9d93faaf7b842f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message qui annonce une disponibilité la semaine\n prochaine.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message qui annonce une disponibilité la semaine\n prochaine.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O06-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre. Une demande se formule dans le fil de la conversation d'origine: Hugo retrouve ainsi le contexte sans avoir à chercher.",
+   "empreinte_texte_dit": "62e51fe35825824f1b8c1d2891cba65e2728c513f3b81c75fb4edb00e7c49cae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 136716,
+   "duree_s": 8.48,
+   "caracteres_dits": 141,
+   "caracteres_factures": 141,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cliquez sur « Répondre ». Une demande se formule dans le\n fil de la conversation d'origine.\n Hugo retrouve ainsi le contexte sans avoir à chercher.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cliquez sur « Répondre ».\n Une demande se formule dans le fil de la conversation d'\norigine.\n Hugo retrouve ainsi le contexte sans avoir à chercher.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O06-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Répondre est le premier de la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "b43f114e0dcad0b508c66703191c88b8a4c7c95ff15439294869087eee08c07b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton \"Répondre\" est le premier de la barre du haut du\n volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre est le premier de la barre du haut du\n volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O06-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Répondre garde la demande dans le fil d'origine: Hugo retrouve le contexte sans le chercher.",
+   "empreinte_texte_dit": "0cbbcfc72bfe3c4aa86f7b4e6cbad32a69f1cfd1fbb63d4052177ac89485a160",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Répondre garde la demande dans le fil d'origine. Hugo\n retrouve le contexte sans le chercher.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Répondre garde la demande dans le fil d'origine.\n Hugo retrouve le contexte sans le chercher.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O06-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot intervention. L'objet repris parle d'une disponibilité; le vôtre doit annoncer une demande. C'est ce changement qui fait passer le message du bavardage à l'action.",
+   "empreinte_texte_dit": "5b2aa614f7266ac00aa31ee3c5a13f3a6b10370627644e90fa8fc6274cc44dff",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 181020,
+   "duree_s": 11.24,
+   "caracteres_dits": 193,
+   "caracteres_factures": 193,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot \"intervention\".\n L'objet repris parle d'une disponibilité, le vôtre doit ann\noncer une demande.\n C'est ce changement qui fait passer le message du bavardage\n à l'action.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot \"Intervention\".\n L'objet repris parle d'une disponibilité, le vôtre doit ann\noncer une demande.\n C'est ce changement qui fait passer le message du bavardage\n à l'action.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O06-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Ajoutez le mot à la fin du champ Objet, en gardant le RE:.",
+   "empreinte_texte_dit": "2bec17b13a47e1dce2628bc469e360a0ba0785f36e0ca4c1d66ac9a4d8c3c4ae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin du champ objet en gardant le re.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin du champ Objet en gardant le RE.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O06-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "L'objet reçu parlait d'une disponibilité; le vôtre annonce une intervention. Ce n'est plus le même message.",
+   "empreinte_texte_dit": "3be5c2e2783a47490d3d0453a588f667a6dfb9b680fc810cf6aa56dd88b7593c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 104951,
+   "duree_s": 6.48,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'objet reçu parlait d'une disponibilité.\n Le vôtre annonce une intervention.\n Ce n'est plus le même message.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'objet reçu parlait d'une disponibilité.\n Le vôtre annonce une intervention.\n Ce n'est plus le même message.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O06-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rédigez la demande complète. Elle doit contenir les trois éléments: ce qu'il faut faire, la reprise de la main courante, pour quand avec un jour précis, et où. Écrivez-la avec vos mots; ce sont les informations qui comptent.",
+   "empreinte_texte_dit": "1497f6f9db2cb7ae7527caaa03c3fa986ea2b1d0e4588352f7e13e80171fe8f8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 225742,
+   "duree_s": 14.04,
+   "caracteres_dits": 224,
+   "caracteres_factures": 224,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédigé la demande complète. Elle doit contenir les trois\n éléments.\n Ce qu'il faut faire, la reprise de la main courante, pour\n quand avec un jour précis,\n et où. Écrivez-la avec vos mots. Ce sont les informations\n qui comptent.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédigé la demande complète.\n Elle doit contenir les trois éléments.\n Ce qu'il faut faire, la reprise de la main courante, pour\n quand avec un jour précis,\n et où.\n Écrivez-la avec vos mots.\n Ce sont les informations qui comptent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O06-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Trois informations sont attendues: le travail, un jour précis, et le lieu.",
+   "empreinte_texte_dit": "bf81b84d4a00cada13ff0fe18956f9e4dd38643f1c03e2d17ce54fec39cad831",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues. Le travail, un jour\n précis et le lieu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues. Le travail, un jour\n précis et le lieu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O06-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Quoi faire, pour quand, par qui: les trois éléments sans lesquels une demande se retourne en questions.",
+   "empreinte_texte_dit": "21b50c1d3cd7ab747a29ba92c554cf076fc1752fb178213daffee3afe0256666",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Quoi faire ? Pour quand ? Par qui ?\n Les trois éléments sans lesquels une demande se retourne en\n question.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Quoi faire ? Pour quand ? Par qui ?\n Les trois éléments sans lesquels une demande se retourne en\n question.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O06-L02-04B",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Une demande complète se reconnaît à ce qu'elle appelle un oui ou un non. Trois informations la rendent telle: quoi, pour quand, où, ou par qui. Il en manque une, et votre correspondant doit poser une question: deux messages et deux jours de plus. Relisez-vous en vous mettant à sa place: pourrait-il répondre d'un seul mot?",
+   "empreinte_texte_dit": "78315b4d6932fb4196a365f94339f4b7f80ee3228eda1b9b2e5aa0d303493f9f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 296795,
+   "duree_s": 18.48,
+   "caracteres_dits": 323,
+   "caracteres_factures": 323,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une demande complète se reconnaît à ce qu'elle appelle un\n oui ou un non.\n Trois informations la rendent telles.\n Quoi, pour quand, ou, ou par qui.\n Il en manque une et votre correspondant doit poser une\n question.\n Deux messages et deux jours de plus.\n Relisez-vous en vous mettant à sa place.\n Pourrait-il répondre d'un seul mot ?",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une demande complète se reconnaît à ce qu'elle appelle un\n oui ou un non.\n Trois informations la rendent telles.\n Quoi, pour quand, où ou par qui.\n Il en manque une et votre correspondant doit poser une\n question, deux messages et deux jours de plus.\n Relisez-vous en vous mettant à sa place.\n Pourrait-il répondre d'un seul mot ?",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O06-L02-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Envoyez la demande. Hugo peut désormais répondre par oui ou par non: c'est le signe d'une demande bien écrite. Une demande floue, elle, appelle toujours une question.",
+   "empreinte_texte_dit": "132c65aafe478f32011373400bf0e85c7b42f4868b61679aec21b28ed5008524",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 181020,
+   "duree_s": 11.24,
+   "caracteres_dits": 166,
+   "caracteres_factures": 166,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Envoyez la demande.\n Hugo peut désormais répondre par oui ou par non.\n C'est le signe d'une demande bien écrite.\n Une demande floue, elle, appelle toujours une question.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Envoyez la demande.\n Hugo peut désormais répondre par oui ou par non.\n C'est le signe d'une demande bien écrite.\n Une demande floue, elle, appelle toujours une question.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O06-L02-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Le bouton Envoyer, en haut à gauche de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "d26fd1c07fd14d191936c822267e691ec18120ab62835cb090169935d5356810",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.054,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer en haut à gauche de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.054,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer en haut à gauche de la fenêtre de réd\naction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O06-L02-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Hugo peut répondre par oui ou par non. C'est le signe d'une demande bien écrite.",
+   "empreinte_texte_dit": "b41d5eb06edbf0d7d944d5aee827893dd49050dbf2c882d241ba6df383618ed0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Hugo peut répondre par oui ou par non.\n C'est le signe d'une demande bien écrite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Hugo peut répondre par oui ou par non.\n C'est le signe d'une demande bien écrite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une demande complète tient en trois éléments: ce qui est attendu, pour quelle date, et de qui. Quand les trois y sont, la réponse arrive en un échange. Quand un seul manque, il en faut trois de plus, et c'est presque toujours la date qu'on oublie.",
+   "empreinte_texte_dit": "7c57acfdd04855e610921307384f146b0f2d257722df096232b1c24e834018a3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 249565,
+   "duree_s": 15.52,
+   "caracteres_dits": 247,
+   "caracteres_factures": 247,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une demande complète tient en trois éléments.\n Ce qui est attendu, pour quelle date, et de qui.\n Quand les trois y sont, la réponse arrive en un échange.\n Quand un seul manque, il en faut trois de plus.\n Et c'est presque toujours la date qu'on oublie.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une demande complète tient en trois éléments. Ce qui est\n attendu, pour quelle date, et de qui.\n Quand les trois y sont, la réponse arrive en un échange.\n Quand un seul manque, il en faut trois de plus. Et c'est\n presque toujours la date qu'on oublie.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

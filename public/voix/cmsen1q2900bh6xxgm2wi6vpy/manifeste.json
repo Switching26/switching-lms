@@ -1,0 +1,712 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1q2900bh6xxgm2wi6vpy",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Un écart entre le bon et la facture"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 1690,
+  "duree_totale_s": 100.9,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "La facture arrive avec la pièce jointe. Le bon de livraison est sur votre poste. L'écart est net, reste à le contester au bon service, avec la bonne preuve, et à ranger le dossier.",
+   "empreinte_texte_dit": "bc9171874caf9bba038bf69fea7209e3fe65dd04f5f43b27e43858ac8bf11b84",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 180184,
+   "duree_s": 11.2,
+   "caracteres_dits": 180,
+   "caracteres_factures": 180,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.075,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La facture arrive avec la pièce jointe. Le bon de livraison\n est sur votre poste.\n Elle et carénette restent à le contester au bon service\n avec la bonne preuve et à ranger le dossier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.037,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La facture arrive avec la pièce jointe. Le bon de livraison\n est sur votre poste.\n Elle, écarée nette, reste à le contester au bon service,\n avec la bonne preuve, et à ranger le dossier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O15-E02-00",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le relevé de la Quincaillerie Delmas et relevez le numéro de la facture ainsi que la ligne qui ne correspond pas. Une contestation se prépare toujours en lisant d'abord la pièce contestée: sans ce numéro, votre message sera renvoyé au service qui vous l'a envoyé.",
+   "empreinte_texte_dit": "546dc5275da7b8000abc4766e30f95e32b036290ad736406c2ed68202d7cf970",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 228249,
+   "duree_s": 14.2,
+   "caracteres_dits": 270,
+   "caracteres_factures": 270,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le relevé de la quincaillerie d'Elmas et relevez le\n numéro de la facture, ainsi que la ligne qui ne correspond\n pas.\n Une contestation se prépare toujours en lisant d'abord la\n pièce contestée.\n Sans ce numéro, votre message sera renvoyé au service qui\n vous l'a envoyé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.006,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le relevé de la quincaillerie d'Almas et relevez le\n numéro de la facture ainsi que la ligne qui ne correspond\n pas.\n Une contestation se prépare toujours en lisant d'abord la\n pièce contestée.\n Sans ce numéro, votre message sera renvoyé au service qui\n vous l'a envoyé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O15-E02-00",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message de la comptabilité Delmas, dont l'objet parle d'un relevé.",
+   "empreinte_texte_dit": "fc898ee682c9c6197be1b8d83b2eb8f953e12ad5cd3ad7222bd9ac033cce3df1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message de la comptabilité d'Elmas dont l'objet\n parle d'un relevé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message de la comptabilité d'Elmas dont l'objet\n parle d'un relevé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O15-E02-00",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Le numéro de facture est là. C'est lui qui permettra à la comptabilité d'ouvrir le bon dossier.",
+   "empreinte_texte_dit": "b5385fd5b828a55f1c2a0a9151a03c7b0aadeb325fe5c3027c36440f2e1dda94",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le numéro de facture est là.\n C'est lui qui permettra à la comptabilité d'ouvrir le bon\n dossier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le numéro de facture est là.\n C'est lui qui permettra à la comptabilité d'ouvrir le bon\n dossier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O15-E02-01",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Répondez au service qui a émis la facture, en joignant la pièce qui prouve les quantités reçues.",
+   "empreinte_texte_dit": "918d4962649bbffc8078b6ec53b90d39f432e2406f81394063f5fc605a307bfc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez au service qui a émis la facture, en joignant la\n pièce qui prouve les quantités reçues.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez au service qui a émis la facture en joignant la pi\nèce qui prouve les quantités reçues.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O15-E02-01",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Répondre vise l'expéditeur. Le bon de livraison porte le numéro BL-4471.",
+   "empreinte_texte_dit": "b0bc855dba60bff112444adb2bde0c95602db2bf890cb9da8f83b96b30c09a00",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondre vise l'expéditeur.\n Le bond de livraison porte numéro BL 4471.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondre vise l'expéditeur.\n Le bon de livraison porte le numéro BL 4471.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O15-E02-01",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le bon de livraison prouve les quantités reçues. Sans lui, l'écart reste votre parole contre la leur.",
+   "empreinte_texte_dit": "27b9cb3c8153fdb5b373be6f91f922178bf3a7bdf00ac1442c86f8311e6a2359",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.083,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bon de livraison prouve les quantités reçues.\n Sans lui, l'âle et car restent votre parole contre la leur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.05,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bon de livraison prouve les quantités reçues.\n Sans lui, l'ail et car reste votre parole contre la leur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O15-E02-02",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot écart, en gardant le préfixe posé par Outlook.",
+   "empreinte_texte_dit": "beba29a91662e71d058a87b649d2de48b90b61cb30b699ae055a15222103b262",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot écart en gardant le préfix\n posé par Outlook.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot Écar en gardant le préfixe\n posé par Outlook.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O15-E02-02",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Ajoutez le mot à la fin de l'objet existant.",
+   "empreinte_texte_dit": "581261045c26f6aafe3ed449ebfd76755732fd50d6be9e80132f0ea820fb0fc4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet existant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet existant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O15-E02-03",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rédigez la contestation et envoyez-la. Elle doit citer le numéro de facture et ce que vous demandez.",
+   "empreinte_texte_dit": "2412cb5c0b5c12d3c177265f34cec91330c1f185c3a7a476c72c645fd715460d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez la contestation et envoyez-la.\n Elle doit citer le numéro de facture et ce que vous demand\nez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez la contestation et envoyez-la.\n Elle doit citer le numéro de facture et ce que vous demand\nez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O15-E02-03",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Deux informations sont attendues: le numéro, et la demande.",
+   "empreinte_texte_dit": "3828bca6662409f937ca0429204e5a4daf809fd4ff635c49e20caf4e257a1cf5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Le numéro est la demande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues, le numéro et la demande.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O15-E02-03",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Numéro de facture et demande précise: la comptabilité peut émettre l'avoir sans rouvrir le dossier.",
+   "empreinte_texte_dit": "cef7ed17c33f0deae970e197552e40a2b3677a0572a1824ad3a26d6e9657c97b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.046,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Numéreux de factures et demandes précises.\n La comptabilité peut émettre la voie sans rouvrir le doss\nier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Numéros de facture et demandes précises.\n La comptabilité peut émettre la voie sans rouvrir le doss\nier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O15-E02-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Rangez la facture contestée avec les autres factures du fournisseur.",
+   "empreinte_texte_dit": "0d97f5bfa3278ea8367e0324d81b9d0bf88a906c816941b526cd59e55ee10353",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 68,
+   "caracteres_factures": 68,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger la facture contestée avec les autres factures du\n fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger la facture contestée avec les autres factures du\n fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O15-E02-04",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Déplacer, puis Factures fournisseurs.",
+   "empreinte_texte_dit": "2c00beb82d7b19f8ccc4daf75a685b6ebc597114d28be2bb57b588e98499266d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 37,
+   "caracteres_factures": 37,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez puis facture fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez, puis facture fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O15-E02-04",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Contestée ou non, une facture se classe avec les autres du même fournisseur.",
+   "empreinte_texte_dit": "a4de3947a31db560a864b248b30b18a4954e953664b74a70d637f7dd07687afb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Contester ou non, une facture se classe avec les autres du\n même fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Contesté ou non, une facture se classe avec les autres du\n même fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Deux erreurs se paient cher ici: écrire au service des commandes plutôt qu'à la comptabilité, et joindre le classeur de marges au lieu du bon de livraison. La première fait perdre une semaine, la seconde donne vos prix d'achat au fournisseur.",
+   "empreinte_texte_dit": "41c937bd19174b31c6f2869da72ccc649780bf86d00d6dc7a230d8445facd5d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 216964,
+   "duree_s": 13.48,
+   "caracteres_dits": 242,
+   "caracteres_factures": 242,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.03,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux erreurs se péchèrent ici. Écrire au service des\n commandes plutôt que à la comptabilité et joindre le classe\nur de marge au lieu du bon de livraison.\n La première fait perdre une semaine, la seconde donne vos\n prix d'achat au fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux erreurs se pêchèrent ici.\n Écrire au service des commandes plutôt que à la comptabil\nité\n et joindre le classeur de marge au lieu du bon de livraison\n.\n La première fait perdre une semaine,\n la seconde donne vos prix d'achat au fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

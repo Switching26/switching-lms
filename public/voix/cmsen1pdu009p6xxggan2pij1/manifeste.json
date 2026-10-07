@@ -1,0 +1,964 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1pdu009p6xxggan2pij1",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Envoyer un devis qui se lit et se retrouve"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 2883,
+  "duree_totale_s": 172.7,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un devis part rarement seul: il part avec un objet qui le rend retrouvable, un texte qui dit ce qu'il contient, et une durée de validité qui donne une raison de répondre. Le fichier lui-même ne fait que la moitié du travail, l'autre moitié tient dans les quatre lignes qui l'accompagnent.",
+   "empreinte_texte_dit": "e3882506cbe218903a69907171e96d9feb20586fd608ded50f3d46c946303ba5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 254999,
+   "duree_s": 15.88,
+   "caracteres_dits": 288,
+   "caracteres_factures": 288,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un devis part rarement seul, il part avec un objet qui le\n rend retrouvable,\n un texte qui dit ce qu'il contient et une durée de validité\n qui donne une raison de répondre.\n Le fichier lui-même ne fait que la moitié du travail,\n l'autre moitié tient dans les quatre lignes qu'il accomp\nagne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un devis part rarement seul.\n Il part avec un objet qui le rend retrouvable,\n un texte qui dit ce qu'il contient,\n et une durée de validité qui donne une raison de répondre.\n Le fichier lui-même ne fait que la moitié du travail,\n l'autre moitié tient dans les quatre lignes qui l'accompagn\nent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O13-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message des cotes. Vous avez maintenant ce qui manquait: le chiffrage est possible, et le devis 2026-190 est prêt sur votre poste.",
+   "empreinte_texte_dit": "d764304b9fe8da738ae913ed896ef5f367652eb15122173719e54f958bb1ea1b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 148419,
+   "duree_s": 9.2,
+   "caracteres_dits": 140,
+   "caracteres_factures": 140,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message des côtes. Vous avez maintenant ce qui\n manquait.\n Le chiffrage est possible et le devis 2026 à 190 est prêt\n sur votre poste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message des cotes. Vous avez maintenant ce qui\n manquait.\n Le chiffrage est possible et le devis 2026 à 190 est prêt\n sur votre poste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O13-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui donne les dimensions du comptoir et des banquettes.",
+   "empreinte_texte_dit": "2f0a702ccf22f95596671b470e9854c90e91f088ae1db0ef1acd39ab9322e5b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 51035,
+   "duree_s": 3.12,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui donne les dimensions du comptoir et\n des banquettes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui donne les dimensions du comptoir et\n des banquettes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O13-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre: le devis part dans le fil de la demande, pas dans un message neuf. Votre interlocutrice retrouve ainsi tout l'échange au même endroit.",
+   "empreinte_texte_dit": "470359b400d29f3a6d5d710fc16a4e1e05ec5385925b681703867ea4d10dae5f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 158450,
+   "duree_s": 9.84,
+   "caracteres_dits": 156,
+   "caracteres_factures": 156,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur \"Répondre\", le devis part dans le fil de la\n demande, pas dans un message neuf.\n Votre interlocutrice retrouve ainsi tout elle et change au\n même endroit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre, le devis part dans le fil de la\n demande, pas dans un message\n neuf.\n Votre interlocutrice retrouve ainsi tout elle et change au\n même endroit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O13-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Répondre, premier de la barre du haut.",
+   "empreinte_texte_dit": "5393c2b28069db0c9c194aeb5c5ed2ef83e1f6cb9cfe1bef8ec22c517941214a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton « Répondre premier de la barre du haut »",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre premier de la barre du haut",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O13-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le devis part dans le fil de la demande: votre interlocutrice retrouve tout l'échange d'un bloc.",
+   "empreinte_texte_dit": "d33021432aea9e9cc32c57369fcd5a56be8657c0fa5f472bb98a0e05314ef751",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 118326,
+   "duree_s": 7.32,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le devis part dans le fil de la demande.\n Votre interlocutrice retrouve tout elle et change d'un bloc\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.049,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le devis part dans le fil de la demande. Votre interlocut\nrice retrouve tout elle et change d'un bloc.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O13-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Joignez Devis-2026-190.pdf. Deux fichiers portent la même référence: le suffixe brouillon désigne une version de travail dont les prix ne sont pas les prix finaux.",
+   "empreinte_texte_dit": "90a7a41c38e81fd51ab2b86c63428912e78ddb119301d2a4c328952972d613e5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 170153,
+   "duree_s": 10.56,
+   "caracteres_dits": 163,
+   "caracteres_factures": 163,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignez deux vis 2026-190.pdf.\n Deux fichiers portent la même référence.\n Le suffix brouillon désigne une version de travail dont les\n prix ne sont pas les prix finaux.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignée de vise 2026-190.pdf\n Deux fichiers portent la même référence.\n Le suffixe \"brouillon\" désigne une version de travail dont\n les prix ne sont pas les prix finaux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O13-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Lisez le nom en entier avant de cliquer.",
+   "empreinte_texte_dit": "e2bdcfaf1d7bbfa2ee282084482910ac0b9d44a809a776b02bd8ec53043ffe85",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 42675,
+   "duree_s": 2.6,
+   "caracteres_dits": 40,
+   "caracteres_factures": 40,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lisez le nom en entier avant de cliquer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lisez le nom en entier avant de cliquer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O13-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le suffixe brouillon désignait la version de travail. Un brouillon envoyé à un client se négocie ensuite contre vous.",
+   "empreinte_texte_dit": "23d946dfd535a9da994fcd658a44f8218df0f4de5c67c37700c891011935deef",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 117,
+   "caracteres_factures": 117,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le suffix \"brouillon\" désignait la version de travail.\n Un brouillon envoyé à un client se négociant suite contre\n vous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le suffixe brouillon désignait la version de travail.\n Un brouillon envoyé à un client se négocie ensuite contre\n vous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O13-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Joignez aussi Plaquette-Atelier-Nord.pdf. Sur un premier contact, elle est utile: votre interlocutrice ne vous connaît pas et comparera trois devis dont deux viennent d'entreprises qu'elle ne connaît pas davantage.",
+   "empreinte_texte_dit": "1e96cd21f0d8fda60318f5e4f4a4dcf6314ebe31295bba5220358a1520e23568",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 199410,
+   "duree_s": 12.4,
+   "caracteres_dits": 214,
+   "caracteres_factures": 214,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.092,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignez aussi plaquettes@nord.pdf.\n Sur un premier contact, elle est utile.\n Votre interlocutrice ne vous connaît pas et comparera trois\n de vie dont deux viennent d'entreprises qu'elles ne conna\nissent pas davantage.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.008,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignez aussi plaquette-atelier-nord.pdf.\n Sur un premier contact, elle est utile.\n Votre interlocutrice ne vous connaît pas et comparera trois\n devises dont deux viennent d'entreprises qu'elle ne connaît\n pas davantage.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O13-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Rouvrez Joindre, puis cliquez sur la plaquette.",
+   "empreinte_texte_dit": "d176951ec9b3282efc4e9eb5e5b01a94271ef388bb6c4c7c357b4987524dd9f1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 54796,
+   "duree_s": 3.36,
+   "caracteres_dits": 47,
+   "caracteres_factures": 47,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "rouvrez joindre, puis cliquez sur la plaquette.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "R'ouvrez Joindre, puis cliquez sur la plaquette.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O13-L02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Sur un premier contact, la plaquette travaille pour vous après la lecture du prix.",
+   "empreinte_texte_dit": "22e9283428d23b9690e5457c2939ed23847540474edb4ea89d7bbc24049d14b8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un premier contact, la plaquette travaille pour vous\n après la lecture du prix.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un premier contact, la plaquette travaille pour vous\n après la lecture du prix.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O13-L02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Complétez l'objet avec la référence 2026-190. Un devis retrouvable est un devis qu'on peut relancer: sans référence dans l'objet, la relance oblige à faire défiler six mois d'échanges.",
+   "empreinte_texte_dit": "8aa199d42220bcc9447106e9420828e68f70db2de397a3d78c06fce0b20e09e1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 186035,
+   "duree_s": 11.56,
+   "caracteres_dits": 184,
+   "caracteres_factures": 184,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec la référence 2026 à 190.\n Un devis retrouvable est un devis qu'on peut relancer.\n Sans référence dans l'objet, la relance oblige à faire déf\niler 6 mois d'échange.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec la référence 2026 à 190.\n Un devis retrouvable est un devis qu'on peut relancer.\n Sans référence dans l'objet, la relance oblige à faire déf\niler 6 mois D et change.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O13-L02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Ajoutez la référence à la fin de l'objet, en gardant le préfixe.",
+   "empreinte_texte_dit": "45282039cfe97bc637a470f2d3aedadd52692d21d89c8510e4244789de6b1703",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez la référence à la fin de l'objet en gardant le pré\n fixe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez la référence à la fin de l'objet en gardant le préf\nixe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O13-L02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Un devis retrouvable est un devis qu'on peut relancer: la référence sert d'abord à vous.",
+   "empreinte_texte_dit": "a1781e96bc2b2ea54050c4e54f53ec1444226bf9c513bfaee7d3529849c29729",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 83217,
+   "duree_s": 5.12,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.058,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un devis retrouvable est un devis qu'on peut relancer.\n La référence césar d'abord à vous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.058,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un devis retrouvable est un devis qu'on peut relancer.\n La référence, César, d'abord à vous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O13-L02-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Rédigez le message, puis envoyez. Il doit dire ce que le devis couvre et sa durée de validité: c'est cette échéance qui vous donnera, dans trois semaines, une raison factuelle de relancer.",
+   "empreinte_texte_dit": "c0813644f9b7366d25ff3de6d056bc0139b23b308494a7eea03a370a96ce95b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 178512,
+   "duree_s": 11.08,
+   "caracteres_dits": 188,
+   "caracteres_factures": 188,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger le message, puis envoyer.\n Il doit dire ce que le devis couvre et sa durée de validité\n.\n C'est cette échéance qui vous donnera, dans trois semaines,\n une raison factuelle de relancer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez le message, puis envoyez.\n Il doit dire ce que le devis couvre et sa durée de validité\n.\n C'est cette échéance qui vous donnera, dans trois semaines,\n une raison factuelle de relancer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O13-L02-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Deux informations sont attendues: le périmètre, et la validité.",
+   "empreinte_texte_dit": "7d5c89864f7c814d2b046b037ea3a3935aca9c7ad56b2410aad690bbd1c8f41a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le périmètre et la validité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Le périmètre et la valid\nité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O13-L02-06B",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Le fichier ne fait que la moitié du travail. Les quatre lignes qui l'accompagnent disent ce que le devis couvre et jusqu'à quand il vaut. Cette durée de validité n'est pas une clause juridique: c'est ce qui vous donnera, dans trois semaines, une raison factuelle de relancer. Un devis qu'on ne retrouve pas est un devis qu'on ne relance pas.",
+   "empreinte_texte_dit": "cf4a8aa0b15c61ead05f0893be2772502970db4a12988a847098848601c8ce35",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 293033,
+   "duree_s": 18.24,
+   "caracteres_dits": 341,
+   "caracteres_factures": 341,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le fichier ne fait que la moitié du travail.\n Les quatre lignes qui l'accompagnent disent ce que le devis\n couvre et jusque, à quand\n il vaut.\n Cette durée de validité n'est pas une clause juridique.\n C'est ce qui vous donnera dans trois semaines, une raison\n factuelle de relancer.\n Un devis qu'on ne retrouve pas est un devis qu'on ne rel\nance pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le fichier ne fait que la moitié du travail.\n Les quatre lignes qui l'accompagnent disent ce que le devis\n couvre, et jusque, à quand\n il vaut.\n Cette durée de validité n'est pas une clause juridique.\n C'est ce qui vous donnera, dans trois semaines, une raison\n factuelle de relancer.\n Un devis qu'on ne retrouve pas est un devis qu'on ne rel\nance pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O13-L02-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Posez un indicateur sur ce message. Un devis envoyé n'est pas un dossier clos: c'est un dossier en attente de réponse, et il doit rester visible jusqu'à ce qu'on sache.",
+   "empreinte_texte_dit": "7322ea9da7fd8c7e870f62e3973e500cc98fb12b8009e57de5c5f5c4e4b2ae73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 163466,
+   "duree_s": 10.16,
+   "caracteres_dits": 168,
+   "caracteres_factures": 168,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Posez un indicateur sur ce message.\n Un devis envoyé n'est pas un dossier clos.\n C'est un dossier en attente de réponse et il doit rester\n visible jusqu'à ce qu'on sache.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Posez un indicateur sur ce message.\n Un devis envoyé n'est pas un dossier clos.\n C'est un dossier à en attente de réponse,\n et il doit rester visible jusqu'à ce qu'on sache.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O13-L02-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Ouvrez le message, puis le drapeau.",
+   "empreinte_texte_dit": "fb87a743a85d4356bb2a4e84399a0bfb1b57cdc4f8a0128223f32c1bc2f0b190",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis le drapeau.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis le drapeau.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O13-L02-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Un devis envoyé n'est pas un dossier clos: c'est un dossier en attente de réponse.",
+   "empreinte_texte_dit": "c8a61023eb1ce600640fc2029e7607fbb6b2ee00a1b9d1c8d18f4edbdb74a0b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un de vie envoyée n'est pas un dossier clos.\n C'est un dossier en attente de réponse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un devis envoyé n'est pas un dossier clos, c'est un dossier\n en attente de réponse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un devis envoyé sans durée de validité ne se relance pas: on n'a aucune raison objective de rappeler. Avec une échéance, la relance devient factuelle plutôt qu'insistante, et c'est ce qui la rend acceptable.",
+   "empreinte_texte_dit": "e2ee8c8dfa1fdb8380a43d7802f79aff6b11a8d46c19b27e5f5c29143d05916b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 189379,
+   "duree_s": 11.76,
+   "caracteres_dits": 207,
+   "caracteres_factures": 207,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un devis envoyé sans durée de validité ne se relance pas,\n on n'a aucune raison objective de rappeler.\n Avec une échéance, la relance devient factuelle plutôt qu'\ninsistante et c'est ce qui la rend acceptable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un devis envoyé sans durée de validité ne se relance pas,\n on n'a aucune raison objective de rappeler.\n Avec une échéance, la relance devient factuelle plutôt qu'\ninsistante et c'est ce qui la rend acceptable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

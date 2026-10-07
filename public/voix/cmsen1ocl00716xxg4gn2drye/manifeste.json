@@ -1,0 +1,712 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1ocl00716xxg4gn2drye",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Constituer un dossier administratif"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 1842,
+  "duree_totale_s": 107.9,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une collectivité réclame deux justificatifs pour valider votre candidature. Votre poste en contient cinq, dont un périmé, un confidentiel et un trop lourd. Aucune consigne ne vous dira lequel prendre: les noms de fichiers le disent.",
+   "empreinte_texte_dit": "698f726fce7186296cbd6bf0411244806bfeefc764cdb318b108412ee7da8ef0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 222398,
+   "duree_s": 13.84,
+   "caracteres_dits": 232,
+   "caracteres_factures": 232,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une collectivité réclame deux justificatifs pour valider\n votre candidature.\n Votre poste en contient cinq, dont impérimé, inconfidentiel\n et intralourd.\n Aucune consigne ne vous dira lequel prendre.\n Les noms de fichiers le disent.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une collectivité réclame deux justificatifs pour valider\n votre candidature.\n Votre poste en contient cinq, dont un périmé, un confident\niel et un trop lourd.\n Aucune consigne ne vous dira lequel prendre.\n Les noms de fichiers le disent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O09-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la demande de la Ville de Lambersart et relevez exactement les deux pièces réclamées.",
+   "empreinte_texte_dit": "6071e031556f9bfc98399e3f592155c125d818774899760a266b96565216d619",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de la ville de Lambersart et relevez\n exactement les deux pièces réclamées.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de la ville de Lamberce-Arts et relevez\n exactement les deux pièces réclamées.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O09-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui parle de pièces justificatives.",
+   "empreinte_texte_dit": "23f1e21855e6f2b6b7d7f3121ba0901fa94a0934aa298bfedfa170f46b798e90",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 43929,
+   "duree_s": 2.68,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui parle de pièces justificatives.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui parle de pièces justificatives.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O09-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Répondez au service des marchés en joignant les deux pièces demandées, et uniquement celles-là. Attention à l'année de l'attestation.",
+   "empreinte_texte_dit": "1b5d1661bab9778446dc34f096f210f58e831c5250b3d4e02e1a91838ca305be",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 119580,
+   "duree_s": 7.4,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez au service des marchés en joignant les deux pièces\n demandées et uniquement celle-là.\n Attention à l'année de la testation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Répondez au service des marchés en joignant les deux pièces\n demandées et uniquement celle-là.\n Attention à l'année de l'attestation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O09-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "En cours de validité désigne l'attestation de l'année en cours. Le relevé bancaire n'a pas été demandé.",
+   "empreinte_texte_dit": "881f6eea7a5628fd05902b35b50e92a6c080b3f0c9328463ec37885696754848",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "En cours de validité désigne l'attestation de l'année en\n cours.\n Le relevé bancaire n'a pas été demandé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "En cours de validité désigne l'attestation de l'année en\n cours.\n Le relevé bancaire n'a pas été demandé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O09-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Les deux pièces demandées, et uniquement celles-là: un dossier administratif se juge aussi sur ce qu'on n'envoie pas.",
+   "empreinte_texte_dit": "2abdb7628c52869adab395ee91f0de141cef0e7b478c658c847bb31f55560b36",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 99100,
+   "duree_s": 6.12,
+   "caracteres_dits": 117,
+   "caracteres_factures": 117,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les deux pièces demandées, et uniquement celle-là.\n Un dossier administratif se juge aussi sur ce qu'on n'en\n voit pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les deux pièces demandées, et uniquement celle-là.\n Un dossier administratif se juge aussi sur ce qu'on n'en\n voit pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O09-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Complétez l'objet avec la référence MP-2026-24: le service traite trente candidatures, et l'objet reçu ne la porte pas.",
+   "empreinte_texte_dit": "e647fa6718578f8646c90b765c8d658d080e2011181ee0863536d1bf18ee5c2b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 127939,
+   "duree_s": 7.92,
+   "caracteres_dits": 119,
+   "caracteres_factures": 119,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec la référence MP2026-24.\n Le service traite 30 candidatures et l'objet reçu ne la\n porte pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec la référence MP 202 6-24.\n Le service traite 30 candidatures et l'objet reçu ne la\n porte pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O09-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "La référence figure dans le texte du message; ajoutez-la à la fin de l'objet en gardant le RE:.",
+   "empreinte_texte_dit": "8a217d5c11d89c61fd2861e2960c707aa638d733b54f36aac47499654ed0b2ec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La référence figure dans le texte du message. Ajoutez-la à\n la fin de l'objet en gardant le re.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La référence figure dans le texte du message.\n Ajoutez-la à la fin de l'objet en gardant le RE.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O09-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le service traite trente candidatures: sans référence dans l'objet, la vôtre attend son tour.",
+   "empreinte_texte_dit": "e75dc8020ce83353b49bb711fb24a791d4a3ea506f4b437b0935480c419df827",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le service traite 30 candidatures.\n Sans référence dans l'objet, la vôtre attend son tour.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le service traite 30 candidatures.\n Sans référence dans l'objet, la vôtre attend son tour.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O09-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rédigez le message et envoyez-le. Il doit énumérer les pièces jointes et citer la référence du marché: un service qui reçoit trente dossiers ne devine pas ce qu'il ouvre.",
+   "empreinte_texte_dit": "b68bb9cef52bb458cb39383c6576a4e291fc5a86cd3205f9d224f9fbd95ab826",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 160540,
+   "duree_s": 9.96,
+   "caracteres_dits": 170,
+   "caracteres_factures": 170,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez le message et envoyez-le.\n Il doit énumérer les pièces jointes et citer la référence\n du marché.\n Un service qui reçoit 30 dossiers ne devine pas ce qu'il\n ouvre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez le message et envoyez-le.\n Il doit énumérer les pièces jointes et citer la référence\n du marché.\n Un service qui reçoit 30 dossiers ne devine pas ce qui l'\nouvre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O09-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Deux informations sont attendues: les pièces envoyées, et la référence.",
+   "empreinte_texte_dit": "8ef18fb5f8f47d4b6dc85d972c04417e529946b006d99b47b3e94edb959d3749",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Les pièces envoyées et la\n référence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Les pièces envoyées et la référence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O09-E01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Les pièces énumérées dans le texte: l'agent coche sans ouvrir, et votre dossier passe.",
+   "empreinte_texte_dit": "0639b57846536875fc95544fdc37af5b0e75402521afdc4f403487ccf36b6f57",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les pièces énumérées dans le texte.\n L'agent coche sans ouvrir et votre dossier passe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les pièces énumérées dans le texte.\n L'agent coche sans ouvrir et votre dossier passe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O09-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Le dossier est transmis: sortez ce message de votre file d'attente en le classant chez les clients.",
+   "empreinte_texte_dit": "0ba3e58bbe943a7a1e9cc9f94a02a002bcba7d7c9ba7f58a52c30d7b651eda18",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le dossier est transmis.\n Sortez ce message de votre file d'attente en le classant\n chez les clients.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le dossier est transmis.\n Sortez ce message de votre fil d'attente en le classant\n chez les clients.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O09-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Ouvrez le message, puis Déplacer, puis Clients 2026.",
+   "empreinte_texte_dit": "bebcd3fb4871fe8e8dbdc6a73c054a8a11c6a6f0ecd11bbcde18444648b9d944",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 52,
+   "caracteres_factures": 52,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis déplacer, puis client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message, puis déplacer, puis Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O09-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Transmis, donc classé. Le dossier vit maintenant dans son dossier, plus dans la file d'attente.",
+   "empreinte_texte_dit": "60dbb4f3703c2652c0802e652d03325385b1fc49f01ce5b5ec038c43dcb99b25",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 95,
+   "caracteres_factures": 95,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "transmis donc classé.\n Le dossier vit maintenant dans son dossier,\n plus dans la file d'attente.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Transmis, donc classé.\n Le dossier vit maintenant dans son dossier, plus dans la\n file d'attente.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Sur un dossier administratif, envoyer une pièce de trop est aussi grave qu'en oublier une: un relevé bancaire non demandé traîne ensuite dans un service qui n'avait aucune raison de l'avoir. On joint ce qui est demandé, rien de plus.",
+   "empreinte_texte_dit": "5ba35f3e2299abec6cceabc04071706e92f7b49acda507018a5b8d31e4827457",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 218218,
+   "duree_s": 13.56,
+   "caracteres_dits": 233,
+   "caracteres_factures": 233,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un dossier administratif, envoyer une pièce de trop est\n aussi grave qu'en oublier une.\n Un relevé bancaire non demandé traîne ensuite dans un\n service qui n'avait aucune raison de l'avoir.\n On joint ce qui est demandé, rien de plus.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sur un dossier administratif, envoyer une pièce de trop est\n aussi grave qu'en oublier une.\n Un relevé bancaire non demandé traîne ensuite dans un\n service qui n'avait aucune raison de l'avoir.\n On joint ce qui est demandé, rien de plus.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

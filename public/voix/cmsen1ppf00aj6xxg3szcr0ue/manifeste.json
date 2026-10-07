@@ -1,0 +1,975 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1ppf00aj6xxg3szcr0ue",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Quand la réclamation n'est pas fondée"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 2620,
+  "duree_totale_s": 164.1,
+  "segments_valides": 18,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une école demande la reprise gratuite d'un plan de travail marqué par des produits d'entretien. Le devis signé exclut ce cas. Refuser est légitime, la difficulté est d'écrire ce refus de façon qu'il s'appuie sur un document, pas sur votre parole, et qu'il laisse une porte ouverte.",
+   "empreinte_texte_dit": "facb151e19a9c6bf7abad8b2b4ed8b1f793c433ade698da18c24043b417381ff",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 264194,
+   "duree_s": 16.44,
+   "caracteres_dits": 281,
+   "caracteres_factures": 281,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une école demande la reprise gratuite d'un plan de travail\n marqué par des produits d'entretien.\n Le devis signé exclut ce cas.\n Refuser est légitime. La difficulté est dé.\n Écrire se refus de façon qu'il s'appuie sur un document,\n pas sur votre parole, et qu'il laisse une porte ouverte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une école demande la reprise gratuite d'un plan de travail\n marqué par des produits d'entretien.\n Le devis signé exclut ce cas.\n Refuser est légitime.\n La difficulté est D.\n Écrire ce refus de façon qu'il s'appuie sur un document,\n pas sur votre parole, et qu'il laisse une porte ouverte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O14-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez la demande de l'École des Arts. Elle invoque la garantie. Avant de répondre, il faut savoir ce que le devis signé couvre réellement.",
+   "empreinte_texte_dit": "9f1be295d6505e07679f91a166203d9423a1b97fb075e0c6f1bd44d3e31c99aa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 139224,
+   "duree_s": 8.64,
+   "caracteres_dits": 139,
+   "caracteres_factures": 139,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de elle, école des arts.\n Elle invoque la garantie.\n Avant de répondre, il faut savoir ce que le devis signé cou\nvre réellement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez la demande de ELLE, École des Arts. Elle invoque la\n garantie.\n Avant de répondre, il faut savoir ce que le devis signé cou\nvre réellement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O14-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui parle d'un plan de travail.",
+   "empreinte_texte_dit": "49cb3dec085c70338a5e9b923fdb8a6d729f6a37e5fd312f5badd863e785931b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui parle d'un plan de travail.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui parle d'un plan de travail.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O14-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre. Un refus se répond dans le fil de la demande, jamais dans un message neuf: le destinataire doit pouvoir relire sa demande juste en dessous.",
+   "empreinte_texte_dit": "6721e3e1b7f94e1d1f7d9770810ab05f6ef9d63e8ceb46e5cf96e3a1e8dc3b3f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 152181,
+   "duree_s": 9.44,
+   "caracteres_dits": 161,
+   "caracteres_factures": 161,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur \"Répondre\". Un refus se répond dans le fil de\n la demande, jamais dans un message neuf.\n Le destinataire doit pouvoir relire sa demande juste en\n dessous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre.\n Un refus se répond dans le fil de la demande, jamais dans\n un message neuf.\n Le destinataire doit pouvoir relire sa demande juste en\n dessous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O14-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Répondre.",
+   "empreinte_texte_dit": "3db4121db6bff2364bf70d7beacc670e26590cbfa8308d7b578d1d658bbcefe5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 35152,
+   "duree_s": 2.12,
+   "caracteres_dits": 19,
+   "caracteres_factures": 19,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton « Répondre ».",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O14-L03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Un refus se répond dans le fil de la demande: le client doit pouvoir relire les deux messages à la suite.",
+   "empreinte_texte_dit": "8f73dbe44bca159a86177c772366c32225bd5dd6a8a3000f98c46e06fe8aebf0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un refus se répond dans le fil de la demande.\n Le client doit pouvoir relire les deux messages à la suite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un refus se répond dans le fil de la demande.\n Le client doit pouvoir relire les deux messages à la suite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O14-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Joignez Devis-2026-174.pdf. C'est la pièce qui porte les conditions signées. Un refus sans le document qui le fonde se lit comme un refus de principe.",
+   "empreinte_texte_dit": "ac28d631f7e82fb757e53ea78266d5c0254b3a95dcbf8dabbbe68b0b727e379c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 180184,
+   "duree_s": 11.2,
+   "caracteres_dits": 150,
+   "caracteres_factures": 450,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "2026",
+       "174"
+      ],
+      "entendus": [
+       "2026174"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "Joignez deux vis 202.6.174.pdf. C'est la pièce qui porte les conditions signées. Un refus en le document qui le fonde, celui comme un refus de principe.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.033,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "2026",
+        "174"
+       ],
+       "entendus": [
+        "2026174"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Joignez deux vis 202.6.174.pdf.\n C'est la pièce qui porte les conditions signées.\n Un refus en le document qui le fonde,\n celui comme un refus de principe."
+     },
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joigné Devis 202 6-174.pdf. C'est la pièce qui porte les conditions signées. Un refus sans le document qui le fonde se lit comme un refus de principe.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "fd0fd3a8a2c01beee4895626c9135c6a309a4cab6568c655c461699b18c12fd0",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Joigné Devis 202 6-174.pdf. C'est la pièce qui porte les conditions signées. Un refus sans le document qui le fonde se lit comme un refus de principe.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Joigné Devis 202 6-174.pdf. C'est la pièce qui porte les conditions signées. Un refus sans le document qui le fonde se lit comme un refus de principe.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.726683",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O14-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Le devis 2026-174, celui de janvier.",
+   "empreinte_texte_dit": "e9ce1536c53d6943e6487d02db1076b3ffe5eb52ce46350a34958ab26bf946d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 66499,
+   "duree_s": 4.08,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le devis 2026 à 174, celui de janvier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le devis 2026 à 174, celui de janvier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O14-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "C'est la pièce qui porte les conditions signées. Un refus sans le document se discute; avec, il se constate.",
+   "empreinte_texte_dit": "79b6ef460a74e9f1cdf05850e50d4bf6d29fae3bb6bc4dafa25f5267576e252e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 118326,
+   "duree_s": 7.32,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est la pièce qui porte les conditions signées.\n Un refusant le document se discute.\n Avec, il se constate.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est la pièce qui porte les conditions signées.\n Un refusant le document se discute.\n Avec, il se constate.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O14-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot garantie. L'objet reçu décrit un dégât; le vôtre doit nommer le terrain sur lequel vous répondez. C'est de garantie qu'il s'agit, et de rien d'autre.",
+   "empreinte_texte_dit": "da32dae19327a9883d5b5a38ffa1a30336abc7ca89cda197d33c9bcd1a04748b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 169317,
+   "duree_s": 10.52,
+   "caracteres_dits": 179,
+   "caracteres_factures": 179,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot \"garantie\".\n L'objet reçu décrit un dégât.\n Le vôtre doit nommer le terrain sur lequel vous répondez.\n C'est de garantie qu'il s'agit et de rien d'autre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot \"Garantie\". L'objet reçu déc\nrit un dégât.\n Le vôtre doit nommer le terrain sur lequel vous répondez.\n C'est de garantie qu'il s'agit et de rien d'autre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O14-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe.",
+   "empreinte_texte_dit": "fdfcfbca8acc5f16ec12c12eedca8dfeac3783ba92e405eec4d2a72f09c5e877",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet en gardant le préfix.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet en gardant le préfixe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O14-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "L'objet reçu décrivait un dégât; le vôtre nomme le terrain sur lequel la réponse se place.",
+   "empreinte_texte_dit": "91d36b809a4b4b3c8a9a387afd0bb5b5c27c7ea61b19fef080fd7379f25facf4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'objet reçu décrivait un dégât. Le vôtre nomme le terrain\n sur lequel la réponse se place.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'objet reçu décrivait un dégât. Le vôtre nomme le terrain\n sur lequel la réponse se place.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O14-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Rédigez le refus, puis envoyez. Trois éléments: le renvoi au devis joint, la raison du refus, une proposition payante. Un refus seul ferme la relation; un refus suivi d'une offre la garde ouverte.",
+   "empreinte_texte_dit": "f67a9e5fe6cf8dd37cdc29af2a3be2747efdd579177341b39479e572b7264dab",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 246222,
+   "duree_s": 15.32,
+   "caracteres_dits": 196,
+   "caracteres_factures": 392,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger le refus, puis envoyer.\n Trois éléments. Le renvoi au devis juin,\n la raison du refus, une proposition payante.\n Un refus seul ferme la relation.\n Un refus suivi d'une offre, la garde ouverte.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger le refus, puis envoyer. Trois éléments. Le renvoi\n au devis joint.\n La raison du refus. Une proposition payante.\n Un refus seul. Ferme la relation. Un refus suivi d'une off\nre. La garde ouverte.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O14-L03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Trois informations sont attendues: le document, la raison, et l'offre de suite.",
+   "empreinte_texte_dit": "c59412b2e254ecfdfd8e5db804471f8ea27deb16f1ceb7216f55f282048b40f9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues. Le document, la raison\n et l'offre de suite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues. Le document, la raison\n et l'offre de suite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O14-L03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Le renvoi au devis, la raison, et une porte de sortie: un refus reste une relation commerciale.",
+   "empreinte_texte_dit": "977e040c6707d692a599708a09fd50590c5ff7bf118c7c365feb28af3702f716",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 95338,
+   "duree_s": 5.88,
+   "caracteres_dits": 95,
+   "caracteres_factures": 285,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [],
+      "entendus": [
+       "2"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "Le renvoi aux deux vies, la raison et une porte de sortie. Un refus reste une relation commerciale.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.033,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [],
+       "entendus": [
+        "2"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Le renvoi aux deux vies, la raison et une porte de sortie.\n Un refus reste une relation commerciale."
+     },
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le renvoi aux devis, la raison et une porte de sortie. Un refus reste une relation commerciale.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "baac174093f97c13a31b71b42261ad10f393ba5b47375c25b8869f6016ee0de2",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Le renvoi aux devis, la raison et une porte de sortie. Un refus reste une relation commerciale.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Le renvoi aux devis, la raison et une porte de sortie. Un refus reste une relation commerciale.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.730990",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O14-L03-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Un refus qui s'appuie sur un document n'est plus un refus: c'est une lecture. C'est le devis signé qui porte le non, pas vous, on ne discute pas contre une personne, on relit une pièce. Et le troisième élément est celui qu'on oublie: une proposition payante. Un refus seul ferme la relation; suivi d'une offre, il la garde ouverte.",
+   "empreinte_texte_dit": "2c9044dba8a321a3684773218b7e712e4c07654c4b14f6963f6b2482a64e8a63",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 299302,
+   "duree_s": 18.64,
+   "caracteres_dits": 331,
+   "caracteres_factures": 331,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un refus qui s'appuie sur un document n'est plus un refus,\n c'est une lecture.\n C'est le devis signé qui porte le nom, pas vous, on ne disc\nute pas contre une personne,\n on relit une pièce.\n Et le troisième élément est celui qu'on oublie.\n Une proposition payante.\n Un refus seul ferme la relation.\n Suivi d'une offre, il la garde ouverte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un refus qui s'appuie sur un document n'est plus un refus.\n C'est une lecture.\n C'est le devis signé qui porte le nom, pas vous.\n On ne discute pas contre une personne.\n On relie une pièce.\n Et le troisième élément est celui qu'on oublie.\n Une proposition payante.\n Un refus seul ferme la relation.\n Suivi d'une offre, il la garde ouverte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O14-L03-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Rangez cette demande dans Réclamations. Même refusée, une réclamation se conserve: c'est le refus qu'il faudra pouvoir retrouver, plus encore que la demande.",
+   "empreinte_texte_dit": "69a3106b92ebab94ff232e02533b07064a9ab56686196890e7cfbf2ef9c01f77",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 138806,
+   "duree_s": 8.6,
+   "caracteres_dits": 157,
+   "caracteres_factures": 157,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger cette demande dans réclamation.\n Même refuser, une réclamation se conserve.\n C'est le refus qu'il faudra pouvoir retrouver, plus encore\n que la demande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger cette demande dans réclamation.\n Même refusée, une réclamation se conserve.\n C'est le refus qu'il faudra pouvoir retrouver, plus encore\n que la demande.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O14-L03-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Déplacer, puis Réclamations.",
+   "empreinte_texte_dit": "22dd672f071afabcfd5c5f48f27ab398e3ff9bd91dde631ca15dedf5302e7e00",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 40586,
+   "duree_s": 2.48,
+   "caracteres_dits": 28,
+   "caracteres_factures": 28,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "déplacer puis réclamation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.4,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "déplacer, puis réclamation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O14-L03-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Même refusée, une réclamation se conserve: c'est le refus qu'on devra pouvoir produire, pas la demande.",
+   "empreinte_texte_dit": "b8258227faa8440f0896a6108b36b3d0cba2f3dd2e5e77d06e9241bdebaf6485",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Même refuser, une réclamation se conserve.\n C'est le refus qu'on devra pouvoir produire, pas la demande\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Même refusé, une réclamation se conserve.\n C'est le refus qu'on devra pouvoir produire, pas la demande\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un refus qui cite le document signé n'est plus une opinion opposée à une autre: c'est un rappel de ce qui a été convenu. Et proposer une intervention payante après le refus, c'est transformer un litige en devis, ce qui arrive plus souvent qu'on ne le croit.",
+   "empreinte_texte_dit": "41055419e63df98b07c7a1b336d1f3118ca0e56b5d6644dfa576176a9f959184",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 218636,
+   "duree_s": 13.6,
+   "caracteres_dits": 257,
+   "caracteres_factures": 257,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un refus qui cite le document signé n'est plus une opinion\n opposée à une autre.\n C'est un rappel de ce qui a été convenu et proposer une\n intervention payante après\n le refus et transformer un litige en devis, ce qui arrive\n plus souvent qu'on ne le croit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un refus qui cite le document signé n'est plus une opinion\n opposée à une autre.\n C'est un rappel de ce qui a été convenu.\n Et proposer une intervention payante après le refus, c'est\n transformer un litige en\n devis.\n Ce qui arrive plus souvent qu'on ne le croit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

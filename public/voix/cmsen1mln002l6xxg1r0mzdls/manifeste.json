@@ -1,0 +1,825 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1mln002l6xxg1r0mzdls",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Traduire un message en rendez-vous"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 18,
+  "caracteres_dits": 2075,
+  "duree_totale_s": 122.6,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un client vous confirme deux interventions par message. Tant qu'elles n'y sont pas, elles n'existent pas dans votre semaine, et un rendez-vous oublié coûte plus cher qu'un message non lu. À vous de lire les horaires, de les traduire en créneaux, et de les poser au bon endroit.",
+   "empreinte_texte_dit": "25214f526029a0ab80f48e85d79960f0a3b72606069008b658a110151f1a845e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 232847,
+   "duree_s": 14.48,
+   "caracteres_dits": 277,
+   "caracteres_factures": 277,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un client vous confirme deux interventions par message.\n Tant qu'elles n'y sont pas, elles n'existent pas dans votre\n semaine,\n et un rendez-vous oublié coûte plus cher qu'un message non\n lu.\n À vous de lire les horaires, de les traduire en créneaux,\n et de les poser au bon endroit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un client vous confirme deux interventions par message.\n Tant qu'elles n'y sont pas, elles n'existent pas dans votre\n semaine, et un rendez-vous\n oublié coûte plus cher qu'un message non lu.\n A vous de lire les horaires, de les traduire en créneau, et\n de les poser au bon endroit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O03-E01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message de Julien Leroux et relevez les deux créneaux qu'il confirme, ainsi que le lieu commun aux deux.",
+   "empreinte_texte_dit": "ffb0af231651b089f056f247da8fce6342c520cb605feae14999b7fab91889a1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de Julien Le Roux et relevez les deux cré\nneaux qu'il confirme, ainsi que le lieu commun au 2.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de Julien Leroux et relevez les deux cré\nneaux qu'il confirme ainsi que le lieu commun aux deux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O03-E01-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet parle de deux interventions à caler.",
+   "empreinte_texte_dit": "275eced1734c023601c320ce39809c0e1459abe5aae4e3198a9df3cbe1d13ae0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle de deux interventions à\n caler.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle de deux interventions à\n caler.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O03-E01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Passez à votre agenda et posez la première intervention. Son objet doit être exactement Reprise de la main courante, et le lieu Résidence Beaulieu.",
+   "empreinte_texte_dit": "28de9e17535de4a585abace3c34cb55460cc4a72d7129bc4b0cdf503d7e338eb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 132119,
+   "duree_s": 8.2,
+   "caracteres_dits": 147,
+   "caracteres_factures": 147,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Passez à votre agenda et posez la première intervention.\n Son objet doit être exactement reprise de la main courante\n et le lieu résidence-bolieux.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Passez à votre agenda et posez la première intervention.\n Son objet doit être exactement reprise de la main courante\n et le lieu résident ce beau lieu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O03-E01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le message annonce le mercredi 4 mars, de 10 h à 12 h. Les cinq champs de la fiche doivent être renseignés avant Enregistrer.",
+   "empreinte_texte_dit": "c95b504dd68d43030dc8ae306c423f9fc8e47e31465ab945643f1e7341ce1438",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 130447,
+   "duree_s": 8.08,
+   "caracteres_dits": 125,
+   "caracteres_factures": 375,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.069,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "4",
+       "10",
+       "12",
+       "5"
+      ],
+      "entendus": [
+       "4",
+       "10",
+       "30",
+       "5"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "Le message annonce le mercredi 4 mars, de 10h30. Les cinq champs de la fiche doivent être renseignés avant enregistrés.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.069,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "4",
+        "10",
+        "12",
+        "5"
+       ],
+       "entendus": [
+        "4",
+        "10",
+        "30",
+        "5"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Le message annonce le mercredi 4 mars, de 10h30.\n Les cinq champs de la fiche doivent être renseignés avant\n enregistrés."
+     },
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le message annonce le mercredi 4 mars, de 10h à midi. Les cinq champs de l'affiche doivent être renseignés avant enregistré.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "ae61c5b44c0fdf768f2ebbbff648d0835e827c20941bdf4cf5b6c9b745b8940d",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Le message annonce le mercredi 4 mars, de 10h à midi. Les cinq champs de l'affiche doivent être renseignés avant enregistré.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Le message annonce le mercredi 4 mars, de 10h à midi. Les cinq champs de l'affiche doivent être renseignés avant enregistré.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.609544",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O03-E01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le premier créneau est posé. Un message se lit une fois; un agenda se consulte tous les jours.",
+   "empreinte_texte_dit": "3c5dcedbd43a48e3e82581a748766a4aea5a24bef6b8357d7f5c6ce801bdae65",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 94084,
+   "duree_s": 5.8,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le premier créneau est posé.\n Un message se lit une fois, un agenda se consulte tous les\n jours.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le premier créneau est posé.\n Un message se lit une fois, un agenda se consulte tous les\n jours.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O03-E01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Posez la seconde, objet Réception du chantier, au même lieu. Attention à l'heure de fin: le message parle de 9 h à 10 h 30.",
+   "empreinte_texte_dit": "7478b14f04035b3208dced439e0f4d3b07f790a97e7e727c88d3bf1f122ce205",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 147583,
+   "duree_s": 9.16,
+   "caracteres_dits": 123,
+   "caracteres_factures": 123,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Posez la seconde, objet réception du chantier au même lieu.\n Attention à l'heure de fin. Le message parle de 9h à 10h30.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Posez la seconde, objet réception du chantier, au même lieu\n.\n Attention à l'heure de fin.\n Le message parle de 9h à 10h30.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O03-E01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Vendredi 6 mars. 10 h 30 s'écrit 10:30 dans le champ Fin.",
+   "empreinte_texte_dit": "c38c79e87ff7525a8f15da3736d556c7c47b6920c67af68041285493fe3b14b9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 57,
+   "caracteres_factures": 171,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vendredi 6 mars 10h30 écrit 10h30 dans le champ fin",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vendredi 6 mars.\n 10h30s. Écris 10h30 dans le champ fin.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O03-E01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Les deux interventions sont à l'agenda, avec le bon lieu et les bonnes heures.",
+   "empreinte_texte_dit": "43e1d27ef633b20e6faf76e94eaa70076fa1d12b31aecc5ed803a29861bd785c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les deux interventions sont à l'agenda avec le bon lieu et\n les bonnes heures.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les deux interventions sont à l'agenda avec le bon lieu et\n les bonnes heures.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O03-E01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Revenez au courrier pour confirmer les deux créneaux à Julien Leroux: écrivez-lui une réponse.",
+   "empreinte_texte_dit": "602f1fbe34ad7dddde005f6b8f3f89ff3ba826de4b5b040c1d8e73230b8c1eed",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 86979,
+   "duree_s": 5.36,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Revenez au courrier pour confirmer les deux créneaux à Jul\nien Le Roux. Écrivez-lui une réponse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Revenez au courrier pour confirmer les deux créneaux à Jul\nien Leroux.\n Écrivez-lui une réponse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O03-E01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Rouvrez son message dans la liste, puis utilisez Répondre.",
+   "empreinte_texte_dit": "aebb0c3eef2f91c1daaa52fcc0e36279e66d468e38d80b04b33d9b3632b1c483",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rouvrez son message dans la liste, puis utilisez Répondre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "R'ouvrez son message dans la liste, puis utilisez Répondre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O03-E01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Rédigez la confirmation et envoyez-la. Elle doit reprendre les deux jours retenus, pour que le client puisse vérifier qu'il n'y a pas de malentendu.",
+   "empreinte_texte_dit": "9cce0c181cf3ce7fd6ab6f39f9555e69d4288de7448e6e3f1de35f69b63b67de",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 128357,
+   "duree_s": 7.96,
+   "caracteres_dits": 148,
+   "caracteres_factures": 148,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédigez la confirmation et envoyez-la.\n Elle doit reprendre les deux jours retenus pour que le\n client puisse vérifier qu'il n'y a pas de malentendu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédigé la confirmation et envoyé là.\n Elle doit reprendre les deux jours retenus pour que le\n client puisse vérifier qu'il n'y a pas de malentendu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O03-E01-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Deux informations sont attendues: les deux jours d'intervention.",
+   "empreinte_texte_dit": "9b2af3e9ce0bbadc943902c1d9ea36ae60e9d0073e3d0fd6ebdb241ba3e4a0af",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Les deux jours d'inter\nvention.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Les deux jours d'intervention.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O03-E01-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Le client peut vérifier de son côté: deux créneaux confirmés par écrit, plus rien à interpréter.",
+   "empreinte_texte_dit": "d623b077b7904d104a62277cd2f1e8f98ce1f778eefe9e8d7c3052d44ca16810",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 89905,
+   "duree_s": 5.56,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.055,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le client peut vérifier de son côté. Deux créneaux confirm\nés par écrit, plus rien n'a interprété.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le client peut vérifier de son côté.\n Deux créneaux confirmés par écrit, plus rien à interpréter.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O03-E01-99",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Les deux créneaux sont à l'agenda et confirmés par écrit. Rangez-le dans Clients 2026. Les deux créneaux vivent désormais dans l'agenda: le message n'est plus qu'une trace à ranger.",
+   "empreinte_texte_dit": "94fe248187a4414ddf5f62ce32c48926ebe8f9e572592eefc29ee87bde2e1b9e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 185617,
+   "duree_s": 11.52,
+   "caracteres_dits": 181,
+   "caracteres_factures": 181,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les deux créneaux sont à l'agenda et confirmés par écrit.\n Rangez-le dans Cliants 2026.\n Les deux créneaux vivent désormais dans l'agenda.\n Le message n'est plus qu'une trace arrangée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les deux créneaux sont à l'agenda et confirmés par écrit.\n Rangez-le dans client 2026.\n Les deux créneaux vivent désormais dans l'agenda.\n Le message n'est plus qu'une trace à ranger.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O03-E01-99",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Clients 2026.",
+   "empreinte_texte_dit": "e33a8b5a6fa6a2d16ce84102c722a35215a7c29c5edb87409a793722887de9f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O03-E01-99",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Le message a fait son travail: l'agenda porte l'information désormais.",
+   "empreinte_texte_dit": "c7c1fc3f6f93a3b3ad66bd687588ac8ae54e7a701785509da7151503941a2856",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le message a fait son travail.\n L'agenda porte l'information désormais.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le message a fait son travail.\n L'agenda porte l'information désormais.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "L'erreur classique n'est pas de se tromper de jour: c'est d'oublier l'heure de fin, ou de la mettre au jugé. Un créneau sans borne de sortie transforme une intervention d'une heure en après-midi bloqué.",
+   "empreinte_texte_dit": "530304bdb0bc243e88b81402669cae768cd7971c4b6155f345284d3b4fe82c4a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 165137,
+   "duree_s": 10.24,
+   "caracteres_dits": 202,
+   "caracteres_factures": 202,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'erreur classique n'est pas de se tromper de jour.\n C'est d'oublier l'heure de fin ou de la mettre au juger.\n Un créneau sans borne de sortie transforme une intervention\n d'une heure en après-midi bloquée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'erreur classique n'est pas de se tromper de jour.\n C'est d'oublier l'heure de fin ou de la mettre au juger.\n Un créneau sans borne de sortie transforme une intervention\n d'une heure en après-midi bloquée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

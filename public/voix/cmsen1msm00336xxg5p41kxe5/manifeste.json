@@ -1,0 +1,1004 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1msm00336xxg5p41kxe5",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Ne pas répondre, mais signaler"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 24,
+  "caracteres_dits": 4304,
+  "duree_totale_s": 257.6,
+  "segments_valides": 24,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Le message porte le nom de Nadia Kerbaj, votre gérante. Il demande un virement, aujourd'hui, sans passer par la procédure habituelle, et prie de ne pas en parler. C'est la fraude la plus coûteuse pour les petites entreprises, et la plus simple à désamorcer: elle ne survit pas à une vérification faite par un autre canal.",
+   "empreinte_texte_dit": "df3f50627dec6a6c8f139b7ce807ac66ede95bd919b9a98ab6ba5ae8185301d1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 282584,
+   "duree_s": 17.6,
+   "caracteres_dits": 321,
+   "caracteres_factures": 321,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le message porte le nom de Nadia Carbage, votre gérante.\n Il demande un virement, aujourd'hui, sans passer par la\n procédure habituelle, et prix\n de ne pas en parler.\n C'est la fraude la plus coûteuse pour les petites\n entreprises, et la plus simple à\n désamorcer.\n Elle ne survit pas à une vérification faite par un autre\n canal.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.005,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le message porte le nom de Nadia Kerbage, votre gérante.\n Il demande un virement, aujourd'hui, sans passer par la\n procédure habituelle, et prix\n de ne pas en parler.\n C'est la fraude la plus coûteuse pour les petites\n entreprises et la plus simple à désamorcer.\n Elle ne survit pas à une vérification faite par un autre\n canal.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O04-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez ce message et lisez l'adresse complète de l'expéditeur, jusqu'au bout. Le nom affiché dit Nadia Kerbaj; l'adresse, elle, se termine par.securite-mail.co.",
+   "empreinte_texte_dit": "2efd5d8055c718d38107f37fc2c5a35fdb860d4227147b36da2a54426e1e58e1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 182692,
+   "duree_s": 11.36,
+   "caracteres_dits": 160,
+   "caracteres_factures": 160,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez ce message et lisez l'adresse complète de l'expédite\nur jusqu'au bout.\n Le nom affiché dit Nadia Kerbage.\n L'adresse, elle, se termine par .sécurite-mail.co.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez ce message et lisez l'adresse complète de l'expédite\nur jusqu'au bout.\n Le nom affiché dit Nadia Kerbage.\n L'adresse, elle, se termine par .sécurete-mail.co.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O04-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet parle d'un virement confidentiel à passer aujourd'hui.",
+   "empreinte_texte_dit": "3a61463ea6d368ff91d97439aa4f01b8087e126af8116b3d649d4383dc72b019",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.058,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle d'environnement\n confidentiel à passer aujourd'hui.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle d'un virement confident\niel à passer aujourd'hui.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O04-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Le nom affiché dit Nadia Kerbaj, l'adresse dit autre chose. Toujours lire l'adresse jusqu'au bout.",
+   "empreinte_texte_dit": "11f37b06c62db6d1fd4ed187d5ca017570f1ba48b58f2289a4bbbd33f3048570",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 107459,
+   "duree_s": 6.64,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le nom affiché dit Nadia Carbage.\n L'adresse dit autre chose.\n Toujours lire l'adresse jusqu'au bout.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le nom affiché dit Nadia Kerbage.\n L'adresse dit autre chose.\n Toujours lire l'adresse jusqu'au bout.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O04-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Marquez ce message d'un indicateur : il ne partira nulle part avant d'avoir été signalé. Relisez l'adresse affichée en entier, jusqu'à sa dernière extension.",
+   "empreinte_texte_dit": "4e54038590b7619f7f83fcf9ffd63c7f7ba07c1f9454c17221484527d7241c32",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 147583,
+   "duree_s": 9.16,
+   "caracteres_dits": 157,
+   "caracteres_factures": 157,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Marquez ce message d'un indicateur. Il ne partira nulle\n part avant d'avoir été signalé.\n Relisez l'adresse affichée en entier jusqu'à sa dernière\n extension.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Marquez ce message d'un indicateur.\n Il ne partira nulle part avant d'avoir été signalé.\n Relisez l'adresse affichée en entier jusqu'à sa dernière\n extension.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O04-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le petit drapeau, dans la barre du haut du volet de lecture.",
+   "empreinte_texte_dit": "7d8f8061fb640a5882bd74e0ffba4f0d6f8938383b1a1075b15732b6f19ca30d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le petit drapeau dans la barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le petit drapeau dans la barre du haut du volet de lecture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O04-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Marqué, donc traité plus tard, mais pas oublié, et surtout pas répondu dans l'urgence.",
+   "empreinte_texte_dit": "2d5a949922f82f0ed48b4cdbac212259d657f30411b7d21f4440d587f81049bc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Marquez donc traiter plus tard mais pas oublier et surtout\n pas répondu dans l'urgence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "marqué, donc traité plus tard mais pas oublié, et surtout\n pas répondu dans l'urgence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O04-L02-02B",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Le vrai domaine se lit à la fin de l'adresse, jamais au début. Dans n.kerbaj@atelier-nord.fr.securite-mail.co, ce n'est pas atelier-nord.fr: c'est securite-mail.co. Le nom de votre entreprise n'est qu'un décor placé devant, et il est là parce qu'il vous rassure. Lisez une adresse de droite à gauche, en partant du dernier point. Cette lecture démasque l'imitation; elle ne prouve pas pour autant qu'un expéditeur est bien celui qu'il prétend, et elle demande de la prudence avec les terminaisons en deux morceaux comme.co.uk.",
+   "empreinte_texte_dit": "1bef6f12981032ed065080ae575205e88d17510a37f4dc4fa2a593917d34ac73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 569304,
+   "duree_s": 35.52,
+   "caracteres_dits": 526,
+   "caracteres_factures": 526,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le vrai domaine se lit à la fin de l'adresse, jamais au\n début.\n Dans n.kerbage@atelier-fr.sécurite-mail.co, ce n'est pas at\nelier-fr.fr, c'est Securite-mail.co.\n Le nom de votre entreprise n'est qu'un décor placé devant,\n et il est là parce qu'il vous rassure.\n Lisez une adresse de droite à gauche, en partant du dernier\n point.\n Cette lecture des masques l'imitation, elle ne prouve pas\n pour autant qu'un expéditeur est bien celui qu'il prétend,\n et elle demande de la prudence avec les terminaisons en\n deux morceaux, comme .co.uk.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.028,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le vrai domaine se lit à la fin de l'adresse, jamais au\n début.\n Dans n.carbage@atelier-nord.fr.securete-mail.co, ce n'est\n pas atelier-nord.fr, c'est securete-mail.co.\n Le nom de votre entreprise n'est qu'un décor placé devant,\n et il est là parce qu'il vous rassure.\n Lisez une adresse de droite à gauche, en partant du dernier\n point.\n Cette lecture des masques-limitations, elle ne prouve pas\n pour autant qu'un expéditeur\n ait bien celui qu'il prétend, et elle demande de la prud\nence avec les terminaisons en deux morceaux, comme .co.uk.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O04-L02-03",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Écrivez un nouveau message à la vraie adresse de Nadia, n.kerbaj@atelier-nord.fr. La tentation serait de répondre c'est bien toi?, on vérifie ailleurs.",
+   "empreinte_texte_dit": "df63fc720b720b72d32d8bf30be3a6db607c027f701f166cc788eea3e8585942",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 197738,
+   "duree_s": 12.28,
+   "caracteres_dits": 151,
+   "caracteres_factures": 151,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Écrivez un nouveau message à la vraie adresse de Nadia n.\ncarbage@atelier-nor.fr\n La tentation serait de répondre, c'est bien toi ? On vér\nifie ailleurs.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Écrivez un nouveau message à la vraie adresse de Nadia, n.\ncarbage@atelier-nord.fr\n La tentation serait de répondre \"C'est bien toi ? On vér\nifie ailleurs.\"",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O04-L02-03",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Utilisez Nouveau message, pas Répondre: c'est ce qui garantit d'écrire à la bonne adresse.",
+   "empreinte_texte_dit": "0a9042fd7435e6a4d41ae4521b63ffb46e6ed1b812db335f5208561420dd6660",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Utilisez nouveaux messages par répondre.\n C'est ce qui garantit d'écrire à la bonne adresse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Utiliser nouveaux messages par répondre.\n C'est ce qui garantit D, écrire à la bonne adresse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O04-L02-03",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Vous écrivez à l'adresse que vous connaissez, pas à celle du message. Répondre serait tombé chez l'escroc.",
+   "empreinte_texte_dit": "17024c7f707fc1b88186d6b1c3f867b87ff2fa60488a3bd9260da8a102717dd9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 106,
+   "caracteres_factures": 106,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.037,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Vous écrivez à l'adresse que vous connaissez, pas à celle\n du message.\n Répondre serait tombé chez les scros.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Vous écrivez à l'adresse que vous connaissez, pas à celle\n du message.\n Répondre serait tombé chez l'escroc.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O04-L02-04",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Donnez à ce message un objet contenant le mot vérification. Un objet explicite permet à Nadia de comprendre en un coup d'œil qu'il ne s'agit pas d'une demande ordinaire.",
+   "empreinte_texte_dit": "6781d7d6b6b34dc3203ea1468e16e813faad26eafe34a5154f0aaf8b3075781b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 161794,
+   "duree_s": 10.04,
+   "caracteres_dits": 169,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez à ce message un objet contenant le mot vérification.\n Un objet explicite permet à Nadia de comprendre en un coup\n d'œil qu'il ne s'agit pas d'une demande ordinaire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez à ce message un objet contenant le mot « vér\nification ».\n Un objet explicite permet à Nadia de comprendre en un coup\n D,\n œil qu'il ne s'agit pas d'une demande ordinaire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O04-L02-04",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Par exemple Vérification, demande de virement reçue ce matin. La formulation est libre.",
+   "empreinte_texte_dit": "6894991615b2a116512c32f6f2a73297cd5bb3d647bbd9a8e18592a6c4f13be9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Par exemple vérification, demande de Virement reçu ce matin\n.\n La formulation est libre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Par exemple, vérification, demande de virement reçu ce\n matin.\n La formulation est libre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O04-L02-05",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Rédigez la vérification. Elle doit décrire la demande reçue, un virement, et le montant annoncé, pour que Nadia puisse confirmer ou infirmer sans ambiguïté. N'écrivez pas je crois que c'est un faux: décrivez les faits, elle tranchera.",
+   "empreinte_texte_dit": "df4b780b3999fb39e2927c88180c1603a0b0f3ba9bcae7f28ec6f554d5d0ea1f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 237444,
+   "duree_s": 14.76,
+   "caracteres_dits": 234,
+   "caracteres_factures": 234,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.028,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédiger la vérification. Elle doit décrire la demande reçue\n, environnement et le montant\n annoncé pour que Nadia puisse confirmer ou infirmer sans\n ambiguïté.\n N. Écrivez pas, je crois que c'est info. Décrivez l'effet.\n Elle tranchera.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rédiger la vérification. Elle doit décrire la demande reçue\n, un virement et le montant annoncé pour que Nadia puisse\n confirmer ou infirmer sans ambiguïté.\n N. Écrivez pas, je crois que c'est un faux. Décryvez les\n faits. Elle tranchera.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "O04-L02-05",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Deux informations sont attendues: ce qui vous est demandé, et le montant.",
+   "empreinte_texte_dit": "1a0e5bc202d64521bf76900c362960cac8e13efc71f2c89449618c22ef00bdf7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues, ce qui vous est demandé\n est le montant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues. Ce qui vous est demandé\n est le montant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "O04-L02-05",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Nadia peut trancher en dix secondes parce que votre message cite la demande et le montant.",
+   "empreinte_texte_dit": "b15ad45a40aba658e604c2c28e49c0388da88f8f2445210e6b9e30fd646fd26f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 90,
+   "caracteres_factures": 90,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Nadia peut trancher en 10 secondes parce que votre message\n cite la demande et le montant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Nadia peut trancher en 10 secondes parce que votre message\n cite la demande et le montant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O04-L02-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Envoyez cette vérification. Aucun virement n'est parti, aucune pièce jointe n'a été ouverte, et l'escroc n'a reçu aucun signe de vie. Le dossier est entre les mains de la seule personne qui peut trancher.",
+   "empreinte_texte_dit": "371b9907d9935b4f8a7bb8c1f2edb99dd2097c64ee4acb74d6ed108bdff3b693",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 168063,
+   "duree_s": 10.44,
+   "caracteres_dits": 204,
+   "caracteres_factures": 204,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Envoyez cette vérification.\n Aucun virement n'est parti, aucune pièce jointe n'a été ou\nverte,\n et les scros n'a reçu aucun signe de vie.\n Le dossier est entre les mains de la seule personne qui\n peut trancher.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Envoyez cette vérification.\n Aucun virement n'est parti, aucune pièce jointe n'a été ou\nverte,\n et l'escroc n'a reçu aucun signe de vie.\n Le dossier est entre les mains de la seule personne qui\n peut trancher.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O04-L02-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "2667ca0a7beb4de62970e73906b0981a06f7bf5161f8353b2db14b5b268ebc42",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton « Envoyer » est le premier de la barre du haut de\n la fenêtre de rédaction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O04-L02-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Aucun virement parti, aucune pièce jointe ouverte, et l'escroc n'a reçu aucune confirmation que l'adresse existe.",
+   "empreinte_texte_dit": "02bc4fb7055e39ff6dc095b1430698efb3a2c6227bf669627a3ab237a9639475",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Aucun virement parti, aucune pièce jointe ouverte et les sc\nros n'a reçu aucune confirmation que l'adresse existe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Aucun virement parti, aucune pièce jointe ouverte et l'es\ncroc n'a reçu aucune confirmation que l'adresse existe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O04-L02-06B",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Pourquoi vérifier ailleurs, jamais en répondant. Répondre confirme que votre adresse est lue par un humain, et vous met en discussion avec l'escroc. On vérifie par un canal qu'il ne contrôle pas. Hors de cet atelier: le vrai Outlook a un bouton Signaler comme hameçonnage, qui prévient les filtres pour tout le monde et ne se confond pas avec un simple rangement en indésirables; il sait aussi bloquer un expéditeur, et votre administrateur peut poser des filtres. On les décrit, on les situe, ils ne remplacent pas la lecture de l'adresse.",
+   "empreinte_texte_dit": "7fe5212129b50d0077ae06168d7b857c661cc448b1407c0968610cd47629a6a9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 454783,
+   "duree_s": 28.36,
+   "caracteres_dits": 540,
+   "caracteres_factures": 540,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Pourquoi vérifier ailleurs ? Jamais en répondant.\n Répondre confirme que votre adresse est lu par un humain et\n vous met en discussion avec les scros.\n On vérifie par un canal qu'il ne contrôle pas.\n Or de cet atelier, le vrai Outlook a un bouton signalaire\n comme amsonnage\n qui prévient les filtres pour tout le monde et ne se conf\nond pas avec un simple rangement en indésirable.\n Il sait aussi bloquer un expéditeur et votre administrateur\n peut poser des filtres.\n On les décrit, on les situe, il ne remplace pas la lecture\n de l'adresse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Pourquoi vérifier ailleurs ? Jamais en répondant.\n Répondre confirme que votre adresse est lue par un humain\n et vous met en discussion avec les Scro.\n On vérifie par un canal qu'il ne contrôle pas.\n Hors de cet atelier, le vrai Outlook a un bouton signalaire\n comme hameçonnage\n qui prévient les filtres pour tout le monde et ne se conf\nond pas avec un simple rangement en indésirable.\n Il sait aussi bloquer un expéditeur et votre administrateur\n peut poser des filtres.\n On les décrit, on les situe, il ne remplace pas la lecture\n de l'adresse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "O04-L02-07",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Dernier geste: isoler la tentative. Rangez le message frauduleux dans le Courrier indésirable. Le supprimer effacerait la preuve; le laisser en boîte de réception risquerait qu'un collègue pressé le traite à votre place.",
+   "empreinte_texte_dit": "4397e0e398169bd4cf363d8770769442ce706911aa460e70004464dd09264b73",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 213621,
+   "duree_s": 13.28,
+   "caracteres_dits": 220,
+   "caracteres_factures": 220,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Dernier geste. Isolez la tentative.\n Rangez le message frauduleux dans le courrier indésirable.\n Le supprimer effacerait la preuve.\n Le laisser en boîte de réception risquerait qu'un collègue\n pressait le trait à votre place.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Dernier geste, isoler la tentative.\n Ranger le message frauduleux dans le courrier indésirable.\n Le supprimer effacerait la preuve.\n Le laisser en boîte de réception risquerait qu'un collègue\n pressait le trait à votre place.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "O04-L02-07",
+   "role": "Étape 9 · aide",
+   "texte_dit": "Ouvrez le message frauduleux, puis Déplacer, puis Courrier indésirable.",
+   "empreinte_texte_dit": "d30221c2d410ba6a7100c0bfded26bc65c4cf5d8ccf64460fb4fcf9054eb7155",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message frauduleux, puis déplacer, puis courrier\n indésirable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez le message frauduleux, puis déplacer, puis courrier\n indésirable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "O04-L02-07",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "Isolée sans être effacée: une tentative sert de preuve si l'affaire va plus loin.",
+   "empreinte_texte_dit": "e2de9b3eb8767af05882afdd9090d911d5fa2d1bbad0a585a64fa9b0100b42bd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isolée sans être effacée. Une tentative sert de preuve si l\n'affaire va plus loin.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Isolée sans être effacée.\n Une tentative sert de preuve si l'affaire va plus loin.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Trois réflexes, dans cet ordre. Ne jamais répondre au message douteux: répondre confirme que l'adresse est active et ouvre la discussion. Vérifier par un autre canal, un appel, ou un message écrit à l'adresse que vous connaissez, jamais en répondant à celui-ci. Et alerter, en faisant suivre à qui de droit, pour que personne d'autre ne tombe dans le piège, dans le vrai Outlook, le bouton Signaler comme hameçonnage prévient en plus les filtres, ce qu'un simple déplacement en indésirables ne fait pas.",
+   "empreinte_texte_dit": "d436da17c34f7fc7cec78d6e976095023f684f549ebb264a476ee501741b4bb5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 440573,
+   "duree_s": 27.48,
+   "caracteres_dits": 503,
+   "caracteres_factures": 503,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Trois réflexes dans cet ordre.\n Ne jamais répondre au message douteux.\n Répondre confirme que l'adresse est active et ouvre la\n discussion.\n Vérifiez par un autre canal, un appel ou un message écrit à\n l'adresse que vous connaissez,\n jamais en répondant à celui-ci.\n Et alerter, en faisant suivre à qui de droit, pour que\n personne d'autre ne tombe dans le piège,\n dans le vrai outlook, le bouton Signaleur comme amsonnage\n prévient en plus les filtres,\n ce qu'un simple déplacement indésirable ne fait pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Trois réflexes dans cet ordre.\n Ne jamais répondre aux messages douteux.\n Répondre confirme que l'adresse est active et ouvre la\n discussion.\n Vérifiez par un autre canal, un appel ou un message écrit à\n l'adresse que vous connaissez,\n jamais en répondant à celui-ci.\n Et alertez, en faisant suivre à qui de droit, pour que\n personne d'autre ne tombe dans le piège,\n dans le vrai Outlook, le bouton signaleur comme hamsonnage\n prévient en plus les filtres,\n ce qu'un simple déplacement en indésirable ne fait pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

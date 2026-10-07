@@ -1,0 +1,911 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1pzi00b96xxgz4upvt90",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Contester une ligne de facture"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 20,
+  "caracteres_dits": 2664,
+  "duree_totale_s": 167.0,
+  "segments_valides": 19,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une contestation de facture se joue sur une seule chose: la preuve. Le bon de livraison dit 40 charnières, la facture en compte 48. Le message qui part doit citer le numéro de facture, la ligne exacte, et joindre la pièce, pas les comptes de l'atelier.",
+   "empreinte_texte_dit": "3e6d840b694e22db407a76d6cafa863a26d7c1cfc4082e3efd05f3d0c2c7f41c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 248729,
+   "duree_s": 15.48,
+   "caracteres_dits": 252,
+   "caracteres_factures": 252,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une contestation de factures se joue sur une seule chose,\n la preuve.\n Le bond de livraison dit 40 charnières, la facture en\n compte 48.\n Le message qui part doit citer le numéro de facture, la\n ligne exacte, et joindre la pièce, pas les comptes de l'at\nelier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une contestation de facture se joue sur une seule chose, la\n preuve.\n Le bond de livraison dit 40 charnières, la facture en\n compte 48.\n Le message qui part doit citer le numéro de facture, la\n ligne exacte et joindre la pièce,\n pas les comptes de l'atelier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O15-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le message de la comptabilité Delmas. La facture y est jointe et porte le numéro del-2026-0312. C'est ce numéro que la contestation devra citer, pas votre dernière facture.",
+   "empreinte_texte_dit": "e16601e7264572b19644558b6f4d0b5e700f3a46324fb3cfcf464898398bb50f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 201918,
+   "duree_s": 12.56,
+   "caracteres_dits": 179,
+   "caracteres_factures": 537,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": {
+      "attendus": [
+       "refburodel20260312"
+      ],
+      "entendus": [
+       "refburodel2060312"
+      ]
+     },
+     "ok": false,
+     "transcription": "Ouvrez le message de la comptabilité d'Elmas.\n La facturier jointe et porte le numéro DEL-2060312.\n C'est ce numéro que la contestation devra citer, pas votre\n dernière facture.",
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le message de la comptabilité d'Elmas. La facture y est jointe et porte le numéro DEL 2026 03 12. C'est ce numéro que la contestation devra citer, pas votre dernière facture.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "c50d918000217d650856c042d56a64cc7eab601a912a233ad5ff6f18f11cdb10",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Ouvrez le message de la comptabilité d'Elmas. La facture y est jointe et porte le numéro DEL 2026 03 12. C'est ce numéro que la contestation devra citer, pas votre dernière facture.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Ouvrez le message de la comptabilité d'Elmas. La facture y est jointe et porte le numéro DEL 2026 03 12. C'est ce numéro que la contestation devra citer, pas votre dernière facture.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.255062",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O15-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message qui vient de la comptabilité du fournisseur.",
+   "empreinte_texte_dit": "0d32bb76df99d98664f30fd1782eabd8d646c0fb55ae96c2e9fe301e44eb515e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui vient de la comptabilité du fournisse\nur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le message qui vient de la comptabilité du fournisse\nur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O15-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Répondre. La contestation repart vers la comptabilité, qui a émis la facture, le service des commandes ne peut pas l'avoir corrigée.",
+   "empreinte_texte_dit": "b499b1b11da1858430584b84e597469b446d234ecad2236ba7df14141a2ac64b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 134208,
+   "duree_s": 8.32,
+   "caracteres_dits": 144,
+   "caracteres_factures": 144,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre.\n La contestation repart vers la comptabilité,\n qui a émis la facture,\n le service des commandes ne peut pas l'avoir corrigé.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Répondre.\n La contestation repart vers la comptabilité.\n Qui a émis la facture ?\n Le service des commandes ne peut pas l'avoir corrigé.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O15-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Répondre: il vise l'expéditeur, donc la comptabilité.",
+   "empreinte_texte_dit": "2bd06ed5020697ffa361aa915fab5adc4d0ba7ed23bed5fbe0bb14dd8ee2bf40",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 63,
+   "caracteres_factures": 63,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre, il vise l'expéditeur donc la comptabil\nité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Répondre, il vise l'expéditeur, donc la comptabil\nité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O15-L03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "La contestation repart vers le service qui a émis la facture, pas vers celui qui a pris la commande.",
+   "empreinte_texte_dit": "910315568c1322b4900f322b6e722a13617215a91b0285710e67afb42321fc3c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 100,
+   "caracteres_factures": 100,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La contestation repart vers le service qui a émis la fact\nure, pas vers celui qui a pris la commande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La contestation repart vers le service qui a émis la fact\nure, pas vers celui qui a pris la commande.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O15-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Joignez Bon-de-livraison-BL-4471.pdf. C'est la pièce qui prouve les quantités reçues. Marges-atelier-2026.xlsx contient vos prix d'achat: il ne sort jamais de l'entreprise.",
+   "empreinte_texte_dit": "3858cc7b958aaf8f1a6b178782facaa307552d4157caea3e7fbf352ed88d9c45",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 216964,
+   "duree_s": 13.48,
+   "caracteres_dits": 172,
+   "caracteres_factures": 516,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignez bon de livraison BL447 1.pdf.\n C'est la pièce qui prouve les quantités reçues.\n Marge atelier 2026.\n XLX contient vos prix d'achat.\n Il ne sort jamais de l'entreprise.",
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Joignez bondes de livraison BL4471.pdf. C'est la pièce qui prouve les quantités reçues. Marge atelier 2026. XLSX contient vos prix d'achat. Il ne sort jamais de l'entreprise.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O15-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Lisez les noms en entier avant de cliquer.",
+   "empreinte_texte_dit": "6dc7485f15ab7b4f08a864bf2adf647deaf5adfd9e008f8a906f69d592b25721",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 38078,
+   "duree_s": 2.32,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lisez les noms en entier avant de cliquer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lisez les noms en entier avant de cliquer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O15-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Marges-atelier.xlsx portait un nom voisin. Vos marges chez un fournisseur, c'est votre négociation offerte.",
+   "empreinte_texte_dit": "458560bf40293ef5fcac4b3142eea5a7873ff7fb11eee865a18b40cae058dcfe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 109967,
+   "duree_s": 6.8,
+   "caracteres_dits": 107,
+   "caracteres_factures": 107,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Marge Atelier. XLSX portait un nom voisin.\n Vos marges chez infornisseurs, c'est votre négociation\n offerte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Marge atelier. XLSX portait un nom voisin. Vos marges chez\n un fournisseur, c'est votre négociation offerte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O15-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot écart. L'objet reçu parle d'un relevé ordinaire; le vôtre doit annoncer qu'il y a un point à traiter.",
+   "empreinte_texte_dit": "b3dc1771035717baf739b11877f0aecb7fdf4d6535d0609d37b451abd64c6598",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 113728,
+   "duree_s": 7.04,
+   "caracteres_dits": 131,
+   "caracteres_factures": 131,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot écart.\n L'objet reçu parle d'un relevé ordinaire.\n Le vôtre doit annoncer qu'il y a un point à traiter.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot \"Écarre\".\n L'objet reçu parle d'un relevé ordinaire.\n Le vôtre doit annoncer qu'il y a un point à traiter.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O15-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Ajoutez le mot à la fin de l'objet, en gardant le préfixe.",
+   "empreinte_texte_dit": "fdfcfbca8acc5f16ec12c12eedca8dfeac3783ba92e405eec4d2a72f09c5e877",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet en gardant le préfix.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin de l'objet en gardant le préfixe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O15-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "L'objet reçu parlait d'un relevé ordinaire. Le vôtre annonce qu'il y a un point à régler.",
+   "empreinte_texte_dit": "8a6a02ab6357ed45197205db17aebd4b4659f141ba4c89b4bcedecafc9ec3d1e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'objet reçu parlait d'un relevé ordinaire.\n Le vôtre annonce qu'il y a un point à régler.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "L'objet reçu parlait d'un relevé ordinaire. Le vôtre ann\nonce qu'il y a un point à régler.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O15-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Rédigez la contestation, puis envoyez. Trois éléments: le numéro de facture, la ligne contestée avec les deux quantités, ce que vous demandez. Sans le troisième, personne ne sait quoi faire du message.",
+   "empreinte_texte_dit": "4b1da574dc507bc6a88df6b88689d28ed485abfc8b0e0ca748ef3c18171e485d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 219890,
+   "duree_s": 13.68,
+   "caracteres_dits": 201,
+   "caracteres_factures": 201,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez la contestation, puis envoyez.\n Trois éléments.\n Le numéro de facture, la ligne contestée avec les deux\n quantités, ce que vous demandez.\n Sans le troisième, personne ne sait quoi faire du message.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédigez la contestation, puis envoyez.\n Trois éléments.\n Le numéro de facture, la ligne contestée avec les deux\n quantités, ce que vous demandez.\n Sans le troisième, personne ne sait quoi faire du message.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O15-L03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Trois informations sont attendues: le numéro, l'écart, la demande.",
+   "empreinte_texte_dit": "75d1fcc5af4f323dcfcad801bd52fa06a13d8b0e1530c61a3a461d6eb021f911",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues. Le numéro L écarre la\n demande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Trois informations sont attendues.\n Le numéro, L, écart, la demande.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O15-L03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Numéro, ligne contestée, pièce à l'appui: une contestation documentée se traite en une fois.",
+   "empreinte_texte_dit": "a92ccb0fa3c21ede4dd7918983595ca8f9e6352bd67486cebb3e3b78ce923fe5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 92,
+   "caracteres_factures": 92,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Numéro. Ligne contestée. Pies à l'appui. Une contestation\n documentée se traitant une fois.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Numéro, ligne contestée, pièce à l'appui.\n Une contestation documentée se traitant une fois.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O15-L03-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Une contestation se joue sur la preuve, et sur une seule ligne à la fois. Votre dernière facture est fausse n'est pas instruisible; le numéro, la ligne exacte, les deux quantités le sont. Le troisième élément est vital: ce que vous demandez, un avoir, une facture rectifiée. Sans lui, la comptabilité constate un désaccord et ne sait qu'en faire.",
+   "empreinte_texte_dit": "4ba55a217cdbe03b409a2fdf46970ac8c35bf2cbb5a75b560709efb73d92b155",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 329395,
+   "duree_s": 20.52,
+   "caracteres_dits": 346,
+   "caracteres_factures": 346,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une contestation se joue sur la preuve et sur une seule\n ligne à la fois.\n Votre dernière facture est fausse, n'est pas instruisible.\n Le numéro, la ligne exacte, les deux quantités le sont.\n Le troisième élément est vital.\n Ce que vous demandez, un avoir, une facture rectifiée.\n Sans lui, la comptabilité constate un désaccord et ne sait\n qu'en faire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une contestation se joue sur la preuve et sur une seule\n ligne à la fois.\n Votre dernière facture est fausse, n'est pas instruisible.\n Le numéro, la ligne exacte, les deux quantités le sont.\n Le troisième élément est vital.\n Ce que vous demandez, un avoir, une facture rectifiée.\n Sans lui, la comptabilité constate un désaccord et ne sait\n qu'en faire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O15-L03-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Rangez la facture dans Factures fournisseurs. Une facture contestée se classe comme les autres: c'est la réponse du fournisseur qui dira si elle est à payer, et il faudra les retrouver ensemble.",
+   "empreinte_texte_dit": "36be040be9325d833f60b0fc46af665157ebab0c893e01ca7594bf63e1da28b2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 168063,
+   "duree_s": 10.44,
+   "caracteres_dits": 194,
+   "caracteres_factures": 194,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger la facture dans facture fournisseur.\n Une facture contestée se classe comme les autres.\n C'est la réponse du fournisseur qui dira si elle est à\n payer\n et il faudra les retrouver ensemble.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger la facture dans facture fournisseur.\n Une facture contestée se classe comme les autres.\n C'est la réponse du fournisseur qui dira si elle est à\n payer,\n et il faudra les retrouver ensemble.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O15-L03-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Déplacer, puis Factures fournisseurs.",
+   "empreinte_texte_dit": "2c00beb82d7b19f8ccc4daf75a685b6ebc597114d28be2bb57b588e98499266d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 37,
+   "caracteres_factures": 37,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez, puis facture fournisseur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Déplacez, puis facture fournisseur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "O15-L03-06",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Une facture contestée se classe comme les autres: c'est le suivi qui compte, pas le désaccord.",
+   "empreinte_texte_dit": "fe274c4f3a62ec211ad58378419de3938241f68441d2ea8bc1369336a6cd04e9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une facture contestée se classe comme les autres.\n C'est le suivi qui compte, pas le désaccord.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une facture contestée se classe comme les autres.\n C'est le suivi qui compte, pas le désaccord.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un écart contesté sans le bon de livraison se discute; avec le bon de livraison, il se corrige. Et la contestation va à la comptabilité du fournisseur, pas au service des commandes: ce ne sont ni les mêmes personnes ni les mêmes délais.",
+   "empreinte_texte_dit": "7e22ec41fe8294c883a0992ba52c0d2f5ce875e5d89959bee49fbe18b5848bbe",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 234519,
+   "duree_s": 14.6,
+   "caracteres_dits": 236,
+   "caracteres_factures": 236,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un écart contesté sans le bon de livraison se discute.\n Avec le bon de livraison, il se corrige.\n Et la contestation va à la comptabilité du fournisseur, pas\n au service des commandes.\n Ce ne sont ni les mêmes personnes, ni les mêmes délais.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un écart contesté sans le bon de livraison se discute.\n Avec le bon de livraison, il se corrige.\n Et la contestation va à la comptabilité du fournisseur,\n pas au service des commandes.\n Ce ne sont ni les mêmes personnes, ni les mêmes délais.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

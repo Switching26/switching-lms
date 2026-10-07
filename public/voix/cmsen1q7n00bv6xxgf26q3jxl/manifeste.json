@@ -1,0 +1,1226 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1q7n00bv6xxgf26q3jxl",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Poser l'absence dans l'agenda"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 25,
+  "caracteres_dits": 3242,
+  "duree_totale_s": 196.9,
+  "segments_valides": 23,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Prévenir par message ne suffit pas: c'est l'agenda que l'on consulte pour savoir si vous êtes là. Une absence qui n'y figure pas se traduit par des rendez-vous posés sur vos deux jours. Il faut aussi y réserver le temps de la passation, sinon il n'aura pas lieu.",
+   "empreinte_texte_dit": "ed888010539d11c971c1ac61de59081369eeba2a4bfdcc4ac4d2a8d92fe834fc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 233265,
+   "duree_s": 14.52,
+   "caracteres_dits": 262,
+   "caracteres_factures": 262,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Prévenir par message ne suffit pas.\n C'est l'agenda que l'on consulte pour savoir si vous êtes\n là.\n Une absence qui n'y figure pas se traduit par des rendez-\nvous posés sur vos deux jours.\n Il faut aussi y réserver le temps de la passation, sinon il\n n'aura pas lieu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Prévenir par message ne suffit pas. C'est l'agenda que l'on\n consulte pour savoir si vous êtes là.\n Une absence qui n'y figure pas se traduit par des rendez-\nvous posés sur vos deux jours.\n Il faut aussi y réserver le temps de la passation. Sinon il\n n'aura pas lieu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O16-L02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Passez à la vue Calendrier. Le courrier annonce l'absence à l'extérieur; l'agenda l'annonce à l'intérieur. Les deux sont nécessaires, et ils ne parlent pas aux mêmes personnes.",
+   "empreinte_texte_dit": "242337b98ef0a930b5a96d2e21f139b4b118d1fb7a8378ac8aaf8a1d2218c447",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 173079,
+   "duree_s": 10.76,
+   "caracteres_dits": 176,
+   "caracteres_factures": 176,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passer à la vue calendrier.\n Le courrier annonce l'absence à l'extérieur,\n l'agenda la nonce à intérieur.\n Les deux sont nécessaires et ils ne parlent pas aux mêmes\n personnes.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passez à la vue calendrier.\n Le courrier annonce l'absence à l'extérieur, l'agenda l'\nannonce à l'intérieur.\n Les deux sont nécessaires et ils ne parlent pas aux mêmes\n personnes.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O16-L02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Le bouton Calendrier, dans la barre de navigation.",
+   "empreinte_texte_dit": "84022ad6578dc393e50dcde32d29efaa36919f5244c3b3204f9092d5452af531",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Calendrier dans la barre de navigation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton calendrier dans la barre de navigation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O16-L02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Le courrier annonce l'absence à l'extérieur; l'agenda l'annonce à l'intérieur. Les deux sont nécessaires.",
+   "empreinte_texte_dit": "4eb7ba0019c683e28ef539e4d6752db3e388c612e8dcb2b7cf1f62f967c6f4ef",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 108713,
+   "duree_s": 6.72,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le courrier annonce l'absence à l'extérieur.\n L'agenda l'annonce à l'intérieur.\n Les deux sont nécessaires.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le courrier annonce l'absence à l'extérieur.\n L'agenda l'annonce à l'intérieur.\n Les deux sont nécessaires.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O16-L02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Cliquez sur Nouveau rendez-vous. Le premier des deux jours d'absence.",
+   "empreinte_texte_dit": "49ab14e9d5a3a13e41b495c378e4f7dd50a5ba2c04bbe99b29a0be9ba5f06847",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Nouveau rendez-vous.\n Le premier des deux jours d'absence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez sur Nouveau Rendez-vous, le premier des deux jours\n d'absence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O16-L02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Nouveau rendez-vous, en haut du calendrier.",
+   "empreinte_texte_dit": "53e022550668e396cc7c6afa8c4ebf0082fdf6d35432f9e46cf31147f0f68451",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau Rendez-vous en haut du calendrier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau Rendez-vous en haut du calendrier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O16-L02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Ici, l'agenda pose des journées, une par une.",
+   "empreinte_texte_dit": "eb711ed78420c4e253e6a944fbbaa9d2e170bfd346f5a67026568c49dbc57cb0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 45,
+   "caracteres_factures": 45,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ici l'agenda pose des journées, une par une.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ici l'agenda pause des journées, une par une.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O16-L02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Créez Absence, jeudi 5 le 5 mars, de 08:00 à 18:00, lieu Atelier Nord. Une journée entière bloquée: personne ne pourra y glisser un rendez-vous.",
+   "empreinte_texte_dit": "0436cac58d637fdfa5ae87d2ecaebee7a8862b85ca91fd63de9c2995e92af85a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 148837,
+   "duree_s": 9.24,
+   "caracteres_dits": 144,
+   "caracteres_factures": 432,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "5",
+       "5",
+       "8",
+       "18"
+      ],
+      "entendus": [
+       "5",
+       "8",
+       "18"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "Créée absence, jeudi 5 mars, de 8h à 18h, lieu atelier nord. Une journée entière bloquée, personne ne pourra y glisser un rendez-vous.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.027,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "5",
+        "5",
+        "8",
+        "18"
+       ],
+       "entendus": [
+        "5",
+        "8",
+        "18"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Créée absence, jeudi 5 mars, de 8h à 18h, lieu atelier nord\n.\n Une journée entière bloquée, personne ne pourra y glisser\n un rendez-vous."
+     },
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Créé absence, jeudi 5 le 5 mars, de 8h à 18h, lieu Atelier Nord. Une journée entière bloquée, personne ne pourra y glisser un rendez-vous.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "35fda8ebd43039c2b9e8a46c7be1be2dde8acc4d97c5f6f63488ea7364b69d6c",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Créé absence, jeudi 5 le 5 mars, de 8h à 18h, lieu Atelier Nord. Une journée entière bloquée, personne ne pourra y glisser un rendez-vous.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Créé absence, jeudi 5 le 5 mars, de 8h à 18h, lieu Atelier Nord. Une journée entière bloquée, personne ne pourra y glisser un rendez-vous.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.597732",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O16-L02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Renseignez le titre, la date, les heures et le lieu, puis enregistrez.",
+   "empreinte_texte_dit": "d2b75b74a288cefb41f0a25693e1fca2d814f3d4c9f0de9d7a02be760b52708c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Renseignez le titre, la date, les heures et le lieu, puis\n enregistrez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Renseignez le titre, la date, les heures et le lieu, puis\n enregistrez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O16-L02-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Une journée entière bloquée: plus personne ne pourra y caler une réunion sans le voir.",
+   "empreinte_texte_dit": "cd5be63ad0cd5a5e3cb7fa2c705b3da695f46d38d41792b5b5e8c04b891f466a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 81546,
+   "duree_s": 5.04,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une journée entière bloquée, plus personne ne pourra écaler\n une réunion sans le voir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une journée entière bloquée, plus personne ne pourra y cal\ner une réunion sans le voir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O16-L02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Cliquez de nouveau sur Nouveau rendez-vous. Le second jour demande sa propre entrée.",
+   "empreinte_texte_dit": "c145a2de50ea6e09dc5c45da550a502c1f2a33c0c3179f2753b67d2f4a3e99d9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez de nouveau sur Nouveau rendez-vous.\n Le second jour demande sa propre entrée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez de nouveau sur Nouveau rendez-vous.\n Le second jour demande sa propre entrée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O16-L02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le même bouton qu'à l'étape précédente.",
+   "empreinte_texte_dit": "6793c47d9dfc6917faff4ba9115b4cdfdffa3067e30e526081ff0185dc22df22",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 39,
+   "caracteres_factures": 117,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.042,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le même bouton que, à elle, étape précédente.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.125,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Le même bouton que, à elle, est à précédente."
+     }
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le même bouton que, à L, étape précédente.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O16-L02-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Créez Absence, vendredi 6 le 6 mars, de 08:00 à 18:00, lieu Atelier Nord. Deux journées, deux entrées, et la semaine devient lisible pour tout le monde.",
+   "empreinte_texte_dit": "b4da038cb4cf8e6c01cddf01f0a9da11a807ef80e04dddec8ae7c00089f23a50",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 166809,
+   "duree_s": 10.36,
+   "caracteres_dits": 152,
+   "caracteres_factures": 456,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "6",
+       "6",
+       "8",
+       "18",
+       "2",
+       "2"
+      ],
+      "entendus": [
+       "6",
+       "8",
+       "18",
+       "2",
+       "2"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "ok": false,
+     "transcription": "Cré-absence, vendredi 6 mars, de 8h à 18h, lieu atelier nord. Deux journées, deux entrées et la semaine devient lisible pour tout le monde.",
+     "implementation": "whisper Python small CPU FP32",
+     "premier_controle_cpp": {
+      "wer": 0.025,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": {
+       "attendus": [
+        "6",
+        "6",
+        "8",
+        "18",
+        "2",
+        "2"
+       ],
+       "entendus": [
+        "6",
+        "8",
+        "18",
+        "2",
+        "2"
+       ]
+      },
+      "sigles": null,
+      "references": null,
+      "ok": false,
+      "transcription": "Cré-absence, vendredi 6 mars, de 8h à 18h, lieu atelier\n nord.\n Deux journées, deux entrées et la semaine devient lisible\n pour tout le monde."
+     },
+     "raccourcis": null
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cré Absence, vendredi 6 le 6 mars, de 8h à 18h, lieu Atelier Nord. Deux journées, deux entrées, et la semaine devient lisible pour tout le monde.",
+     "implementation": "whisper Python medium CPU FP32",
+     "raccourcis": null
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "a669deceba57def1a41a882be120299c03966bdf9a4f67f607ecb829b831daa1",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références identiques. Acceptation sémantique avec trace selon la consigne du chef, sans double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Cré Absence, vendredi 6 le 6 mars, de 8h à 18h, lieu Atelier Nord. Deux journées, deux entrées, et la semaine devient lisible pour tout le monde.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "ok": true,
+      "transcription": "Cré Absence, vendredi 6 le 6 mars, de 8h à 18h, lieu Atelier Nord. Deux journées, deux entrées, et la semaine devient lisible pour tout le monde.",
+      "implementation": "whisper Python medium CPU FP32",
+      "raccourcis": null
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:06:32.604160",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-outlook.json"
+    }
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O16-L02-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Titre Absence, vendredi 6, mêmes horaires, date du 6.",
+   "empreinte_texte_dit": "cf4fa4c261c581e71a2f1d4639e1b2bac2497d3acb4918e943311979e8c73936",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Titres absences, vendredi 6, même horaires, date du 6.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Titre absence, vendredi 6, même horaire, date du 6.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O16-L02-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Deux journées, deux entrées. C'est la contrainte de cet atelier, et elle a l'avantage d'être lisible.",
+   "empreinte_texte_dit": "0c905c5f5d0c0653e99f20e1a5c8de31e5ea95acf37043eb33cba09c4ec55363",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 97846,
+   "duree_s": 6.04,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux journées, deux entrées.\n C'est la contrainte de cet atelier et elle a l'avantage d'\nêtre lisible.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux journées, deux entrées.\n C'est la contrainte de cet atelier et elle a l'avantage d'\nêtre lisible.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O16-L02-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Un jour qui n'est pas bloqué est un jour réputé libre. Deux entrées ici pour deux jours d'absence, une seule laisserait le second jour ouvert aux yeux de tous. Les deux annonces ne se remplacent pas: le message prévient l'extérieur, l'agenda prévient l'intérieur. Une absence annoncée seulement par message se traduit par des réunions calées sur vos deux jours. Hors de cet atelier: le vrai Outlook couvre plusieurs jours d'affilée avec un seul événement toute la journée, et sait afficher votre disponibilité en Absent, e, du bureau. On le décrit, on le situe, ce qui ne change pas, c'est qu'un jour laissé libre finit par être utilisé par quelqu'un d'autre.",
+   "empreinte_texte_dit": "6a640965402d6f5257a0a645218b9160654c508a0750b41ebe85cdc81f4cbcc1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 609010,
+   "duree_s": 38.0,
+   "caracteres_dits": 659,
+   "caracteres_factures": 659,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.011,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un jour qui n'est pas bloqué est un jour réputé libre.\n Deux entrées ici pour deux jours d'absence, une seule\n laisserait le second jour ouvert\n aux yeux de tous.\n Les deux annonces ne se remplacent pas, le message prévient\n l'extérieur, l'agenda\n prévient l'intérieur.\n Une absence annoncée seulement par message se traduit par\n des réunions calées sur vos\n deux jours.\n Or de cet atelier, le vrai Outlook couvre plusieurs jours d\n'affilée avec un seul\n événement toute la journée et c'est afficher votre dispon\nibilité en absent, eux, du bureau.\n On le décrit, on le situe, ce qui ne change pas, c'est qu'\nun jour laisser libre finit\n par être utilisé par quelqu'un d'autre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.003,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un jour qui n'est pas bloqué est un jour réputé libre.\n Deux entrées ici pour deux jours d'absence, une seule\n laisserait le second jour ouvert\n aux yeux de tous.\n Les deux annonces ne se remplacent pas, le message prévient\n l'extérieur, l'agenda\n prévient l'intérieur.\n Une absence annoncée seulement par message se traduit par\n des réunions calées sur vos\n deux jours.\n Hors de cet atelier, le vrai Outlook couvre plusieurs jours\n d'affilée avec un seul événement\n toute la journée et sait afficher votre disponibilité en\n absent, eux, du bureau.\n On le décrit, on le situe, ce qui ne change pas, c'est qu'\nun jour laissé libre finit\n par être utilisé par quelqu'un d'autre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O16-L02-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Cliquez encore sur Nouveau rendez-vous. Reste le plus vite oublié: le temps de la passation. Un briefing qui n'est pas dans l'agenda ne se fait pas.",
+   "empreinte_texte_dit": "13eaf034dade720acbb610e99bf5560b76dd7555096ae9378dca6c12b5828e91",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 130447,
+   "duree_s": 8.08,
+   "caracteres_dits": 148,
+   "caracteres_factures": 148,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez encore sur Nouveau rendez-vous.\n Reste le plus vite oublié.\n Le temps de la passation.\n Un briefing qui n'est pas dans l'agenda ne se fait pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez encore sur Nouveau Rendez-vous.\n Reste le plus vite oublié.\n Le temps de la passation.\n Un briefing qui n'est pas dans l'agenda ne se fait pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O16-L02-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Le bouton Nouveau rendez-vous.",
+   "empreinte_texte_dit": "7e5265e397843b34646deb60ace0de3b526769dd1cc9165374b1b1196816ae14",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 31808,
+   "duree_s": 1.92,
+   "caracteres_dits": 30,
+   "caracteres_factures": 30,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.062,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton \"Nous vous rendez-vous\".",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau Rendez-vous",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O16-L02-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Créez Passation avec Sonia le mercredi 4 mars, de 14:00 à 15:00, lieu Atelier Nord. La veille du départ: assez tôt pour corriger un oubli, assez tard pour que rien ne bouge après.",
+   "empreinte_texte_dit": "c4289f5f95559062b511c5c41614a25bdf85cd4e9c7a41f4fb94f6ce5d9cae80",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 185617,
+   "duree_s": 11.52,
+   "caracteres_dits": 179,
+   "caracteres_factures": 179,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Crééé passation avec Sonia le mercredi 4 mars, de 14h à 15h\n, lieu atelier nord.\n La veille du départ, assez tôt pour corriger un oubli,\n assez tard pour que rien ne bouge après.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Créer et Passation avec Sonia le mercredi 4 mars, de 14h à\n 15h, lieu Atelier Nord.\n La veille du départ, assez tôt pour corriger un oubli,\n assez tard pour que rien ne bouge après.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O16-L02-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Mercredi 4, de 14:00 à 15:00.",
+   "empreinte_texte_dit": "9a70b1317c368ea5122afb0177f237974e1fed072213a023cd7fd77fdcfc48be",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 58558,
+   "duree_s": 3.6,
+   "caracteres_dits": 29,
+   "caracteres_factures": 29,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "mercredi 4 de 14h à 15h",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Mercredi 4, de 14h à 15h.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O16-L02-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "La veille de partir, une heure pour transmettre: c'est le rendez-vous qu'on oublie toujours de poser.",
+   "empreinte_texte_dit": "d26b591616bbd6c16dc2ab9cb0016cc9a0d19c348d6118740b296d22938b9f45",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 101,
+   "caracteres_factures": 101,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La veille de partir, une heure pour transmettre, c'est le\n rendez-vous qu'on oublie toujours de poser.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La veille de partir, une heure pour transmettre.\n C'est le rendez-vous qu'on oublie toujours de poser.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "O16-L02-08",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Revenez à la vue Courrier. La semaine est posée. Il reste à écrire à Sonia ce qu'elle devra tenir pendant ces deux jours.",
+   "empreinte_texte_dit": "e5e2e60d2a5c751178c532a6947b5d6a91d77da3e27ad2893e4d6ff91ef0b808",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 112893,
+   "duree_s": 7.0,
+   "caracteres_dits": 121,
+   "caracteres_factures": 121,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Revenez à la vue courrier. La semaine est posée. Il reste à\n écrire à Sonia ce qu'elle devra tenir pendant ces deux\n jours.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Revenez à la vue courrier.\n La semaine est posée.\n Il reste à écrire à Sonia ce qu'elle devra tenir pendant\n ces deux jours.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "O16-L02-08",
+   "role": "Étape 9 · aide",
+   "texte_dit": "Le bouton Courrier, dans la barre de navigation.",
+   "empreinte_texte_dit": "da7ec9be600ec74ac51a1555228ba3c6a9657681e2e97091b587a335c0be979b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 45183,
+   "duree_s": 2.76,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton courrier dans la barre de navigation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton Courrier dans la barre de navigation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "O16-L02-08",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "La semaine est posée. Reste à écrire ce que Sonia devra tenir.",
+   "empreinte_texte_dit": "060fb5fb75ba82bae7111c649ae78df2d69af7f262fdc634f67eba2257bfe351",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 72768,
+   "duree_s": 4.48,
+   "caracteres_dits": 62,
+   "caracteres_factures": 62,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La semaine est posée. Restez à écrire ce que Sonia devra\n tenir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La semaine est posée.\n Reste à écrire ce que Sonia devra tenir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Dans cet atelier, l'agenda pose des journées: une absence de deux jours s'y écrit donc deux fois, et c'est ce qui garantit que personne ne vous posera un rendez-vous sur le second jour. Le vrai Outlook, lui, couvre plusieurs jours d'affilée avec un seul événement toute la journée. La règle qui vaut partout est ailleurs: un jour qui n'est pas bloqué est un jour réputé libre.",
+   "empreinte_texte_dit": "fb28a200520b602f3ae30fd4f6c6e0d7ddc99bac4b57272407a29bc78c77952b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 320618,
+   "duree_s": 19.96,
+   "caracteres_dits": 376,
+   "caracteres_factures": 376,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Dans cet atelier, l'agenda pose des journées.\n Une absence de deux jours s'y écrit donc deux fois,\n et c'est ce qui garantit que personne ne vous posera un\n rendez-vous sur le second jour.\n Le vrai Outlook, lui, couvre plusieurs jours d'affilée avec\n un seul événement toute la journée.\n La règle qui vaut partout est ailleurs.\n Un jour qui n'est pas bloqué est un jour réputé libre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Dans cet atelier, l'agenda pose des journées.\n Une absence de deux jours s'y écrit donc deux fois, et c'\nest ce qui garantit que\n personne ne vous posera un rendez-vous sur le second jour.\n Le vrai Outlook, lui, couvre plusieurs jours d'affilée avec\n un seul événement toute\n la journée.\n La règle qui vaut partout est ailleurs.\n Un jour qui n'est pas bloqué est un jour réputé libre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

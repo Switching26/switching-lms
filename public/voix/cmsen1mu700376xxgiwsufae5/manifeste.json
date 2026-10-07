@@ -1,0 +1,920 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1mu700376xxgiwsufae5",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Écrire à beaucoup de monde sans livrer les adresses"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 22,
+  "caracteres_dits": 3519,
+  "duree_totale_s": 202.4,
+  "segments_valides": 22,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "L'atelier ferme deux semaines en août: il faut prévenir. Écrire à trente clients dans le champ À est le geste le plus banal, et l'un des plus lourds de conséquences: chacun repart avec le carnet d'adresses de vos concurrents potentiels, et la première réponse à tous part chez tout le monde. Il existe un champ fait exactement pour cela.",
+   "empreinte_texte_dit": "bcc511a0db4140be729d7d0617a50869c6fe60384bed9f7c7b8c156660148560",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 285928,
+   "duree_s": 17.8,
+   "caracteres_dits": 337,
+   "caracteres_factures": 337,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'atelier ferme deux semaines en août. Il faut prévenir.\n Écrire à 30 clients dans le champ A est le geste le plus\n banal et l'un des plus lourds de conséquences.\n Chacun repart avec le carnet d'adresse de vos concurrents\n potentiels et la première réponse à tous part chez tout le\n monde.\n Il existe un champ fait exactement pour cela.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "L'atelier ferme deux semaines en août, il faut prévenir.\n Écrire à 30 clients dans le champ A est le geste le plus\n banal, et l'un des plus lourds de conséquences.\n Chacun repart avec le carnet d'adresse de vos concurrents\n potentiels, et la première réponse à tous part chez tout le\n monde.\n Il existe un champ fait exactement pour cela.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O04-L03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Voici d'abord un contre-exemple reçu ce matin. Ouvrez l'invitation de Fleurs de Saison et regardez la ligne À: quatre adresses en clair, dont celle d'un confrère qui découvre ainsi vos clients.",
+   "empreinte_texte_dit": "eaa99e3cee9fb3b856ab9c2e9889a8afa1b17b0c9a88d6a52c3ce07c4c697de4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 158450,
+   "duree_s": 9.84,
+   "caracteres_dits": 193,
+   "caracteres_factures": 193,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.009,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Voici d'abord un contre-exemple reçu ce matin.\n Ouvrez l'invitation de fleurs de saison et regardez la\n ligne « 4 adresses en clair »\n dont celle d'un confrère qui découvre ainsi vos clients.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Voici d'abord un contre-exemple reçu ce matin.\n Ouvrez l'invitation de fleurs de saison et regardez la\n ligne à « 4 adresses en clair »,\n dont celle d'un confrère qui découvre ainsi vos clients.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O04-L03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est le message dont l'objet parle d'un pot d'inauguration.",
+   "empreinte_texte_dit": "18193443b9f50e89d1c3399342bcf4be821b2a7e7252154b26a875a7a42ef2f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 50199,
+   "duree_s": 3.08,
+   "caracteres_dits": 60,
+   "caracteres_factures": 60,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle d'un pot d'inauguration\n.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est le message dont l'objet parle d'impôts d'inauguration\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O04-L03-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Vingt-deux adresses de clients en clair, lisibles par tous, dont vos concurrents.",
+   "empreinte_texte_dit": "89a6d2fc67fe598448969ebcc65110bd702d8efbc28dee67cbe0809524779b50",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 75276,
+   "duree_s": 4.64,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "22 adresses de clients en clair, lisibles par tous, dont\n vos concurrents.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "22 adresses de clients en clair, lisibles par tous, dont\n vos concurrents.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O04-L03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ouvrez une nouvelle fenêtre de rédaction pour annoncer la fermeture d'août. Vous venez de voir ce qu'il ne faut pas faire, à vous de faire mieux.",
+   "empreinte_texte_dit": "57a3b958bccf69d169f522a3d21f1b032322774d24edd810d76aa641be502001",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 114982,
+   "duree_s": 7.12,
+   "caracteres_dits": 145,
+   "caracteres_factures": 145,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez une nouvelle fenêtre de rédaction pour annoncer la\n fermeture d'Auth.\n Vous venez de voir ce qu'il ne faut pas faire, à vous de\n faire mieux.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ouvrez une nouvelle fenêtre de rédaction pour annoncer la\n fermeture d'août.\n Vous venez de voir ce qu'il ne faut pas faire, à vous de\n faire mieux.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O04-L03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le bouton Nouveau message, en haut de la colonne de gauche; sur téléphone, le ✚ à côté de la recherche.",
+   "empreinte_texte_dit": "301d602698980f7b180d772c547b18688ab62a4f6a6c23537c40674bbb5fddac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 99100,
+   "duree_s": 6.12,
+   "caracteres_dits": 103,
+   "caracteres_factures": 103,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau message en haut de la colonne de gauche\n sur téléphone le à côté de la recherche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Nouveau message en haut de la colonne de gauche,\n sur Téléphone, le à côté de la recherche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O04-L03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Premier geste, contre-intuitif: mettez votre propre adresse camille.aubertin@atelier-nord.fr dans le champ À. Un message doit avoir un destinataire visible; ce sera vous, et personne d'autre n'apparaîtra.",
+   "empreinte_texte_dit": "837eb4a67defd7b8660205daddaab11013c1ccad4f48b9a2b9f95293bd75435b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 218218,
+   "duree_s": 13.56,
+   "caracteres_dits": 204,
+   "caracteres_factures": 204,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Premier geste contre intuitif. Mettez votre propre adresse\n camis.aubertin@atelier-nor.fr dans le champ A.\n Un message doit avoir un destinataire visible, ce sera vous\n, et personne d'autre n'apparaîtra.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Premier geste, contre-intuitif.\n Mettez votre propre adresse kami.aubertin@tirénor.fr dans\n le champ A.\n Un message doit avoir un destinataire visible, ce sera vous\n, et personne d'autre n'apparaîtra.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O04-L03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Oui, on s'écrit à soi-même: c'est le seul destinataire que les autres verront.",
+   "empreinte_texte_dit": "095440bc9019c436c4ac1640ed948dda2bd5879db80f6d0667df67861ce065fa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 78,
+   "caracteres_factures": 78,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.049,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Oui, on zesse, écrit à soi-même, c'est le seul destinataire\n que les autres verront.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Oui, onzes S, écrit à soi-même. C'est le seul destinataire\n que les autres verront.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "O04-L03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Le champ À ne peut pas rester vide: y mettre sa propre adresse est le montage qui règle le problème.",
+   "empreinte_texte_dit": "64c04db05803dad3bf1cff376ffd746148f20b302c94d70873a47e4d61f2ebc9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 86979,
+   "duree_s": 5.36,
+   "caracteres_dits": 100,
+   "caracteres_factures": 200,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le champ A ne peut pas rester vide.\n Il mettre sa propre adresse est le montage qui règle le\n problème.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.018,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le champ A ne peut pas rester vide.\n Y mettre sa propre adresse et le montage qui règle le\n problème.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O04-L03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Faites apparaître le champ Cci. C'est lui qui va porter les clients: une adresse en copie cachée n'est visible de personne, pas même des autres destinataires cachés.",
+   "empreinte_texte_dit": "b29a99a8d3b5d81d9444f95052076e5f4d1ac5cfcf3655666a76a1895d9c608b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 147165,
+   "duree_s": 9.12,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Faites apparaître le champ CCI.\n C'est lui qui va porter les clients.\n Une adresse en copie cachée n'est visible de personne, pas\n même des autres destinataires cachés.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Fait apparaître le champ CCI.\n C'est lui qui va porter les clients.\n Une adresse en copie cachée n'est visible de personne,\n pas même des autres destinataires cachés.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O04-L03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le bouton Cci est dans la barre du haut de la fenêtre de rédaction, à côté de Joindre.",
+   "empreinte_texte_dit": "66059c76c4b9b8e354b0305adb534c394af561892821ab9ccaba0c57d448e441",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton CCI est dans la barre du haut de la fenêtre de ré\ndaction à côté de joindre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton CCI est dans la barre du haut de la fenêtre de ré\ndaction à côté de joindre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O04-L03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Une adresse en copie cachée n'est visible d'aucun autre destinataire. C'est le seul champ qui protège.",
+   "empreinte_texte_dit": "88f1766378cff0b565b81dde4d072c4c88624596364add601180b81854c220ae",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 95338,
+   "duree_s": 5.88,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une adresse en copie cachée n'est visible d'aucun autre\n destinataire.\n C'est le seul champ qui protège.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une adresse en copie cachée n'est visible d'aucun autre\n destinataire.\n C'est le seul champ qui protège.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O04-L03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Saisissez les trois clients dans le champ Cci, séparés par des points-virgules: r.tissot@ecole-arts-lambersart.fr, j.leroux@habitat-du-nord.fr, contact@fleurs-de-saison.fr. Vérifiez qu'aucun ne se retrouve dans À ou Cc.",
+   "empreinte_texte_dit": "6b5b14cb1c83a1105d6ee1fd5459cf9b53a0c5bae287e41e21e9dca26372e410",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 316439,
+   "duree_s": 19.72,
+   "caracteres_dits": 219,
+   "caracteres_factures": 219,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.092,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez les trois clients dans le champ CCI, séparés par\n des points virgules.\n R.iso@école-artirais.lambersart.fr\n J.leurou@habitat.tiraisdu-nor.fr\n contact@fleur-seaison.fr\n Vérifiez qu'aucun ne se retrouve dans A ou Cc.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Saisissez les trois clients dans le champ CCI, séparé par\n des points virgule.\n r.tissot@école-art-l'ambersart.fr\n j.lerou@habitat-du-nord.fr\n contact@flour-de-saison.fr\n Vérifiez qu'aucun ne se retrouve dans A ou CC.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O04-L03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Les trois adresses sur la seule ligne Cci, séparées par des points-virgules.",
+   "empreinte_texte_dit": "2daa230641e29f576f1626e9910348908fb1085820f21d7f273d8183a558e907",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 66917,
+   "duree_s": 4.12,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Les trois adresses sur la seule ligne CCI séparées par des\n points virgules.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "les trois adresses sur la seule ligne CCI, séparées par des\n points virgules.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O04-L03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Trois clients sur la même ligne, séparés par des points-virgules, et invisibles les uns des autres.",
+   "empreinte_texte_dit": "9e9c1ffc97c996c3a5c23dd0b37863a4b4e51613bb549af2837558693f0c2471",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Trois clients sur la même ligne séparés par des points virg\nules et invisibles les uns des autres.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Trois clients sur la même ligne, séparés par des points vir\ngules, et invisibles les uns des autres.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "O04-L03-05B",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Se mettre soi-même en À n'est pas une astuce: c'est la construction la plus sûre. Un message gagne à porter un destinataire visible; si tous vos clients sont en copie cachée, le seul qui reste, c'est vous. Chacun reçoit alors un message qui semble lui être adressé, ne voit aucune autre adresse et ne peut pas répondre à tous. Une adresse professionnelle nominative est une donnée personnelle.",
+   "empreinte_texte_dit": "bf9dffaa7535571a70121184cf54db9b4c423054d4694b8946cc0f4928f433cb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 319782,
+   "duree_s": 19.92,
+   "caracteres_dits": 393,
+   "caracteres_factures": 393,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Se mettre soi-même en A n'est pas une astuce, c'est la\n construction la plus sûre.\n Un message gagne à porter un destinataire visible.\n Si tous vos clients sont en copie cachée, le seul qui reste\n, c'est vous.\n Chacun reçoit alors un message qui semble lui être adressé,\n ne voit aucune autre adresse et ne peut pas répondre à tous\n.\n Une adresse professionnelle nominative est une donnée\n personnelle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.004,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Se mettre soi-même en haine n'est pas une astuce, c'est la\n construction la plus sûre.\n Un message gagne à porter un destinataire visible.\n Si tous vos clients sont en copie cachée, le seul qui reste\n, c'est vous.\n Chacun reçoit alors un message qui semble lui être adressé,\n ne voit aucune autre adresse et ne peut pas répondre à tous\n.\n Une adresse professionnelle nominative est une donnée\n personnelle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "O04-L03-06",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Donnez un objet contenant le mot fermeture, puis rédigez l'annonce. Elle doit indiquer les dates de fermeture et comment vous joindre en cas d'urgence, une annonce qui laisse le client sans recours crée plus d'appels qu'elle n'en évite.",
+   "empreinte_texte_dit": "3bf039e7695c53b70db9343b8c81f8eb51edf42ae7207606af8137fa2f5b8336",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 206515,
+   "duree_s": 12.84,
+   "caracteres_dits": 236,
+   "caracteres_factures": 236,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez un objet contenant le mot \"fermature\", puis rédigez\n l'annonce.\n Elle doit indiquer les dates de fermeture et comment vous\n joindre en cas d'urgence,\n une annonce qui laisse le client sans recours, crée plus d'\nappel qu'elle n'en évite.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez un objet contenant le mot \"fermeture\", puis rédigez\n l'annonce.\n Elle doit indiquer les dates de fermeture et comment vous\n joindre en cas d'urgence.\n Une annonce qui laisse le client sans recours crée plus d'\nappels qu'elle n'en est\n vite.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "O04-L03-06",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Deux informations sont attendues: les dates, et le moyen de vous joindre malgré la fermeture.",
+   "empreinte_texte_dit": "0752add3698a5f0bf9543525964db9dd19ad3471bd2c0cf3615840fe2e52ae21",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Les dates et le moyen de vous joindre malgré la fermeture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Les dates et le moyen de vous joindre malgré la fermeture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "O04-L03-07",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Envoyez l'annonce. Chaque client reçoit un message qui semble lui être adressé personnellement, ne voit aucune autre adresse, et ne peut répondre qu'à vous. C'est la seule façon correcte de faire une diffusion.",
+   "empreinte_texte_dit": "94f080a37277098c6d2ce9b9604cd69fb2e7517b63ac60a013327498fa6ebe2d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 190633,
+   "duree_s": 11.84,
+   "caracteres_dits": 210,
+   "caracteres_factures": 210,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Envoyez l'annonce.\n Chaque client reçoit un message qui semble lui être adressé\n personnellement, ne voit\n aucune autre adresse et ne peut répondre que à vous.\n C'est la seule façon correcte de faire une diffusion.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Envoyez l'annonce. Chaque client reçoit un message qui\n semble lui être adressé personnellement,\n ne voit aucune autre adresse, et ne peut répondre que « à\n vous ».\n C'est la seule façon correcte de faire une diffusion.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "O04-L03-07",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Le bouton Envoyer est le premier de la barre du haut de la fenêtre de rédaction.",
+   "empreinte_texte_dit": "2667ca0a7beb4de62970e73906b0981a06f7bf5161f8353b2db14b5b268ebc42",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le bouton Envoyer est le premier de la barre du haut de la\n fenêtre de rédaction.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "O04-L03-07",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Chacun reçoit un message qui semble lui être adressé, sans voir personne d'autre. Vos adresses restent chez vous.",
+   "empreinte_texte_dit": "da45894c31cdd536b0820434b8b6a3f25d1c05aaa061efb7e2172b607bc24c98",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Chacun reçoit un message qui semble lui être adressé, sans\n voir personne d'autre.\n Vos adresses restent chez vous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Chacun reçoit un message qui semble lui être adressé, sans\n voir personne d'autre.\n Vos adresses restent chez vous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "La règle pour une diffusion: les destinataires vont en Cci, et l'on se met soi-même en À pour que le message ait un destinataire visible. Personne ne voit personne, personne ne peut répondre à tous, et aucune adresse ne circule. C'est aussi ce que demande la protection des données personnelles: une adresse professionnelle nominative en est une.",
+   "empreinte_texte_dit": "7393ed4bccb983515de578a9a116e1e2883ecb502785ecd4f675a8aa46ea54d4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 301810,
+   "duree_s": 18.8,
+   "caracteres_dits": 346,
+   "caracteres_factures": 346,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La règle pour une diffusion. Les destinataires vont en CCI\n et l'on se met soi-même en A pour que le message est un\n destinataire visible.\n Personne ne voit personne, personne ne peut répondre à tous\n et aucune adresse ne circule.\n C'est aussi ce que demande la protection des données person\nnelles.\n Une adresse professionnelle nominative en est une.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La règle pour une diffusion.\n Les destinataires vont en CCI et l'on se met soi-même en A\n pour que le message est\n un destinataire visible.\n Personne ne voit personne, personne ne peut répondre à tous\n et aucune adresse ne circule.\n C'est aussi ce que demande la protection des données person\nnelles.\n Une adresse professionnelle nominative en est une.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

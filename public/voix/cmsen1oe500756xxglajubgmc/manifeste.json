@@ -1,0 +1,712 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen1oe500756xxglajubgmc",
+  "app": "OUTLOOK",
+  "section": "",
+  "titre": "Faire suivre un dossier sans tout faire suivre"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 16,
+  "caracteres_dits": 1771,
+  "duree_totale_s": 103.7,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 0,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Votre gérante vous transmet un dossier de facturation complet. Deux personnes doivent en recevoir une partie, mais pas la même. À vous de découper: ce qui va au comptable du client, ce qui reste à l'intérieur de l'entreprise.",
+   "empreinte_texte_dit": "29178fdebe28204c444085a31ef784657be452906974835776fee80aada854d3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 200246,
+   "duree_s": 12.44,
+   "caracteres_dits": 225,
+   "caracteres_factures": 225,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Votre gérante vous transmet un dossier de facturation\n complet.\n Deux personnes doivent en recevoir une partie, mais pas la\n même.\n À vous de découper.\n Ce qui va au comptable du client, ce qui reste à l'\nintérieur de l'entreprise.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Votre gérante vous transmet un dossier de facturation\n complet.\n Deux personnes doivent en recevoir une partie, mais pas la\n même.\n À vous de découper.\n Ce qui va au comptable du client, ce qui reste à l'\nintérieur de l'entreprise.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "O09-E02-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Ouvrez le dossier transmis par Nadia et repérez la pièce qui ne doit pas sortir de l'entreprise.",
+   "empreinte_texte_dit": "a6528cd1c3c1e66a6602d2af1f7c8095c98adaa1eb57cd4443ede75536f5efbf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 96,
+   "caracteres_factures": 96,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le dossier transmis par Nadia et repérez la pièce\n qui ne doit pas sortir de l'entreprise.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ouvrez le dossier transmis par Nadia et repérez la pièce\n qui ne doit pas sortir de l'entreprise.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "O09-E02-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Le message précise ce dont le comptable du client a besoin.",
+   "empreinte_texte_dit": "9cc00483f98422647a6c15f2ca20ddd740c58c4aa308c672c96dcbe71b801499",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le message précise ce dont le comptable du client a besoin.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le message précise ce dont le comptable du client a besoin.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "O09-E02-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Une pièce interne au milieu d'un dossier client: c'est le cas type de l'envoi qu'on regrette.",
+   "empreinte_texte_dit": "904140d4f9283b60a95c421750967ad200f6f32e6232863505f016b76c5dfd78",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une pièce interne au milieu d'un dossier client, c'est le\n cas type de l'envoi qu'on regrette.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une pièce interne au milieu d'un dossier client, c'est le\n catype de l'envoi qu'on regrette.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "O09-E02-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Faites suivre ce dossier à compta@habitat-du-nord.fr en ne laissant que ce qui le concerne.",
+   "empreinte_texte_dit": "93ab193e53feb42bae985d748ef73de30ec2c6e1efec551e1160f073d3abb044",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.078,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Faites suivre ce dossier à compta@abitatiraisdu-nor.fr en\n ne laissant que ce qui le concerne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.118,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Faites suivre ce dossier à compta@azabita-dutirénor.fr en\n ne laissant que ce qui le concerne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "O09-E02-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Le transfert emporte les trois pièces: la croix ✕ retire celle qui ne doit pas partir.",
+   "empreinte_texte_dit": "7ec554f1b8ec833057d1c5468d48acdf642267a3fe7109402b3ab4f29c2c4671",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le transfert emporte les trois pièces.\n La croix retire celle qui ne doit pas partir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le transfert emporte les trois pièces.\n La croix retire celle qui ne doit pas partir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "O09-E02-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Seul ce qui concerne le destinataire est parti. Le transfert ne trie jamais tout seul.",
+   "empreinte_texte_dit": "fddfd53e5b2e15baee4c04006c418182380d24b67bf4faa827a127934ea1a889",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Seul ce qui concerne destinataire est parti.\n Le transfert ne trie jamais tout seul.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Seul ce qui concerne destinataire est parti. Le transfert\n ne trie jamais tout seul.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "O09-E02-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Complétez l'objet avec le mot règlement, en gardant le préfixe posé par Outlook.",
+   "empreinte_texte_dit": "135f558da0181c4dcc771c8131dbc838646694756515b61332d1fbbb91ac4d72",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 74858,
+   "duree_s": 4.6,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.019,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot « Règlement » en gardant le\n préfix posé par Outlook.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Complétez l'objet avec le mot Règlement en gardant le préf\nixe posé par Outlook.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "O09-E02-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Ajoutez le mot à la fin; les accents ne sont pas pris en compte.",
+   "empreinte_texte_dit": "fdff693b42fb0f6d2b813f6d8082c4aefd263307ec696ea6c4e433c37fe6e1df",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 56050,
+   "duree_s": 3.44,
+   "caracteres_dits": 64,
+   "caracteres_factures": 64,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin, les accents ne sont pas pris en\n compte.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ajoutez le mot à la fin, les accents ne sont pas pris en\n compte.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "O09-E02-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Rédigez le mot d'accompagnement et envoyez. Il doit citer le numéro de facture et signaler qu'un avoir l'accompagne, sans quoi le comptable règlera le montant plein.",
+   "empreinte_texte_dit": "038e99525606fb64ac139d60a106861f273cf6bac1eb277eca2c9e145af61bfa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 149673,
+   "duree_s": 9.28,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger le mot d'accompagnement et envoyer.\n Il doit citer le numéro de facture et signaler qu'un avoir\n l'accompagne, sans quoi le comptable\n réglera le montant plein.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Rédiger le mot d'accompagnement et envoyer.\n Il doit citer le numéro de facture et signaler qu'un avoir\n l'accompagne, sans quoi le comptable réglera le montant\n plein.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "O09-E02-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Deux informations sont attendues: le numéro, et l'avoir à déduire.",
+   "empreinte_texte_dit": "03d4f52708b72d95e00d827986374b8a4074d2dacfd91f17104b80b3a58bf98a",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le numéro est l'avoir à déduire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Deux informations sont attendues.\n Le numéro et la voie à déduire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "O09-E02-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le numéro de facture et l'avoir signalés: la comptabilité peut traiter sans relancer personne.",
+   "empreinte_texte_dit": "bc02480cdedeeec719920ffa7356dbf72981742ec9c3d7cb49f713c4da38dd6e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 96592,
+   "duree_s": 5.96,
+   "caracteres_dits": 94,
+   "caracteres_factures": 94,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le numéro de facture est l'avoir signalé.\n La comptabilité peut traiter sans relancer personne.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le numéro de facture est l'avoir signalé.\n La comptabilité peut traiter sans relancer personne.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "O09-E02-99",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Le dossier est parti à la comptabilité du client, sans la pièce interne. Rangez-le dans Clients 2026. Rangé chez le client, ce dossier se retrouvera avec les autres pièces du même chantier.",
+   "empreinte_texte_dit": "a9065028b76d819111afce6c690ac09c0dd046f28a0635da0af8ca7e109882b9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 181020,
+   "duree_s": 11.24,
+   "caracteres_dits": 189,
+   "caracteres_factures": 189,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le dossier est parti à la comptabilité du client, sans la\n pièce interne.\n Rangez-le dans Client 2026.\n Ranger chez le client, ce dossier se retrouvera avec les\n autres pièces du même chantier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le dossier est parti à la comptabilité du client, sans la\n pièce interne.\n Rangez-le dans Client 2026.\n Rangé chez le client, ce dossier se retrouvera avec les\n autres pièces du même chantier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "O09-E02-99",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Sélectionnez le message, puis Déplacer dans le ruban, et choisissez Clients 2026.",
+   "empreinte_texte_dit": "e33a8b5a6fa6a2d16ce84102c722a35215a7c29c5edb87409a793722887de9f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 85725,
+   "duree_s": 5.28,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacez dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Sélectionnez le message, puis déplacer dans le ruban et\n choisissez Client 2026.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "O09-E02-99",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Rangé au nom du client: c'est là qu'on ira chercher la trace du règlement.",
+   "empreinte_texte_dit": "1c55b39bc4dbf8163cc834493439d19c8ffbcf365ac305fda4a694aadee1d843",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger au nom du client, c'est là qu'on ira chercher la\n trace du règlement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ranger au nom du client, c'est là qu'on ira chercher la\n trace du règlement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Un transfert emporte tout: découper un dossier consiste donc à retirer, pas à ajouter. Le réflexe utile est de regarder la ligne des pièces jointes juste avant d'envoyer, c'est le seul moment où l'erreur coûte encore zéro.",
+   "empreinte_texte_dit": "0f0c1f67db355aa0850a87512c0883e09d1a4b3f6abca0db947ad480e25aede9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 202754,
+   "duree_s": 12.6,
+   "caracteres_dits": 222,
+   "caracteres_factures": 222,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un transfert emporte tout. Découper un dossier consiste\n donc à retirer, pas à ajouter.\n Le réflexe utile est de regarder la ligne des pièces joint\nes juste avant d'envoyer.\n C'est le seul moment où l'erreur coûte encore zéro.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un transfert emporte tout. Découper un dossier consiste\n donc à retirer, pas à ajouter.\n Le réflexe utile est de regarder la ligne des pièces joint\nes juste avant d'envoyer.\n C'est le seul moment où l'erreur coûte encore zéro.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

@@ -1,4 +1,4 @@
-import NextAuth from "next-auth"
+import NextAuth, { type User as AuthUser } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { compare } from "bcryptjs"
 import { prisma } from "@/lib/prisma"
@@ -81,7 +81,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: user.email,
           name: `${user.firstName} ${user.lastName}`,
           firstName: user.firstName,
-          role: user.role,
+          // Runtime also carries TRAINER. The shared next-auth declaration is
+          // maintained by the integration lot, outside this lot's ownership.
+          role: user.role as AuthUser["role"],
           partnerId: user.partnerId,
           partnerName: user.partner?.name || null,
           partnerSlug: user.partner?.slug || null,

@@ -1,6 +1,6 @@
 import { TrainerSessionStatus, type Prisma } from "@prisma/client"
 import { prisma } from "@/lib/prisma"
-import { assertTrainerOwnsAssignment, TrainerAccessError } from "./access"
+import { assertTrainerOwnsAssignment, trainerAssignmentScope, TrainerAccessError } from "./access"
 import { trainerDate } from "./assignments"
 
 export interface TrainerSessionInput {
@@ -36,7 +36,7 @@ export function validateSessionInput(input: TrainerSessionInput, requireStart = 
 
 export async function listSessionsForAssignment(trainerId: string, assignmentId: string) {
   await assertTrainerOwnsAssignment(trainerId, assignmentId)
-  return prisma.trainerSession.findMany({ where: { assignmentId, assignment: { trainerId } }, orderBy: { startsAt: "asc" } })
+  return prisma.trainerSession.findMany({ where: { assignmentId, assignment: trainerAssignmentScope(trainerId) }, orderBy: { startsAt: "asc" } })
 }
 
 export async function createTrainerSession(trainerId: string, assignmentId: string, input: TrainerSessionInput) {
@@ -44,24 +44,24 @@ export async function createTrainerSession(trainerId: string, assignmentId: stri
   const data = validateSessionInput(input, true)
   return prisma.trainerSession.create({ data: {
     ...data, startsAt: data.startsAt!,
-    // Ownership is checked again in the FK connect, including during a reassignment.
-    assignment: { connect: { id: assignmentId, trainerId } },
+    // Recheck both ownership and the learner's organisation in the FK connect.
+    assignment: { connect: { ...trainerAssignmentScope(trainerId), id: assignmentId } },
   } })
 }
 
 export async function updateTrainerSession(trainerId: string, sessionId: string, input: TrainerSessionInput) {
-  const session = await prisma.trainerSession.findFirst({ where: { id: sessionId, assignment: { trainerId } } })
+  const session = await prisma.trainerSession.findFirst({ where: { id: sessionId, assignment: trainerAssignmentScope(trainerId) } })
   if (!session) throw new TrainerAccessError("Séance introuvable", 404)
   const data: Prisma.TrainerSessionUpdateManyMutationInput = validateSessionInput(input)
-  const result = await prisma.trainerSession.updateMany({ where: { id: sessionId, assignment: { trainerId } }, data })
+  const result = await prisma.trainerSession.updateMany({ where: { id: sessionId, assignment: trainerAssignmentScope(trainerId) }, data })
   if (!result.count) throw new TrainerAccessError("Séance introuvable", 404)
-  const updated = await prisma.trainerSession.findFirst({ where: { id: sessionId, assignment: { trainerId } } })
+  const updated = await prisma.trainerSession.findFirst({ where: { id: sessionId, assignment: trainerAssignmentScope(trainerId) } })
   if (!updated) throw new TrainerAccessError("Séance introuvable", 404)
   return updated
 }
 
 export async function deleteTrainerSession(trainerId: string, sessionId: string) {
-  const result = await prisma.trainerSession.deleteMany({ where: { id: sessionId, assignment: { trainerId } } })
+  const result = await prisma.trainerSession.deleteMany({ where: { id: sessionId, assignment: trainerAssignmentScope(trainerId) } })
   if (!result.count) throw new TrainerAccessError("Séance introuvable", 404)
   return { success: true }
 }
@@ -71,7 +71,7 @@ export async function listTrainerAgenda(trainerId: string, from: Date | string, 
   const toDate = trainerDate(to, "to")
   if (toDate <= fromDate) throw new TrainerAccessError("La fin doit suivre le début de la période", 400)
   return prisma.trainerSession.findMany({
-    where: { assignment: { trainerId, archivedAt: null }, startsAt: { gte: fromDate, lt: toDate } },
+    where: { assignment: { ...trainerAssignmentScope(trainerId), archivedAt: null }, startsAt: { gte: fromDate, lt: toDate } },
     include: { assignment: { select: {
       id: true, firstName: true, lastName: true, email: true, phone: true,
       hasElearning: true, formationLabel: true, adminStartAt: true, adminEndAt: true, visioStartAt: true,

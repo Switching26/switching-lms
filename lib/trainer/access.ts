@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import type { Prisma } from "@prisma/client"
 
 export class TrainerAccessError extends Error {
   constructor(message: string, public readonly status: 400 | 401 | 403 | 404 | 409) {
@@ -42,10 +43,25 @@ export async function requireTrainer(): Promise<TrainerIdentity> {
     lastName: trainer.lastName, email: trainer.email, partnerId: trainer.partnerId }
 }
 
-/** Return 404 for both unknown assignments and another trainer's students. */
+/** Resolve the learner's CURRENT organisation for every read/write. Accounts
+ * without a partner are central Switching accounts; visio-only assignments
+ * have no learner account and remain visible.
+ */
+export function trainerAssignmentScope(trainerId: string) {
+  return {
+    trainerId,
+    OR: [
+      { learnerId: null },
+      { learner: { role: "LEARNER", archivedAt: null,
+        OR: [{ partnerId: null }, { partner: { isInternal: true } }] } },
+    ],
+  } satisfies Prisma.TrainerAssignmentWhereInput
+}
+
+/** Unknown, another trainer's or transferred students all return 404. */
 export async function assertTrainerOwnsAssignment(trainerId: string, assignmentId: string) {
   const assignment = await prisma.trainerAssignment.findFirst({
-    where: { id: assignmentId, trainerId },
+    where: { ...trainerAssignmentScope(trainerId), id: assignmentId },
   })
   if (!assignment) throw new TrainerAccessError("Élève introuvable", 404)
   return assignment
@@ -55,10 +71,8 @@ export async function assertTrainerOwnsAssignment(trainerId: string, assignmentI
 export async function canTrainerSeeLearner(trainerId: string, learnerId: string): Promise<boolean> {
   const assignment = await prisma.trainerAssignment.findFirst({
     where: {
-      trainerId, learnerId, hasElearning: true, archivedAt: null,
+      ...trainerAssignmentScope(trainerId), learnerId, hasElearning: true, archivedAt: null,
       trainer: { role: "TRAINER", isActive: true, archivedAt: null,
-        OR: [{ partnerId: null }, { partner: { isInternal: true } }] },
-      learner: { role: "LEARNER", archivedAt: null,
         OR: [{ partnerId: null }, { partner: { isInternal: true } }] },
       enrollmentId: { not: null },
     },

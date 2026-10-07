@@ -1,6 +1,6 @@
 import type { Prisma } from "@prisma/client"
 import { prisma } from "@/lib/prisma"
-import { assertTrainerOwnsAssignment, TrainerAccessError } from "./access"
+import { assertTrainerOwnsAssignment, trainerAssignmentScope, TrainerAccessError } from "./access"
 import { sortChaptersByLearningOrder } from "@/lib/data/chapter-order"
 import { getFormationQuizResults } from "@/lib/data/quiz"
 
@@ -72,7 +72,7 @@ export async function createTrainerAssignment(input: CreateTrainerAssignmentInpu
 
 export async function listAssignmentsForTrainer(trainerId: string, options: { archived?: boolean } = {}) {
   return prisma.trainerAssignment.findMany({
-    where: { trainerId, archivedAt: options.archived ? { not: null } : null },
+    where: { ...trainerAssignmentScope(trainerId), archivedAt: options.archived ? { not: null } : null },
     include: { sessions: { orderBy: { startsAt: "asc" } } },
     orderBy: [{ adminStartAt: "desc" }, { lastName: "asc" }, { firstName: "asc" }],
   })
@@ -109,7 +109,7 @@ export async function updateAssignmentSteps(trainerId: string, assignmentId: str
     }
     data.planningNote = input.planningNote
   }
-  const result = await prisma.trainerAssignment.updateMany({ where: { id: assignmentId, trainerId }, data })
+  const result = await prisma.trainerAssignment.updateMany({ where: { ...trainerAssignmentScope(trainerId), id: assignmentId }, data })
   if (!result.count) throw new TrainerAccessError("Élève introuvable", 404)
   return assertTrainerOwnsAssignment(trainerId, assignmentId)
 }
@@ -124,7 +124,8 @@ export async function getAssignmentProgress(trainerId: string, assignmentId: str
     lastActivity: null, formations: [] }
   if (!assignment.hasElearning || !assignment.learnerId || !assignment.enrollmentId) return empty
   const enrollment = await prisma.enrollment.findFirst({
-    where: { id: assignment.enrollmentId, userId: assignment.learnerId, trainerAssignment: { trainerId } },
+    where: { id: assignment.enrollmentId, userId: assignment.learnerId,
+      trainerAssignment: trainerAssignmentScope(trainerId) },
     include: { formation: { include: {
       sections: { orderBy: { order: "asc" } },
       chapters: { where: { isPublished: true }, include: { section: true }, orderBy: { order: "asc" } },
@@ -132,6 +133,7 @@ export async function getAssignmentProgress(trainerId: string, assignmentId: str
   })
   if (!enrollment) return empty
   const rows = await prisma.progress.findMany({ where: { userId: assignment.learnerId,
+    user: { learnerAssignments: { some: { ...trainerAssignmentScope(trainerId), id: assignmentId } } },
     chapterId: { in: enrollment.formation.chapters.map((chapter) => chapter.id) } } })
   const byChapter = new Map(rows.map((row) => [row.chapterId, row]))
   const chapters = sortChaptersByLearningOrder(enrollment.formation.chapters, enrollment.formation.sections).map((chapter) => {
@@ -147,9 +149,11 @@ export async function getAssignmentProgress(trainerId: string, assignmentId: str
   const expectedDuration = chapters.reduce((sum, chapter) => sum + chapter.expectedDuration, 0)
   const activities = rows.flatMap((row) => [row.lastAccessedAt, row.completedAt].filter((date): date is Date => date !== null))
   const lastActivity = activities.length ? new Date(Math.max(...activities.map((date) => date.getTime()))) : null
+  const quiz = await getFormationQuizResults(assignment.learnerId, enrollment.formation.id)
+  await assertTrainerOwnsAssignment(trainerId, assignmentId)
   return { hasElearning: true, percent, progressPercent: percent, completedChapters, totalChapters: chapters.length,
     totalTime: timeSpent, totalExpected: expectedDuration, lastActivity,
     formations: [{ id: enrollment.formation.id, title: enrollment.formation.title, startedAt: enrollment.startedAt,
       expiresAt: enrollment.expiresAt, completedChapters, totalChapters: chapters.length, percent, timeSpent,
-      expectedDuration, chapters, quiz: await getFormationQuizResults(assignment.learnerId, enrollment.formation.id) }] }
+      expectedDuration, chapters, quiz }] }
 }

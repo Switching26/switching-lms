@@ -1,0 +1,793 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen13uq0047opavyns7tbgd",
+  "app": "POWERPOINT",
+  "section": "",
+  "titre": "S'évaluer — Images et formes"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 18,
+  "caracteres_dits": 1609,
+  "duree_totale_s": 98.5,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une diapositive de présentation client vous arrive mal composée. Rappelez-vous l'ordre de travail du module, retirer, dimensionner, placer, légender, et appliquez-le à ce que vous voyez. Épreuve notée, d'une traite; un nouveau passage repart de zéro.",
+   "empreinte_texte_dit": "5f3df464fe89d9b2c290bfd44dcea02f592080d1f588ac0d7c502e571329f160",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 265866,
+   "duree_s": 16.56,
+   "caracteres_dits": 250,
+   "caracteres_factures": 750,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une diapositive de présentation client vous arrive mal\n composée.\n Rappelez-vous l'ordre de travail du module Retirer, Dim\nensionner, Placer, Légender et\n appliquez-le à ce que vous voyez.\n Épreuve note d'une traite.\n Un nouveau passage repart de zéro.",
+     "essai": 3
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une diapositive de présentation client vous arrive mal\n composée.\n Rappelez-vous l'ordre de travail du module, retirez,\n dimensionnez, placez, légendez,\n et appliquez-le à ce que vous voyez.\n Épreuve notée, d'une traite.\n Un nouveau passage repart de zéro.",
+     "essai": 3
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M04-EV01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Cette diapositive part demain chez un client. Ne corrigez rien encore: prenez la composition dans son ensemble et demandez-vous ce qui n'a aucune raison d'être là, ce qui n'est pas à sa taille et ce qui n'est pas à sa place. Vous reprendrez ensuite dans l'ordre que vous connaissez.",
+   "empreinte_texte_dit": "b3864f9d56bb06d3e732b67ffcb7371ca3425055b6b712be7a7e7dac8515e373",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 269209,
+   "duree_s": 16.76,
+   "caracteres_dits": 282,
+   "caracteres_factures": 282,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cette diapositive part demain chez un client.\n Ne corrigez rien encore.\n Prenez la composition dans son ensemble et demandez-vous ce\n qui n'a aucune raison,\n d'être là, ce qui n'est pas à sa taille et ce qui n'est pas\n à sa place.\n Vous reprendrez ensuite dans l'ordre que vous connaissez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cette diapositive part demain chez un client.\n Ne corrigez rien encore.\n Prenez la composition dans son ensemble et demandez-vous ce\n qui n'a aucune raison.\n D. Être là. Ce qui n'est pas à sa taille et ce qui n'est\n pas à sa place.\n Vous reprendrez ensuite dans l'ordre que vous connaissez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M04-EV01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "C'est cette diapositive qui part demain chez le client.",
+   "empreinte_texte_dit": "3a21c66cc378683720f88fa0f6fc9d1113c99e646f824d3efee1a925e7697807",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 46019,
+   "duree_s": 2.8,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est cette diapositive qui part demain chez le client.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "C'est cette diapositive qui part demain chez le client.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M04-EV01-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "Reprenez la composition dans l'ordre connu: retirer, dimensionner, placer, légender.",
+   "empreinte_texte_dit": "ab7806a3c1e21c0a048fcfe3a633b8f1e56098d6d96dcf448f489af263370734",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Reprenez la composition dans l'ordre connu. Retirez,\n dimensionnez, placez, légendez.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Reprenez la composition dans l'ordre connu. Retirez,\n dimensionnez, placez, légendez.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M04-EV01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Affichez la diapositive de la proposition.",
+   "empreinte_texte_dit": "34b1bced300f97e955d091ea7d7a04e7e2535da28a54fa29c698daa82492e9e7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 42257,
+   "duree_s": 2.56,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "affichez la diapositive de la proposition.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Affichez la diapositive de la proposition.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M04-EV01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Un élément n'apporte rien et ne désigne rien: commencez par vous en débarrasser.",
+   "empreinte_texte_dit": "dd2f41e7a3f8976e9e51b653c612332444f73dd9a4d407db35b1e3cd7f4cecd2",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un élément n'apporte rien et ne désigne rien. Commencez par\n vous en débarrasser.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un élément n'apporte rien et ne désigne rien.\n Commencez par vous en débarrasser.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M04-EV01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Sélectionnez la photo du projet.",
+   "empreinte_texte_dit": "3478fc5844c08f68bffb6d3a8fc4a0f38169c9349c472f019a16d819a1be7795",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 38914,
+   "duree_s": 2.36,
+   "caracteres_dits": 32,
+   "caracteres_factures": 32,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez la photo du projet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Sélectionnez la photo du projet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M04-EV01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Elle est trop petite pour qu'un client distingue quoi que ce soit: portez-la à environ le double de sa largeur.",
+   "empreinte_texte_dit": "b89e5afd49b0b9d995dd475e17829466bd8506a89bf656c1310423084a539010",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 86979,
+   "duree_s": 5.36,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Elle est trop petite pour qu'un client distingue quoique ce\n soit.\n Portez-la à environ le double de sa largeur.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Elle est trop petite pour qu'un client distingue quoi que\n ce soit.\n Portez-la à environ le double de sa largeur.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M04-EV01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Elle recouvre encore le titre et empiète sur le texte. Placez-la dans la moitié droite, sous le titre.",
+   "empreinte_texte_dit": "6eaf881c8c25e39af9e4ae6e9dc68bdc26c7acd3a2623904fb97429e70c4e991",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Elle recouvre encore le titre et empiète sur le texte.\n Placez-la dans la moitié droite, sous le titre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Elle recouvre encore le titre et en piètes sur le texte.\n Placez-la dans la moitié droite, sous le titre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M04-EV01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Ajoutez de quoi désigner un point précis de la photo pendant votre présentation.",
+   "empreinte_texte_dit": "e5d92207b870978d0990f4f125a3ea13d708f6851bec8dba5df42698c9af5456",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ajoutez de quoi désigner un point précis de la photo\n pendant votre présentation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Ajoutez de quoi désigner un point précis de la photo\n pendant votre présentation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M04-EV01-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "La zone vide du bas doit recevoir la mention: Devis valable 60 jours.",
+   "empreinte_texte_dit": "62351ee41c87e9fca3b314e2e32e261511bf8f41f4dd7922b0764688e2feb425",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 69,
+   "caracteres_factures": 207,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "60"
+      ],
+      "entendus": [
+       "2",
+       "60"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": false,
+     "transcription": "La zone vide du bas doit recevoir la mention. Deux vies val\nables soixante jours."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "La zone vide du bas doit recevoir la mention. Devis valable 60 jours.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "042facff265a2936dd02a625bc3d8393d2c9caad6a3f0381cb79c7a5409ef238",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références/raccourcis identiques. Acceptation sémantique tracée selon la consigne du chef ; aucun double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "La zone vide du bas doit recevoir la mention. Devis valable 60 jours.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": true,
+      "transcription": "La zone vide du bas doit recevoir la mention. Devis valable 60 jours.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:20:07.103450",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-powerpoint.json"
+    }
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M04-EV01-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Cette mention accompagne l'offre sans en faire partie: distinguez-la, sans la souligner.",
+   "empreinte_texte_dit": "8af2106f6505d0b742c4d587f2927a5ab033f9aa611e452bbd2d363b2efae3e5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 78620,
+   "duree_s": 4.84,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cette mention accompagne l'offre sans en faire partie.\n Distinguez-la sans la souligner.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cette mention accompagne l'offre sans en faire partie.\n Distinguez-la, sans la souligner.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M04-EV01-10",
+   "role": "Étape 10 · consigne",
+   "texte_dit": "Une mention de ce genre se lit en dernier: placez-la du côté prévu pour cela.",
+   "empreinte_texte_dit": "c67826a256abaa1fe2fc604786a7dad22d1741bd3d694e7d4d587e767a7ac8f9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une mention de ce genre se liant dernier.\n Placez-la du côté prévu pour cela.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Une mention de ce genre se lit en dernier.\n Placez-la du côté prévu pour cela.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M04-EV01-11",
+   "role": "Étape 11 · consigne",
+   "texte_dit": "Affirmez le titre de la diapositive.",
+   "empreinte_texte_dit": "ce6608facc3007d496ffeaf725c0f85e1131ce310ddc9da0ecec1adba8689db0",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 44765,
+   "duree_s": 2.72,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Affirmer le titre de la diapositive",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Affirmez le titre de la diapositive.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-consigne",
+   "etape_lms": "M04-EV01-12",
+   "role": "Étape 12 · consigne",
+   "texte_dit": "Contrôlez le résultat comme le client le verra, depuis la première diapositive.",
+   "empreinte_texte_dit": "33dcaa41fa307d354d481cc9df7584bdc44341cd9a71ec8d68247b7c2d945e32",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-consigne.mp3",
+   "octets": 70261,
+   "duree_s": 4.32,
+   "caracteres_dits": 79,
+   "caracteres_factures": 79,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Contrôlez le résultat comme le client le verra depuis la\n première diapositive.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Contrôlez le résultat comme le client le verra, depuis la\n première diapositive.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e13-consigne",
+   "etape_lms": "M04-EV01-13",
+   "role": "Étape 13 · consigne",
+   "texte_dit": "Avancez sur la diapositive que vous venez de composer.",
+   "empreinte_texte_dit": "b405e8f6ef538774a54eb09980e58000fffda04954ed0646f737a0b1554ae508",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e13-consigne.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 54,
+   "caracteres_factures": 54,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "avancez sur la diapositive que vous venez de composer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Avancez sur la diapositive que vous venez de composer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e14-consigne",
+   "etape_lms": "M04-EV01-14",
+   "role": "Étape 14 · consigne",
+   "texte_dit": "Revenez à votre présentation.",
+   "empreinte_texte_dit": "0803a2c2fcbfda5409e52759d544ca648bbccb5078c49b0e0775cacc04593111",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e14-consigne.mp3",
+   "octets": 33898,
+   "duree_s": 2.04,
+   "caracteres_dits": 29,
+   "caracteres_factures": 29,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Revenez à votre présentation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Revenez à votre présentation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Épreuve terminée. Seule votre meilleure note est conservée.",
+   "empreinte_texte_dit": "f4309a3f8f155bed7a6327a7680a174319e266eca7bd080eb203cb710796bebf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épreuve terminée. Seul votre meilleure note est conservée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épreuve terminée. Seule votre meilleure note est conservée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

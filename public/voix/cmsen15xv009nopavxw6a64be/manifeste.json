@@ -1,0 +1,1347 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen15xv009nopavxw6a64be",
+  "app": "POWERPOINT",
+  "section": "",
+  "titre": "Une présentation sans aucune note"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 29,
+  "caracteres_dits": 3024,
+  "duree_totale_s": 183.3,
+  "segments_valides": 26,
+  "segments_plusieurs_essais": 3,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 3
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Un collègue vous transmet ce fichier une heure avant le rendez-vous: quatre diapositives, aucune note, et deux écrans couverts de phrases. Rattrapez-le dans l'ordre où l'on rattrape, le début, les diapositives chargées, la fin.",
+   "empreinte_texte_dit": "54581a8e1b900da439e8585aef23f1347965d5ed627b68912f539280946938a3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 195648,
+   "duree_s": 12.16,
+   "caracteres_dits": 227,
+   "caracteres_factures": 227,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un collègue vous transmets ce fichier une heure avant le\n rendez-vous.\n Quatre diapositives, aucune note et deux écrans couverts de\n phrase.\n Rattrapez-le dans l'ordre où l'on rattrape.\n Le début, les diapositives chargées, la fin.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un collègue vous transmet ce fichier une heure avant le\n rendez-vous.\n Quatre diapositives, aucune note, et deux écrans couverts\n de phrases.\n Rattrapez-le dans l'ordre où l'on rattrape.\n Le début, les diapositives chargées.\n La fin.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M10-E03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Écrivez la note de la première diapositive: Bonjour, Le Pré Long, je remplace Claire aujourd'hui. On commence toujours par l'ouverture: c'est le seul moment qui ne se rattrape pas.",
+   "empreinte_texte_dit": "f2253069808da30d4b4c68982a2695f1b40301fa1eee51d9fec55faa1e4ab4f5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 186871,
+   "duree_s": 11.6,
+   "caracteres_dits": 180,
+   "caracteres_factures": 180,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrivez la note de la première diapositive.\n Bonjour, le prélon, je remplace clair, aujourd'hui.\n On commence toujours par l'ouverture.\n C'est le seul moment qui ne se rattrape pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.01,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrivez la note de la première diapositive.\n Bonjour, le prélong. Je remplace Claire, aujourd'hui.\n On commence toujours par l'ouverture.\n C'est le seul moment qui ne se rattrape pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M10-E03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "Le champ de notes est sous la diapositive; sur petit écran, le bouton Notes l'ouvre.",
+   "empreinte_texte_dit": "d0f47b157a78b606073925432007337378587a8502265ecdebe2a669a9606bb5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le champ de note est sous la diapositive.\n Sur petit écran, le bouton \"Notes\" l'ouvre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le champ de note est sous la diapositive.\n Sur petit écran, le bouton Note/L'ouvre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-retour",
+   "etape_lms": "M10-E03-01",
+   "role": "Étape 1 · retour de réussite",
+   "texte_dit": "Note enregistrée: l'ouverture est la phrase la plus difficile à improviser, c'est celle qu'on prépare en premier.",
+   "empreinte_texte_dit": "379eba12deeeb75768eb406e49531fab0f763eb9dffdeaf39d83932e7d1c09b3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-retour.mp3",
+   "octets": 100354,
+   "duree_s": 6.2,
+   "caracteres_dits": 113,
+   "caracteres_factures": 113,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Note enregistré. L'ouverture est la phrase la plus\n difficile à improviser, c'est celle qu'on prépare en\n premier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Note enregistrée.\n L'ouverture est la phrase la plus difficile à improviser, c\n'est celle qu'on prépare en premier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M10-E03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Affichez la deuxième diapositive, celle de la production: trois phrases entières que personne ne lira.",
+   "empreinte_texte_dit": "fb4e5d3e920511107eb7be4102d40352028fd333e316cd948fab8f37cbc2f772",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "affichez la deuxième diapositive, celle de la production,\n trois phrases entières que personne ne lira.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Afficher la deuxième diapositive, celle de la production,\n trois phrases entières que personne ne lira.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M10-E03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Dans le volet des miniatures, cherchez Notre production: elle est en deuxième position.",
+   "empreinte_texte_dit": "08d70c8e1ce75362b0c850cddf35f7b8cf54639b522bddbaa2d4c2768d1aaac4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Dans le volet des miniatures, cherchez notre production.\n Elle est en deuxième position.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Dans le volet des miniatures, \"chercher notre production\",\n elle est en deuxième position.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M10-E03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Remplacez son contenu par: Neuf tonnes par an, Moitié en vente directe, Douze boutiques.",
+   "empreinte_texte_dit": "e65954d267f5339581bf93cc77b38f8b4131edf1ab11313f926ff6464b6c2e55",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Remplacez son contenu par 9 tonnes par an, moitié en vente\n directe, 12 boutiques.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Remplacez son contenu par 9 tonnes par an, moitié en vente\n directe, 12 boutiques.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M10-E03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "Double-cliquez dans le contenu pour l'ouvrir, puis remplacez tout.",
+   "empreinte_texte_dit": "4509f5b67e52260dea556ebf63f69a39feabe3a1aef2314d72a938a5ebcec15b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Double-cliquez dans le contenu pour l'ouvrir, puis remplace\nz tout.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Double-kicker dans le contenu pour l'ouvrir, puis remplacer\n tout.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M10-E03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Neuf tonnes par an Moitié en vente directe Douze boutiques est en place, l'espace réservé porte votre texte, à la place et à la taille prévues.",
+   "empreinte_texte_dit": "a8bfcb1bd8da28ca24b07697d5f6f6c47813ec600e37f392371a28e455248347",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 135462,
+   "duree_s": 8.4,
+   "caracteres_dits": 143,
+   "caracteres_factures": 143,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "9 tonnes par an moitié en vente directe.\n 12 boutiques est en place.\n L'espace réservé porte votre texte, à la place et à la ta\nille prévue.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "9 tonnes par an moitié en vente directe.\n 12 boutiques est en place.\n L'espace réservé porte votre texte, à la place et à la ta\nille prévue.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M10-E03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Écrivez sa note: Marchés du jeudi et du samedi, boutiques du département.",
+   "empreinte_texte_dit": "7a771f1f629f088e767940790150dbb62a821a1b5bd976b62b2626343413ed32",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 86143,
+   "duree_s": 5.32,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrivez sa note.\n Marché du jeudi et du samedi, boutique du département.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrivez sa note.\n Marché du jeudi et du samedi. Boutique du département.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M10-E03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le volet des notes s'ouvre sous la diapositive de Notre production; ce que vous y écrivez ne s'affiche jamais en projection.",
+   "empreinte_texte_dit": "580c312f4b2ce1cf6f214560698677cc4f124c2a79baeac4624694bd6b9971ac",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 105369,
+   "duree_s": 6.52,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le volet des notes s'ouvre sous la diapositive de notre\n production.\n Ce que vous y écrivez ne s'affiche jamais en projection.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le volet des notes s'ouvre sous la diapositive de notre\n production.\n Ce que vous y écrivez ne s'affiche jamais en projection.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M10-E03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Le détail retiré de l'écran est sous vos yeux: vous pouvez le dire, ou pas, selon le temps qu'il vous reste.",
+   "empreinte_texte_dit": "1758105524e598e3f4aa89f386b66aab3d9c815818e550e96ccd6f1c860e1e3f",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 98264,
+   "duree_s": 6.08,
+   "caracteres_dits": 108,
+   "caracteres_factures": 169,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le détail retiré de l'écran est sous vos yeux.\n Vous pouvez le dire ou pas selon le temps qu'il vous reste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le détail retiré de l'écran est sous vos yeux.\n Vous pouvez le dire, ou pas, selon le temps qu'il vous\n reste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M10-E03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Affichez la troisième diapositive, celle des engagements: même défaut, trois phrases pleines.",
+   "empreinte_texte_dit": "66f236452059c1033fe82d6fd9fe41698a0946160e0b38b059a8ddae4d4b8a9c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Afficher la troisième diapositive, celle des engagements.\n Même défaut, trois phrases pleines.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Afficher la troisième diapositive, celle des engagements.\n Même défaut, trois phrases pleines.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M10-E03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "Nos engagements occupe le 3ᵉ rang du volet; un clic sur sa vignette suffit.",
+   "empreinte_texte_dit": "09eba07a5289e17690c79f47261d809a8b7242999d8133fced8ba4ed265a82b9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 75,
+   "caracteres_factures": 75,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nos engagements occupent le troisième rang du volet. Un\n clic sur sa vignette suffit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.043,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nos engagements occupent le troisième rang du volet.\n Un clic sur sa vignette suffit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M10-E03-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Remplacez son contenu par: Commande avant 18 h, Reprise des invendus, Prix garantis un an.",
+   "empreinte_texte_dit": "e09a60c0db4d9ff06792c59e9d13f86003b371037d493b9633cbf87080ded16b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 90,
+   "caracteres_factures": 270,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.032,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "18",
+       "1"
+      ],
+      "entendus": [
+       "18"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": false,
+     "transcription": "Remplacez son contenu par « commande avant 18h, reprise des\n invendus, prix garantie un an »."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Remplacer son contenu par commande avant 18 heures, reprise des invendus, prix garanti 1 an.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "445b2eb5635490b092e730f78a80f9fcd4d01231c1cf08246ef94b0c5bbf4ab9",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références/raccourcis identiques. Acceptation sémantique tracée selon la consigne du chef ; aucun double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Remplacer son contenu par commande avant 18 heures, reprise des invendus, prix garanti 1 an.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": true,
+      "transcription": "Remplacer son contenu par commande avant 18 heures, reprise des invendus, prix garanti 1 an.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:36:50.735452",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-powerpoint.json"
+    }
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M10-E03-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "C'est le grand bloc sous le titre de Nos engagements. Un simple clic ne fait que sélectionner un cadre rempli: le double-clic ouvre la saisie. Le texte attendu tient sur 3 lignes: une par ligne, sans puce à saisir.",
+   "empreinte_texte_dit": "9465daa139d42ef63fc0ab6a24c8ff616aea8a9a461837dd054e3ca4e608083e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 194395,
+   "duree_s": 12.08,
+   "caracteres_dits": 214,
+   "caracteres_factures": 214,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le grand bloc sous le titre de nos engagements.\n Un simple clic ne fait que sélectionner un cadre rempli.\n Le double clic ouvre la saisie.\n Le texte attendu tient sur trois lignes.\n Une par ligne, sans puce à saisir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le grand bloc sous le titre de nos engagements.\n Un simple clic ne fait que sélectionner un cadre rempli.\n Le double clic ouvre la saisie.\n Le texte attendu tient sur trois lignes.\n Une par ligne, sans puce à saisir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M10-E03-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Le contenu affiche Commande avant 18 h Reprise des invendus Prix garantis un an: l'invite a disparu.",
+   "empreinte_texte_dit": "3d212dca37d9461113bb1917583c82836cdbf94de0e0ade6e9fb68151b961163",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 116236,
+   "duree_s": 7.2,
+   "caracteres_dits": 100,
+   "caracteres_factures": 200,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.029,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "18",
+       "1"
+      ],
+      "entendus": [
+       "18"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": false,
+     "transcription": "Le contenu affiche commande avant 18h, reprise des invents\n du prix garantie un an.\n L'invite a disparu."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Le contenu affiche commande avant 18h, reprise des invendus prix garantis 1 an. L'invite a disparu.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "e12d74d6762714393cea7a2a8e473a6ec66d86a9b9f6b124f6403341c97fbbe2",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références/raccourcis identiques. Acceptation sémantique tracée selon la consigne du chef ; aucun double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Le contenu affiche commande avant 18h, reprise des invendus prix garantis 1 an. L'invite a disparu.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": true,
+      "transcription": "Le contenu affiche commande avant 18h, reprise des invendus prix garantis 1 an. L'invite a disparu.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T08:16:12.736050",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-powerpoint.json"
+    }
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M10-E03-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Écrivez sa note: Reprise sans discussion, c'est notre argument principal.",
+   "empreinte_texte_dit": "aababdec5c4356a9f77bffcae58dc73f6beb9c09f09b2d06e10db940775b2e14",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrivez sa note.\n Reprise sans discussion.\n C'est notre argument principal.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrivez sa note.\n Reprise sans discussion.\n C'est notre argument principal.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M10-E03-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "Cliquez dans la zone de notes de Nos engagements, sous la scène: environ 7 mots à saisir, pour vous seul.",
+   "empreinte_texte_dit": "e96bd6202ca46cac30230bae56ce8ee5dd345cadc6a9702c3adadd4fe401f720",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 106205,
+   "duree_s": 6.56,
+   "caracteres_dits": 105,
+   "caracteres_factures": 105,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez dans la zone de note de nos engagements sous la\n scène environ 7 mois à saisir pour vous seul.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cliquez dans la zone de notes de nos engagements, sous la\n scène,\n environ 7 mots à saisir, pour vous seul.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-retour",
+   "etape_lms": "M10-E03-07",
+   "role": "Étape 7 · retour de réussite",
+   "texte_dit": "Note enregistrée: votre argument principal est écrit, il ne dépendra plus du trac.",
+   "empreinte_texte_dit": "405b70e14a5d66fd9665ce27041b175da3d747237ca5d58a030ead79d1815c14",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-retour.mp3",
+   "octets": 92413,
+   "duree_s": 5.72,
+   "caracteres_dits": 82,
+   "caracteres_factures": 82,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Note enregistré. Votre argument principal est écrit. Il ne\n dépendra plus du track.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Note enregistrée. Votre argument principal est écrit. Il ne\n dépendra plus du TRAC.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M10-E03-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Affichez la dernière diapositive, celle qui restera à l'écran pendant toute la discussion.",
+   "empreinte_texte_dit": "92e3ee5bf05af1ef0a3d90f0ff688d5ff18a302a76128b34f12cb8c0be831e77",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 84471,
+   "duree_s": 5.2,
+   "caracteres_dits": 90,
+   "caracteres_factures": 453,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [
+      "l ecran"
+     ],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": false,
+     "transcription": "Afficher la dernière diapositive, celle qui restera à l'éc\nran pendant toute la discussion."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Affichez la dernière diapositive, celle qui restera à l'écran pendant toute la discussion.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "f522faa4bd37a963228acc998b4fdc2e6b30fc24f7dd3bad4ef7f5f5968dce23",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références/raccourcis identiques. Acceptation sémantique tracée selon la consigne du chef ; aucun double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Affichez la dernière diapositive, celle qui restera à l'écran pendant toute la discussion.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": true,
+      "transcription": "Affichez la dernière diapositive, celle qui restera à l'écran pendant toute la discussion.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:21:42.311589",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-powerpoint.json"
+    }
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M10-E03-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "C'est la dernière vignette du volet, intitulée Merci de votre attention.",
+   "empreinte_texte_dit": "6ce96f13cf5e7814436a36304d69d3284e014d00ff1757e79f619f3a17192e66",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 70679,
+   "duree_s": 4.36,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est la dernière vignette du volet, intitulée « Merci de\n votre attention ».",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est la dernière vignette du volet, intitulée \"Merci de\n votre attention\".",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M10-E03-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Remplacez son titre par Un essai sur trois références. Une dernière diapositive dit ce que vous attendez, pas merci.",
+   "empreinte_texte_dit": "a1f17431490ed0e91f2164404145719c89d3b4f24bf18fbcc694b0f434784303",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 118744,
+   "duree_s": 7.36,
+   "caracteres_dits": 116,
+   "caracteres_factures": 116,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Remplacez son titre par un essai sur trois références.\n Une dernière diapositive, dit ce que vous attendez, pas\n merci.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Remplacez son titre par un essai sur trois références.\n Une dernière diapositive dit ce que vous attendez, pas\n merci.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "M10-E03-09",
+   "role": "Étape 9 · aide",
+   "texte_dit": "Un titre déjà rempli s'ouvre au double-clic.",
+   "empreinte_texte_dit": "5924bc71d2005aaec4fb366492086fcce80edebd43f4e0f44b69cfc8116f2012",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 47691,
+   "duree_s": 2.92,
+   "caracteres_dits": 44,
+   "caracteres_factures": 44,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un titre déjà rempli s'ouvre double clic.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un titre déjà rempli s'ouvre au double clic.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "M10-E03-09",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "Un essai sur trois références est saisi: le titre n'est plus vide.",
+   "empreinte_texte_dit": "625d07f9dd08e92ed731d410c1c73c73d12fa4d0ce96b606a8604ab5053c655e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un essai sur trois références est saisie. Le titre n'est\n plus vide.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Un essai sur trois références est saisi. Le titre n'est\n plus vide.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M10-E03-10",
+   "role": "Étape 10 · consigne",
+   "texte_dit": "Lancez le diaporama depuis le début: quatre écrans lisibles et quatre notes, une heure avant le rendez-vous.",
+   "empreinte_texte_dit": "115b6fa9586d5a89d6a9afe46c0b79b9d4ea228f736b9d59c47b6008961c873f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 102026,
+   "duree_s": 6.32,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lancez le diaporama depuis le début.\n 4 écrans lesibles et 4 notes, une heure avant le rendez-\nvous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lancez le diaporama depuis le début. Quatre écrans lésibles\n et quatre notes, une heure avant le rendez-vous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-aide",
+   "etape_lms": "M10-E03-10",
+   "role": "Étape 10 · aide",
+   "texte_dit": "Le bouton Depuis le début ouvre le groupe Démarrage du diaporama, dans l'onglet Diaporama: 4 écrans à dérouler.",
+   "empreinte_texte_dit": "5dcc9be853782e3937b61fcea2b52c4c99c17db089b41b70d10f8687163c2a52",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-aide.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton depuis le début ouvre le groupe Démarrage du diap\norama dans l'onglet Diaporama,\n quatre écrans à dérouler.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton depuis le début ouvre le groupe Démarrage du Di\naporama.\n Dans l'onglet Diaporama, quatre écrans à dérouler.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-retour",
+   "etape_lms": "M10-E03-10",
+   "role": "Étape 10 · retour de réussite",
+   "texte_dit": "Le diaporama part de Fromagerie Le Pré Long: quatre écrans et vos quatre notes, prêts une heure avant le rendez-vous.",
+   "empreinte_texte_dit": "58b56a668be5f1c350e5545cf613bf0a8652b8f6e4f205361c836281ab0bdc87",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-retour.mp3",
+   "octets": 97846,
+   "duree_s": 6.04,
+   "caracteres_dits": 117,
+   "caracteres_factures": 117,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.034,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le diaporama part de fromagerie le prélon, quatre écrans et\n vos quatre notes,\n près une heure avant le rendez-vous.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.017,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le Diaporama part de Fromagerie le prélong, quatre écrans\n et vos quatre notes, près une heure avant le rendez-vous.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une heure avant, sans rien réécrire de fond: la présentation est tenable.",
+   "empreinte_texte_dit": "a8a28611c62310a2f9ae9a8ab0db2d77c86a17f793f7f3b9094e69c252066066",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 73,
+   "caracteres_factures": 73,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une heure avant, sans rien réécrire de fond, la présent\nation est tenable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une heure avant, sans rien réécrire de fond, la présent\nation est tenable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

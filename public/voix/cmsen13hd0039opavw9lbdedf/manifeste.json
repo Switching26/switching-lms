@@ -1,0 +1,752 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen13hd0039opavw9lbdedf",
+  "app": "POWERPOINT",
+  "section": "",
+  "titre": "S'évaluer — Mettre en forme le texte"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 17,
+  "caracteres_dits": 1611,
+  "duree_totale_s": 97.7,
+  "segments_valides": 16,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une diapositive de synthèse vous arrive sans hiérarchie: à l'écran, rien ne distingue ce qui compte de ce qui accompagne. Rétablissez-la, c'est la mise en forme qui la porte, pas le contenu. Épreuve notée, d'une traite; un nouveau passage repart de zéro.",
+   "empreinte_texte_dit": "5c1b07d052ab7d8dc7f7dd32bec7abd0a3a8d1b9f1244bf5546dbe852a952b73",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/intro.mp3",
+   "octets": 242460,
+   "duree_s": 15.08,
+   "caracteres_dits": 254,
+   "caracteres_factures": 945,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.027,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "0"
+      ],
+      "entendus": []
+     },
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": false,
+     "transcription": "Une diapositive de synthèse vous arrive sans hiérarchie.\n À l'écran rien ne distingue ce qui compte de ce qui accomp\nagne.\n Rétablissez-la, c'est la mise en forme qui la porte, pas le\n contenu.\n Épreuve notée, d'une traite, un nouveau passage repart de z\néro."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Une diapositive de synthèse vous arrive sans hiérarchie. À l'écran, rien ne distingue ce qui compte de ce qui accompagne. Rétablissez-la, c'est la mise en forme qui l'apporte, pas le contenu. Épreuve notée, d'une traite, un nouveau passage repart de zéro.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "211bac14e953ad9585fea1db7e998f8a2e58bf72adff434032e4e4918adf6a3d",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références/raccourcis identiques. Acceptation sémantique tracée selon la consigne du chef ; aucun double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Une diapositive de synthèse vous arrive sans hiérarchie. À l'écran, rien ne distingue ce qui compte de ce qui accompagne. Rétablissez-la, c'est la mise en forme qui l'apporte, pas le contenu. Épreuve notée, d'une traite, un nouveau passage repart de zéro.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": true,
+      "transcription": "Une diapositive de synthèse vous arrive sans hiérarchie. À l'écran, rien ne distingue ce qui compte de ce qui accompagne. Rétablissez-la, c'est la mise en forme qui l'apporte, pas le contenu. Épreuve notée, d'une traite, un nouveau passage repart de zéro.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:29:02.650512",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-powerpoint.json"
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M03-EV01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Cette diapositive doit tenir devant l'assemblée générale. Ne corrigez rien encore: reprenez chaque texte et demandez-vous quelle fonction il remplit, annoncer, porter le chiffre, citer, accompagner. Ce que vous en déduirez commande l'attribut et l'alignement de chacun.",
+   "empreinte_texte_dit": "066c094e6302ea2935e07f45ee595f8cb800d4d95ef9485cde982b9a9677ace1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 253745,
+   "duree_s": 15.8,
+   "caracteres_dits": 269,
+   "caracteres_factures": 269,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cette diapositive doit tenir devant l'Assemblée générale.\n Ne corrigez rien encore.\n Reprenez chaque texte et demandez-vous quelle fonction il\n remplit, annoncez, portez le chiffre,\n citez, accompagnez.\n Ce que vous en déduirez, commande l'attribut et l'align\nement de chacun.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cette diapositive doit tenir devant l'Assemblée générale.\n Ne corrigez rien encore.\n Reprenez chaque texte et demandez-vous quelle fonction il\n remplit, annoncez,\n portez le chiffre, citez, accompagnez.\n Ce que vous en déduirez commande l'attribut et l'alignement\n de chacun.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M03-EV01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Deux diapositives: c'est la seconde qui doit tenir devant l'assemblée.",
+   "empreinte_texte_dit": "b94bcc47d24f9967721ce256c0caf06b61c79243abb796586cf61f061b3d6ebf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 70,
+   "caracteres_factures": 70,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "2 diapositives. C'est la seconde qui doit tenir devant l'As\nsemblée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Deux diapositives, c'est la seconde qui doit tenir devant l\n'Assemblée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M03-EV01-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "Rétablir la hiérarchie, c'est décider ce que l'œil doit voir en premier.",
+   "empreinte_texte_dit": "54d398b451047af17d15394782c54c1f8237b78ce20b2131294cc0c0eeabc745",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 81128,
+   "duree_s": 5.0,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rétablir la hiérarchie, c'est décider ce que œil doit voir\n en premier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Rétablir la hiérarchie, c'est décider ce que œil doit voir\n en premier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M03-EV01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Affichez la diapositive de synthèse.",
+   "empreinte_texte_dit": "7c9523c5a3ef196108af21599accf5dbde18731831007bc916a0be32d3fab711",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 36824,
+   "duree_s": 2.24,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Afficher la diapositive de synthèse.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Affichez la diapositive de synthèse.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M03-EV01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Le titre de la diapositive porte une faute de frappe. Ressaisissez-le correctement.",
+   "empreinte_texte_dit": "d758563e1d7dc72daecf43c1d48abab89cbf325eed8787562f4a9136b2e22d06",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le titre de la diapositive porte une faute de frappe.\n Recésissez-le correctement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le titre de la diapositive porte une faute de frappe.\n Ressaisissez-le correctement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M03-EV01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Un seul chiffre doit rester en tête de l'auditoire: celui du renouvellement des contrats. Faites-le ressortir.",
+   "empreinte_texte_dit": "52f960c1aff6f9fdb81e82f580085c0f963011466761c5d025f62860c9adaf51",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 100354,
+   "duree_s": 6.2,
+   "caracteres_dits": 110,
+   "caracteres_factures": 110,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un seul chiffre doit rester en tête de l'auditoire.\n Celui du renouvellement des contrats, faites-le ressortir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Un seul chiffre doit rester en tête de l'auditoire.\n Celui du renouvellement des contrats, faites-le ressortir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M03-EV01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Le paragraphe de détail occupe trois lignes et se lit mal. Corrigez ce qui l'en empêche.",
+   "empreinte_texte_dit": "0f55c649952f1cc6d4ba811b0e7500b6f4664f3f3c42425f0ae507c86b6c510f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 84889,
+   "duree_s": 5.24,
+   "caracteres_dits": 88,
+   "caracteres_factures": 88,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le paragraphe de détail occupe trois lignes et se lit mal.\n Corrigez ce qui l'en empêche.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le paragraphe de détail occupe trois lignes et se lit mal.\n Corrigez ce qui l'en empêche.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M03-EV01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "La phrase du client ressemble à un lien cliquable. Retirez ce qui produit cet effet.",
+   "empreinte_texte_dit": "181143aec5f0c8fdf986a1353a4f4677aeaa7b7c0c4c9bb6860fd15bcafd74d4",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La phrase du client ressemble à un lien cliquable. Retirez\n ce qui produit cet effet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "La phrase du client ressemble à un lien cliquable.\n Retirez ce qui produit cet effet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M03-EV01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Cette phrase n'est pas de vous: signalez-le comme il se doit.",
+   "empreinte_texte_dit": "6c39491e85218478adf54055e499d562915ebb3009e879523311d1705b82ebdc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 61,
+   "caracteres_factures": 61,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cette phrase n'est pas de vous.\n Signalez-le comme il se doit.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Cette phrase n'est pas de vous.\n Signalez-le comme il se doit.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M03-EV01-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Le titre de la diapositive doit affirmer sa fonction. Commencez par son attribut.",
+   "empreinte_texte_dit": "276a794afb50814039cf0fa92768e00f740a2e01c73b27820ddbb71719a3740e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le titre de la diapositive doit affirmer sa fonction.\n Commencez par son attribut.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le titre de la diapositive doit affirmer sa fonction.\n Commencez par son attribut.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M03-EV01-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Donnez-lui ensuite l'alignement que sa longueur et sa fonction commandent.",
+   "empreinte_texte_dit": "533f28f1f268c5958cf6b61172ab52f31625e01aab1e349fbbd18e4eda2a9acb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 73604,
+   "duree_s": 4.52,
+   "caracteres_dits": 74,
+   "caracteres_factures": 74,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez-lui ensuite l'alignement que sa longueur et sa\n fonction commande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Donnez-lui ensuite l'alignement que sa longueur et sa\n fonction commandent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M03-EV01-10",
+   "role": "Étape 10 · consigne",
+   "texte_dit": "Le chiffre décisif reste aligné comme le reste du texte: confirmez-le à gauche, avec le paragraphe.",
+   "empreinte_texte_dit": "10b19b9f039abd79978ca9603be68d8f358cd3297887ce646850dd20f37b9b32",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 104115,
+   "duree_s": 6.44,
+   "caracteres_dits": 99,
+   "caracteres_factures": 99,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le chiffre décisif reste aligné comme le reste du texte.\n Confirmez-le à gauche avec le paragraphe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Le chiffre décisif reste aligné comme le reste du texte.\n Confirmez-le à gauche avec le paragraphe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M03-EV01-11",
+   "role": "Étape 11 · consigne",
+   "texte_dit": "Contrôlez enfin le résultat comme l'assemblée le verra, depuis la première diapositive.",
+   "empreinte_texte_dit": "be49271d7bb61ed96f7121418443e023f65214a994e502d46de89d0af0c3c961",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 87,
+   "caracteres_factures": 87,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.038,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Contrôlez enfin le résultat comme l'assemblée Levera depuis\n la première diapositive.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Contrôlez enfin le résultat comme l'assemblée le verra,\n depuis la première diapositive.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-consigne",
+   "etape_lms": "M03-EV01-12",
+   "role": "Étape 12 · consigne",
+   "texte_dit": "Avancez sur la diapositive que vous venez de reprendre.",
+   "empreinte_texte_dit": "87bea70bfd2703bbfdc1e9d9331b92642d8c40ad02f1a10b484fc26145c6c331",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-consigne.mp3",
+   "octets": 54378,
+   "duree_s": 3.32,
+   "caracteres_dits": 55,
+   "caracteres_factures": 55,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "avancez sur la diapositive que vous venez de reprendre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Avancez sur la diapositive que vous venez de reprendre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e13-consigne",
+   "etape_lms": "M03-EV01-13",
+   "role": "Étape 13 · consigne",
+   "texte_dit": "Revenez à votre présentation.",
+   "empreinte_texte_dit": "0803a2c2fcbfda5409e52759d544ca648bbccb5078c49b0e0775cacc04593111",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e13-consigne.mp3",
+   "octets": 35570,
+   "duree_s": 2.16,
+   "caracteres_dits": 29,
+   "caracteres_factures": 29,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Revenez à votre présentation.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Revenez à votre présentation.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Épreuve terminée. Seule votre meilleure note est conservée.",
+   "empreinte_texte_dit": "f4309a3f8f155bed7a6327a7680a174319e266eca7bd080eb203cb710796bebf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épreuve terminée. Seul votre meilleure note est conservée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "ok": true,
+     "transcription": "Épreuve terminée. Seule votre meilleure note est conservée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

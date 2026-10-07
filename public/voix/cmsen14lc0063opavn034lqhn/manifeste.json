@@ -1,0 +1,895 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen14lc0063opavn034lqhn",
+  "app": "POWERPOINT",
+  "section": "",
+  "titre": "S'évaluer — Écrire pour être lu"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 19,
+  "caracteres_dits": 1800,
+  "duree_totale_s": 116.4,
+  "segments_valides": 17,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 2
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une présentation d'équipe vous revient en relecture. Elle est trop chargée: ce qui compte s'y noie. Votre travail n'est pas de tout réécrire, mais de décider ce qui reste à l'écran, ce qui passe au second plan et ce qui part. Épreuve notée, d'une traite; un nouveau passage repart de zéro.",
+   "empreinte_texte_dit": "b269d1fdeba4e80db2d852dba2c65498d32605bd94a5c6280f6de8bda0f797ad",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/intro.mp3",
+   "octets": 289271,
+   "duree_s": 18.0,
+   "caracteres_dits": 289,
+   "caracteres_factures": 1050,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.031,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "0"
+      ],
+      "entendus": []
+     },
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": false,
+     "transcription": "Une présentation D, équipe vous revient en relecture. Elle\n est trop chargée.\n Ce qui compte si noix. Votre travail n'est pas de tout réé\ncrire,\n mais de décider ce qui reste à l'écran, ce qui passe au\n second plan et ce qui part.\n Épreuve notée, d'une traite, un nouveau passage repart de z\néro."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Une présentation D. Équipe vous revient en relecture. Elle est trop chargée. Ce qui compte s'y noie. Votre travail n'est pas de tout réécrire, mais de décider ce qui reste à l'écran, ce qui passe au second plan et ce qui part. Épreuve notée d'une traite. Un nouveau passage repart de zéro.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "cda218a4e70d1169be9fc05babf26aab61dc4457e2273f0b604a503ade94d963",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références/raccourcis identiques. Acceptation sémantique tracée selon la consigne du chef ; aucun double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Une présentation D. Équipe vous revient en relecture. Elle est trop chargée. Ce qui compte s'y noie. Votre travail n'est pas de tout réécrire, mais de décider ce qui reste à l'écran, ce qui passe au second plan et ce qui part. Épreuve notée d'une traite. Un nouveau passage repart de zéro.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": true,
+      "transcription": "Une présentation D. Équipe vous revient en relecture. Elle est trop chargée. Ce qui compte s'y noie. Votre travail n'est pas de tout réécrire, mais de décider ce qui reste à l'écran, ce qui passe au second plan et ce qui part. Épreuve notée d'une traite. Un nouveau passage repart de zéro.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:20:49.976466",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-powerpoint.json"
+    }
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M06-EV01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Cette présentation passe devant l'équipe lundi. Ne corrigez rien encore: lisez-la comme un participant assis au fond. Sur chaque diapositive, demandez-vous ce qu'il retiendra, et tout le reste est de trop.",
+   "empreinte_texte_dit": "f48590fde73eb9fcacafd29a282d3036fb929ddb709269765735d20b5b918184",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 203172,
+   "duree_s": 12.64,
+   "caracteres_dits": 205,
+   "caracteres_factures": 205,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cette présentation passe devant elle et qui, plein dit, ne\n corrigeait rien encore.\n Lisez-la comme un participant assis au fond.\n Sur chaque diapositive, demandez-vous ce qu'il retiendra,\n et tout le reste est de trop.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Cette présentation passe devant \"elle\" et qui plindit.\n Ne corrigez rien encore.\n Lisez-la comme un participant assis au fond.\n Sur chaque diapositive, demandez-vous ce qu'il retiendra.\n Et tout le reste est de trop.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M06-EV01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Les quatre diapositives du point d'équipe.",
+   "empreinte_texte_dit": "dd34948de872bdfe460c4a42cf130637cdefe3773065edfbad7b91549ba58ff8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 52288,
+   "duree_s": 3.2,
+   "caracteres_dits": 42,
+   "caracteres_factures": 42,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les 4 diapositives du point D, équipe.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Les quatre diapositives du point D, équipe.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M06-EV01-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "Ce qui est dit deux fois, ce qui n'est qu'une référence, ce qui n'est plus utile.",
+   "empreinte_texte_dit": "6fc79bfe802a005cac4e8c93b784811bf663b0bce0eab1b74fc3ebe58f31b187",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce qui est dit deux fois, ce qui n'est qu'une référence, ce\n qui n'est plus utile.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce qui est dit deux fois, ce qui n'est qu'une référence, ce\n qui n'est plus utile.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M06-EV01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Affichez l'ouverture.",
+   "empreinte_texte_dit": "f345d2240e3abeca40536665f16eac7735ff9545f9a6d335b7239bb2fe3085a9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 24703,
+   "duree_s": 1.48,
+   "caracteres_dits": 21,
+   "caracteres_factures": 21,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Affichez l'ouverture.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.6,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Afficher l'ouverture.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M06-EV01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Elle ne dit pas de quelle réunion il s'agit. Complétez sa seconde ligne: Point d'équipe du 9 mars.",
+   "empreinte_texte_dit": "ebd3f809029e0e74c10678e776364e9967d9c41a3d5e2cdd592e14a50fad799e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 137552,
+   "duree_s": 8.52,
+   "caracteres_dits": 98,
+   "caracteres_factures": 98,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.105,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Elle ne dit pas de quelle réunion il s'agit.\n Complétez sa seconde ligne.d/équipe-9-mars.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Elle ne dit pas de quelle réunion il s'agit.\n Complétez sa seconde ligne.\n Point D.\n Équipe du 9 mars.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M06-EV01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Passez à la diapositive Généralités.",
+   "empreinte_texte_dit": "d8f9c1d357485b075a6d11bf55fa21a637bb434dbbadf425976af2335b406805",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 38078,
+   "duree_s": 2.32,
+   "caracteres_dits": 36,
+   "caracteres_factures": 36,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passer à la diapositive généralité.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passez à la diapositive généralité.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M06-EV01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Une zone répète, en gros, ce que le bloc de texte dit déjà. Elle n'apprend rien de plus: faites-la disparaître.",
+   "empreinte_texte_dit": "76fc2b57fe2c6a7f3197e1d9c810a5d8ceeb61c7f2290e02b153f4d247baad57",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 133373,
+   "duree_s": 8.28,
+   "caracteres_dits": 111,
+   "caracteres_factures": 111,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une zone répète, en gros, ce que le bloc de texte dit déjà.\n Elle n'apprend rien de plus.\n Faites la disparaître.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une zone répète, en gros, ce que le bloc de texte dit déjà.\n Elle n'apprend rien de plus.\n Faites-la disparaître.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M06-EV01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "La référence du registre n'est pas le message: elle doit se lire, sans occuper le premier plan. Reléguez-la en bas de la diapositive.",
+   "empreinte_texte_dit": "58741b76ea724028cb8017cb8d69389b167f6b4f0b0a2ef5bb8c037514cd4020",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 142986,
+   "duree_s": 8.88,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La référence du registre n'est pas le message.\n Elle doit se lire sans occuper le premier plan.\n Reléguez-la en bas de la diapositive.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La référence du registre n'est pas le message.\n Elle doit se lire sans occuper le premier plan.\n Reléguez-la en bas de la diapositive.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M06-EV01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Réduisez-la à une mention discrète, en italique.",
+   "empreinte_texte_dit": "0b700f0a68fe2c7d374061e4ee190a9730fbdfd6207a08bb3772962ef439ca65",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 48945,
+   "duree_s": 3.0,
+   "caracteres_dits": 48,
+   "caracteres_factures": 48,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Réduisez-la à une mention discrète, en Italique.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Reduisez-la à une mention discrète, en italique.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M06-EV01-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Son titre nomme sa place au lieu de son contenu. Donnez-lui le fait qu'elle porte: Seize personnes sur le terrain.",
+   "empreinte_texte_dit": "7386239fdb6634b2d0dc7d96991bd4010c71aa9d47f2913247def521ad27ae6e",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 103697,
+   "duree_s": 6.4,
+   "caracteres_dits": 114,
+   "caracteres_factures": 114,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Son titre nomme sa place au lieu de son contenu.\n Donnez lui le fait qu'elle porte.\n 16 personnes sur le terrain.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Son titre nomme sa place au lieu de son contenu.\n Donnez-lui le fait qu'elle porte.\n 16 personnes sur le terrain.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M06-EV01-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Son bloc reste un paragraphe. Alignez-le comme une liste doit l'être.",
+   "empreinte_texte_dit": "8195445af1cc730df9706e223bb8b209c31c53c14eaaff6be808d88ec75e7e2c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.024,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Son bloc reste un paragraphe. Alignez-le comme une liste\n doit là être.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Son bloc reste un paragraphe.\n Alignez-le comme une liste doit l'être.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M06-EV01-10",
+   "role": "Étape 10 · consigne",
+   "texte_dit": "Passez à la diapositive suivante, dont le titre trahit qu'elle porte deux sujets.",
+   "empreinte_texte_dit": "cc33bf243ccc333d1dba47c14b485f3d318062addcd940d8869d9cbd65efed91",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passez à la diapositive suivante, dont le titre trahique,\n elle porte deux sujets.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Passez à la diapositive suivante, dont le titre trahit qu'\nelle porte deux sujets.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e11-consigne",
+   "etape_lms": "M06-EV01-11",
+   "role": "Étape 11 · consigne",
+   "texte_dit": "Plutôt que d'en créer une de toutes pièces, obtenez-en une copie: chacune ne gardera qu'un sujet.",
+   "empreinte_texte_dit": "87433ca4d5410dafe776de24792e47bed5cf308821956805874703152de51260",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e11-consigne.mp3",
+   "octets": 88233,
+   "duree_s": 5.44,
+   "caracteres_dits": 97,
+   "caracteres_factures": 97,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Plutôt que d'en créer une de toutes pièces, obtenez-en une\n copie.\n Chacune ne gardera qu'un sujet.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Plutôt que d'en créer une de toutes pièces, obtenez-en une\n copie.\n Chacune ne gardera qu'un sujet.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e12-consigne",
+   "etape_lms": "M06-EV01-12",
+   "role": "Étape 12 · consigne",
+   "texte_dit": "Sur cette copie, ne laissez que le matériel: Deux tondeuses autoportées, Un broyeur de branches, Une remorque.",
+   "empreinte_texte_dit": "48632ffda26e45b862f611000032c9b7c64a57495648560b98106ad59f6347cb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e12-consigne.mp3",
+   "octets": 122088,
+   "duree_s": 7.56,
+   "caracteres_dits": 110,
+   "caracteres_factures": 330,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.051,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "2"
+      ],
+      "entendus": []
+     },
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": false,
+     "transcription": "Sur cette copie, ne laissez que le matériel de ton deus\n autoporté, un broyeur de branche, une remorque."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Sur cette copie, ne laissez que le matériel. Deux tondeuses autoportées, un broyeur de branche, une remorque.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "4bc52bfc379ca63adaa7f6d7105f36d2428a2263f1f2dabf15e9ba03ce04b056",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références/raccourcis identiques. Acceptation sémantique tracée selon la consigne du chef ; aucun double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Sur cette copie, ne laissez que le matériel. Deux tondeuses autoportées, un broyeur de branche, une remorque.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": true,
+      "transcription": "Sur cette copie, ne laissez que le matériel. Deux tondeuses autoportées, un broyeur de branche, une remorque.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:20:56.083766",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-powerpoint.json"
+    }
+   }
+  },
+  {
+   "id": "e13-consigne",
+   "etape_lms": "M06-EV01-13",
+   "role": "Étape 13 · consigne",
+   "texte_dit": "Son titre doit annoncer ce seul sujet: Trois machines pour la saison.",
+   "empreinte_texte_dit": "b9ccbdc9ea065f91df2ec8d8006b43c7d1abd0073f508bd7ca5eaf3fdee34389",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e13-consigne.mp3",
+   "octets": 61902,
+   "duree_s": 3.8,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Son titre doit annoncer ce seul sujet, trois machines pour\n la saison.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Son titre doit annoncer ce seul sujet, trois machines pour\n la saison.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e14-consigne",
+   "etape_lms": "M06-EV01-14",
+   "role": "Étape 14 · consigne",
+   "texte_dit": "Une dernière diapositive ne fait que redire ce qui vient d'être dit. Affichez-la.",
+   "empreinte_texte_dit": "b08ccd1a599b5ee7ba7998637f8e5e754e6c29d0d35b857f6bdc3cf3510efbfa",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e14-consigne.mp3",
+   "octets": 95756,
+   "duree_s": 5.92,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une dernière diapositive ne fait que redire ce qui vient d'\nêtre dit.\n Affichez-la.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une dernière diapositive ne fait que redire ce qui vient d'\nêtre dit.\n Affichez-la.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e15-consigne",
+   "etape_lms": "M06-EV01-15",
+   "role": "Étape 15 · consigne",
+   "texte_dit": "Une redite ne resservira pas: traitez-la en conséquence.",
+   "empreinte_texte_dit": "d31466954110912c2ee44a927e1fa3af9f73ba7925cc4e7a0ee5caabd2ceeeec",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e15-consigne.mp3",
+   "octets": 59394,
+   "duree_s": 3.64,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.057,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une redite ne reservira pas. Traitez-la en conséquence.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une redite ne resservira pas. Traitez-la en conséquence.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Épreuve terminée. Seule votre meilleure note est conservée.",
+   "empreinte_texte_dit": "f4309a3f8f155bed7a6327a7680a174319e266eca7bd080eb203cb710796bebf",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 62737,
+   "duree_s": 3.84,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Épreuve terminée, seul votre meilleure note est conservée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Épreuve terminée. Seule votre meilleure note est conservée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

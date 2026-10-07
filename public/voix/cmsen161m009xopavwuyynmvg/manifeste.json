@@ -1,0 +1,1392 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen161m009xopavwuyynmvg",
+  "app": "POWERPOINT",
+  "section": "",
+  "titre": "Le test de l'absence"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 32,
+  "caracteres_dits": 3691,
+  "duree_totale_s": 225.5,
+  "segments_valides": 32,
+  "segments_plusieurs_essais": 1,
+  "segments_jamais_valides": 0
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une présentation projetée est complétée par vous; une présentation envoyée est seule. Le test tient en une question posée à chaque diapositive: que comprend quelqu'un qui la lit sans moi?",
+   "empreinte_texte_dit": "41cd73e9a58622f5f55aa08d9b85cfe483e0031669cf0c34c1d6bb2c5d7db2ce",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 174333,
+   "duree_s": 10.84,
+   "caracteres_dits": 187,
+   "caracteres_factures": 187,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.035,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une présentation projetée et complétée par vous, une\n présentation envoyée et seule.\n Le test tient une question posée à chaque diapositive.\n Que comprend quelqu'un qui la lie sans moi ?",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une présentation projetée est complétée par vous.\n Une présentation envoyée est seule.\n Le test tient en une question posée à chaque diapositive.\n Que comprend quelqu'un qui la lit sans moi ?",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M11-L01-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "La même présentation sert rarement aux deux usages. Projetée, vous êtes là: trois mots à l'écran suffisent, vous dites le reste. Envoyée, le fichier arrive seul dans une boîte mail, et personne ne complète. Ce sont deux exigences opposées.",
+   "empreinte_texte_dit": "58012fd1b6612fa77e29212ca5a513069ca41e01eb6646133ebe8a912278c94c",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 223234,
+   "duree_s": 13.88,
+   "caracteres_dits": 239,
+   "caracteres_factures": 300,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La même présentation sert rarement aux deux usages.\n Projetez, vous êtes là.\n Trois mots à l'écran suffisent, vous dites le reste.\n Envoyez, le fichier arrive seul dans une boîte mail et\n personne ne complète.\n Ce sont deux exigences opposées.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La même présentation sert rarement aux deux usages.\n Projetez, vous êtes là.\n Trois mots à l'écran suffisent, vous dites le reste.\n Envoyez, le fichier arrive seul dans une boîte mail et\n personne ne complète.\n Ce sont deux exigences opposées.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle1",
+   "etape_lms": "M11-L01-01",
+   "role": "Étape 1 · bulle 1",
+   "texte_dit": "Projetée, vous êtes là: trois mots à l'écran suffisent, vous dites le reste.",
+   "empreinte_texte_dit": "4321261ca4ab9656436f1d37eb419b1fcc7a099484491a860e4b44e25b22f800",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e1-bulle1.mp3",
+   "octets": 77784,
+   "duree_s": 4.8,
+   "caracteres_dits": 76,
+   "caracteres_factures": 137,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Projeté, vous êtes là.\n Trois mots à l'écran suffisent, vous dites le reste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Prochetez, vous êtes là.\n Trois mots à l'écran suffisent, vous dites le reste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-bulle2",
+   "etape_lms": "M11-L01-01",
+   "role": "Étape 1 · bulle 2",
+   "texte_dit": "Envoyée, le fichier arrive seul dans une boîte mail, et personne ne complète.",
+   "empreinte_texte_dit": "79dedf42a6b4b0c018e7c513f59b174acfd6648de1282d0798f607007864039d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-bulle2.mp3",
+   "octets": 71933,
+   "duree_s": 4.44,
+   "caracteres_dits": 77,
+   "caracteres_factures": 77,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyez, le fichier arrive seul dans une boîte mail et\n personne ne complète.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Envoyé, le fichier arrive seul dans une boîte mail et\n personne ne complète.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M11-L01-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Lancez le diaporama depuis le début: mettez-vous d'abord dans la situation où vous êtes présent, en salle, devant le client.",
+   "empreinte_texte_dit": "aaa618b24802fc933b11afa36e369d59e29ca065453320949377d3b23d4b9f97",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 122506,
+   "duree_s": 7.6,
+   "caracteres_dits": 124,
+   "caracteres_factures": 124,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lancez le diaporama depuis le début. Mettez-vous d'abord\n dans la situation où vous êtes présent, en salle, devant le\n client.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Lancez le diaporama depuis le début.\n Mettez-vous d'abord dans la situation où vous êtes présent,\n en salle, devant le client.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M11-L01-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Groupe Diaporama, bouton Depuis le début.",
+   "empreinte_texte_dit": "64425a4cd3117fe932b281cb202b1c74419352dc3deaa9c8686c4da1ea7c6dc5",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 51453,
+   "duree_s": 3.16,
+   "caracteres_dits": 41,
+   "caracteres_factures": 41,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Groupe diaporama, bouton depuis le début.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.2,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Groupe Diaporama, bouton depuis le début.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M11-L01-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Plein écran sur Rivage Marée: vous êtes en salle, devant le client, et c'est vous qui portez le commentaire.",
+   "empreinte_texte_dit": "628b050e014063c73397f170b8dfa046d45d519be5c6d74f5f12197102ba44dd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.033,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Plein d'écran sur Ivage Marais.\n Vous êtes en salle, devant le client, et c'est vous qui\n portez le commentaire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Plein d'écran sur RIVAGE MARE.\n Vous êtes en salle, devant le client, et c'est vous qui\n portez le commentaire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M11-L01-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Avancez d'une diapositive. Trois repères, gros, lisibles du fond de la salle: projetée, cette diapositive est bonne. Vous diriez le reste.",
+   "empreinte_texte_dit": "b2d49f57460d379907e337795e07ae223222f7cc8542a5f18d6404bde0b515b8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 157196,
+   "duree_s": 9.76,
+   "caracteres_dits": 138,
+   "caracteres_factures": 138,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.026,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "avancez d'une diapositive, trois repères, gros, lisible du\n fond de la salle.\n Prochevez, cette diapositive est bonne, vous diriez le\n reste.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Avancez d'une diapositive.\n Trois repères, gros, lisibles du fond de la salle.\n Projetez, cette diapositive est bonne.\n Vous diriez le reste.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M11-L01-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "En plein écran, tout l'écran est cliquable: un clic avance d'une diapositive vers Nos produits.",
+   "empreinte_texte_dit": "80edd268e0f052ec157be17a1e3d4a6ed58518fcf537eb78cffa6b8a06acbf39",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 95,
+   "caracteres_factures": 156,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "En plein écran, tout l'écran est cliquable.\n Un clic avance d'une diapositive vers nos produits.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "En plein écran, tout l'écran est cliquable.\n Un clic avance d'une diapositive vers nos produits.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M11-L01-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Vous êtes arrivé sur Nos produits, c'est le chemin que suivra le public.",
+   "empreinte_texte_dit": "06f9881e1892b116882f38e978f57bf4fd8474e187d07145c1e60c3540b070ca",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 72,
+   "caracteres_factures": 72,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous êtes arrivés sur nos produits, c'est le chemin que\n suivra le public.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Vous êtes arrivés sur nos produits, c'est le chemin que\n suivra le public.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M11-L01-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Quittez le diaporama et changez de situation: le client n'a pas pu venir, vous lui envoyez le fichier.",
+   "empreinte_texte_dit": "335b319ccd3f205400490a74c881b6dc66f1fe9f7f92e09bce2be8daa9fa5cbd",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 99518,
+   "duree_s": 6.16,
+   "caracteres_dits": 102,
+   "caracteres_factures": 102,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Quittez le diaporama et changez de situation.\n Le client n'a pas pu venir, vous lui envoyez le fichier.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "quitter le diaporama et changer de situation.\n Le client n'a pas pu venir, vous lui envoyez le fichier.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M11-L01-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Le bouton Quitter est en haut à droite de l'écran; la touche Échap fait la même chose, Rivage Marée reste affichée derrière.",
+   "empreinte_texte_dit": "5127de3a5e35aeaa910151843add1e3677002250df67cd968846f26f4573ea2b",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 129611,
+   "duree_s": 8.04,
+   "caracteres_dits": 124,
+   "caracteres_factures": 185,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton « Quitter » est en haut à droite de l'écran.\n La touche « Échap » fait la même chose, rivage marré reste\n affiché derrière.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le bouton quitter est en haut à droite de l'écran.\n La touche échappe fait la même chose, rivage marré reste\n affiché derrière.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M11-L01-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Retour à l'édition sur Rivage Marée: un réglage de diaporama ne se vérifie qu'en projetant.",
+   "empreinte_texte_dit": "cb026a0101a6db42d2953a4fa46bdbc9046f69758e5a8c2a0b5582cc2dade819",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 99100,
+   "duree_s": 6.12,
+   "caracteres_dits": 91,
+   "caracteres_factures": 91,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.049,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Retour à elle, édition sur Rivage Marais.\n Un réglage de diaporama ne se vérifie qu'en proche temps.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.016,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Retour à elle. Édition sur Rivage Marais. Un réglage de di\naporama ne se vérifie qu'en projetant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M11-L01-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Voici le test de l'absence: relisez chaque diapositive en imaginant que vous n'êtes pas là pour l'expliquer. Criée de Lorient, livraison à 6 h se comprend seul. C'est un test à faire diapositive par diapositive, et il n'en épargne aucune.",
+   "empreinte_texte_dit": "7c0ee3bf51196e34f2636456305ad8ba4d52e773a36f61a58da21012337de775",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 230757,
+   "duree_s": 14.36,
+   "caracteres_dits": 238,
+   "caracteres_factures": 238,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.076,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Voici le test de l'absence. Relisez chaque diapositive en\n imaginant que Vouennes\n n'est pas là pour l'expliquer. Crier de l'Orient, livraison\n à 6h se comprend seul.\n C'est un test à faire diapositive par diapositive et il n'\nen est pas nul.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Voici le test de l'absence.\n Relisez chaque diapositive en imaginant que vous n'êtes pas\n là pour l'expliquer.\n Criez de l'orient.\n Livraison à 6 heures se comprend seule.\n C'est un test à faire diapositive par diapositive et il n'\nen épargne aucune.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle1",
+   "etape_lms": "M11-L01-05",
+   "role": "Étape 5 · bulle 1",
+   "texte_dit": "Le test de l'absence: relisez chaque diapositive en imaginant que vous n'êtes pas là.",
+   "empreinte_texte_dit": "17ebb99ff3acd60e822dcf7fe8ed355dfb1aab4d97edf8db08516e1f3a132c40",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle1.mp3",
+   "octets": 91995,
+   "duree_s": 5.68,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.021,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le test de l'absence. Relisez chaque diapositive en imagin\nant que vous hainez, êtes pas là.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le test de l'absence.\n Relisez chaque diapositive en imaginant que vous n'êtes pas\n là.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-bulle2",
+   "etape_lms": "M11-L01-05",
+   "role": "Étape 5 · bulle 2",
+   "texte_dit": "Diapositive par diapositive: il n'en épargne aucune.",
+   "empreinte_texte_dit": "577bfde9f25187d935e4c5682fcc9e4f974d3b0b1eb4bedc03628560d1065c63",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-bulle2.mp3",
+   "octets": 61066,
+   "duree_s": 3.76,
+   "caracteres_dits": 52,
+   "caracteres_factures": 104,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.108,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Diapositive par diapositive, il n'en est pas rinocune.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.171,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Diapositive par diapositive, il n'en épargne aucune.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M11-L01-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Affichez la troisième diapositive, celle des prix, et appliquez-lui le test.",
+   "empreinte_texte_dit": "cff52dc8a7dfea5f207dc1abdce9d4657d19f985a2ae4fc8146d39b0a1071604",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 82382,
+   "duree_s": 5.08,
+   "caracteres_dits": 76,
+   "caracteres_factures": 76,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Afficher la troisième diapositive, celle des prix, et appli\nquer lui le test.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Affichez la troisième diapositive, celle des prix, et appl\niquez-lui le test.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M11-L01-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Dans le volet des miniatures, cherchez Nos prix: elle est en troisième position.",
+   "empreinte_texte_dit": "dfa69a7ede2c4ecd1a9bcff212c7d79f4afebcca8c4b694af9d50cb112122046",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 74022,
+   "duree_s": 4.56,
+   "caracteres_dits": 80,
+   "caracteres_factures": 80,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Dans le volet des miniatures, cherchez nos prix.\n Elle est en troisième position.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Dans le volet des miniatures, cherchez nos prix.\n Elle est en troisième position.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M11-L01-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Nos prix occupe le centre: c'est elle que les boutons modifieront.",
+   "empreinte_texte_dit": "838f854c5ee9b26bd38b3899222b070e3539e067832a9a0760ace7e2440db090",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 65245,
+   "duree_s": 4.0,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.054,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nos prix occupent le centre. C'est elle que les boutons\n modifieront.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.054,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Nos prix occupent le centre.\n C'est elles que les boutons modifieront.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M11-L01-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Le kilo: voir grille et Remise: selon volume ne disent rien à un lecteur seul. Ces deux lignes ne sont pas des informations: ce sont des rappels que l'orateur se fait à lui-même. Projetées elles passent; envoyées, elles font perdre la commande.",
+   "empreinte_texte_dit": "4f538e4e9dc33803690af76e0454a258d98d1962e794ec43958f9416728aae03",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 250819,
+   "duree_s": 15.6,
+   "caracteres_dits": 244,
+   "caracteres_factures": 244,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.015,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le kilo, voire grille et remise,\n selon volume ne disent rien à un lecteur seul.\n Ces deux lignes ne sont pas des informations.\n Ce sont des rappels que l'orateur se fait à lui-même.\n Projeté, elle passe.\n Envoyé, elles font perdre la commande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le kilo, voire gris et remise, selon volume ne disent rien\n à un lecteur seul.\n Ces deux lignes ne sont pas des informations.\n Ce sont des rappels que l'orateur se fait à lui-même.\n Projetées, elles passent. Envoyées, elles font perdre la\n commande.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle1",
+   "etape_lms": "M11-L01-07",
+   "role": "Étape 7 · bulle 1",
+   "texte_dit": "Le kilo: voir grille, Remise: selon volume: des rappels que l'orateur se fait à lui-même.",
+   "empreinte_texte_dit": "f3c1733b54b61898bf345ce8cc9f60218a14b997ba4dc42eeb0aad2c86303101",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle1.mp3",
+   "octets": 102862,
+   "duree_s": 6.36,
+   "caracteres_dits": 89,
+   "caracteres_factures": 89,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.02,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le kilo, voire grille, remise, selon volume,\n dérapelle que l'orateur se fait à lui-même.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le kilo, voire grille, remise.\n Selon volume, des rappels que l'orateur se fait à lui-même.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-bulle2",
+   "etape_lms": "M11-L01-07",
+   "role": "Étape 7 · bulle 2",
+   "texte_dit": "Projetées elles passent; envoyées, elles font perdre la commande.",
+   "empreinte_texte_dit": "49da187a00b4b9a0c4a7adc80fe3c3b275222b051289d17ca0b3b2382d96aee6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-bulle2.mp3",
+   "octets": 68171,
+   "duree_s": 4.2,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.056,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Projetée elle passe.\n Envoyez, elles font perdre la commande.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.111,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Projeter Lpass. Envoyer, elles font perdre la commande.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M11-L01-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Remplacez le contenu par: Bar de ligne 24 euros le kilo, Remise de 8 % au-delà de 30 kilos. Un chiffre se lit sans vous; un renvoi à une grille absente, non.",
+   "empreinte_texte_dit": "b260064f7c05b051b523fdd8ff6a91cb5ff2441200065e3d66433216f8c6e029",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 171825,
+   "duree_s": 10.68,
+   "caracteres_dits": 157,
+   "caracteres_factures": 157,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Remplacez le contenu par « barre de lignée 24€ le kilo »\n remise de 8% au-delà de 30 kilos.\n Un chiffre se lit sans vous.\n Un renvoi à une grille absente ? Non.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Remplacez le contenu par barre de ligne 24 euros le kilo,\n remise de 8% au-delà de 30 kilos.\n Un chiffre se lit sans vous.\n Un renvoi à une grille absente ? Non.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M11-L01-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Double-cliquez dans le contenu pour l'ouvrir, puis remplacez tout.",
+   "empreinte_texte_dit": "4509f5b67e52260dea556ebf63f69a39feabe3a1aef2314d72a938a5ebcec15b",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 58140,
+   "duree_s": 3.56,
+   "caracteres_dits": 66,
+   "caracteres_factures": 66,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Double-cliquez dans le contenu pour l'ouvrir, puis remplace\nz tout.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.025,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Double-kicker dans le contenu pour l'ouvrir, puis remplacer\n tout.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M11-L01-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "La diapositive passe maintenant le test: elle informe même quand personne ne parle.",
+   "empreinte_texte_dit": "ed883d09b26d56599481a420549f512f63e1a04a4c2a022c257edef5b93dc9a6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 76530,
+   "duree_s": 4.72,
+   "caracteres_dits": 83,
+   "caracteres_factures": 83,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La diapositive passe maintenant le test. Elle informe même\n quand personne ne parle.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "La diapositive passe maintenant le test.\n Elle informe même quand personne ne parle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M11-L01-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Écrivez sa note: Prix de février, à revoir en avril. La note reste utile, mais pour vous, et seulement tant que le fichier ne sort pas.",
+   "empreinte_texte_dit": "93baef5875fe76a6dc133217f83f20ead1615702ad7db9adf4bac02d1c8e870f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 129611,
+   "duree_s": 8.04,
+   "caracteres_dits": 135,
+   "caracteres_factures": 135,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.013,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Écrivez sa note, pris de février à revoir en avril.\n La note reste utile, mais pour vous, et seulement tant que\n le fichier ne sort pas.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "écrivez sa note.\n Prix de février, à revoir en avril.\n La note reste utile, mais pour vous, et seulement tant que\n le fichier ne sort pas.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "M11-L01-09",
+   "role": "Étape 9 · aide",
+   "texte_dit": "Le volet des notes s'ouvre sous la diapositive de Nos prix; ce que vous y écrivez ne s'affiche jamais en projection.",
+   "empreinte_texte_dit": "5ddb2c5afc26826137ccacc80619135ad43684bb03c467611b1c97d4a6a05457",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 93248,
+   "duree_s": 5.76,
+   "caracteres_dits": 116,
+   "caracteres_factures": 116,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le volet des notes s'ouvre sous la diapositive de nos prix.\n Ce que vous y écrivez ne s'affiche jamais en projection.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le volet des notes s'ouvre sous la diapositive de nos prix.\n Ce que vous y écrivez ne s'affiche jamais en projection.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-retour",
+   "etape_lms": "M11-L01-09",
+   "role": "Étape 9 · retour de réussite",
+   "texte_dit": "Note enregistrée: elle vous sert tant que le fichier ne sort pas de l'entreprise. Le module 11 revient sur ce qu'il faut en faire avant un envoi.",
+   "empreinte_texte_dit": "5534ba261d5ca046962eb2c326a9c15005e05fb31fb8b50c0eb7518bcd875aa9",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-retour.mp3",
+   "octets": 125849,
+   "duree_s": 7.8,
+   "caracteres_dits": 145,
+   "caracteres_factures": 145,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Note enregistrée. Elle vous sert tant que le fichier ne\n sort pas de l'entreprise.\n Le module 11 revient sur ce qu'il faut en faire avant un\n envoi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Note enregistrée. Elle vous sert tant que le fichier ne\n sort pas de l'entreprise.\n Le module 11 revient sur ce qu'il faut en faire avant un\n envoi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M11-L01-10",
+   "role": "Étape 10 · consigne",
+   "texte_dit": "À retenir: le test de l'absence se pose à chaque diapositive. Ce qui y échoue n'est pas mauvais, c'est bon pour la salle et mauvais pour l'envoi. D'où deux versions, et la règle des deux leçons qui suivent: on dépouille pour projeter, on complète pour envoyer.",
+   "empreinte_texte_dit": "7b467e69614f99400581e369dd8af300a6092e8650df803e533696462fa364f7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 239952,
+   "duree_s": 14.92,
+   "caracteres_dits": 260,
+   "caracteres_factures": 260,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.014,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "A retenir, le test de l'absence se pose à chaque diapos\nitive.\n Ce qui échoue n'est pas mauvais.\n C'est bon pour la salle et mauvais pour l'envoi.\n D'où deux versions et la règle des deux leçons qui suivent.\n On dépouille pour projeter, on complète pour envoyer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.007,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "A retenir, le test de l'absence se pose à chaque diapos\nitive.\n Ce qui y échoue n'est pas mauvais, c'est bon pour la salle\n et mauvais pour l'envoi.\n D'où deux versions et la règle des deux leçons qui suivent.\n On dépouille pour projeter, on complète pour envoyer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-bulle1",
+   "etape_lms": "M11-L01-10",
+   "role": "Étape 10 · bulle 1",
+   "texte_dit": "Le test de l'absence se pose à chaque diapositive.",
+   "empreinte_texte_dit": "4dc428a361d82ac7fc4f5f0d342db4a0860978c69443abc1ec64523b3c6aa573",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-bulle1.mp3",
+   "octets": 55632,
+   "duree_s": 3.4,
+   "caracteres_dits": 50,
+   "caracteres_factures": 50,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le test de l'absence se pose à chaque diapositive.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le test de l'absence se pose à chaque diapositive.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-bulle2",
+   "etape_lms": "M11-L01-10",
+   "role": "Étape 10 · bulle 2",
+   "texte_dit": "Ce qui y échoue n'est pas mauvais: c'est bon pour la salle, et mauvais pour l'envoi.",
+   "empreinte_texte_dit": "09e67337d938bd75c8fdbe053819f302c8a8ca45afa9ad4f2f48eedf18fee832",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-bulle2.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.022,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce qui échoue n'est pas mauvais.\n C'est bon pour la salle et mauvais pour l'envoi.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ce qui y échoue n'est pas mauvais.\n C'est bon pour la salle et mauvais pour l'envoi.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Le test est posé et une diapositive y a échoué. Les deux leçons suivantes construisent les deux versions, l'une après l'autre.",
+   "empreinte_texte_dit": "1f37080821af09821c2f78ce93185eafc8690fe4c97aa75f92be063c8e253518",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/outro.mp3",
+   "octets": 117490,
+   "duree_s": 7.28,
+   "caracteres_dits": 126,
+   "caracteres_factures": 126,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le test est posé et une diapositive y a échoué.\n Les deux leçons suivantes construisent les deux versions l'\nune après l'autre.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le test est posé et une diapositive y a échoué.\n Les deux leçons suivantes construisent les deux versions l'\nune après l'autre.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

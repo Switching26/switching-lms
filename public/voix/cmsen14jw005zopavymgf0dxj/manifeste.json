@@ -1,0 +1,1293 @@
+{
+ "chapitre": {
+  "chapterId": "cmsen14jw005zopavymgf0dxj",
+  "app": "POWERPOINT",
+  "section": "",
+  "titre": "Exercice — Couper et alléger"
+ },
+ "voix": {
+  "fournisseur": "Google Cloud Text-to-Speech",
+  "nom": "fr-FR-Chirp3-HD-Aoede",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "audio": "LINEAR16 48 kHz reencode MP3 mono 44,1 kHz 128 kbps",
+  "avertissement": "moteur generatif : deux appels du meme texte ne rendent jamais le meme son"
+ },
+ "controle": {
+  "moteurs": [
+   "whisper small (severe)",
+   "whisper medium (second avis)"
+  ],
+  "implementation": "whisper.cpp, memes poids, servis en permanence",
+  "criteres": [
+   "ecart phonetique <= 0.12 mesure caractere par caractere",
+   "mots difficiles presents",
+   "aucun « SI » epele",
+   "nombres entendus identiques aux nombres dits"
+  ],
+  "regle": "un segment n'est valide que s'il passe sur les DEUX moteurs"
+ },
+ "totaux": {
+  "segments": 29,
+  "caracteres_dits": 2657,
+  "duree_totale_s": 168.5,
+  "segments_valides": 28,
+  "segments_plusieurs_essais": 2,
+  "segments_jamais_valides": 0,
+  "segments_acceptes_avec_trace": 1
+ },
+ "segments": [
+  {
+   "id": "intro",
+   "etape_lms": "intro",
+   "role": "Introduction du chapitre, dite a l'ouverture",
+   "texte_dit": "Une diapositive porte deux sujets, une autre répète une information, une troisième n'est pas prête. Coupez, retirez, et écartez ce qui n'est pas consolidé, chaque cas appelle un geste différent.",
+   "empreinte_texte_dit": "e4477321d6bbda262fa9382fa85ce135a77472486c430caaa20cb73ad910a7eb",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/intro.mp3",
+   "octets": 192305,
+   "duree_s": 11.96,
+   "caracteres_dits": 194,
+   "caracteres_factures": 194,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une diapositive porte deux sujets, une autre répète une\n information, une troisième n'est pas prête.\n Coupez, retirez et écartez ce qui n'est pas consolidé. Cha\nque cas appelle un geste différent.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une diapositive porte deux sujets, une autre répète une\n information, une troisième n'est pas prête.\n Couper, retirer et écarter ce qui n'est pas consolidé. Cha\nque cas appelle un geste différent.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e1-consigne",
+   "etape_lms": "M06-E03-01",
+   "role": "Étape 1 · consigne",
+   "texte_dit": "Affichez la diapositive dont le titre contient un et: elle porte deux sujets.",
+   "empreinte_texte_dit": "bdc7056d93936b9761ff4e96d8399e8061325a07667aa7d141a7c083c7802c74",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-consigne.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 77,
+   "caracteres_factures": 231,
+   "essais": 3,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.044,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": {
+      "attendus": [
+       "2"
+      ],
+      "entendus": [
+       "1",
+       "2"
+      ]
+     },
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": false,
+     "transcription": "affichez la diapositive dont le titre contient 1 et elle\n porte deux sujets."
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Affichez la diapositive dont le titre contient un et elle porte deux sujets.",
+     "implementation": "whisper Python medium CPU FP32"
+    },
+    "valide_sur_les_deux": false,
+    "acceptation_avec_trace": {
+     "sha256_mp3": "6189e33d2a39f6bc431b304cd6d735081dc901e00ca6aab576ec4f29163d5e59",
+     "raison": "Small divergent ; medium CPU FP32 intégral restitue exactement le texte parlé normalisé, chiffres/sigles/références/raccourcis identiques. Acceptation sémantique tracée selon la consigne du chef ; aucun double PASS ni écoute humaine déclarée.",
+     "transcription_medium_cpu": "Affichez la diapositive dont le titre contient un et elle porte deux sujets.",
+     "controle_medium_cpu": {
+      "wer": 0.0,
+      "seuil": 0.12,
+      "manquants": [],
+      "artefacts": [],
+      "nombres": null,
+      "sigles": null,
+      "references": null,
+      "raccourcis": null,
+      "ok": true,
+      "transcription": "Affichez la diapositive dont le titre contient un et elle porte deux sujets.",
+      "implementation": "whisper Python medium CPU FP32"
+     },
+     "comparaison_phonetique_exacte": true,
+     "date": "2026-10-07T07:22:51.783349",
+     "preuve_initiale": "/Users/switchingformation/voix-bureautique-mission/tri-rejets-powerpoint.json"
+    }
+   }
+  },
+  {
+   "id": "e1-aide",
+   "etape_lms": "M06-E03-01",
+   "role": "Étape 1 · aide",
+   "texte_dit": "C'est la deuxième miniature, intitulée Équipe et matériel.",
+   "empreinte_texte_dit": "841461ed4b8df1502eb1b2a64f0c5f7dbdf1b8f3a0f6b5adc8e51cf7e17e6a52",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e1-aide.mp3",
+   "octets": 69007,
+   "duree_s": 4.24,
+   "caracteres_dits": 58,
+   "caracteres_factures": 58,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est la deuxième miniature intitulée équipe et matériel.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est la deuxième miniature, intitulée « équipe et matériel\n ».",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-consigne",
+   "etape_lms": "M06-E03-02",
+   "role": "Étape 2 · consigne",
+   "texte_dit": "Ne gardez sur cette diapositive que les trois lignes qui concernent les personnes: 12 salariés, 4 apprentis, 2 recrutements en cours.",
+   "empreinte_texte_dit": "c1953419e76c31832d111f1fb0832ee33b3f93d486610b3421d8ffdf35cfcc35",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-consigne.mp3",
+   "octets": 134208,
+   "duree_s": 8.32,
+   "caracteres_dits": 133,
+   "caracteres_factures": 133,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ne gardez sur cette diapositive que les trois lignes qui\n concernent les personnes.\n 12 salariés, 4 apprentis, 2 recrutements en cours.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Ne garder sur cette diapositive que les trois lignes qui\n concernent les personnes.\n 12 salariés, 4 apprentis, 2 recrutements en cours.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-aide",
+   "etape_lms": "M06-E03-02",
+   "role": "Étape 2 · aide",
+   "texte_dit": "Double-cliquez dans le bloc, effacez tout, puis saisissez les trois lignes conservées.",
+   "empreinte_texte_dit": "6947fd962e55359c074b15ca9ad783ac86b102c8f048baa7da8c3b093f2cd65c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-aide.mp3",
+   "octets": 76112,
+   "duree_s": 4.68,
+   "caracteres_dits": 86,
+   "caracteres_factures": 86,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Double-cliquez dans le bloc, effacez tout, puis saisissez\n les trois lignes conservées.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Double-cliquer dans le bloc, effacer tout, puis saisissez\n les trois lignes conservées.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e2-retour",
+   "etape_lms": "M06-E03-02",
+   "role": "Étape 2 · retour de réussite",
+   "texte_dit": "Le texte saisi remplace maintenant l'invite dans le cadre de contenu.",
+   "empreinte_texte_dit": "456e6bae3ec48fa300448fc831bf976ec52fb5bf2fa912d89175b75ff7cfdf6d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e2-retour.mp3",
+   "octets": 59812,
+   "duree_s": 3.68,
+   "caracteres_dits": 69,
+   "caracteres_factures": 69,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Le texte saisir en place maintenant l'invite dans le cadre\n de contenu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "raccourcis": null,
+     "ok": true,
+     "transcription": "Le texte saisie remplace maintenant l'invite dans le cadre\n de contenu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-consigne",
+   "etape_lms": "M06-E03-03",
+   "role": "Étape 3 · consigne",
+   "texte_dit": "Son titre doit maintenant annoncer un seul sujet: Seize personnes sur le terrain.",
+   "empreinte_texte_dit": "2e4b294c42e9c1e7870ea47600086e12034ce6645c521265bb8ddb8d0dbbfb35",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-consigne.mp3",
+   "octets": 79038,
+   "duree_s": 4.88,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Son titre doit maintenant annoncer un seul sujet, 16\n personnes sur le terrain.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Son titre doit maintenant annoncer un seul sujet, 16\n personnes sur le terrain.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-aide",
+   "etape_lms": "M06-E03-03",
+   "role": "Étape 3 · aide",
+   "texte_dit": "C'est le grand cadre du haut de Équipe et matériel. Un simple clic ne fait que sélectionner un cadre rempli: le double-clic ouvre la saisie. Une seule ligne, 5 mots.",
+   "empreinte_texte_dit": "f0ce47db028422baa55ce4362abc0343123ff018b092f80ec7302a615c5317b6",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-aide.mp3",
+   "octets": 173079,
+   "duree_s": 10.76,
+   "caracteres_dits": 165,
+   "caracteres_factures": 165,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le grand cadre du haut de équipe et matériel.\n Un simple clic ne fait que sélectionner un cadre rempli.\n Le double clic ouvre la saisie.\n Une seule ligne, 5 mots.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le grand cadre du haut de équipe et matériel.\n Un simple clic ne fait que sélectionner un cadre rempli.\n Le double clic ouvre la saisie.\n Une seule ligne, cinq mots.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e3-retour",
+   "etape_lms": "M06-E03-03",
+   "role": "Étape 3 · retour de réussite",
+   "texte_dit": "Seize personnes sur le terrain est en place, l'espace réservé porte votre texte, à la place et à la taille prévues.",
+   "empreinte_texte_dit": "db5733d2fddeae4fcf2d6c44d789e6e4d08892c10bb4af46cb30e969b494a96d",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e3-retour.mp3",
+   "octets": 118326,
+   "duree_s": 7.32,
+   "caracteres_dits": 115,
+   "caracteres_factures": 115,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "16 personnes sur le terrain est en place, l'espace réservé\n porte votre texte à la place et à la taille prévue.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "16 personnes sur le terrain est en place, l'espace réservé\n porte votre texte à la place et à la taille prévue.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-consigne",
+   "etape_lms": "M06-E03-04",
+   "role": "Étape 4 · consigne",
+   "texte_dit": "Le second sujet a besoin de sa propre diapositive. Créez-la juste après celle-ci.",
+   "empreinte_texte_dit": "9c0ec6c58d2ba806e126b027c3c1401ba1a41c003f4fbf4cc66231e21def0060",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-consigne.mp3",
+   "octets": 80292,
+   "duree_s": 4.96,
+   "caracteres_dits": 81,
+   "caracteres_factures": 81,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le second sujet a besoin de sa propre diapositive.\n Créez-la juste après celle-ci.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le second sujet a besoin de sa propre diapositive.\n Créez-la juste après celle-ci.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-aide",
+   "etape_lms": "M06-E03-04",
+   "role": "Étape 4 · aide",
+   "texte_dit": "Groupe Diapositives, bouton Nouvelle.",
+   "empreinte_texte_dit": "43c4816713551dcb9bf3668da1a82ff4a2a1a2ed436445a35f090a292a962b61",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 37,
+   "caracteres_factures": 37,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Groupe Diapositives, boutons nouvelles.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Groupe Diapositives, bouton nouvelle.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e4-retour",
+   "etape_lms": "M06-E03-04",
+   "role": "Étape 4 · retour de réussite",
+   "texte_dit": "Une diapositive de plus, en Titre et contenu, insérée après celle qui était affichée.",
+   "empreinte_texte_dit": "6aad81af5d814f93d80c657c53522f113179028f7344b5f58fc3093c86745ce8",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e4-retour.mp3",
+   "octets": 84889,
+   "duree_s": 5.24,
+   "caracteres_dits": 85,
+   "caracteres_factures": 85,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une diapositive de plus en titre et contenu, insérée après\n celle qui était affichée.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "une diapositive de plus, en titre et contenu, insérée après\n celle qui était affichée.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-consigne",
+   "etape_lms": "M06-E03-05",
+   "role": "Étape 5 · consigne",
+   "texte_dit": "Donnez-lui pour titre: Trois machines pour la saison.",
+   "empreinte_texte_dit": "75955de4ff427287cc0671b7fb4be7b46f807e5e5d1a1c6099fbdaba4d1c5812",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-consigne.mp3",
+   "octets": 56886,
+   "duree_s": 3.48,
+   "caracteres_dits": 53,
+   "caracteres_factures": 53,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez-lui pour titre. Trois machines pour la saison.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Donnez-lui pour titre.\n Trois machines pour la saison.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-aide",
+   "etape_lms": "M06-E03-05",
+   "role": "Étape 5 · aide",
+   "texte_dit": "C'est le grand cadre du haut: un cadre vide s'ouvre au simple clic, un cadre déjà rempli au double-clic. Une seule ligne, 5 mots.",
+   "empreinte_texte_dit": "c5ab5aa5585d814a41b907cd437592c98324ce81e2dbb833c293f6685ff92912",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-aide.mp3",
+   "octets": 137552,
+   "duree_s": 8.52,
+   "caracteres_dits": 129,
+   "caracteres_factures": 129,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le grand cadre du haut. Un cadre vide s'ouvre au\n simple clic, un cadre déjà rempli au double clic. Une seule\n ligne, cinq mots.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est le grand cadre du haut.\n Un cadre vide s'ouvre au simple clic,\n un cadre déjà rempli au double clic.\n Une seule ligne, cinq mots.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e5-retour",
+   "etape_lms": "M06-E03-05",
+   "role": "Étape 5 · retour de réussite",
+   "texte_dit": "Le titre affiche Trois machines pour la saison: l'invite a disparu.",
+   "empreinte_texte_dit": "edb03ec10788e80db840817adb6b3193242b8306c44a52287f5dbc6483dd343f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e5-retour.mp3",
+   "octets": 65663,
+   "duree_s": 4.04,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le titre affiche trois machines pour la saison. L'invite a\n disparu.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Le titre affiche trois machines pour la saison. L'invite a\n disparu.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-consigne",
+   "etape_lms": "M06-E03-06",
+   "role": "Étape 6 · consigne",
+   "texte_dit": "Reportez-y les trois lignes de matériel: Deux tondeuses autoportées, Un broyeur de branches, Une mini-pelle.",
+   "empreinte_texte_dit": "f90da05f38cc6291b1569e90517fb985f5a76233bea5a7de0012999870161c25",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-consigne.mp3",
+   "octets": 109131,
+   "duree_s": 6.76,
+   "caracteres_dits": 108,
+   "caracteres_factures": 216,
+   "essais": 2,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.07,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Reportez-y les trois lignes de matériel.\n Deux ton deus autoportés,\n un voyeur de branche,\n une mini pelle.",
+     "essai": 2
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Reportez-y les trois lignes de matériel.\n Deux tondeuses autoportées, un broyeur de branche, une mini\n-pelle.",
+     "essai": 2
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-aide",
+   "etape_lms": "M06-E03-06",
+   "role": "Étape 6 · aide",
+   "texte_dit": "Visez le grand bloc sous le titre de Trois machines pour la saison; s'il porte déjà du texte, ouvrez-le d'un double-clic. Le texte attendu tient sur 3 lignes: une par ligne, sans puce à saisir.",
+   "empreinte_texte_dit": "54c6da04a531244ba39990cb8cb28f7502818d6ad9602412d5d863ebf8941626",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-aide.mp3",
+   "octets": 191887,
+   "duree_s": 11.92,
+   "caracteres_dits": 193,
+   "caracteres_factures": 193,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Visez le grand bloc sous le titre de trois machines pour la\n saison.\n S'il porte déjà du texte, ouvrez-le d'un double clic.\n Le texte attendu tient sur trois lignes, une par ligne,\n sans puce à saisir.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Visez le grand bloc sous le titre de trois machines pour la\n saison.\n S'il porte déjà du texte, ouvrez-le d'un double clic.\n Le texte attendu tient sur trois lignes, une par ligne,\n sans puce à saisir.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e6-retour",
+   "etape_lms": "M06-E03-06",
+   "role": "Étape 6 · retour de réussite",
+   "texte_dit": "Deux tondeuses autoportées Un broyeur de branches Une mini-pelle est en place, l'espace réservé porte votre texte, à la place et à la taille prévues.",
+   "empreinte_texte_dit": "963d770c43ff3a676981555bac303b21795a126949ac019ddc974eb033c482f3",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e6-retour.mp3",
+   "octets": 162212,
+   "duree_s": 10.08,
+   "caracteres_dits": 149,
+   "caracteres_factures": 149,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "2 tondeuses autoportées\n Un broyeur de branche\n Une mini-pellette est en place\n L'espace réservé porte votre texte\n à la place et à la taille prévus",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "deux tondeuses autoportées,\n un broyeur de branche,\n une mini-pelle est en place,\n l'espace réservé porte votre texte,\n à la place et à la taille prévue.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-consigne",
+   "etape_lms": "M06-E03-07",
+   "role": "Étape 7 · consigne",
+   "texte_dit": "Une diapositive ne fait que redire l'effectif énoncé deux diapositives plus tôt. Affichez-la.",
+   "empreinte_texte_dit": "704744e76fe6eb150f3ca6aed896c1730c4885063a703e3667885771480d4cbc",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-consigne.mp3",
+   "octets": 97010,
+   "duree_s": 6.0,
+   "caracteres_dits": 93,
+   "caracteres_factures": 93,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.109,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une diapositive ne fait que redire l'effectif et non c'est\n deux diapositifs plutôt.\n Affichez-la.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.036,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une diapositive ne fait que redire l'effectif et non ces\n deux diapositives plus tôt.\n Affichez-la.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e7-aide",
+   "etape_lms": "M06-E03-07",
+   "role": "Étape 7 · aide",
+   "texte_dit": "C'est celle intitulée Pour mémoire.",
+   "empreinte_texte_dit": "9df9299974dbede5446ef19ed84247e95be552e1b47fddd975292036ddf7b710",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e7-aide.mp3",
+   "octets": 41422,
+   "duree_s": 2.52,
+   "caracteres_dits": 35,
+   "caracteres_factures": 35,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est celle intitulée « Pour mémoire ».",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.24,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est celle intitulée \"Pour mémoire\".",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-consigne",
+   "etape_lms": "M06-E03-08",
+   "role": "Étape 8 · consigne",
+   "texte_dit": "Une redite ne se déplace pas: retirez-la définitivement.",
+   "empreinte_texte_dit": "d183391517e74a6ee2cd41ace7ef959a3746b9b5ad3ce68884bc01b88914c761",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-consigne.mp3",
+   "octets": 60648,
+   "duree_s": 3.72,
+   "caracteres_dits": 56,
+   "caracteres_factures": 56,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une redite ne se déplace pas. Retirez-la définitivement.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.15,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une redite ne se déplace pas. Retirez-la définitivement.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-aide",
+   "etape_lms": "M06-E03-08",
+   "role": "Étape 8 · aide",
+   "texte_dit": "Groupe Diapositives, bouton Supprimer.",
+   "empreinte_texte_dit": "7d254b73dc404c71dddb3d35744a9380001c75f2f5bbe853a17471f1a90601b1",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-aide.mp3",
+   "octets": 57304,
+   "duree_s": 3.52,
+   "caracteres_dits": 38,
+   "caracteres_factures": 38,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "groupe diapositive, bouton supprimaire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.3,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Groupe diapositive, bouton supprimer.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e8-retour",
+   "etape_lms": "M06-E03-08",
+   "role": "Étape 8 · retour de réussite",
+   "texte_dit": "Pour mémoire est retirée: la présentation en compte 4 maintenant.",
+   "empreinte_texte_dit": "8e84287fb389f090ac853f7ffad48b1691af833efa65be4da757dd548f7174de",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e8-retour.mp3",
+   "octets": 67753,
+   "duree_s": 4.16,
+   "caracteres_dits": 65,
+   "caracteres_factures": 65,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Pour mémoire et retirer.\n La présentation en compte 4 maintenant.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.023,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Pour mémoire et retirer.\n La présentation en compte 4 maintenant.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-consigne",
+   "etape_lms": "M06-E03-09",
+   "role": "Étape 9 · consigne",
+   "texte_dit": "Reste le budget, dont les montants ne sont pas arbitrés. Affichez cette diapositive.",
+   "empreinte_texte_dit": "fb984382bd3824192c8f425dfb3e57fccf1bbbf7756931e87bb07781553a644f",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-consigne.mp3",
+   "octets": 83635,
+   "duree_s": 5.16,
+   "caracteres_dits": 84,
+   "caracteres_factures": 84,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Reste le budget, dont les montants ne sont pas arbitrés.\n Affichez cette diapositive.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Reste le budget, dont les montants ne sont pas arbitrés.\n Affichez cette diapositive.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e9-aide",
+   "etape_lms": "M06-E03-09",
+   "role": "Étape 9 · aide",
+   "texte_dit": "C'est la dernière vignette du volet, intitulée Budget 2027.",
+   "empreinte_texte_dit": "b7cdadc0aaefa9f63699a4baf35e63cd2a8409872b421819d2ff62da4609f3d7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e9-aide.mp3",
+   "octets": 64409,
+   "duree_s": 3.96,
+   "caracteres_dits": 59,
+   "caracteres_factures": 59,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est la dernière vignette du volet, intitulée Budget 2027.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "C'est la dernière vignette du volet, intitulée Budget 2027.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-consigne",
+   "etape_lms": "M06-E03-10",
+   "role": "Étape 10 · consigne",
+   "texte_dit": "Elle resservira une fois les arbitrages rendus: appliquez-lui le traitement qui la conserve sans la montrer.",
+   "empreinte_texte_dit": "dd4117e7f55bd1e4d27a1d143b6444ebc692c707c4b43f9932169e4068daa48c",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-consigne.mp3",
+   "octets": 89487,
+   "duree_s": 5.52,
+   "caracteres_dits": 108,
+   "caracteres_factures": 108,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.03,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Elle reservira une fois les arbitrages rendus.\n Appliquez-lui le traitement qu'il a conservé sans la\n montrer.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Elle resservira une fois les arbitrages rendus.\n Appliquez-lui le traitement qui la conserve sans la montrer\n.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-aide",
+   "etape_lms": "M06-E03-10",
+   "role": "Étape 10 · aide",
+   "texte_dit": "Groupe Diaporama, bouton Masquer. La supprimer obligerait à la refaire.",
+   "empreinte_texte_dit": "2eae7e0812aef73b4ecf053152feafedd1d92d7e90e06028130c5848b5c35f48",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-aide.mp3",
+   "octets": 77366,
+   "duree_s": 4.76,
+   "caracteres_dits": 71,
+   "caracteres_factures": 71,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.049,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Groupe diaporama, bouton masqueur.\n La supprimer obligerait à la refaire.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.049,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Groupe diaporama, bouton masqueur.\n La supprimer obligerait à la refaire.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "e10-retour",
+   "etape_lms": "M06-E03-10",
+   "role": "Étape 10 · retour de réussite",
+   "texte_dit": "Masquée: elle attendra les arbitrages sans encombrer la projection.",
+   "empreinte_texte_dit": "e4799800ec51bf1b90e00bb06d4835741ca87e8b942947c14eb6fa5c944233d7",
+   "reparations": [],
+   "ssml": false,
+   "fichier": "audio/e10-retour.mp3",
+   "octets": 69425,
+   "duree_s": 4.28,
+   "caracteres_dits": 67,
+   "caracteres_factures": 67,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Masquer. Elle attendra les arbitrages sans encombrer la\n projection.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.133,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Masquée. Elle attendra les arbitrages sans encombrer la\n projection.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  },
+  {
+   "id": "outro",
+   "etape_lms": "outro",
+   "role": "Conclusion du chapitre",
+   "texte_dit": "Une idée par diapositive, aucune redite, rien d'incertain à l'écran: la présentation est présentable.",
+   "empreinte_texte_dit": "9e72261f7cb1a26cb1c17bc410b40df1fb622270dfa264c86697750b7fd79c3a",
+   "reparations": [
+    "l'écran"
+   ],
+   "ssml": true,
+   "fichier": "audio/outro.mp3",
+   "octets": 107877,
+   "duree_s": 6.68,
+   "caracteres_dits": 101,
+   "caracteres_factures": 162,
+   "essais": 1,
+   "controle": {
+    "moteur_severe_small": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une idée par diapositive, aucune redite, rien d'incertain à\n l'écran.\n La présentation est présentable.",
+     "essai": 1
+    },
+    "moteur_second_medium": {
+     "wer": 0.0,
+     "seuil": 0.12,
+     "manquants": [],
+     "artefacts": [],
+     "nombres": null,
+     "sigles": null,
+     "references": null,
+     "ok": true,
+     "transcription": "Une idée par diapositive, aucune redite, rien d'incertain à\n l'écran.\n La présentation est présentable.",
+     "essai": 1
+    },
+    "valide_sur_les_deux": true
+   }
+  }
+ ]
+}

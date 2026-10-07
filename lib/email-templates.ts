@@ -1,5 +1,69 @@
 import { buildLoginLinks } from "@/lib/login-link"
 
+// Registre partagé pour les nouveaux mails de l'espace formateur.
+export const TRAINER_EMAIL_TYPES = [
+  { value: "TRAINER_NEW_STUDENT", label: "Nouvel élève attribué au formateur" },
+  { value: "TRAINER_NEW_MESSAGE", label: "Nouveau message au formateur" },
+] as const
+
+function trainerEscape(value: string): string {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;")
+}
+
+export interface TrainerNewStudentMailData {
+  trainerFirstName: string
+  firstName: string
+  lastName: string
+  civility?: string | null
+  email: string
+  phone?: string | null
+  formationLabel: string
+  visioHours?: number | null
+  hasElearning: boolean
+  adminStartAt: Date
+  adminEndAt?: Date | null
+  visioStartAt?: Date | null
+  assignmentUrl: string
+}
+
+/** Même gabarit LMS que les deux notifications validées dans la maquette SILAE. */
+export function trainerNewStudentEmail(data: TrainerNewStudentMailData, partner?: Parameters<typeof getBrand>[0]) {
+  const brand = getBrand(partner)
+  const female = /^(mme|madame|mlle|mademoiselle)\.?$/i.test(data.civility || "")
+  const name = `${data.firstName} ${data.lastName}`
+  const e = trainerEscape
+  const date = (value?: Date | null) => value ? value.toLocaleDateString("fr-FR", {
+    weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Paris",
+  }) : "À confirmer"
+  const hours = data.visioHours ? `${data.visioHours} heures` : "Durée à confirmer"
+  const line = (label: string, value: string, margin = 12) => `<p style="margin:0 0 4px;font-size:13px;color:#888;">${label}</p><p style="margin:0 0 ${margin}px;font-size:15px;color:#111;font-weight:600;overflow-wrap:anywhere;">${e(value)}</p>`
+  const html = layout(brand, `
+    <h1 style="margin:0 0 16px;font-size:22px;color:#111;">${female ? "Une nouvelle élève vous est attribuée" : "Un nouvel élève vous est attribué"}</h1>
+    <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">Bonjour <strong>${e(data.trainerFirstName)}</strong>, <strong>${e(name)}</strong> vient d'être ${female ? "inscrite" : "inscrit"} à la formation <strong>${e(data.formationLabel)}</strong>${data.hasElearning ? "" : ` (${e(hours)} en visioconférence)`} et vous est ${female ? "attribuée" : "attribué"} dans votre espace formatrice.</p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f7;border-radius:8px;margin:0 0 20px;"><tr><td style="padding:16px 20px;">
+      ${line("Élève", [name, data.email, data.phone].filter(Boolean).join(" · "))}
+      ${line(data.hasElearning ? "Démarrage administratif et ouverture de l'e-learning" : "Démarrage administratif", date(data.adminStartAt), 4)}
+      <p style="margin:0 0 12px;font-size:13px;color:#92400E;">À cette date : prise de contact, envoi de l'accès au logiciel SILAE${data.hasElearning ? "." : " et planning des visioconférences."}</p>
+      ${line(data.visioStartAt ? "Début des visioconférences" : "Visioconférences", data.visioStartAt ? `À partir du ${date(data.visioStartAt)} · ${hours}` : `${hours}, planning à convenir avec l'élève`)}
+      ${line("Fin administrative", date(data.adminEndAt), 0)}
+    </td></tr></table>
+    <p style="margin:0 0 8px;color:#555;font-size:15px;line-height:1.6;">${data.hasElearning
+      ? `Depuis sa fiche, vous pourrez indiquer la prise de contact, l'envoi de l'accès SILAE et le planning convenu. Vous recevrez aussi le mail de démarrage qui lui sera envoyé le ${e(data.adminStartAt.toLocaleDateString("fr-FR", { day: "numeric", month: "long", timeZone: "Europe/Paris" }))}.`
+      : "Cet élève n'a pas d'espace e-learning : vous le suivez depuis votre espace formatrice, où vous pourrez indiquer la prise de contact, l'envoi de l'accès SILAE, le planning convenu et ses séances."}</p>
+    ${button("Ouvrir sa fiche", e(data.assignmentUrl), brand.primaryColor)}
+  `)
+  return { subject: `${female ? "Nouvelle élève attribuée" : "Nouvel élève attribué"} — ${name} · ${data.formationLabel}`, html }
+}
+
+export function trainerNewMessageEmail(trainerFirstName: string, learnerName: string, messagesUrl: string, partner?: Parameters<typeof getBrand>[0]) {
+  const brand = getBrand(partner)
+  return {
+    subject: `Nouveau message — ${learnerName}`,
+    html: layout(brand, `<h1 style="margin:0 0 16px;font-size:22px;color:#111;">Un nouveau message vous attend</h1><p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">Bonjour <strong>${trainerEscape(trainerFirstName)}</strong>, <strong>${trainerEscape(learnerName)}</strong> vous a écrit depuis son espace e-learning.</p>${button("Ouvrir les messages", trainerEscape(messagesUrl), brand.primaryColor)}`),
+  }
+}
+
 interface BrandConfig {
   name: string
   primaryColor: string

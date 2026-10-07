@@ -17,6 +17,8 @@ const EMAIL_TYPE_LABELS: Record<string, string> = {
   CUSTOM: "Message",
   ASSESSMENT_INVITATION: "Invitation à une évaluation",
   ASSESSMENT_COMPLETED: "Évaluation terminée",
+  TRAINER_NEW_STUDENT: "Nouvel élève attribué au formateur",
+  TRAINER_NEW_MESSAGE: "Nouveau message au formateur",
 }
 
 /**

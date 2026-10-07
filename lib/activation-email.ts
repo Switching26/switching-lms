@@ -58,8 +58,10 @@ export async function sendActivationEmail(user: UserWithPartner): Promise<boolea
       couleur_secondaire: user.partner?.secondaryColor || "#F5F5F7",
       logo_url: user.partner?.logoUrl ? (user.partner.logoUrl.startsWith("http") ? user.partner.logoUrl : `${baseUrl}${user.partner.logoUrl.startsWith("/") ? "" : "/"}${user.partner.logoUrl}`) : "",
     }
-    return sendEmail(user.email, replaceVariables(dynamic.subject, vars), replaceVariables(dynamic.htmlContent, vars), user.id, "ACTIVATION_LINK", user.partner)
+    return sendEmail(user.email, replaceVariables(dynamic.subject, vars), replaceVariables(dynamic.htmlContent, vars), user.id, "ACTIVATION_LINK", user.partner,
+      user.role === "TRAINER" ? { bcc: "contact@switchingformation.com" } : undefined)
   }
   const emailData = resendActivationEmail(user.firstName, token, user.partner, user.partner?.slug)
-  return sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACTIVATION_LINK", user.partner)
+  return sendEmail(user.email, emailData.subject, emailData.html, user.id, "ACTIVATION_LINK", user.partner,
+    user.role === "TRAINER" ? { bcc: "contact@switchingformation.com" } : undefined)
 }

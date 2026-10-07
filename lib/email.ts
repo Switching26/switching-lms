@@ -217,14 +217,18 @@ async function sendViaGmailApi(
   html: string,
   senderEmail?: string,
   senderName?: string,
-  mailProfile?: string | null
+  mailProfile?: string | null,
+  options?: { bcc?: string }
 ): Promise<void> {
+  const bcc = options?.bcc?.trim()
+  if (bcc && /[\r\n]/.test(bcc)) throw new Error("Invalid Bcc header")
   const cfg = await getGmailConfigForProfile(mailProfile)
   const accessToken = await getGmailAccessToken(cfg)
 
   const headers = [
     `From: ${formatAddress(senderEmail || cfg.senderEmail, senderName || cfg.senderName)}`,
     `To: ${to}`,
+    ...(bcc ? [`Bcc: ${bcc}`] : []),
     `Subject: ${encodeHeader(subject)}`,
     "MIME-Version: 1.0",
     "Content-Type: text/html; charset=\"UTF-8\"",
@@ -260,7 +264,8 @@ export async function sendEmail(
   html: string,
   userId: string | null,
   type: EmailType,
-  partner?: PartnerSmtp | null
+  partner?: PartnerSmtp | null,
+  options?: { bcc?: string }
 ): Promise<boolean> {
   const log = async (success: boolean, error?: string) => {
     if (!userId) return
@@ -275,7 +280,7 @@ export async function sendEmail(
     const partnerSenderName = partner?.name || undefined
     // L'adresse d'envoi suit le profil de l'organisme (Switching a la sienne),
     // le nom affiché reste celui du partenaire.
-    await sendViaGmailApi(to, subject, html, undefined, partnerSenderName, partner?.mailProfile)
+    await sendViaGmailApi(to, subject, html, undefined, partnerSenderName, partner?.mailProfile, options)
 
     await log(true)
     return true

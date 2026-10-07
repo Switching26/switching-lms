@@ -7,6 +7,7 @@ const roleRoutes: Record<string, string> = {
   "/super-admin": "SUPER_ADMIN",
   "/partner-admin": "PARTNER_ADMIN",
   "/learner": "LEARNER",
+  "/trainer": "TRAINER",
 }
 
 // Resolve URL base from X-Forwarded-* (Tailscale serve, Railway proxy, etc.)
@@ -55,7 +56,7 @@ export default auth((req) => {
     pathname.startsWith("/evaluation/") ||
     pathname.startsWith("/api/") ||
     pathname.startsWith("/_next/") ||
-    pathname.includes(".")
+    (pathname.includes(".") && !(pathname === "/trainer" || pathname.startsWith("/trainer/")))
   ) {
     return
   }
@@ -65,6 +66,11 @@ export default auth((req) => {
   }
 
   const effectiveRole = user.role
+  // Existing login sends every role to /. Route trainers before app/page.tsx,
+  // whose role switch is maintained outside the trainer foundation lot.
+  if (pathname === "/" && String(effectiveRole) === "TRAINER") {
+    return Response.redirect(new URL("/trainer", base))
+  }
 
   // L'admin qui visualise l'espace d'un apprenant et retourne vers SON propre espace
   // (favori, adresse tapée, onglet rouvert) : on termine la visualisation au lieu de
@@ -83,6 +89,7 @@ export default auth((req) => {
         SUPER_ADMIN: "/super-admin/dashboard",
         PARTNER_ADMIN: "/partner-admin/dashboard",
         LEARNER: "/learner/accueil",
+        TRAINER: "/trainer",
       }
       return Response.redirect(new URL(dashboards[effectiveRole] || "/login", base))
     }

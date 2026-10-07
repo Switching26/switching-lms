@@ -11,6 +11,7 @@ enum Role {
   SUPER_ADMIN
   PARTNER_ADMIN
   LEARNER
+  TRAINER
 }
 
 enum EmailType {
@@ -24,6 +25,8 @@ enum EmailType {
   ASSESSMENT_INVITATION
   ASSESSMENT_COMPLETED
   CUSTOM
+  TRAINER_NEW_STUDENT
+  TRAINER_NEW_MESSAGE
 }
 
 enum TokenType {
@@ -69,6 +72,8 @@ model User {
   conversationsAsLearner Conversation[]         @relation("ConversationLearner")
   conversationsAsAdmin   Conversation[]         @relation("ConversationAdmin")
   messages               Message[]
+  trainerAssignments     TrainerAssignment[] @relation("AssignmentTrainer")
+  learnerAssignments     TrainerAssignment[] @relation("AssignmentLearner")
 
   @@index([email])
   @@index([partnerId])
@@ -239,10 +244,66 @@ model Enrollment {
   completedAt         DateTime?
   assignedByPartnerId String?
   assignedByPartner   Partner?  @relation(fields: [assignedByPartnerId], references: [id])
+  trainerAssignment   TrainerAssignment?
 
   @@unique([userId, formationId])
   @@index([userId])
   @@index([formationId])
+}
+
+model TrainerAssignment {
+  id                   String   @id @default(cuid())
+  trainerId            String
+  trainer              User     @relation("AssignmentTrainer", fields: [trainerId], references: [id], onDelete: Cascade)
+  learnerId            String?
+  learner              User?    @relation("AssignmentLearner", fields: [learnerId], references: [id], onDelete: SetNull)
+  enrollmentId         String?  @unique
+  enrollment           Enrollment? @relation(fields: [enrollmentId], references: [id], onDelete: SetNull)
+  crmBeneficiaireId     Int?     @unique
+  civility             String?
+  firstName            String
+  lastName             String
+  email                String
+  phone                String?
+  formationLabel       String
+  visioHours           Int?
+  hasElearning         Boolean  @default(false)
+  adminStartAt         DateTime
+  adminEndAt           DateTime?
+  visioStartAt         DateTime?
+  contactDoneAt        DateTime?
+  silaeAccessSentAt     DateTime?
+  planningAgreedAt     DateTime?
+  planningNote         String?  @db.Text
+  noAnswerAt           DateTime?
+  trainerNotifiedAt    DateTime?
+  archivedAt           DateTime?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  sessions             TrainerSession[]
+
+  @@index([trainerId])
+  @@index([learnerId])
+}
+
+enum TrainerSessionStatus {
+  PLANNED
+  DONE
+  CANCELLED
+}
+
+model TrainerSession {
+  id              String   @id @default(cuid())
+  assignmentId    String
+  assignment      TrainerAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  startsAt        DateTime
+  durationMinutes Int      @default(60)
+  status          TrainerSessionStatus @default(PLANNED)
+  note            String?  @db.Text
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([assignmentId, startsAt])
 }
 
 model License {

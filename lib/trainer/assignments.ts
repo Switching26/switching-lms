@@ -1,11 +1,13 @@
-import type { Prisma } from "@prisma/client"
+import { TrainerContactKind, type Prisma } from "@prisma/client"
 import { prisma } from "@/lib/prisma"
-import { assertTrainerOwnsAssignment, trainerAssignmentScope, TrainerAccessError } from "./access"
+import { assertTrainerOwnsAssignment, trainerAssignmentScope, TrainerAccessError, withTrainerTransaction } from "./access"
+import { syncContactFields } from "./contacts"
 import { sortChaptersByLearningOrder } from "@/lib/data/chapter-order"
 import { getFormationQuizResults } from "@/lib/data/quiz"
 
 export interface CreateTrainerAssignmentInput {
   trainerId: string
+  partnerId?: string | null
   learnerId?: string | null
   enrollmentId?: string | null
   crmBeneficiaireId?: number | null
@@ -23,6 +25,9 @@ export interface CreateTrainerAssignmentInput {
 }
 
 export function trainerDate(value: Date | string, field: string): Date {
+  if (!(value instanceof Date) && (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}T.*(?:Z|[+-]\d{2}:\d{2})$/i.test(value))) {
+    throw new TrainerAccessError(`Date ISO avec fuseau obligatoire : ${field}`, 400)
+  }
   const date = value instanceof Date ? value : new Date(value)
   if (!Number.isFinite(date.getTime())) throw new TrainerAccessError(`Date invalide : ${field}`, 400)
   return date
@@ -48,20 +53,34 @@ export async function createTrainerAssignment(input: CreateTrainerAssignmentInpu
   }
   return prisma.$transaction(async (tx) => {
     const trainer = await tx.user.findUnique({ where: { id: input.trainerId },
-      select: { role: true, isActive: true, archivedAt: true, partner: { select: { isInternal: true } } } })
+      select: { role: true, isActive: true, archivedAt: true,
+        trainerPartners: { where: { partner: { isActive: true } }, include: { partner: { select: { isInternal: true } } } } } })
     if (!trainer || trainer.role !== "TRAINER" || !trainer.isActive || trainer.archivedAt ||
-      (trainer.partner && !trainer.partner.isInternal)) throw new TrainerAccessError("Formatrice Switching introuvable", 400)
+      !trainer.trainerPartners.length) throw new TrainerAccessError("Formatrice introuvable ou sans organisme", 400)
+    let partnerId = input.partnerId || null
     if (input.enrollmentId) {
       const enrollment = await tx.enrollment.findUnique({ where: { id: input.enrollmentId },
-        include: { user: { select: { role: true, partner: { select: { isInternal: true } } } } } })
+        include: { user: { select: { role: true, partnerId: true, archivedAt: true } } } })
       if (!enrollment || enrollment.userId !== input.learnerId || enrollment.user.role !== "LEARNER" ||
-        (enrollment.user.partner && !enrollment.user.partner.isInternal) ||
+        enrollment.user.archivedAt ||
         enrollment.startedAt.getTime() !== adminStartAt.getTime()) {
         throw new TrainerAccessError("Inscription bonus invalide ou début administratif différent", 400)
       }
+      if (enrollment.user.partnerId) {
+        if (partnerId && partnerId !== enrollment.user.partnerId) throw new TrainerAccessError("Organisme différent de celui de l'élève", 400)
+        partnerId = enrollment.user.partnerId
+      } else {
+        const internal = trainer.trainerPartners.filter(link => link.partner.isInternal)
+        if (!partnerId && internal.length === 1) partnerId = internal[0].partnerId
+        if (!internal.some(link => link.partnerId === partnerId)) throw new TrainerAccessError("Compte central réservé à un organisme interne", 400)
+      }
+    }
+    if (!partnerId && trainer.trainerPartners.length === 1) partnerId = trainer.trainerPartners[0].partnerId
+    if (!partnerId || !trainer.trainerPartners.some(link => link.partnerId === partnerId)) {
+      throw new TrainerAccessError("Organisme de l'attribution obligatoire et rattaché à la formatrice", 400)
     }
     return tx.trainerAssignment.create({ data: {
-      trainerId: input.trainerId, learnerId: input.learnerId || null,
+      trainerId: input.trainerId, partnerId, learnerId: input.learnerId || null,
       enrollmentId: input.enrollmentId || null, crmBeneficiaireId: input.crmBeneficiaireId ?? null,
       civility: input.civility ?? null, firstName: input.firstName.trim(), lastName: input.lastName.trim(),
       email: input.email.trim(), phone: input.phone ?? null, formationLabel: input.formationLabel.trim(),
@@ -86,32 +105,33 @@ export interface AssignmentStepsInput {
   planningNote?: string | null
 }
 
-/** A checked box retains its first timestamp; unchecking clears it. */
+/** Compatibility for V1 checkmarks: record events, never bypass the history. */
 export async function updateAssignmentSteps(trainerId: string, assignmentId: string, input: AssignmentStepsInput) {
-  const assignment = await assertTrainerOwnsAssignment(trainerId, assignmentId)
   const fields = { contactDone: "contactDoneAt", silaeAccessSent: "silaeAccessSentAt",
     planningAgreed: "planningAgreedAt", noAnswer: "noAnswerAt" } as const
-  const data: Prisma.TrainerAssignmentUpdateManyMutationInput = {}
-  const now = new Date()
-  for (const key of Object.keys(fields) as Array<keyof typeof fields>) {
-    if (input[key] !== undefined) {
-      if (typeof input[key] !== "boolean") throw new TrainerAccessError(`Case invalide : ${key}`, 400)
-      const field = fields[key]
-      data[field] = input[key] ? assignment[field] ?? now : null
-    }
-  }
-  if (input.planningAgreed && input.noAnswer) throw new TrainerAccessError("Planning convenu et pas de réponse sont incompatibles", 400)
-  if (input.planningAgreed) data.noAnswerAt = null
-  if (input.noAnswer) data.planningAgreedAt = null
+  const kinds = { contactDone: TrainerContactKind.CONTACT, silaeAccessSent: TrainerContactKind.ACCES_SILAE_ENVOYE,
+    planningAgreed: TrainerContactKind.PLANNING_VALIDE, noAnswer: TrainerContactKind.PAS_DE_RETOUR }
   if (input.planningNote !== undefined) {
     if (input.planningNote !== null && (typeof input.planningNote !== "string" || input.planningNote.length > 20000)) {
       throw new TrainerAccessError("Note invalide", 400)
     }
-    data.planningNote = input.planningNote
   }
-  const result = await prisma.trainerAssignment.updateMany({ where: { ...trainerAssignmentScope(trainerId), id: assignmentId }, data })
-  if (!result.count) throw new TrainerAccessError("Élève introuvable", 404)
-  return assertTrainerOwnsAssignment(trainerId, assignmentId)
+  return withTrainerTransaction(trainerId, async tx => {
+    const where = { ...trainerAssignmentScope(trainerId), id: assignmentId }
+    const assignment = await tx.trainerAssignment.findFirst({ where })
+    if (!assignment) throw new TrainerAccessError("Élève introuvable", 404)
+    for (const key of Object.keys(fields) as Array<keyof typeof fields>) {
+      if (input[key] === undefined) continue
+      if (typeof input[key] !== "boolean") throw new TrainerAccessError(`Case invalide : ${key}`, 400)
+      if (!input[key] && assignment[fields[key]]) throw new TrainerAccessError("Supprimez le contact daté correspondant dans l'historique", 400)
+      if (input[key] && !assignment[fields[key]]) await tx.trainerContactEvent.create({ data: {
+        assignmentId, kind: kinds[key], occurredAt: new Date(), createdById: trainerId,
+      } })
+    }
+    if (input.planningNote !== undefined) await tx.trainerAssignment.updateMany({ where, data: { planningNote: input.planningNote } })
+    await syncContactFields(tx, trainerId, assignmentId)
+    return tx.trainerAssignment.findFirstOrThrow({ where })
+  })
 }
 
 /** Same chapter ordering, completion formula and quiz reader as the admin.

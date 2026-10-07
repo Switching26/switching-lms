@@ -139,8 +139,12 @@ function formatAddress(email: string, name?: string): string {
 async function withTrainerBcc(
   to: string,
   userId: string | null,
-  options?: { bcc?: string }
+  options?: { bcc?: string },
+  type?: EmailType
 ): Promise<{ bcc?: string } | undefined> {
+  // Planning emails go only to the learner and trainer (Samuel R2).
+  // Preserve explicit options; notification callers must not pass a Switching Bcc.
+  if (type && ["SESSION_SCHEDULED", "SESSION_UPDATED", "SESSION_CANCELLED", "SESSION_REMINDER"].includes(type)) return options
   try {
     const recipient = userId
       ? await prisma.user.findUnique({ where: { id: userId }, select: { role: true } })
@@ -313,7 +317,7 @@ export async function sendEmail(
 
   try {
     const partnerSenderName = partner?.name || undefined
-    const recipientOptions = await withTrainerBcc(to, userId, options)
+    const recipientOptions = await withTrainerBcc(to, userId, options, type)
     // L'adresse d'envoi suit le profil de l'organisme (Switching a la sienne),
     // le nom affiché reste celui du partenaire.
     await sendViaGmailApi(to, subject, html, undefined, partnerSenderName, partner?.mailProfile, recipientOptions)

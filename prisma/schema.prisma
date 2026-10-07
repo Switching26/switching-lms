@@ -27,6 +27,11 @@ enum EmailType {
   CUSTOM
   TRAINER_NEW_STUDENT
   TRAINER_NEW_MESSAGE
+  SESSION_SCHEDULED
+  SESSION_UPDATED
+  SESSION_CANCELLED
+  SESSION_REMINDER
+  ELEARNING_ADDED
 }
 
 enum TokenType {
@@ -74,6 +79,9 @@ model User {
   messages               Message[]
   trainerAssignments     TrainerAssignment[] @relation("AssignmentTrainer")
   learnerAssignments     TrainerAssignment[] @relation("AssignmentLearner")
+  trainerPartners        TrainerPartner[]
+  trainerUnavailability  TrainerUnavailability[]
+  trainerContactEvents   TrainerContactEvent[]
 
   @@index([email])
   @@index([partnerId])
@@ -116,6 +124,8 @@ model Partner {
   licenses       License[]
   emailTemplates EmailTemplate[]
   assessments    Assessment[]
+  trainers       TrainerPartner[]
+  trainerAssignments TrainerAssignment[]
 
   @@index([slug])
 }
@@ -253,6 +263,8 @@ model Enrollment {
 
 model TrainerAssignment {
   id                   String   @id @default(cuid())
+  partnerId            String?
+  partner              Partner? @relation(fields: [partnerId], references: [id], onDelete: SetNull)
   trainerId            String
   trainer              User     @relation("AssignmentTrainer", fields: [trainerId], references: [id], onDelete: Cascade)
   learnerId            String?
@@ -281,9 +293,11 @@ model TrainerAssignment {
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
   sessions             TrainerSession[]
+  contactEvents        TrainerContactEvent[]
 
   @@index([trainerId])
   @@index([learnerId])
+  @@index([partnerId])
 }
 
 enum TrainerSessionStatus {
@@ -300,10 +314,61 @@ model TrainerSession {
   durationMinutes Int      @default(60)
   status          TrainerSessionStatus @default(PLANNED)
   note            String?  @db.Text
+  visioUrl        String?
+  reminderSentAt  DateTime?
+  cancelledAt     DateTime?
+  notifiedAt      DateTime?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   @@index([assignmentId, startsAt])
+}
+
+enum TrainerContactKind {
+  CONTACT
+  RELANCE
+  REPONSE
+  PLANNING_VALIDE
+  PAS_DE_RETOUR
+  ACCES_SILAE_ENVOYE
+  NOTE
+}
+
+model TrainerContactEvent {
+  id           String             @id @default(cuid())
+  assignmentId String
+  assignment   TrainerAssignment  @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  kind         TrainerContactKind
+  occurredAt   DateTime
+  note         String?            @db.Text
+  createdById  String?
+  createdBy    User?               @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt    DateTime            @default(now())
+
+  @@index([assignmentId, occurredAt])
+}
+
+model TrainerUnavailability {
+  id        String   @id @default(cuid())
+  trainerId String
+  trainer   User     @relation(fields: [trainerId], references: [id], onDelete: Cascade)
+  startsAt  DateTime
+  endsAt    DateTime
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([trainerId, startsAt])
+}
+
+model TrainerPartner {
+  trainerId String
+  trainer   User     @relation(fields: [trainerId], references: [id], onDelete: Cascade)
+  partnerId String
+  partner   Partner  @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([trainerId, partnerId])
 }
 
 model License {

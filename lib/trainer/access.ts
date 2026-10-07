@@ -1,6 +1,8 @@
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import type { Prisma } from "@prisma/client"
+import { Prisma } from "@prisma/client"
+import { activeTrainerScope, trainerAssignmentScope } from "./partners"
+export { trainerAssignmentScope, canTrainerSeeLearner } from "./partners"
 
 export class TrainerAccessError extends Error {
   constructor(message: string, public readonly status: 400 | 401 | 403 | 404 | 409) {
@@ -16,6 +18,7 @@ export interface TrainerIdentity {
   lastName: string
   email: string
   partnerId: string | null
+  partnerIds: string[]
 }
 
 /** Server-only guard: recheck role/account in the database, not only the JWT. */
@@ -30,32 +33,24 @@ export async function requireTrainer(): Promise<TrainerIdentity> {
     select: {
       id: true, role: true, firstName: true, lastName: true, email: true,
       partnerId: true, isActive: true, archivedAt: true,
-      partner: { select: { isInternal: true } },
+      trainerPartners: { where: { partner: { isActive: true } }, select: { partnerId: true } },
     },
   })
   if (!trainer || !trainer.isActive || trainer.archivedAt) {
     throw new TrainerAccessError("Non autorisé", 401)
   }
-  if (trainer.role !== "TRAINER" || (trainer.partner && !trainer.partner.isInternal)) {
-    throw new TrainerAccessError("Accès réservé aux formateurs Switching", 403)
+  if (trainer.role !== "TRAINER" || !trainer.trainerPartners.length) {
+    throw new TrainerAccessError("Accès réservé aux formateurs rattachés à un organisme", 403)
   }
   return { id: trainer.id, role: "TRAINER", firstName: trainer.firstName,
-    lastName: trainer.lastName, email: trainer.email, partnerId: trainer.partnerId }
+    lastName: trainer.lastName, email: trainer.email, partnerId: trainer.partnerId,
+    partnerIds: trainer.trainerPartners.map(row => row.partnerId) }
 }
 
-/** Resolve the learner's CURRENT organisation for every read/write. Accounts
- * without a partner are central Switching accounts; visio-only assignments
- * have no learner account and remain visible.
- */
-export function trainerAssignmentScope(trainerId: string) {
-  return {
-    trainerId,
-    OR: [
-      { learnerId: null },
-      { learner: { role: "LEARNER", archivedAt: null,
-        OR: [{ partnerId: null }, { partner: { isInternal: true } }] } },
-    ],
-  } satisfies Prisma.TrainerAssignmentWhereInput
+export async function assertActiveTrainer(trainerId: string, db: Prisma.TransactionClient = prisma): Promise<void> {
+  if (!await db.user.findFirst({ where: { id: trainerId, ...activeTrainerScope }, select: { id: true } })) {
+    throw new TrainerAccessError("Formatrice introuvable ou sans organisme", 403)
+  }
 }
 
 /** Unknown, another trainer's or transferred students all return 404. */
@@ -67,16 +62,18 @@ export async function assertTrainerOwnsAssignment(trainerId: string, assignmentI
   return assignment
 }
 
-/** Used by messaging: only active bonus assignments with an actual LMS learner. */
-export async function canTrainerSeeLearner(trainerId: string, learnerId: string): Promise<boolean> {
-  const assignment = await prisma.trainerAssignment.findFirst({
-    where: {
-      ...trainerAssignmentScope(trainerId), learnerId, hasElearning: true, archivedAt: null,
-      trainer: { role: "TRAINER", isActive: true, archivedAt: null,
-        OR: [{ partnerId: null }, { partner: { isInternal: true } }] },
-      enrollmentId: { not: null },
-    },
-    select: { id: true },
-  })
-  return assignment !== null
+/** Serialize agenda/contact changes per trainer, retry serialization conflicts. */
+export async function withTrainerTransaction<T>(trainerId: string, work: (tx: Prisma.TransactionClient) => Promise<T>): Promise<T> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await prisma.$transaction(async tx => {
+        await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${trainerId}))`
+        await assertActiveTrainer(trainerId, tx)
+        return work(tx)
+      }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable })
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2034" && attempt < 3) continue
+      throw error
+    }
+  }
 }

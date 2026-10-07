@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { Search, ChevronRight } from "lucide-react"
-import { dateLabel, dayKey, studentName, trainerRequest, type TrainerAssignment } from "./data"
+import { dateLabel, dayKey, planningConfirmed, studentName, trainerRequest, type TrainerAssignment } from "./data"
 import StepChecklist from "./StepChecklist"
 import Progress from "./Progress"
 
@@ -11,7 +11,7 @@ const filters = [
   { key: "all", label: "Tous", matches: (_student: TrainerAssignment) => true },
   { key: "contact", label: "À contacter", matches: (student: TrainerAssignment) => !student.contactDoneAt },
   { key: "silae", label: "SILAE à envoyer", matches: (student: TrainerAssignment) => !student.silaeAccessSentAt },
-  { key: "planning", label: "Planning à fixer", matches: (student: TrainerAssignment) => !student.planningAgreedAt },
+  { key: "planning", label: "Planning à fixer", matches: (student: TrainerAssignment) => !planningConfirmed(student) },
   { key: "bonus", label: "Avec bonus", matches: (student: TrainerAssignment) => student.hasElearning },
   { key: "visio", label: "Visio seule", matches: (student: TrainerAssignment) => !student.hasElearning },
 ]
@@ -35,7 +35,6 @@ export default function StudentList() {
   const normalize = (text: string) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
   const searched = students.filter(student => normalize(`${studentName(student)} ${student.email} ${student.phone || ""}`).includes(normalize(query.trim())))
   const visible = searched.filter(filters.find(item => item.key === filter)!.matches)
-  function changed(updated: TrainerAssignment) { setStudents(current => current.map(student => student.id === updated.id ? { ...student, ...updated } : student)) }
   return <div className="trainer-page">
     <header className="trainer-page-heading"><p className="lms-eyebrow">ESPACE FORMATRICE</p><h1>Mes élèves</h1><p>Le contact, l’accès SILAE et le planning de vos élèves.</p></header>
     <div className="trainer-list-toolbar">
@@ -49,12 +48,13 @@ export default function StudentList() {
     <div className="trainer-student-list">{visible.map(student => <article className="trainer-card trainer-student-card" key={student.id}>
       <Link className="trainer-student-link" href={`/trainer/eleves/${encodeURIComponent(student.id)}`}>
         <div className="trainer-card-heading"><h2>{studentName(student)}</h2><span className={`trainer-kind ${student.hasElearning ? "is-bonus" : "is-visio"}`}>{student.hasElearning ? "Visio + bonus" : "Visio seule"}</span>
-          {dayKey(student.adminStartAt) === today ? <span className="trainer-info-tag">Démarre aujourd’hui</span> : dayKey(student.adminStartAt) > today && !student.contactDoneAt ? <span className="trainer-info-tag">À contacter le {dateLabel(student.adminStartAt, true)}</span> : null}
+          {!student.contactDoneAt && <span className="trainer-info-tag">À contacter dès maintenant</span>}
+          {dayKey(student.adminStartAt) === today && <span className="trainer-info-tag">Démarrage administratif aujourd’hui</span>}
           <ChevronRight size={18} className="trainer-card-chevron" aria-hidden /></div>
         <p className="trainer-muted">{student.formationLabel}{student.visioHours != null && ` · ${student.visioHours} h de visio`}</p>
         <p className="trainer-dates">Admin {dateLabel(student.adminStartAt, true)} · {student.visioStartAt ? `Visios dès le ${dateLabel(student.visioStartAt, true)}` : "Visios à convenir"}{student.adminEndAt && ` · Fin ${dateLabel(student.adminEndAt, true)}`}</p>
       </Link>
-      <StepChecklist student={student} onChange={changed} compact />
+      <StepChecklist student={student} compact />
       {student.hasElearning ? <Progress assignmentId={student.id} /> : <p className="trainer-muted trainer-no-bonus">Pas d’espace e-learning</p>}
     </article>)}</div>
   </div>

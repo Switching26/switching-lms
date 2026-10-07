@@ -25,14 +25,16 @@ Pour R2, privilégier un **petit worker Railway persistant** qui appelle l'URL t
 
 ```sh
 while true; do
+  started=$(date +%s)
   curl --fail-with-body --silent --show-error --max-time 55 \
     -X POST "$LMS_BASE_URL/api/internal/reminders/run" \
     -H "Authorization: Bearer $TRAINER_REMINDERS_SECRET" || true
-  sleep 60
+  elapsed=$(($(date +%s) - started))
+  if [ "$elapsed" -lt 60 ]; then sleep "$((60 - elapsed))"; fi
 done
 ```
 
-Cette boucle simple ne lance pas deux requêtes simultanées ; sa période est 60 secondes plus la durée de l'appel. Un ordonnanceur externe à la minute (`* * * * *`) est une autre possibilité. Un cron Railway `*/5 * * * *` produirait normalement un rappel entre 25 et 30 minutes avant la séance, avec la variabilité du fournisseur ; il ne satisfait pas la cadence d'une minute demandée.
+Cette boucle ne lance pas deux requêtes simultanées et déduit la durée de l'appel de l'attente pour viser un départ toutes les 60 secondes. Un ordonnanceur externe à la minute (`* * * * *`) est une autre possibilité. Un cron Railway `*/5 * * * *` produirait normalement un rappel entre 25 et 30 minutes avant la séance, avec la variabilité du fournisseur ; il ne satisfait pas la cadence d'une minute demandée.
 
 ## Fenêtre et idempotence
 
@@ -41,6 +43,7 @@ Cette boucle simple ne lance pas deux requêtes simultanées ; sa période est 6
 - `reminderSentAt` vide, puis renseigné seulement après succès du transport.
 - Un verrou PostgreSQL par séance et un verrou de ligne couvrent contrôle, envoi et horodatage. Deux appels parallèles ne produisent pas deux rappels ; une reprise normale n'envoie rien pour une séance déjà traitée. Un appel traite au maximum 100 séances, les suivantes attendent le passage suivant.
 - Un déplacement remet le rappel à zéro via le socle ; annulation/suppression excluent la séance des prochains passages.
+- Une note seule ne remet pas le rappel à zéro ; changer seulement le lien visio le conserve également (socle SOC2-01).
 - Les dates en base sont des instants ; tout affichage mail est en `Europe/Paris`, changement d'heure inclus.
 - Une seule soumission Gmail adresse les deux destinataires, évitant une réussite partielle entre élève et formatrice.
 

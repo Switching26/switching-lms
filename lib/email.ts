@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { decrypt } from "@/lib/crypto"
 import type { EmailType } from "@prisma/client"
+import addressparser from "nodemailer/lib/addressparser"
 
 export interface PartnerSmtp {
   name?: string | null
@@ -130,6 +131,40 @@ function formatAddress(email: string, name?: string): string {
   const cleanEmail = email.trim()
   const cleanName = name?.trim()
   return cleanName ? `${encodeHeader(cleanName)} <${cleanEmail}>` : cleanEmail
+}
+
+/** All mail paths use the recipient's current role, regardless of email type.
+ * A failed role lookup must not prevent an activation/reset or any other mail.
+ */
+async function withTrainerBcc(
+  to: string,
+  userId: string | null,
+  options?: { bcc?: string }
+): Promise<{ bcc?: string } | undefined> {
+  try {
+    const recipient = userId
+      ? await prisma.user.findUnique({ where: { id: userId }, select: { role: true } })
+      : await prisma.user.findFirst({
+        where: { email: { equals: to.trim(), mode: "insensitive" } }, select: { role: true },
+      })
+    if (recipient?.role !== "TRAINER") return options
+  } catch {
+    return options
+  }
+
+  const existingBcc = options?.bcc?.trim() || ""
+  // Preserve the transport's CR/LF rejection; parsing must not hide bad input.
+  if (/[\r\n]/.test(existingBcc)) return options
+  const recipients = [...addressparser(existingBcc, { flatten: true }),
+    { address: "contact@switchingformation.com", name: "" }]
+  const seen = new Set<string>()
+  const bcc = recipients.filter(({ address }) => {
+    const key = address.trim().toLowerCase()
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  }).map(({ address, name }) => formatAddress(address, name)).join(", ")
+  return { ...options, bcc }
 }
 
 function base64Url(value: string): string {
@@ -278,9 +313,10 @@ export async function sendEmail(
 
   try {
     const partnerSenderName = partner?.name || undefined
+    const recipientOptions = await withTrainerBcc(to, userId, options)
     // L'adresse d'envoi suit le profil de l'organisme (Switching a la sienne),
     // le nom affiché reste celui du partenaire.
-    await sendViaGmailApi(to, subject, html, undefined, partnerSenderName, partner?.mailProfile, options)
+    await sendViaGmailApi(to, subject, html, undefined, partnerSenderName, partner?.mailProfile, recipientOptions)
 
     await log(true)
     return true
@@ -294,12 +330,15 @@ export async function sendEmail(
 export async function sendSystemTestEmail(to: string): Promise<{ success: boolean; error?: string }> {
   try {
     const cfg = await getGmailConfig()
+    const recipientOptions = await withTrainerBcc(to, null)
     await sendViaGmailApi(
       to,
       "Test Gmail API - Switching LMS",
       "<p>La configuration email fonctionne correctement.</p>",
       cfg.senderEmail,
-      cfg.senderName
+      cfg.senderName,
+      undefined,
+      recipientOptions
     )
     return { success: true }
   } catch (err: any) {

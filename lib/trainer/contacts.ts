@@ -38,6 +38,9 @@ export async function addContactEvent(trainerId: string, assignmentId: string, i
   const occurredAt = trainerDate(input.occurredAt, "occurredAt")
   if (input.note != null && (typeof input.note !== "string" || input.note.length > 20000)) throw new TrainerAccessError("Note invalide", 400)
   return withTrainerTransaction(trainerId, async tx => {
+    if (!await tx.trainerAssignment.findFirst({ where: { ...trainerAssignmentScope(trainerId), id: assignmentId }, select: { id: true } })) {
+      throw new TrainerAccessError("Élève introuvable", 404)
+    }
     const event = await tx.trainerContactEvent.create({ data: {
       assignment: { connect: { ...trainerAssignmentScope(trainerId), id: assignmentId } },
       kind: input.kind, occurredAt, note: input.note ?? null, createdBy: { connect: { id: trainerId } },

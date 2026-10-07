@@ -10,7 +10,12 @@ export interface TrainerSessionInput {
   note?: string | null
   visioUrl?: string | null
 }
-export interface SessionChange { before: TrainerSession | null; after: TrainerSession | null }
+export interface SessionChange {
+  before: TrainerSession | null
+  after: TrainerSession | null
+  changedFields: Array<keyof TrainerSessionInput>
+  scheduleChanged: boolean
+}
 export interface TrainerConflicts { sessions: TrainerSession[]; unavailability: TrainerUnavailability[] }
 export class TrainerConflictError extends TrainerAccessError {
   constructor(public readonly conflicts: TrainerConflicts) {
@@ -89,7 +94,7 @@ export async function createSession(trainerId: string, assignmentId: string, inp
       ...data, startsAt: data.startsAt!, cancelledAt: data.status === "CANCELLED" ? new Date() : null,
       assignment: { connect: { ...trainerAssignmentScope(trainerId), id: assignmentId, archivedAt: null } },
     } })
-    return { before: null, after }
+    return { before: null, after, changedFields: Object.keys(data) as Array<keyof TrainerSessionInput>, scheduleChanged: true }
   })
 }
 export async function updateSession(trainerId: string, sessionId: string, input: TrainerSessionInput): Promise<SessionChange> {
@@ -103,18 +108,22 @@ export async function updateSession(trainerId: string, sessionId: string, input:
       const conflicts = await findConflictsInTransaction(tx, trainerId, next.startsAt, end, sessionId)
       if (conflicts.sessions.length || conflicts.unavailability.length) throw new TrainerConflictError(conflicts)
     }
-    const changed = Object.entries(values).some(([key, value]) => {
+    const changedFields = Object.entries(values).filter(([key, value]) => {
       const old = before[key as keyof typeof values]
       return value instanceof Date ? value.getTime() !== (old as Date).getTime() : value !== old
-    })
+    }).map(([key]) => key as keyof TrainerSessionInput)
+    const scheduleChanged = changedFields.includes("startsAt") || changedFields.includes("durationMinutes") ||
+      (before.status === "CANCELLED" && next.status === "PLANNED")
+    const notificationChanged = changedFields.some(field => field !== "note")
     const data: Prisma.TrainerSessionUpdateManyMutationInput = { ...values,
       cancelledAt: next.status === "CANCELLED" ? before.cancelledAt ?? new Date() : null,
-      ...(changed ? { reminderSentAt: null, notifiedAt: null } : {}),
+      ...(scheduleChanged ? { reminderSentAt: null } : {}),
+      ...(notificationChanged ? { notifiedAt: null } : {}),
     }
     if (!(await tx.trainerSession.updateMany({ where, data })).count) throw new TrainerAccessError("Séance introuvable", 404)
     const after = await tx.trainerSession.findFirst({ where })
     if (!after) throw new TrainerAccessError("Séance introuvable", 404)
-    return { before, after }
+    return { before, after, changedFields, scheduleChanged }
   })
 }
 export async function cancelSession(trainerId: string, sessionId: string): Promise<SessionChange> {
@@ -126,7 +135,7 @@ export async function deleteSession(trainerId: string, sessionId: string): Promi
     const before = await tx.trainerSession.findFirst({ where })
     if (!before) throw new TrainerAccessError("Séance introuvable", 404)
     if (!(await tx.trainerSession.deleteMany({ where })).count) throw new TrainerAccessError("Séance introuvable", 404)
-    return { before, after: null }
+    return { before, after: null, changedFields: [], scheduleChanged: false }
   })
 }
 // V1 adapters, until the notification routes adopt the before/after contract.

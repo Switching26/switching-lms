@@ -51,8 +51,8 @@ function IntroductionVideo({ media, module }: { media: Media; module: boolean })
 }
 
 /** Display contents keeps the existing no-video layout exactly as it was. */
-export default function IntroVideoOpening({ lesson, module, beginModule, children }: {
-  lesson: Media | null; module: Module | null; beginModule: () => void; children: ReactNode
+export default function IntroVideoOpening({ lesson, module, beginModule, moduleAccent = "#187a4e", children }: {
+  lesson: Media | null; module: Module | null; beginModule: () => void; moduleAccent?: string; children: ReactNode
 }) {
   const root = useRef<HTMLDivElement>(null)
   const [width, setWidth] = useState(1200)
@@ -68,7 +68,7 @@ export default function IntroVideoOpening({ lesson, module, beginModule, childre
     display: "grid", gridTemplateColumns: width >= 700 ? "minmax(0, 1fr) minmax(0, 1fr)" : "minmax(0, 1fr)",
     gap: width >= 700 ? 48 : 24, alignItems: "center" }}>
     {module ? <div>
-      <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "2.2px", color: "#187a4e", marginBottom: 14, textTransform: "uppercase" }}>Module {module.number} — Introduction</div>
+      <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "2.2px", color: moduleAccent, marginBottom: 14, textTransform: "uppercase" }}>Module {module.number} — Introduction</div>
       <h2 tabIndex={-1} style={{ fontSize: "clamp(24px, 4.5vw, 40px)", lineHeight: 1.06, fontWeight: 850, letterSpacing: "-0.8px", color: "#171a18", marginBottom: 14 }}>{module.title}</h2>
       <p style={{ fontSize: "clamp(13px, 1.8vw, 15.5px)", color: "#3c423e", lineHeight: 1.6, marginBottom: 16 }}>
         {module.lessons} leçon{module.lessons > 1 ? "s" : ""}, {module.exercises} exercice{module.exercises > 1 ? "s" : ""} et {module.evaluations === 1 ? "une évaluation" : `${module.evaluations} évaluations`}.
@@ -76,7 +76,7 @@ export default function IntroVideoOpening({ lesson, module, beginModule, childre
       <div style={{ fontSize: 12.5, color: "#9aa19c", marginBottom: 22 }}>Vidéo de {Math.round(module.durationSeconds)} s</div>
       <button type="button" data-control="intro-module-commencer" onClick={() => {
         beginModule()
-        window.setTimeout(() => document.querySelector<HTMLButtonElement>('[data-control="intro-commencer"]')?.focus(), 0)
+        window.setTimeout(() => root.current?.querySelector<HTMLButtonElement>('[data-control="intro-commencer"], [data-control="sim-commencer"]')?.focus(), 0)
       }} style={{ display: "inline-flex", alignItems: "center", gap: 10, borderRadius: 12, background: "#171a18", color: "#fff", fontSize: 14.5, fontWeight: 700, padding: "12px 22px" }}>
         <span aria-hidden style={{ width: 0, height: 0, borderLeft: "8px solid #fff", borderTop: "5.5px solid transparent", borderBottom: "5.5px solid transparent" }} />Commencer le module
       </button>

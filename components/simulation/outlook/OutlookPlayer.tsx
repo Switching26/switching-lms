@@ -33,6 +33,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import AtelierShell, { type EntreeSommaire } from "../AtelierShell"
 import AfficheModule, { numeroModule } from "../AfficheModule"
+import IntroVideoOpening, { useIntroVideos } from "../IntroVideoOpening"
+import { C } from "@/lib/simulation/couleurs"
 import { natureEtape } from "@/lib/simulation/attendu"
 import BilanFin from "../BilanFin"
 import DemonstrationGeste from "../DemonstrationGeste"
@@ -277,6 +279,7 @@ export default function OutlookPlayer({
     [steps],
   )
 
+  const introductions = useIntroVideos(chapterId, mode === "LESSON" && !preview)
   const progression = useProgression({
     total: steps.length,
     departForce: depart,
@@ -1527,6 +1530,7 @@ export default function OutlookPlayer({
         {/* Écran d'ouverture — superposé, jamais à la place de la surface. */}
         {!introVue && (
           <EcranOuverture
+            introductions={introductions}
             scenario={scenario}
             mode={mode}
             etapes={steps.length}
@@ -1735,6 +1739,7 @@ export default function OutlookPlayer({
 /* ═══════════════════ ÉCRAN D'OUVERTURE ═══════════════════ */
 
 function EcranOuverture({
+  introductions,
   scenario,
   mode,
   etapes,
@@ -1746,6 +1751,7 @@ function EcranOuverture({
   panne,
   onCommencer,
 }: {
+  introductions: ReturnType<typeof useIntroVideos>
   scenario: SimulationScenario
   mode: Mode
   etapes: number
@@ -1776,6 +1782,7 @@ function EcranOuverture({
         overflowY: "auto",
         padding: "32px 24px",
         background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)",
+        ...(introductions.lesson || introductions.module ? { justifyContent: "safe center" } as const : {}),
       }}
     >
       {/* L'affiche du module occupe la colonne de droite, comme sur Excel, et
@@ -1783,6 +1790,7 @@ function EcranOuverture({
           d'être posée en absolu : le bloc de texte d'Outlook est centré, et un
           absolu à droite le recouvrait sur toutes les largeurs mesurées. */}
       <div className="flex w-full items-center justify-center" style={{ gap: 40 }}>
+      <IntroVideoOpening lesson={introductions.lesson} module={introductions.module} beginModule={introductions.beginModule} moduleAccent={C.accent}>
       <div style={{ maxWidth: 560, flex: "1 1 auto", minWidth: 0 }}>
         <span
           style={{
@@ -1853,7 +1861,7 @@ function EcranOuverture({
           mini-classeur vert d'Excel dessine une grille de tableur, et inventer
           ici une boîte mail de substitution poserait une seconde langue
           visuelle que l'affiche remplacera. Rien vaut mieux qu'à peu près. */}
-      {affiche ? (
+      {affiche && !introductions.lesson && !introductions.module ? (
         <div
           aria-hidden
           className="hidden shrink-0 select-none lg:block"
@@ -1862,6 +1870,7 @@ function EcranOuverture({
           <AfficheModule moduleTitle={scenario.moduleTitle} app="OUTLOOK" />
         </div>
       ) : null}
+      </IntroVideoOpening>
       </div>
     </div>
   )

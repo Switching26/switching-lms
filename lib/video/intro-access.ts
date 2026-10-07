@@ -22,7 +22,4 @@ export async function canReadIntro(
 }
 
 export const INTRO_HEADERS = { "Cache-Control": "private, no-store", "Referrer-Policy": "no-referrer" }
-export const INTRO_PREFIX = "introductions/excel/2026-10-v1/"
-export function validIntroKey(key: string, asset: "video" | "poster") {
-  return new RegExp(`^${INTRO_PREFIX}m(?:0[1-9]|1[0-9]|2[0-7])-(?:intro|l[0-9]{3})\\.${asset === "video" ? "mp4" : "jpg"}$`).test(key)
-}
+export { INTRO_PREFIX, validIntroKey } from "./intro-keys"

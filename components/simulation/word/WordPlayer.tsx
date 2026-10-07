@@ -29,6 +29,7 @@ import AtelierShell, {
   type EntreeSommaire,
 } from "../AtelierShell"
 import AfficheModule, { numeroModule } from "../AfficheModule"
+import IntroVideoOpening, { useIntroVideos } from "../IntroVideoOpening"
 import { natureEtape } from "@/lib/simulation/attendu"
 import {
   useAideProgressive,
@@ -241,6 +242,7 @@ export default function WordPlayer({
     [steps],
   )
 
+  const introductions = useIntroVideos(chapterId, mode === "LESSON" && !preview)
   const progression = useProgression({
     total: steps.length,
     // Une ÉVALUATION repart toujours de la première question : les réussites au
@@ -2136,6 +2138,7 @@ export default function WordPlayer({
           déjà montée : elle masque ainsi le chargement du moteur. */}
       {!introVue && !preview && (
         <Ouverture
+          introductions={introductions}
           titre={scenario.intro?.title ?? scenario.title ?? ""}
           corps={scenario.intro?.body ?? ""}
           moduleTitle={scenario.moduleTitle}
@@ -2160,11 +2163,13 @@ export default function WordPlayer({
  * que « Suivant » côté Excel.
  */
 function Ouverture({
+  introductions,
   titre,
   corps,
   moduleTitle,
   onCommencer,
 }: {
+  introductions: ReturnType<typeof useIntroVideos>
   titre: string
   corps: string
   moduleTitle?: string | null
@@ -2192,8 +2197,10 @@ function Ouverture({
         justifyContent: "center",
         gap: 40,
         padding: 24,
+        ...(introductions.lesson || introductions.module ? { overflowY: "auto", alignItems: "safe center" } as const : {}),
       }}
     >
+      <IntroVideoOpening lesson={introductions.lesson} module={introductions.module} beginModule={introductions.beginModule} moduleAccent={C.accent}>
       {/* L'affiche du module occupe la colonne de droite, comme sur Excel, et
           disparaît sous `lg`. Elle partage une RANGÉE avec le texte plutôt que
           d'être posée en absolu : le bloc de Word est centré, et un absolu à
@@ -2240,7 +2247,7 @@ function Ouverture({
           mini-classeur vert d'Excel dessine une grille de tableur, et inventer
           ici une page de substitution poserait une seconde langue visuelle que
           l'affiche remplacera. Rien vaut mieux qu'à peu près. */}
-      {affiche ? (
+      {affiche && !introductions.lesson && !introductions.module ? (
         <div
           aria-hidden
           className="hidden shrink-0 select-none lg:block"
@@ -2249,6 +2256,7 @@ function Ouverture({
           <AfficheModule moduleTitle={moduleTitle} app="WORD" />
         </div>
       ) : null}
+      </IntroVideoOpening>
     </div>
   )
 }

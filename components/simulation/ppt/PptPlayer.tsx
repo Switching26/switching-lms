@@ -29,6 +29,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import AtelierShell, { type EntreeSommaire } from "../AtelierShell"
 import AfficheModule, { numeroModule } from "../AfficheModule"
+import IntroVideoOpening, { useIntroVideos } from "../IntroVideoOpening"
+import { C } from "@/lib/simulation/couleurs"
 import DemonstrationGeste from "../DemonstrationGeste"
 import {
   useAideProgressive,
@@ -259,6 +261,7 @@ export default function PptPlayer({
   const voixRef = useRef(voix)
   voixRef.current = voix
 
+  const introductions = useIntroVideos(chapterId, mode === "LESSON" && !preview)
   const progression = useProgression({
     total,
     departForce,
@@ -1176,9 +1179,10 @@ export default function PptPlayer({
       {!introVue && step ? (
         <div
           className="absolute inset-0 z-40 flex flex-col justify-center px-6 py-8 sm:px-10"
-          style={{ background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)" }}
+          style={{ background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)", ...(introductions.lesson || introductions.module ? { overflowY: "auto", justifyContent: "safe center" } as const : {}) }}
         >
         <div className="flex w-full items-center" style={{ gap: 40 }}>
+          <IntroVideoOpening lesson={introductions.lesson} module={introductions.module} beginModule={introductions.beginModule} moduleAccent={C.accent}>
           <div style={{ maxWidth: 620, flex: "1 1 auto", minWidth: 0 }}>
             <p
               className="uppercase"
@@ -1234,7 +1238,7 @@ export default function PptPlayer({
               inventer ici une seconde langue visuelle par application
               reviendrait à poser trois jeux d'illustrations dans les players,
               que l'affiche remplacera. Rien vaut mieux qu'à peu près. */}
-          {afficheModule ? (
+          {afficheModule && !introductions.lesson && !introductions.module ? (
             <div
               aria-hidden
               className="hidden shrink-0 select-none lg:block"
@@ -1243,6 +1247,7 @@ export default function PptPlayer({
               <AfficheModule moduleTitle={scenario.moduleTitle} app="POWERPOINT" />
             </div>
           ) : null}
+          </IntroVideoOpening>
         </div>
         </div>
       ) : null}

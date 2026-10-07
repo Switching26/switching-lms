@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
-import { assertTrainerOwnsAssignment } from "@/lib/trainer/access"
-import { createTrainerSession, listSessionsForAssignment, type TrainerSessionInput } from "@/lib/trainer/sessions"
+import { createSession, listSessionsForAssignment, type TrainerSessionInput } from "@/lib/trainer/sessions"
+import { notifySessionChange } from "@/lib/trainer/session-mails"
 import { trainerApi, trainerJson } from "../../../_utils"
+import { trainerSessionApi } from "../../../sessions/_utils"
 
 export const dynamic = "force-dynamic"
 type Context = { params: { id: string } }
@@ -11,9 +12,10 @@ export async function GET(_request: NextRequest, { params }: Context) {
 }
 
 export async function POST(request: NextRequest, { params }: Context) {
-  return trainerApi(async (trainer) => {
-    await assertTrainerOwnsAssignment(trainer.id, params.id)
-    const input = await trainerJson(request, ["startsAt", "durationMinutes", "status", "note"])
-    return NextResponse.json(await createTrainerSession(trainer.id, params.id, input as TrainerSessionInput), { status: 201 })
+  return trainerSessionApi(async (trainer) => {
+    const input = await trainerJson(request, ["startsAt", "durationMinutes", "status", "note", "visioUrl"])
+    const change = await createSession(trainer.id, params.id, input as TrainerSessionInput)
+    const notification = await notifySessionChange(change.before, change.after)
+    return NextResponse.json({ ...change.after, notification }, { status: 201 })
   })
 }

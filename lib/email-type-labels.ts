@@ -19,6 +19,11 @@ const EMAIL_TYPE_LABELS: Record<string, string> = {
   ASSESSMENT_COMPLETED: "Évaluation terminée",
   TRAINER_NEW_STUDENT: "Nouvel élève attribué au formateur",
   TRAINER_NEW_MESSAGE: "Nouveau message au formateur",
+  SESSION_SCHEDULED: "Séance de visioconférence programmée",
+  SESSION_UPDATED: "Séance de visioconférence modifiée",
+  SESSION_CANCELLED: "Séance de visioconférence annulée",
+  SESSION_REMINDER: "Rappel de séance à 30 minutes",
+  ELEARNING_ADDED: "Accès e-learning ajouté par la formatrice",
 }
 
 /**

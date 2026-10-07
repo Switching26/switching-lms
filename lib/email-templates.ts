@@ -4,6 +4,11 @@ import { buildLoginLinks } from "@/lib/login-link"
 export const TRAINER_EMAIL_TYPES = [
   { value: "TRAINER_NEW_STUDENT", label: "Nouvel élève attribué au formateur" },
   { value: "TRAINER_NEW_MESSAGE", label: "Nouveau message au formateur" },
+  { value: "SESSION_SCHEDULED", label: "Séance de visioconférence programmée" },
+  { value: "SESSION_UPDATED", label: "Séance de visioconférence modifiée" },
+  { value: "SESSION_CANCELLED", label: "Séance de visioconférence annulée" },
+  { value: "SESSION_REMINDER", label: "Rappel de séance à 30 minutes" },
+  { value: "ELEARNING_ADDED", label: "Accès e-learning ajouté par la formatrice" },
 ] as const
 
 function trainerEscape(value: string): string {
@@ -44,13 +49,17 @@ export function trainerNewStudentEmail(data: TrainerNewStudentMailData, partner?
     <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f7;border-radius:8px;margin:0 0 20px;"><tr><td style="padding:16px 20px;">
       ${line("Élève", [name, data.email, data.phone].filter(Boolean).join(" · "))}
       ${line(data.hasElearning ? "Démarrage administratif et ouverture de l'e-learning" : "Démarrage administratif", date(data.adminStartAt), 4)}
-      <p style="margin:0 0 12px;font-size:13px;color:#92400E;">À cette date : prise de contact, envoi de l'accès au logiciel SILAE${data.hasElearning ? "." : " et planning des visioconférences."}</p>
+      <p style="margin:0 0 12px;font-size:13px;color:#555;">Ce jour-là : envoi de l'accès au logiciel SILAE et démarrage de l'élève.</p>
       ${line(data.visioStartAt ? "Début des visioconférences" : "Visioconférences", data.visioStartAt ? `À partir du ${date(data.visioStartAt)} · ${hours}` : `${hours}, planning à convenir avec l'élève`)}
       ${line("Fin administrative", date(data.adminEndAt), 0)}
     </td></tr></table>
+    <h2 style="margin:0 0 8px;font-size:16px;color:#111;">Dès maintenant : convenir du planning</h2>
+    <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">Prenez contact avec l'élève dès cette attribution, avant le démarrage administratif, pour convenir ensemble du planning des visioconférences.</p>
+    <h2 style="margin:0 0 8px;font-size:16px;color:#111;">Le jour du démarrage : transmettre l'accès SILAE</h2>
+    <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">Le ${e(date(data.adminStartAt))}, transmettez l'accès au logiciel SILAE : l'élève pourra alors démarrer.${data.hasElearning ? " Son espace e-learning ouvrira également à cette date." : ""}</p>
     <p style="margin:0 0 8px;color:#555;font-size:15px;line-height:1.6;">${data.hasElearning
-      ? `Depuis sa fiche, vous pourrez indiquer la prise de contact, l'envoi de l'accès SILAE et le planning convenu. Vous recevrez aussi le mail de démarrage qui lui sera envoyé le ${e(data.adminStartAt.toLocaleDateString("fr-FR", { day: "numeric", month: "long", timeZone: "Europe/Paris" }))}.`
-      : "Cet élève n'a pas d'espace e-learning : vous le suivez depuis votre espace formatrice, où vous pourrez indiquer la prise de contact, l'envoi de l'accès SILAE, le planning convenu et ses séances."}</p>
+      ? `Depuis sa fiche, vous pourrez noter vos contacts, le planning convenu et l'envoi de l'accès SILAE. Vous recevrez aussi le mail de démarrage qui lui sera envoyé le ${e(data.adminStartAt.toLocaleDateString("fr-FR", { day: "numeric", month: "long", timeZone: "Europe/Paris" }))}.`
+      : "Cet élève n'a pas d'espace e-learning : vous le suivez depuis votre espace formatrice, où vous pourrez noter vos contacts, le planning convenu, l'envoi de l'accès SILAE et ses séances."}</p>
     ${button("Ouvrir sa fiche", e(data.assignmentUrl), brand.primaryColor)}
   `)
   return { subject: `${female ? "Nouvelle élève attribuée" : "Nouvel élève attribué"} — ${name} · ${data.formationLabel}`, html }
@@ -61,6 +70,84 @@ export function trainerNewMessageEmail(trainerFirstName: string, learnerName: st
   return {
     subject: `Nouveau message — ${learnerName}`,
     html: layout(brand, `<h1 style="margin:0 0 16px;font-size:22px;color:#111;">Un nouveau message vous attend</h1><p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">Bonjour <strong>${trainerEscape(trainerFirstName)}</strong>, <strong>${trainerEscape(learnerName)}</strong> vous a écrit depuis son espace e-learning.</p>${button("Ouvrir les messages", trainerEscape(messagesUrl), brand.primaryColor)}`),
+  }
+}
+
+export type SessionMailType = "SESSION_SCHEDULED" | "SESSION_UPDATED" | "SESSION_CANCELLED" | "SESSION_REMINDER"
+
+export interface SessionMailSlot {
+  startsAt: Date
+  durationMinutes: number
+  visioUrl?: string | null
+}
+
+export interface SessionMailData extends SessionMailSlot {
+  learnerName: string
+  trainerName: string
+  formationLabel: string
+  before?: SessionMailSlot | null
+}
+
+/** The instant is always rendered in Paris, including the daylight-saving offset. */
+export function sessionParisDate(value: Date): string {
+  const day = new Intl.DateTimeFormat("fr-FR", {
+    weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Paris",
+  }).format(value)
+  const parts = new Intl.DateTimeFormat("fr-FR", {
+    hour: "numeric", minute: "2-digit", hourCycle: "h23", timeZone: "Europe/Paris",
+  }).formatToParts(value)
+  return `${day}, ${Number(parts.find((part) => part.type === "hour")?.value)} h ${parts.find((part) => part.type === "minute")?.value}`
+}
+
+/** Transactional session mail: the existing LMS layout, no learner account required. */
+export function trainerSessionEmail(type: SessionMailType, data: SessionMailData, partner?: Parameters<typeof getBrand>[0]) {
+  const brand = getBrand(partner)
+  const e = trainerEscape
+  const titles: Record<SessionMailType, string> = {
+    SESSION_SCHEDULED: "Votre séance de visioconférence est programmée",
+    SESSION_UPDATED: "Votre séance de visioconférence a été modifiée",
+    SESSION_CANCELLED: "Votre séance de visioconférence est annulée",
+    SESSION_REMINDER: "Votre séance de visioconférence commence bientôt",
+  }
+  const subjects: Record<SessionMailType, string> = {
+    SESSION_SCHEDULED: "Séance programmée",
+    SESSION_UPDATED: "Séance modifiée",
+    SESSION_CANCELLED: "Séance annulée",
+    SESSION_REMINDER: "Rappel de votre séance",
+  }
+  const line = (label: string, value: string) => `<p style="margin:0 0 4px;font-size:13px;color:#888;">${label}</p><p style="margin:0 0 14px;font-size:15px;color:#111;font-weight:600;overflow-wrap:anywhere;">${e(value)}</p>`
+  // Defense in depth: malformed or non-HTTPS URLs never become links in email HTML.
+  let visioUrl: string | null = null
+  if (data.visioUrl) {
+    try {
+      const url = new URL(data.visioUrl)
+      if (url.protocol === "https:" && !url.username && !url.password) visioUrl = url.href
+    } catch { /* No CTA for an invalid stored URL. */ }
+  }
+  const oldSlot = type === "SESSION_UPDATED" && data.before
+    ? `${line("Ancien créneau", `${sessionParisDate(data.before.startsAt)} · ${data.before.durationMinutes} minutes`)}<p style="margin:0 0 14px;color:#555;font-size:14px;">↓ Nouveau créneau</p>`
+    : ""
+  const reminder = type === "SESSION_CANCELLED"
+    ? "Cette séance est annulée. Aucun rappel ne sera envoyé pour ce créneau."
+    : type === "SESSION_REMINDER"
+      ? "Votre séance débute dans les 30 prochaines minutes. Toutes les heures indiquées sont celles de Paris."
+      : "Un rappel vous sera envoyé 30 minutes avant. Toutes les heures indiquées sont celles de Paris."
+  return {
+    subject: `${subjects[type]} — ${data.learnerName} · ${sessionParisDate(data.startsAt)}`,
+    html: layout(brand, `
+      <h1 style="margin:0 0 16px;font-size:22px;color:#111;">${titles[type]}</h1>
+      <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">Bonjour, voici les informations de la séance de <strong>${e(data.learnerName)}</strong> avec <strong>${e(data.trainerName)}</strong>.</p>
+      <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f7;border-radius:8px;margin:0 0 20px;"><tr><td style="padding:16px 20px;">
+        ${line("Élève", data.learnerName)}
+        ${line("Formatrice", data.trainerName)}
+        ${line("Formation", data.formationLabel)}
+        ${oldSlot}
+        ${line(type === "SESSION_UPDATED" ? "Nouveau créneau · heure de Paris" : "Créneau · heure de Paris", sessionParisDate(data.startsAt))}
+        ${line("Durée", `${data.durationMinutes} minutes`)}
+      </td></tr></table>
+      <p style="margin:0 0 8px;color:#555;font-size:15px;line-height:1.6;">${reminder}</p>
+      ${visioUrl && type !== "SESSION_CANCELLED" ? button("Rejoindre la visio", e(visioUrl), brand.primaryColor) : ""}
+    `),
   }
 }
 

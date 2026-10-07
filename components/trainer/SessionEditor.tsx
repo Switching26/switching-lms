@@ -37,13 +37,13 @@ export default function SessionEditor({ open, onClose, onSaved, students, assign
   }
   return <Modal open={open} onClose={() => { if (!busy) onClose() }} title={session ? "Modifier la séance" : "Ajouter une séance"}>
     <form className="trainer-session-form" onSubmit={submit} aria-busy={busy}>
-      <label>Élève<select className="input-field" value={studentId} onChange={event => setStudentId(event.target.value)} disabled={busy || !!session || !!assignmentId} required>
+      <label>Élève<select aria-label="Élève" className="input-field" value={studentId} onChange={event => setStudentId(event.target.value)} disabled={busy || !!session || !!assignmentId} required>
         {!studentId && <option value="">Choisir un élève</option>}
         {students.map(student => <option key={student.id} value={student.id}>{studentName(student)}</option>)}
       </select></label>
       <label>Date et heure <small>Heure de Paris</small><input className="input-field" type="datetime-local" value={startsAt} onChange={event => setStartsAt(event.target.value)} disabled={busy} required /></label>
       <label>Durée en minutes<input className="input-field" type="number" min="1" step="1" value={duration} onChange={event => setDuration(event.target.value)} disabled={busy} required /></label>
-      <label>Note<textarea className="input-field" rows={3} maxLength={20000} value={note} onChange={event => setNote(event.target.value)} disabled={busy} /></label>
+      <label>Note<textarea aria-label="Note de séance" className="input-field" rows={3} maxLength={20000} value={note} onChange={event => setNote(event.target.value)} disabled={busy} /></label>
       {error && <p className="trainer-error" role="alert">{error}</p>}
       <div className="trainer-form-actions"><button className="trainer-button" type="button" onClick={onClose} disabled={busy}>Fermer</button><button className="lms-primary" type="submit" disabled={busy}>{busy ? "Enregistrement…" : "Enregistrer"}</button></div>
     </form>

@@ -34,6 +34,7 @@
 .trainer-kind { display:inline-flex; align-items:center; padding:4px 10px; font-size:11px; font-weight:600; border-radius:999px; white-space:nowrap; }
 .trainer-kind.is-bonus { background:#e6f3f3; color:#087d83; }
 .trainer-kind.is-visio { background:#eef0fb; color:#3a4aa8; }
+.trainer-info-tag { background:#eef0f3; color:#555; padding:4px 9px; border-radius:999px; font-size:11px; }
 .trainer-muted { font-size:12px; color:var(--lms-muted); line-height:1.65; }
 .trainer-student-link .trainer-muted { margin:5px 0; }
 .trainer-dates { color:var(--lms-muted); font-size:12px; margin:4px 0 12px; line-height:1.8; }
@@ -116,8 +117,10 @@
 .trainer-agenda-event .trainer-session-row { border:0; padding:0; }
 .trainer-agenda-event > p { font-size:12px; line-height:1.8; }
 .trainer-dock { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:3px; }
-.trainer-dock a { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; padding:10px 2px; min-height:62px; border-radius:20px; font-size:10px; color:var(--lms-muted); }
+.trainer-dock a { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; padding:10px 2px; min-height:62px; border-radius:20px; font-size:10px; color:var(--lms-muted); }
 .trainer-dock a[aria-current=page] { background:var(--lms-soft); color:var(--lesson-brand-accent,#087d83); font-weight:600; }
+.trainer-nav-badge { margin-left:auto; background:#e5484d; color:white; min-width:18px; padding:2px 5px; border-radius:999px; font-size:10px; line-height:1.3; text-align:center; }
+.trainer-dock .trainer-nav-badge { position:absolute; top:5px; right:12px; }
 .trainer-skip { position:fixed; left:15px; top:15px; padding:12px; background:white; z-index:100; transform:translateY(-200%); }
 .trainer-skip:focus { transform:translateY(0); }
 @media (max-width:760px) {

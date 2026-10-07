@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { Search, ChevronRight } from "lucide-react"
-import { dateLabel, studentName, trainerRequest, type TrainerAssignment } from "./data"
+import { dateLabel, dayKey, studentName, trainerRequest, type TrainerAssignment } from "./data"
 import StepChecklist from "./StepChecklist"
 import Progress from "./Progress"
 
@@ -23,6 +23,7 @@ export default function StudentList() {
   const [filter, setFilter] = useState("all")
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [today] = useState(() => dayKey(new Date()))
   useEffect(() => {
     const controller = new AbortController()
     setLoading(true); setError(""); setStudents([])
@@ -47,7 +48,9 @@ export default function StudentList() {
     {!loading && !error && !visible.length && <div className="trainer-empty"><h2>{query || filter !== "all" ? "Aucun élève ne correspond" : archived ? "Aucun élève archivé" : "Aucun élève en cours"}</h2></div>}
     <div className="trainer-student-list">{visible.map(student => <article className="trainer-card trainer-student-card" key={student.id}>
       <Link className="trainer-student-link" href={`/trainer/eleves/${encodeURIComponent(student.id)}`}>
-        <div className="trainer-card-heading"><h2>{studentName(student)}</h2><span className={`trainer-kind ${student.hasElearning ? "is-bonus" : "is-visio"}`}>{student.hasElearning ? "Visio + bonus" : "Visio seule"}</span><ChevronRight size={18} className="trainer-card-chevron" aria-hidden /></div>
+        <div className="trainer-card-heading"><h2>{studentName(student)}</h2><span className={`trainer-kind ${student.hasElearning ? "is-bonus" : "is-visio"}`}>{student.hasElearning ? "Visio + bonus" : "Visio seule"}</span>
+          {dayKey(student.adminStartAt) === today ? <span className="trainer-info-tag">Démarre aujourd’hui</span> : dayKey(student.adminStartAt) > today && !student.contactDoneAt ? <span className="trainer-info-tag">À contacter le {dateLabel(student.adminStartAt, true)}</span> : null}
+          <ChevronRight size={18} className="trainer-card-chevron" aria-hidden /></div>
         <p className="trainer-muted">{student.formationLabel}{student.visioHours != null && ` · ${student.visioHours} h de visio`}</p>
         <p className="trainer-dates">Admin {dateLabel(student.adminStartAt, true)} · {student.visioStartAt ? `Visios dès le ${dateLabel(student.visioStartAt, true)}` : "Visios à convenir"}{student.adminEndAt && ` · Fin ${dateLabel(student.adminEndAt, true)}`}</p>
       </Link>

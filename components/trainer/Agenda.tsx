@@ -51,7 +51,7 @@ export default function Agenda() {
   weekStart.setUTCDate(weekStart.getUTCDate() - (weekStart.getUTCDay() + 6) % 7)
   const weekEnd = new Date(weekStart); weekEnd.setUTCDate(weekEnd.getUTCDate() + 7)
   const visible = events.filter(event => view === "list" || (view === "month" ? dayKey(event.date).slice(0, 7) === today.slice(0, 7) : dayKey(event.date) >= dayKey(weekStart) && dayKey(event.date) < dayKey(weekEnd)))
-  const days = [...new Set(visible.map(event => dayKey(event.date)))].sort()
+  const days = Array.from(new Set(visible.map(event => dayKey(event.date)))).sort()
   async function cancel(session: TrainerSession) {
     setBusySession(session.id); setError("")
     try {

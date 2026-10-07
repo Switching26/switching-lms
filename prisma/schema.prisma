@@ -162,6 +162,7 @@ model Section {
   order       Int
 
   chapters Chapter[]
+  introVideo IntroVideo?
 
   @@index([formationId])
 }
@@ -197,9 +198,23 @@ model Chapter {
   progress    Progress[]
   notes       Note[]
   simulation  Simulation?
+  introVideo  IntroVideo?
 
   @@index([formationId])
   @@index([sectionId])
+}
+
+/// Optional introductions, separate from the course's scored content and HLS lessons.
+model IntroVideo {
+  id              String   @id
+  chapterId       String?  @unique
+  chapter         Chapter? @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  sectionId       String?  @unique
+  section         Section? @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  videoKey        String
+  posterKey       String
+  durationSeconds Float
+  createdAt       DateTime @default(now())
 }
 
 model Attachment {

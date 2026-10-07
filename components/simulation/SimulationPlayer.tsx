@@ -40,6 +40,7 @@ import { restaurerCellulesCapturees, restaurerDonneesNatives, restaurerStylesCap
 import { caseValeurFiltre, decocherValeursFiltre, jouerToucheDemo, rejouerRecopiesDemo } from "@/lib/simulation/demonstration-execution"
 import DesktopLayer from "./DesktopLayer"
 import AfficheModule, { numeroModule } from "./AfficheModule"
+import IntroVideoOpening, { useIntroVideos } from "./IntroVideoOpening"
 import DemonstrationGeste, { type Rect } from "./DemonstrationGeste"
 import AtelierShell, { type EntreeSommaire } from "./AtelierShell"
 import {
@@ -627,6 +628,7 @@ export default function SimulationPlayer({
 }: Props) {
   const steps = scenario.steps
   const total = steps.length
+  const introductions = useIntroVideos(chapterId, mode === "LESSON")
 
   /**
    * Une ÉVALUATION ne reprend JAMAIS au milieu : les réussites au premier
@@ -5121,14 +5123,15 @@ export default function SimulationPlayer({
       {!introVue && step && (
         <div
           className="absolute inset-0 z-40 flex flex-col justify-center overflow-hidden px-6 py-8 sm:px-10"
-          style={{ background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)" }}
+          style={{ background: "linear-gradient(180deg,#faf9f5 0%,#f2efe8 100%)", ...(introductions.lesson || introductions.module ? { overflowY: "auto", justifyContent: "safe center" } as const : {}) }}
         >
+          <IntroVideoOpening lesson={introductions.lesson} module={introductions.module} beginModule={introductions.beginModule}>
           {/* Affiche du module (direction B, 29/07/2026). Une par module, la même
               pour ses leçons, ses exercices et son évaluation. Le repli
               ci-dessous — le mini-classeur — ne sert plus qu'aux modules dont
               l'affiche n'est pas encore dessinée : il était affiché sur les 246
               chapitres et ne parlait que du module 6. */}
-          {affiche ? (
+          {introductions.lesson || introductions.module ? null : affiche ? (
             <div
               aria-hidden
               // Centrage par le FLUX, pas par `translateY(-50%)` : l'animation
@@ -5292,8 +5295,8 @@ export default function SimulationPlayer({
             <button
               type="button"
               data-control="intro-commencer"
-              disabled={ouvertureEnCours}
-              aria-busy={ouvertureEnCours}
+              disabled={ouvertureEnCours || introductions.pending}
+              aria-busy={ouvertureEnCours || introductions.pending}
               onClick={() => {
                 // On n'entre dans l'atelier QUE si le passage est ouvert : jouer
                 // une évaluation sans passage ne noterait rien, et l'apprenant ne
@@ -5356,6 +5359,7 @@ export default function SimulationPlayer({
               </p>
             )}
           </div>
+          </IntroVideoOpening>
         </div>
       )}
       {finished ? (

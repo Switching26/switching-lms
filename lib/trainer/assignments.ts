@@ -1,6 +1,8 @@
 import type { Prisma } from "@prisma/client"
 import { prisma } from "@/lib/prisma"
 import { assertTrainerOwnsAssignment, TrainerAccessError } from "./access"
+import { sortChaptersByLearningOrder } from "@/lib/data/chapter-order"
+import { getFormationQuizResults } from "@/lib/data/quiz"
 
 export interface CreateTrainerAssignmentInput {
   trainerId: string
@@ -110,4 +112,44 @@ export async function updateAssignmentSteps(trainerId: string, assignmentId: str
   const result = await prisma.trainerAssignment.updateMany({ where: { id: assignmentId, trainerId }, data })
   if (!result.count) throw new TrainerAccessError("Élève introuvable", 404)
   return assertTrainerOwnsAssignment(trainerId, assignmentId)
+}
+
+/** Same chapter ordering, completion formula and quiz reader as the admin.
+ * Scope exclusively to this assignment's enrollment; never expose other courses.
+ */
+export async function getAssignmentProgress(trainerId: string, assignmentId: string) {
+  const assignment = await assertTrainerOwnsAssignment(trainerId, assignmentId)
+  const empty = { hasElearning: assignment.hasElearning, percent: 0, progressPercent: 0,
+    completedChapters: 0, totalChapters: 0, totalTime: 0, totalExpected: 0,
+    lastActivity: null, formations: [] }
+  if (!assignment.hasElearning || !assignment.learnerId || !assignment.enrollmentId) return empty
+  const enrollment = await prisma.enrollment.findFirst({
+    where: { id: assignment.enrollmentId, userId: assignment.learnerId, trainerAssignment: { trainerId } },
+    include: { formation: { include: {
+      sections: { orderBy: { order: "asc" } },
+      chapters: { where: { isPublished: true }, include: { section: true }, orderBy: { order: "asc" } },
+    } } },
+  })
+  if (!enrollment) return empty
+  const rows = await prisma.progress.findMany({ where: { userId: assignment.learnerId,
+    chapterId: { in: enrollment.formation.chapters.map((chapter) => chapter.id) } } })
+  const byChapter = new Map(rows.map((row) => [row.chapterId, row]))
+  const chapters = sortChaptersByLearningOrder(enrollment.formation.chapters, enrollment.formation.sections).map((chapter) => {
+    const progress = byChapter.get(chapter.id)
+    return { id: chapter.id, title: chapter.title, expectedDuration: chapter.videoDuration || 0,
+      status: progress?.completedAt ? "done" : progress ? "in_progress" : "not_started",
+      timeSpent: progress?.timeSpentSeconds || 0, sessionCount: progress?.sessionCount || 0,
+      completedAt: progress?.completedAt || null }
+  })
+  const completedChapters = chapters.filter((chapter) => chapter.status === "done").length
+  const percent = chapters.length ? Math.round(completedChapters / chapters.length * 100) : 0
+  const timeSpent = chapters.reduce((sum, chapter) => sum + chapter.timeSpent, 0)
+  const expectedDuration = chapters.reduce((sum, chapter) => sum + chapter.expectedDuration, 0)
+  const activities = rows.flatMap((row) => [row.lastAccessedAt, row.completedAt].filter((date): date is Date => date !== null))
+  const lastActivity = activities.length ? new Date(Math.max(...activities.map((date) => date.getTime()))) : null
+  return { hasElearning: true, percent, progressPercent: percent, completedChapters, totalChapters: chapters.length,
+    totalTime: timeSpent, totalExpected: expectedDuration, lastActivity,
+    formations: [{ id: enrollment.formation.id, title: enrollment.formation.title, startedAt: enrollment.startedAt,
+      expiresAt: enrollment.expiresAt, completedChapters, totalChapters: chapters.length, percent, timeSpent,
+      expectedDuration, chapters, quiz: await getFormationQuizResults(assignment.learnerId, enrollment.formation.id) }] }
 }

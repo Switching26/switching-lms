@@ -34,7 +34,8 @@ export default function SessionEditor({ open, onClose, onSaved, students, assign
       if (!students.some(student => student.id === studentId) || !Number.isInteger(minutes) || minutes <= 0) throw new Error("Choisissez un élève et une durée positive en minutes.")
       const link = visioUrl.trim()
       if (link && !safeVisioUrl(link)) throw new Error("Le lien visio doit commencer par https://, sans identifiant ni mot de passe.")
-      setReview({ startsAt: parisInputToIso(startsAt), durationMinutes: minutes, note: note.trim() || null, visioUrl: link || null })
+      const instant = session && startsAt === parisInput(session.startsAt) ? session.startsAt : parisInputToIso(startsAt)
+      setReview({ startsAt: instant, durationMinutes: minutes, note: note.trim() || null, visioUrl: link || null })
     } catch (error) { setError(error instanceof Error ? error.message : "Vérifiez les champs de la séance.") }
   }
   async function confirm() {
@@ -49,8 +50,9 @@ export default function SessionEditor({ open, onClose, onSaved, students, assign
     finally { saving.current = false; setBusy(false) }
   }
   const student = students.find(row => row.id === studentId)
-  const changedTime = !!session && !!review && (session.startsAt !== review.startsAt || session.durationMinutes !== review.durationMinutes)
-  if (review) return <ActionConfirmation open={open} title={session ? changedTime ? "Confirmer le déplacement" : "Confirmer la modification" : "Confirmer la création"} busy={busy} error={error} onClose={() => { setReview(null); setError("") }} onConfirm={() => { void confirm() }} mailNotice={`Un mail sera envoyé à ${student ? studentName(student) : "l’élève"} et à vous. Aucune copie à Switching.`}>
+  const changedTime = !!session && !!review && (new Date(session.startsAt).getTime() !== new Date(review.startsAt).getTime() || session.durationMinutes !== review.durationMinutes)
+  const needsMail = !session || changedTime || (!!review && safeVisioUrl(session.visioUrl) !== safeVisioUrl(review.visioUrl))
+  if (review) return <ActionConfirmation open={open} title={session ? changedTime ? "Confirmer le déplacement" : "Confirmer la modification" : "Confirmer la création"} busy={busy} error={error} onClose={() => { setReview(null); setError("") }} onConfirm={() => { void confirm() }} mailNotice={needsMail ? `Un mail sera envoyé à ${student ? studentName(student) : "l’élève"} et à vous. Aucune copie à Switching.` : "Aucun mail ne sera envoyé. Le planning et le rappel restent inchangés."}>
     <h3>{student && studentName(student)}</h3>
     <dl>
       {session && changedTime && <><dt>Avant</dt><dd>{dateTimeLabel(session.startsAt)} · {session.durationMinutes} min</dd></>}

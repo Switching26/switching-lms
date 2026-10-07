@@ -22,7 +22,11 @@ export default function CalendarGrid({ days, items, onSlot, onItem, onDay, month
   onDay: (day: string) => void; month?: boolean; selectedDay: string
 }) {
   const scroll = useRef<HTMLDivElement>(null)
-  useEffect(() => { if (!month && scroll.current) scroll.current.scrollTop = 8 * 64 - 40 }, [month, days.join(",")])
+  useEffect(() => {
+    if (!scroll.current) return
+    if (!month) scroll.current.scrollTop = 8 * 64 - 40
+    scroll.current.scrollLeft = innerWidth <= 760 && !month ? Math.max(0, days.indexOf(selectedDay)) * 130 : 0
+  }, [month, days.join(","), selectedDay])
   if (month) return <div className="trainer-calendar-scroll trainer-month-scroll">
     <div className="trainer-month-grid" role="group" aria-label="Calendrier du mois">
       {weekDays(selectedDay).map(day => <span className="trainer-month-weekday" key={day}>{dayLabel(day, { weekday: "short" })}</span>)}

@@ -27,8 +27,8 @@ export default function TrainerShell({ children, name, email }: {
       if (pending || document.visibilityState === "hidden") return
       pending = true
       try {
-        // V2 keeps the trainer client within the trainer API perimeter.
-        const response = await fetch("/api/trainer/unread-count", { signal: controller.signal, cache: "no-store" })
+        // INT2-02: preserve the V1 shared messaging count contract.
+        const response = await fetch("/api/messages/unread-count", { signal: controller.signal, cache: "no-store" })
         if (!response.ok || controller.signal.aborted) return
         const data = await response.json()
         const count = (value: unknown) => typeof value === "number" && Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0

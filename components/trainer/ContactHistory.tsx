@@ -51,7 +51,7 @@ export default function ContactHistory({ assignmentId, hasContact, onSaved }: { 
       <h3>{contactKinds.find(item => item.value === review.kind)?.label}</h3><p>{dateTimeLabel(review.occurredAt)}</p>{review.note && <p>{review.note}</p>}
     </ActionConfirmation> : <Modal open={open} title="Ajouter un contact" onClose={() => setOpen(false)}>
       <form className="trainer-session-form" onSubmit={submit}>
-        <label>Type de contact<select className="input-field" value={kind} onChange={e => setKind(e.target.value as ContactKind)}>{contactKinds.map(item => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
+        <label>Type de contact<select aria-label="Type de contact" className="input-field" value={kind} onChange={e => setKind(e.target.value as ContactKind)}>{contactKinds.map(item => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
         <label>Date et heure du contact <small>Heure de Paris</small><input className="input-field" type="datetime-local" value={occurredAt} onChange={e => setOccurredAt(e.target.value)} required /></label>
         <label>Note du contact<textarea className="input-field" rows={3} maxLength={20000} value={note} onChange={e => setNote(e.target.value)} /></label>
         {error && <p className="trainer-error" role="alert">{error}</p>}

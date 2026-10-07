@@ -100,8 +100,15 @@ export function safeVisioUrl(value?: string | null) {
 /** Never claim a mail was sent when the route reports a partial success. */
 export function notificationWarning(result: unknown): string {
   if (!result || typeof result !== "object") return ""
-  const row = result as { warning?: string; emailSent?: boolean; mailSent?: boolean; notification?: { sent?: boolean; error?: string; message?: string } }
+  const row = result as { warning?: string; emailSent?: boolean; mailSent?: boolean; notification?: { sent?: boolean; error?: string; message?: string; status?: string; reason?: string; skipped?: boolean; unchanged?: boolean } }
   if (row.warning) return row.warning
+  if (row.notification?.unchanged || row.notification?.status === "unchanged" || row.notification?.reason === "unchanged") return ""
+  if (row.notification?.skipped || row.notification?.status === "skipped") {
+    if (row.notification.reason === "busy") return "La séance est enregistrée. Sa notification est déjà en cours de traitement."
+    if (row.notification.reason === "obsolete") return "La séance est enregistrée. La notification précédente est devenue inutile après un changement du planning."
+    if (row.notification.reason === "unavailable") return "La séance est enregistrée. La notification a été sautée : vérifiez que l’élève est toujours rattaché à votre espace."
+    return ""
+  }
   if (row.emailSent === false || row.mailSent === false || row.notification?.sent === false) return row.notification?.message || row.notification?.error || "L’action a été enregistrée, mais le mail n’a pas été envoyé."
   return ""
 }

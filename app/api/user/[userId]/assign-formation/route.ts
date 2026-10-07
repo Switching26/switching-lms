@@ -176,10 +176,10 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
       }
       const subject = replaceVariables(dynamic.subject, vars)
       const html = replaceVariables(dynamic.htmlContent, vars)
-      emailSent = await sendEmail(user.email, subject, html, user.id, "FORMATION_ASSIGNED", user.partner)
+      emailSent = await sendEmail(user.email, subject, html, user.id, "FORMATION_ASSIGNED", user.partner, user.role === "TRAINER" ? { bcc: "contact@switchingformation.com" } : undefined)
     } else {
       const emailData = formationAssignedEmail(user.firstName, enrollment.formation.title, expiresAt || null, user.partner)
-      emailSent = await sendEmail(user.email, emailData.subject, emailData.html, user.id, "FORMATION_ASSIGNED", user.partner)
+      emailSent = await sendEmail(user.email, emailData.subject, emailData.html, user.id, "FORMATION_ASSIGNED", user.partner, user.role === "TRAINER" ? { bcc: "contact@switchingformation.com" } : undefined)
     }
   } catch {
     // Never block enrollment if email fails

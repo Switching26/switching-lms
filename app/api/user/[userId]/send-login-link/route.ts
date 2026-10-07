@@ -48,11 +48,12 @@ export async function POST(_req: NextRequest, { params }: { params: { userId: st
         replaceVariables(dynamicTemplate.htmlContent, vars),
         user.id,
         "LOGIN_LINK",
-        user.partner
+        user.partner,
+        user.role === "TRAINER" ? { bcc: "contact@switchingformation.com" } : undefined
       )
     } else {
       const emailData = loginLinkEmail(user.firstName, user.email, user.partner, user.partner?.slug)
-      emailSent = await sendEmail(user.email, emailData.subject, emailData.html, user.id, "LOGIN_LINK", user.partner)
+      emailSent = await sendEmail(user.email, emailData.subject, emailData.html, user.id, "LOGIN_LINK", user.partner, user.role === "TRAINER" ? { bcc: "contact@switchingformation.com" } : undefined)
     }
   } catch (err) {
     console.error("[ADMIN-SEND-LOGIN-LINK]", err)

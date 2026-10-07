@@ -10,7 +10,7 @@ export async function getAdminLoginLinkUser(actor: Actor, userId: string) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: {
-      id: true, firstName: true, lastName: true, email: true,
+      id: true, firstName: true, lastName: true, email: true, role: true,
       partnerId: true, archivedAt: true, isActive: true,
       partner: true,
       _count: { select: { loginLogs: { where: { OR: [

@@ -1,0 +1,54 @@
+.learner-planning { max-width:1120px; margin:0 auto; min-width:0; }
+.lp-heading { margin-bottom:20px; }
+.lp-heading .lms-eyebrow { margin-bottom:8px; }
+.lp-heading > p:last-child { margin-top:10px; font-size:14px; color:var(--lms-muted); line-height:1.7; }
+.lp-reminder { display:flex; align-items:center; gap:10px; margin-bottom:18px; color:var(--lms-muted); font-size:13px; line-height:1.7; }
+.lp-reminder svg { flex-shrink:0; }
+.lp-next,.lp-no-next { display:flex; align-items:center; gap:20px; background:var(--lms-paper); border:1px solid var(--lms-line); border-radius:20px; padding:24px; margin-bottom:30px; }
+.lp-next-icon { display:flex; align-items:center; justify-content:center; width:58px; height:58px; border-radius:16px; background:var(--lms-sunk); color:var(--lms-ink); flex-shrink:0; }
+.lp-next h2 { margin:0 0 9px; font-size:12px; color:var(--lms-muted); font-weight:500; }
+.lp-next .lp-date { font-size:19px; }
+.lp-session-info { min-width:0; flex:1; }
+.lp-date { font-size:15px; font-weight:600; color:var(--lms-ink); line-height:1.6; overflow-wrap:anywhere; }
+.lp-trainer { margin-top:4px; color:var(--lms-ink); font-size:13px; overflow-wrap:anywhere; }
+.lp-meta { display:flex; align-items:center; flex-wrap:wrap; gap:5px 16px; margin-top:9px; font-size:12px; color:var(--lms-muted); line-height:1.6; }
+.lp-meta span { display:flex; align-items:center; gap:6px; overflow-wrap:anywhere; min-width:0; }
+.lp-meta svg { flex-shrink:0; }
+.lp-join { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; border-radius:13px; padding:10px 14px; background:var(--lms-ink); color:#fff; font-size:13px; font-weight:500; white-space:nowrap; }
+.lp-join:hover { opacity:.88; }
+.lp-join:disabled { background:var(--lms-sunk); color:var(--lms-muted); cursor:not-allowed; opacity:1; }
+.lp-join:focus-visible { outline:2px solid var(--lms-ink); outline-offset:4px; }
+.lp-join-pending { display:grid; gap:6px; max-width:240px; }
+.lp-link-pending { max-width:240px; font-size:12px; color:var(--lms-muted); line-height:1.7; }
+.lp-section { margin-top:24px; }
+.lp-section > h2 { display:flex; align-items:center; gap:9px; font-size:16px; font-weight:600; color:var(--lms-ink); margin:0 0 12px; }
+.lp-count { font-size:12px; font-weight:400; color:var(--lms-muted); background:var(--lms-sunk); padding:3px 9px; border-radius:12px; }
+.lp-list { display:grid; gap:10px; list-style:none; padding:0; margin:0; }
+.lp-session { display:flex; align-items:center; gap:14px; background:var(--lms-paper); border:1px solid var(--lms-line); border-radius:18px; padding:18px 20px; }
+.lp-session-side { display:flex; align-items:flex-end; flex-direction:column; gap:10px; }
+.lp-status { display:inline-flex; align-items:center; padding:4px 10px; border-radius:999px; background:var(--lms-sunk); color:var(--lms-muted); font-size:11px; font-weight:600; }
+.lp-status.is-cancelled { background:#fdecec; color:#b42318; }
+.lp-session.is-cancelled .lp-date { text-decoration:line-through; font-weight:500; color:var(--lms-muted); }
+.lp-no-next { color:var(--lms-muted); }
+.lp-no-next > svg { flex-shrink:0; }
+.lp-no-next h2 { font-size:15px; color:var(--lms-ink); margin-bottom:6px; }
+.lp-no-next p,.lp-empty-line { font-size:13px; color:var(--lms-muted); line-height:1.7; }
+.lp-empty-line { padding:18px 20px; background:var(--lms-paper); border-radius:18px; }
+@media (max-width:760px) {
+  .lp-heading { margin-bottom:16px; }
+  .lp-heading > p:last-child { font-size:13px; }
+  .lp-next,.lp-no-next { padding:18px; gap:14px; flex-wrap:wrap; margin-bottom:24px; }
+  .lp-next-icon { width:44px; height:44px; border-radius:13px; }
+  .lp-next .lp-session-info { flex-basis:calc(100% - 58px); }
+  .lp-next .lp-date { font-size:16px; }
+  .lp-next > .lp-join { width:100%; }
+  .lp-next > .lp-join-pending { width:100%; max-width:none; }
+  .lp-next > .lp-link-pending { max-width:none; }
+  .lp-session { padding:16px; align-items:flex-start; flex-direction:column; gap:12px; }
+  .lp-session-side { width:100%; align-items:flex-start; gap:12px; }
+  .lp-session-side .lp-join { width:100%; }
+  .lp-session-side .lp-join-pending { width:100%; max-width:none; }
+  .lp-link-pending { max-width:none; }
+  .lp-meta { gap:5px 12px; }
+  .lp-no-next { flex-wrap:nowrap; align-items:flex-start; }
+}

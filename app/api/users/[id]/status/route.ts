@@ -17,7 +17,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   if (!target) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
 
   // Partner admin scope
-  if (role === "PARTNER_ADMIN" && target.partnerId !== callerPartnerId) {
+  if (role === "PARTNER_ADMIN" && (!callerPartnerId || target.role === "TRAINER" || target.partnerId !== callerPartnerId)) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 

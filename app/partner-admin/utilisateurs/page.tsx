@@ -10,6 +10,7 @@ export default async function PartnerUtilisateursPage() {
   const session = await auth()
   if (!session) redirect("/login")
 
+  if (session.user.role !== "PARTNER_ADMIN") redirect("/")
   const partnerId = session.user.partnerId
   if (!partnerId) redirect("/login")
 
@@ -23,7 +24,7 @@ export default async function PartnerUtilisateursPage() {
     <div className="space-y-6">
       <h1 className="text-xl font-semibold">Utilisateurs</h1>
       <UsersTable
-        users={JSON.parse(JSON.stringify(users))}
+        users={JSON.parse(JSON.stringify(users.filter((user) => user.role !== "TRAINER")))}
         formations={formations.map((f) => ({ id: f.id, title: f.title }))}
         isPartnerAdmin
       />

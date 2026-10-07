@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
+import { prisma } from "@/lib/prisma"
 import { getAdminLoginLinkUser } from "@/lib/admin-login-link"
 import { buildLoginLinks } from "@/lib/login-link"
 import { sendEmail } from "@/lib/email"
@@ -14,6 +15,10 @@ export const dynamic = "force-dynamic"
 // d'activation. Si le mot de passe est oublié, l'email pointe vers la page dédiée.
 export async function POST(_req: NextRequest, { params }: { params: { userId: string } }) {
   const session = await auth()
+  if (session?.user.role === "PARTNER_ADMIN") {
+    const target = await prisma.user.findUnique({ where: { id: params.userId }, select: { role: true } })
+    if (target?.role === "TRAINER") return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
+  }
   const result = await getAdminLoginLinkUser(session?.user, params.userId)
   if (result.error) return NextResponse.json({ error: result.error }, { status: result.status })
   const { user } = result

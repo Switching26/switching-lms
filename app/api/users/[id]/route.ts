@@ -21,7 +21,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   if (!target) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
 
   // Partner admin scope check
-  if (role === "PARTNER_ADMIN" && target.partnerId !== callerPartnerId) {
+  if (role === "PARTNER_ADMIN" && (!callerPartnerId || target.role === "TRAINER" || target.partnerId !== callerPartnerId)) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
@@ -58,8 +58,25 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     data.reference = trimmedRef
   }
 
+  // Trainer memberships can only be managed by the super-admin.
+  if (body.trainerPartnerIds !== undefined || body.role === "TRAINER" || target.role === "TRAINER") {
+    if (role !== "SUPER_ADMIN") return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
+    if (target.role !== "TRAINER") return NextResponse.json({ error: "Créez un compte formateur dédié" }, { status: 400 })
+    if (body.role !== undefined && body.role !== "TRAINER") return NextResponse.json({ error: "Le rôle formateur ne peut pas être converti ici" }, { status: 400 })
+    data.partnerId = null
+    if (body.trainerPartnerIds !== undefined) {
+      if (!Array.isArray(body.trainerPartnerIds) || body.trainerPartnerIds.length > 100 || body.trainerPartnerIds.some((id: unknown) => typeof id !== "string" || !id.trim())) {
+        return NextResponse.json({ error: "Liste d'organismes invalide" }, { status: 400 })
+      }
+      const ids = Array.from(new Set(body.trainerPartnerIds as string[]))
+      const count = await prisma.partner.count({ where: { id: { in: ids }, isActive: true } })
+      if (count !== ids.length) return NextResponse.json({ error: "Organisme introuvable ou inactif" }, { status: 400 })
+      data.trainerPartners = { deleteMany: {}, create: ids.map((partnerId) => ({ partnerId })) }
+    }
+  }
+
   // Super admin only fields
-  if (role === "SUPER_ADMIN") {
+  if (role === "SUPER_ADMIN" && target.role !== "TRAINER") {
     if (body.role !== undefined && (body.role === "LEARNER" || body.role === "PARTNER_ADMIN")) {
       data.role = body.role
     }
@@ -71,7 +88,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   const updated = await prisma.user.update({
     where: { id: params.id },
     data,
-    include: { partner: true, enrollments: { include: { formation: true } } },
+    include: { partner: true, trainerPartners: { include: { partner: { select: { id: true, name: true } } } }, enrollments: { include: { formation: true } } },
   })
 
   // Les inscriptions (attribution / retrait / dates) sont gérées par les routes
@@ -82,12 +99,13 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   // Re-fetch with updated enrollments
   const final = await prisma.user.findUnique({
     where: { id: params.id },
-    include: { partner: true, enrollments: { include: { formation: true } } },
+    include: { partner: true, trainerPartners: { include: { partner: { select: { id: true, name: true } } } }, enrollments: { include: { formation: true } } },
   })
 
   // Ne jamais renvoyer les secrets de mot de passe au client.
   if (final) {
     const { password, visiblePasswordEncrypted, ...safe } = final as Record<string, any>
+    if (safe.partner) { const { smtpPassword, ...partner } = safe.partner; safe.partner = partner }
     return NextResponse.json(safe)
   }
   return NextResponse.json(final)

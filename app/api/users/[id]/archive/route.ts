@@ -19,7 +19,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   }
 
   // Partner admin scope
-  if (role === "PARTNER_ADMIN" && target.partnerId !== callerPartnerId) {
+  if (role === "PARTNER_ADMIN" && (!callerPartnerId || target.role === "TRAINER" || target.partnerId !== callerPartnerId)) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 

@@ -19,6 +19,7 @@ interface User {
   archivedAt: string | null
   partnerId: string | null
   partner: { id: string; name: string } | null
+  trainerPartners?: { partnerId: string; partner: { id: string; name: string } }[]
   enrollments: { id: string; formationId: string; startedAt: string; expiresAt: string | null; formation: { id: string; title: string; chapters?: { id: string }[] } }[]
   progress?: { chapterId: string; completedAt: string | null }[]
   _count?: { loginLogs: number }
@@ -58,6 +59,19 @@ interface FormationOption {
   id: string
   title: string
 }
+
+function TrainerOrganisms({ partners = [], selected, onChange }: { partners?: PartnerOption[]; selected: string[]; onChange: (ids: string[]) => void }) {
+  return <fieldset className="space-y-2"><legend className="text-sm font-medium mb-1">Organismes du formateur</legend>
+    <p className="text-xs text-gray-500">Aucun organisme : le formateur ne pourra pas être attribué à un élève.</p>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">{partners.map((p) => <label key={p.id} className="flex items-center gap-3 min-h-[44px] px-3 py-2 rounded-lg bg-gray-50 text-sm cursor-pointer">
+      <input type="checkbox" checked={selected.includes(p.id)} onChange={(e) => onChange(e.target.checked ? [...selected, p.id] : selected.filter((id) => id !== p.id))} className="h-4 w-4 accent-black" />{p.name}
+    </label>)}</div>
+  </fieldset>
+}
+
+const userOrganisms = (user: User) => user.role === "TRAINER"
+  ? user.trainerPartners?.map((p) => p.partner.name).join(" · ") || "Aucun organisme"
+  : user.partner?.name || "Interne"
 
 function generatePassword() {
   const chars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"
@@ -126,10 +140,11 @@ export default function UsersTable({
   partners?: PartnerOption[]
   formations?: FormationOption[]
   isPartnerAdmin?: boolean
-  trainers?: { id: string; firstName: string; lastName: string }[]
+  trainers?: { id: string; firstName: string; lastName: string; trainerPartners: { partnerId: string }[] }[]
 }) {
   const router = useRouter()
   const [users, setUsers] = useState(initialUsers)
+  useEffect(() => setUsers(initialUsers), [initialUsers])
   // « Tous » par défaut : sur « Actifs », les invités qui n'avaient jamais activé leur
   // compte n'apparaissaient pas, et personne ne voyait qu'ils étaient bloqués.
   const searchParams = useSearchParams()
@@ -195,13 +210,14 @@ export default function UsersTable({
   const [newEmail, setNewEmail] = useState("")
   const [newRole, setNewRole] = useState("LEARNER")
   const [newPartnerId, setNewPartnerId] = useState("")
+  const [newTrainerPartnerIds, setNewTrainerPartnerIds] = useState<string[]>([])
   const [newPassword, setNewPassword] = useState(generatePassword())
   const [newReference, setNewReference] = useState("")
   const [newSendAutomaticEmails, setNewSendAutomaticEmails] = useState(true)
   const [newTrainerId, setNewTrainerId] = useState("")
   const [newVisioStartAt, setNewVisioStartAt] = useState("")
   const [newAdminEndAt, setNewAdminEndAt] = useState("")
-  const switchingPartnerId = partners?.find((p) => p.slug === "switching")?.id || ""
+  const availableTrainers = trainers.filter((trainer) => trainer.trainerPartners.some((p) => p.partnerId === newPartnerId))
   const [creating, setCreating] = useState(false)
 
   // Edit form
@@ -211,6 +227,7 @@ export default function UsersTable({
   const [editIsActive, setEditIsActive] = useState(true)
   const [editRole, setEditRole] = useState("LEARNER")
   const [editPartnerId, setEditPartnerId] = useState("")
+  const [editTrainerPartnerIds, setEditTrainerPartnerIds] = useState<string[]>([])
   const [editReference, setEditReference] = useState("")
   const [editSaving, setEditSaving] = useState(false)
   // Formations attribuées (multi) — copie locale éditable des enrollments
@@ -248,18 +265,19 @@ export default function UsersTable({
 
   // Filter users
   const scopedUsers = users.filter((u) => {
+    if (isPartnerAdmin && u.role === "TRAINER") return false
     // Org filter (super admin only)
     if (!isPartnerAdmin) {
-      if (orgFilter === "internal" && u.partnerId) return false
-      if (orgFilter === "partner" && !u.partnerId) return false
-      if (orgFilter.startsWith("partner:") && u.partnerId !== orgFilter.slice(8)) return false
+      if (orgFilter === "internal" && (u.partnerId || (u.role === "TRAINER" && u.trainerPartners?.length))) return false
+      if (orgFilter === "partner" && !u.partnerId && !(u.role === "TRAINER" && u.trainerPartners?.length)) return false
+      if (orgFilter.startsWith("partner:") && u.partnerId !== orgFilter.slice(8) && !(u.role === "TRAINER" && u.trainerPartners?.some((p) => p.partnerId === orgFilter.slice(8)))) return false
     }
     // Search
     if (search.trim()) {
       // « Prénom Nom » doit trouver la personne : chaque mot doit apparaître dans
       // l'un des champs, accents et casse ignorés (« Mauries » trouve MAURIÈS).
       const sansAccent = (t: string) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
-      const botte = sansAccent([u.firstName, u.lastName, u.email, u.partner?.name || "", u.reference || ""].join(" "))
+      const botte = sansAccent([u.firstName, u.lastName, u.email, userOrganisms(u), u.reference || ""].join(" "))
       const mots = sansAccent(search).split(/\s+/).filter(Boolean)
       if (!mots.every((m) => botte.includes(m))) return false
     }
@@ -323,6 +341,7 @@ export default function UsersTable({
     setNewEmail("")
     setNewRole("LEARNER")
     setNewPartnerId("")
+    setNewTrainerPartnerIds([])
     setNewReference("")
     setNewPassword(generatePassword())
     setNewAssignFormation(true)
@@ -505,7 +524,8 @@ export default function UsersTable({
           email: newEmail,
           password: newPassword,
           userRole: newRole,
-          partnerId: newPartnerId || null,
+          partnerId: newRole === "TRAINER" ? null : newPartnerId || null,
+          ...(newRole === "TRAINER" ? { trainerPartnerIds: newTrainerPartnerIds } : {}),
           reference: newReference || null,
           sendAutomaticEmails: newSendAutomaticEmails,
         }),
@@ -583,6 +603,7 @@ export default function UsersTable({
     setEditIsActive(u.isActive)
     setEditRole(u.role)
     setEditPartnerId(u.partnerId || "")
+    setEditTrainerPartnerIds(u.trainerPartners?.map((p) => p.partnerId) || [])
     setEditEnrollments(u.enrollments.map((e) => ({
       formationId: e.formationId,
       title: e.formation.title,
@@ -635,6 +656,7 @@ export default function UsersTable({
         reference: editReference || null,
         isActive: editIsActive,
       }
+      if (!isPartnerAdmin && editModal.role === "TRAINER") body.trainerPartnerIds = editTrainerPartnerIds
       if (!isPartnerAdmin && editModal.role !== "TRAINER") {
         body.role = editRole
         body.partnerId = editPartnerId || null
@@ -997,7 +1019,7 @@ export default function UsersTable({
                   {u.role === "PARTNER_ADMIN" && <Badge variant="blue">Admin</Badge>}
                   {u.role === "TRAINER" && <Badge variant="blue">Formateur</Badge>}
                   {u.role === "SUPER_ADMIN" && <Badge variant="error">Super Admin</Badge>}
-                  {!isPartnerAdmin && u.partner && <Badge variant="purple">{u.partner.name}</Badge>}
+                  {!isPartnerAdmin && <span className="text-xs text-gray-500">{userOrganisms(u)}</span>}
                 </div>
                 <p className="text-xs text-gray-400 mt-0.5 truncate">{u.email}</p>
                 {isPartnerAdmin && <FormationProgress user={u} />}
@@ -1079,7 +1101,7 @@ export default function UsersTable({
                 <td className="px-4 py-3">
                   <button type="button" onClick={() => openProgress(u.id)} className="lms-person-link text-sm font-medium text-left"><span className="lms-avatar" aria-hidden="true">{u.firstName[0]}{u.lastName[0]}</span><span>{u.firstName} {u.lastName}</span></button>
                   {isPartnerAdmin && <><span className="lms-user-email">{u.email}</span>{u.reference && <span className="text-xs text-gray-500">Réf. {u.reference}</span>}</>}
-                  {!isPartnerAdmin && <span className="lms-user-compact-meta"><span className="lms-user-email">{u.email}</span>{u.partner?.name || "Interne"}{u.reference && ` · Réf. ${u.reference}`}</span>}
+                  {!isPartnerAdmin && <span className="lms-user-compact-meta"><span className="lms-user-email">{u.email}</span>{userOrganisms(u)}{u.reference && ` · Réf. ${u.reference}`}</span>}
                 </td>
                 <td className="px-4 py-3">
                   {u.role === "SUPER_ADMIN" ? (
@@ -1102,11 +1124,7 @@ export default function UsersTable({
                 {!isPartnerAdmin && <td className="px-4 py-3 text-sm text-gray-500"><span className="block truncate max-w-[220px]" title={u.email}>{u.email}</span></td>}
                 {!isPartnerAdmin && (
                   <td className="px-4 py-3">
-                    {u.partner ? (
-                      <Badge variant="purple">{u.partner.name}</Badge>
-                    ) : (
-                      <span className="text-xs text-gray-400 italic">Interne</span>
-                    )}
+                    <span className="text-xs text-gray-500 whitespace-normal">{userOrganisms(u)}</span>
                   </td>
                 )}
                 <td className="px-4 py-3 text-sm text-gray-500">
@@ -1590,7 +1608,7 @@ export default function UsersTable({
             {!isPartnerAdmin && (
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 mb-3">Appartenance et rôle</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {editModal.role === "TRAINER" ? <TrainerOrganisms partners={partners} selected={editTrainerPartnerIds} onChange={setEditTrainerPartnerIds} /> : <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Partenaire</label>
                     <select
@@ -1615,10 +1633,9 @@ export default function UsersTable({
                     >
                       <option value="LEARNER">Apprenant</option>
                       <option value="PARTNER_ADMIN">Admin partenaire</option>
-                      {editModal.role === "TRAINER" && <option value="TRAINER">Formateur</option>}
                     </select>
                   </div>
-                </div>
+                </div>}
               </div>
             )}
 
@@ -1739,7 +1756,7 @@ export default function UsersTable({
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Rôle</label>
-            <select value={newRole} onChange={(e) => { setNewRole(e.target.value); setNewTrainerId(""); if (e.target.value === "TRAINER") { setNewPartnerId(switchingPartnerId); setNewAssignFormation(false) } }} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
+            <select value={newRole} onChange={(e) => { setNewRole(e.target.value); setNewTrainerId(""); if (e.target.value === "TRAINER") { setNewPartnerId(""); setNewAssignFormation(false) } }} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
               <option value="LEARNER">Apprenant</option>
               <option value="PARTNER_ADMIN">{isPartnerAdmin ? "Administrateur" : "Admin partenaire"}</option>
               {!isPartnerAdmin && <option value="TRAINER">Formateur</option>}
@@ -1750,7 +1767,7 @@ export default function UsersTable({
               </p>
             )}
           </div>
-          {!isPartnerAdmin && (
+          {!isPartnerAdmin && (newRole === "TRAINER" ? <TrainerOrganisms partners={partners} selected={newTrainerPartnerIds} onChange={setNewTrainerPartnerIds} /> :
             <div>
               <label className="block text-sm font-medium mb-1">Appartenance</label>
               <select value={newPartnerId} disabled={newRole === "TRAINER"} onChange={(e) => { setNewPartnerId(e.target.value); setNewTrainerId("") }} className="w-full px-3 py-2 text-sm border border-border rounded-lg outline-none focus:border-black bg-white">
@@ -1809,7 +1826,7 @@ export default function UsersTable({
                 </div>
               </div>
             )}
-            {!isPartnerAdmin && newRole === "LEARNER" && newPartnerId === switchingPartnerId && newAssignFormation && (
+            {!isPartnerAdmin && newRole === "LEARNER" && !!newPartnerId && newAssignFormation && (
               <div className="mt-3 space-y-3">
                 <label className="block text-sm font-medium">Formatrice
                   <select aria-label="Formatrice" value={newTrainerId} onChange={(e) => {
@@ -1817,7 +1834,7 @@ export default function UsersTable({
                     if (e.target.value && newStartsAt) { const end = new Date(newStartsAt); end.setUTCFullYear(end.getUTCFullYear() + 1); setNewExpiresAt(end.toISOString().slice(0, 10)) }
                   }} className="mt-1 w-full px-3 py-2 text-sm border border-border rounded-lg bg-white">
                     <option value="">Aucune</option>
-                    {trainers.map((t) => <option key={t.id} value={t.id}>{t.firstName} {t.lastName}</option>)}
+                    {availableTrainers.map((t) => <option key={t.id} value={t.id}>{t.firstName} {t.lastName}</option>)}
                   </select>
                 </label>
                 {newTrainerId && <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

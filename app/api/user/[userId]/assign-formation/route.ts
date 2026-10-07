@@ -39,7 +39,7 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
   // Partner admin scope check
   if (role === "PARTNER_ADMIN") {
     const adminPartnerId = session.user.partnerId
-    if (user.partnerId !== adminPartnerId) {
+    if (!adminPartnerId || user.role === "TRAINER" || user.partnerId !== adminPartnerId) {
       return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
     }
     // Cloisonnement du catalogue : sans licence ouverte par le super-admin,
@@ -63,15 +63,15 @@ export async function POST(req: NextRequest, { params }: { params: { userId: str
 
   let trainerInput: CreateTrainerAssignmentInput | undefined
   if (trainer != null) {
-    if (role !== "SUPER_ADMIN" || user.role !== "LEARNER" || user.partner?.slug !== "switching" || !user.partner.isInternal) {
-      return NextResponse.json({ error: "Attribution formatrice réservée aux apprenants Switching" }, { status: 403 })
+    if (role !== "SUPER_ADMIN" || user.role !== "LEARNER" || !user.partnerId) {
+      return NextResponse.json({ error: "Attribution formatrice réservée aux apprenants avec organisme" }, { status: 403 })
     }
     const formatrice = typeof trainer.trainerId === "string" ? await prisma.user.findUnique({
-      where: { id: trainer.trainerId }, include: { partner: true },
+      where: { id: trainer.trainerId }, include: { trainerPartners: { where: { partnerId: user.partnerId! } } },
     }) : null
     if (!formatrice || formatrice.role !== "TRAINER" || !formatrice.isActive || formatrice.archivedAt ||
-      formatrice.partner?.slug !== "switching" || !formatrice.partner.isInternal) {
-      return NextResponse.json({ error: "Formatrice Switching introuvable" }, { status: 400 })
+      formatrice.trainerPartners.length === 0) {
+      return NextResponse.json({ error: "Formatrice non rattachée à cet organisme" }, { status: 400 })
     }
     const start = new Date(startedAt)
     const end = trainer.adminEndAt ? new Date(trainer.adminEndAt) : null
@@ -202,7 +202,7 @@ async function resolveEnrollment(req: NextRequest, userId: string) {
   }
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) return { error: NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 }) }
-  if (role === "PARTNER_ADMIN" && user.partnerId !== session.user.partnerId) {
+  if (role === "PARTNER_ADMIN" && (!session.user.partnerId || user.role === "TRAINER" || user.partnerId !== session.user.partnerId)) {
     return { error: NextResponse.json({ error: "Accès refusé" }, { status: 403 }) }
   }
   const enrollment = await prisma.enrollment.findUnique({

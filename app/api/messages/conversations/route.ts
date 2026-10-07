@@ -1,88 +1,42 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-
+import { conversationWhere, ensureConversation } from "../_access"
+import { TrainerAccessError } from "@/lib/trainer/access"
+import { messageText } from "@/components/messages/content"
 export const dynamic = "force-dynamic"
 
-// GET — list conversations for current user
 export async function GET() {
   const session = await auth()
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
-
-  const user = session.user
-  const where = user.role === "LEARNER"
-    ? { learnerId: user.id }
-    : user.role === "PARTNER_ADMIN"
-      ? { adminId: user.id }
-      : { adminId: user.id } // SUPER_ADMIN
-
-  const conversations = await prisma.conversation.findMany({
-    where,
-    include: {
-      learner: { select: { id: true, firstName: true, lastName: true, email: true } },
-      admin: { select: { id: true, firstName: true, lastName: true, email: true } },
-      messages: { orderBy: { createdAt: "desc" }, take: 1 },
-    },
-    orderBy: { updatedAt: "desc" },
-  })
-
-  const result = conversations.map((c) => ({
-    id: c.id,
-    learner: c.learner,
-    admin: c.admin,
-    lastMessage: c.messages[0] || null,
-    isRead: user.role === "LEARNER" ? c.isReadLearner : c.isReadAdmin,
-    updatedAt: c.updatedAt,
-  }))
-
-  return NextResponse.json(result)
+  try {
+    const user = session.user
+    const conversations = await prisma.conversation.findMany({ where: await conversationWhere(user),
+      include: { learner: { select: { id: true, firstName: true, lastName: true, email: true } },
+        admin: { select: { id: true, firstName: true, lastName: true, email: true, role: true } },
+        messages: { orderBy: { createdAt: "desc" }, take: 1 } }, orderBy: { updatedAt: "desc" } })
+    return NextResponse.json(conversations.map(c => ({ id: c.id, learner: c.learner, admin: c.admin,
+      lastMessage: c.messages[0] ? { ...c.messages[0], content: messageText(c.messages[0].content) } : null,
+      isRead: user.role === "LEARNER" ? c.isReadLearner : c.isReadAdmin, updatedAt: c.updatedAt })))
+  } catch (e) {
+    if (e instanceof TrainerAccessError) return NextResponse.json({ error: e.message }, { status: e.status })
+    throw e
+  }
 }
-
-// POST — create or get existing conversation for learner
 export async function POST(req: NextRequest) {
   const session = await auth()
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
-
-  const user = session.user
-  if (user.role !== "LEARNER") {
-    return NextResponse.json({ error: "Seuls les apprenants peuvent initier une conversation" }, { status: 403 })
+  try {
+    const text = await req.text()
+    const target = text ? JSON.parse(text) : {}
+    if (!target || typeof target !== "object" || (target.trainerId != null && typeof target.trainerId !== "string") ||
+      (target.learnerId != null && typeof target.learnerId !== "string")) {
+      return NextResponse.json({ error: "Destinataire invalide" }, { status: 400 })
+    }
+    return NextResponse.json(await ensureConversation(session.user, target))
+  } catch (e) {
+    if (e instanceof TrainerAccessError) return NextResponse.json({ error: e.message }, { status: e.status })
+    if (e instanceof SyntaxError) return NextResponse.json({ error: "Requête invalide" }, { status: 400 })
+    throw e
   }
-
-  // Find the admin to route to
-  let adminId: string | null = null
-
-  if (user.partnerId) {
-    // Find partner admin
-    const partnerAdmin = await prisma.user.findFirst({
-      where: { partnerId: user.partnerId, role: "PARTNER_ADMIN", isActive: true, archivedAt: null },
-    })
-    adminId = partnerAdmin?.id || null
-  }
-
-  if (!adminId) {
-    // Fallback to super admin
-    const superAdmin = await prisma.user.findFirst({
-      where: { role: "SUPER_ADMIN", isActive: true, archivedAt: null },
-    })
-    adminId = superAdmin?.id || null
-  }
-
-  if (!adminId) {
-    return NextResponse.json({ error: "Aucun administrateur disponible" }, { status: 404 })
-  }
-
-  // Upsert conversation
-  const existing = await prisma.conversation.findFirst({
-    where: { learnerId: user.id, adminId },
-  })
-
-  if (existing) {
-    return NextResponse.json(existing)
-  }
-
-  const conversation = await prisma.conversation.create({
-    data: { learnerId: user.id, adminId },
-  })
-
-  return NextResponse.json(conversation, { status: 201 })
 }

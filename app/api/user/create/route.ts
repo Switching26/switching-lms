@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const { firstName, lastName, email, password, userRole, partnerId, reference, sendAutomaticEmails = true } = await req.json()
+  const { firstName, lastName, email, password, userRole, partnerId, trainerPartnerIds = [], reference, sendAutomaticEmails = true } = await req.json()
 
   if (typeof sendAutomaticEmails !== "boolean") {
     return NextResponse.json({ error: "Option de mails invalide" }, { status: 400 })
@@ -66,12 +66,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Un admin partenaire doit être rattaché à un partenaire" }, { status: 400 })
   }
 
+  let selectedPartnerIds: string[] = []
   if (effectiveRole === Role.TRAINER) {
-    const switching = await prisma.partner.findUnique({ where: { slug: "switching" } })
-    if (!switching?.isActive || !switching.isInternal || (partnerId && partnerId !== switching.id)) {
-      return NextResponse.json({ error: "Un formateur doit être rattaché à Switching Formation" }, { status: 400 })
+    if (role !== "SUPER_ADMIN") return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
+    if (!Array.isArray(trainerPartnerIds) || trainerPartnerIds.length > 100 || trainerPartnerIds.some((id) => typeof id !== "string" || !id.trim())) {
+      return NextResponse.json({ error: "Liste d'organismes invalide" }, { status: 400 })
     }
-    effectivePartnerId = switching.id
+    selectedPartnerIds = Array.from(new Set(trainerPartnerIds as string[]))
+    const count = await prisma.partner.count({ where: { id: { in: selectedPartnerIds }, isActive: true } })
+    if (count !== selectedPartnerIds.length) return NextResponse.json({ error: "Organisme introuvable ou inactif" }, { status: 400 })
+    // Memberships are represented by TrainerPartner, including an empty list.
+    effectivePartnerId = null
   }
 
   if (effectivePartnerId) {
@@ -96,8 +101,9 @@ export async function POST(req: Request) {
       partnerId: effectivePartnerId,
       reference: trimmedRef,
       isActive: !sendAutomaticEmails,
+      ...(effectiveRole === Role.TRAINER ? { trainerPartners: { create: selectedPartnerIds.map((partnerId) => ({ partnerId })) } } : {}),
     },
-    include: { partner: true },
+    include: { partner: true, trainerPartners: { include: { partner: { select: { id: true, name: true } } } } },
   })
 
   let activationEmailSent = false
@@ -145,7 +151,8 @@ export async function POST(req: Request) {
     email: user.email,
     role: user.role,
     partnerId: user.partnerId,
-    partner: user.partner,
+    partner: user.partner ? (({ smtpPassword, ...safe }) => safe)(user.partner) : null,
+    trainerPartners: user.trainerPartners,
     activationEmailSent,
     ...(!sendAutomaticEmails ? { emailSkipped: "mails automatiques désactivés", isActive: true } : {}),
   }, { status: 201 })

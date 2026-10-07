@@ -22,7 +22,7 @@ export async function PUT(req: NextRequest, { params }: { params: { userId: stri
   // Partner admin can only change passwords for their own org
   if (role === "PARTNER_ADMIN") {
     const user = await prisma.user.findUnique({ where: { id: params.userId } })
-    if (!user || user.partnerId !== session.user.partnerId) {
+    if (!session.user.partnerId || !user || user.role === "TRAINER" || user.partnerId !== session.user.partnerId) {
       return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
     }
   }

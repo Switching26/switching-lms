@@ -21,6 +21,7 @@ export async function GET(_req: NextRequest, { params }: { params: { userId: str
     where: { id: params.userId },
     select: {
       id: true,
+      role: true,
       partnerId: true,
       visiblePasswordEncrypted: true,
     },
@@ -30,7 +31,7 @@ export async function GET(_req: NextRequest, { params }: { params: { userId: str
     return jsonNoStore({ error: "Utilisateur introuvable" }, 404)
   }
 
-  if (role === "PARTNER_ADMIN" && target.partnerId !== session.user.partnerId) {
+  if (role === "PARTNER_ADMIN" && (!session.user.partnerId || target.role === "TRAINER" || target.partnerId !== session.user.partnerId)) {
     return jsonNoStore({ error: "Accès refusé" }, 403)
   }
 

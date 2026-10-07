@@ -27,7 +27,7 @@ export async function POST(_req: NextRequest, { params }: { params: { userId: st
   })
   if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
 
-  if (role === "PARTNER_ADMIN" && user.partnerId !== session.user.partnerId) {
+  if (role === "PARTNER_ADMIN" && (!session.user.partnerId || user.role === "TRAINER" || user.partnerId !== session.user.partnerId)) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
   if (user.archivedAt) {

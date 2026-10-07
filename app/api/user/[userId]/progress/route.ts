@@ -24,9 +24,9 @@ export async function GET(_req: NextRequest, { params }: { params: { userId: str
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 
-  const user = await prisma.user.findUnique({ where: { id: params.userId }, select: { id: true, partnerId: true } })
+  const user = await prisma.user.findUnique({ where: { id: params.userId }, select: { id: true, role: true, partnerId: true } })
   if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 })
-  if (role === "PARTNER_ADMIN" && user.partnerId !== session.user.partnerId) {
+  if (role === "PARTNER_ADMIN" && (!session.user.partnerId || user.role === "TRAINER" || user.partnerId !== session.user.partnerId)) {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 })
   }
 

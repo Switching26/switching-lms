@@ -48,6 +48,7 @@ export async function POST(req: Request) {
     const createAccess = body.hasElearning && body.createElearningAccess !== false
     if (body.visioHours != null && (!Number.isInteger(body.visioHours) || body.visioHours <= 0 || body.visioHours > 10000)) throw new InputError("Durée des visios invalide")
     const trainerId = text(body.trainerId, "trainerId", true)!
+    const requestedPartnerId = text(body.partnerId, "partnerId")
     const email = text(body.email, "email", true)!.toLowerCase()
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new InputError("Email invalide")
     const adminStartAt = date(body.adminStartAt, "adminStartAt", true)!
@@ -74,12 +75,17 @@ export async function POST(req: Request) {
           throw new InputError("Ce bénéficiaire possède déjà une attribution différente", 409)
         }
       }
-      // Un replay doit respecter le même périmètre Switching que la première création.
-      const switching = await tx.partner.findUnique({ where: { slug: "switching" } })
+      // The historical Switching CRM can omit partnerId; every explicit
+      // organisation is validated against the trainer's CURRENT memberships.
+      const switching = requestedPartnerId
+        ? await tx.partner.findUnique({ where: { id: requestedPartnerId } })
+        : await tx.partner.findUnique({ where: { slug: "switching" } })
       const trainer = await tx.user.findUnique({ where: { id: trainerId } })
-      if (!switching?.isInternal || !switching.isActive || !trainer || trainer.role !== "TRAINER" || !trainer.isActive || trainer.archivedAt || trainer.partnerId !== switching.id) {
-        throw new InputError("Formatrice Switching introuvable")
+      const membership = switching ? await tx.trainerPartner.findUnique({ where: { trainerId_partnerId: { trainerId, partnerId: switching.id } } }) : null
+      if (!switching?.isActive || !trainer || trainer.role !== "TRAINER" || !trainer.isActive || trainer.archivedAt || !membership) {
+        throw new InputError("Formatrice non rattachée à l'organisme visé")
       }
+      if (existing?.partnerId && existing.partnerId !== switching.id) throw new InputError("L'attribution existante appartient à un autre organisme", 409)
       if (existing) {
         if (existing.archivedAt || Boolean(existing.learnerId) !== Boolean(existing.enrollmentId)) {
           throw new InputError("Attribution existante archivée ou liens incomplets", 409)
@@ -89,7 +95,7 @@ export async function POST(req: Request) {
           existing.learner.email.toLowerCase() !== email || !existing.enrollment ||
           existing.enrollment.userId !== existing.learnerId || existing.enrollment.assignedByPartnerId !== switching.id ||
           existing.enrollment.formation.deletedAt || existing.enrollment.startedAt?.getTime() !== existing.adminStartAt.getTime())) {
-          throw new InputError("Compte ou inscription existants hors du périmètre Switching", 409)
+          throw new InputError("Compte ou inscription existants hors du périmètre de l’organisme", 409)
         }
         if (!createAccess || (existing.learnerId && existing.enrollmentId)) {
           return { assignment: existing, created: false, accessCreated: false, password: decryptVisiblePassword(existing.learner?.visiblePasswordEncrypted) }
@@ -118,13 +124,14 @@ export async function POST(req: Request) {
         enrollmentId = enrollment.id
       }
       const assignment = existing
-        ? await tx.trainerAssignment.update({ where: { id: existing.id }, data: { learnerId, enrollmentId } })
-        : await tx.trainerAssignment.create({ data: { ...data, learnerId, enrollmentId } })
+        ? await tx.trainerAssignment.update({ where: { id: existing.id }, data: { learnerId, enrollmentId, partnerId: switching.id } })
+        : await tx.trainerAssignment.create({ data: { ...data, learnerId, enrollmentId, partnerId: switching.id } })
       return { assignment, created: !existing, accessCreated: Boolean(learnerId), password }
     }, { maxWait: 10000, timeout: 20000 })
     let trainerNotified = false
     try { trainerNotified = await notifyTrainerNewStudent(result.assignment.id) } catch { /* Le replay retente un mail non confirmé. */ }
-    const loginUrl = `${getBaseUrl()}/login?partner=switching`
+    const partner = result.assignment.partnerId ? await prisma.partner.findUnique({ where: { id: result.assignment.partnerId }, select: { slug: true } }) : null
+    const loginUrl = `${getBaseUrl()}/login${partner ? `?partner=${encodeURIComponent(partner.slug)}` : ""}`
     return NextResponse.json({ assignmentId: result.assignment.id, created: result.created, accessCreated: result.accessCreated,
       learnerId: result.assignment.learnerId, enrollmentId: result.assignment.enrollmentId, trainerNotified,
       ...(result.assignment.learnerId ? { login: email, email, password: result.password, loginUrl } : {}) },

@@ -2,6 +2,7 @@ import { modeLMS, idInterne } from '../services/base.js';
 import { chargerDroitsLMS } from '../services/droits-lms.js';
 import { chargerEtat, chargerTransversaux, definirPlan, synchroniser } from '../services/etat-lms.js';
 import { afficherLMS } from '../services/lms.js';
+import { commencerEcranBarre, terminerEcranBarre } from '../services/barre-lms.js';
 import { chargerLecon } from './donnees.js';
 import { activerUnite, unite } from '../services/unite.js';
 import { rafraichirScript } from '../services/script.js';
@@ -43,6 +44,7 @@ async function naviguer() {
   if(modeLMS && ['#/','#/accueil','#/niveau','#/banc'].includes(h)) h='#/lecon';
   const moi = ++jeton;
   delete app.dataset.pret;
+  commencerEcranBarre();
   if (demonter) { try { await demonter(); } catch (err) { console.warn('[socle] démontage', err); } demonter = null; }
   void synchroniser();
   if(modeLMS) app.innerHTML='<div class="chargement" role="status">Chargement du chapitre…</div>';
@@ -63,6 +65,7 @@ async function naviguer() {
       if (moi !== jeton) { if (typeof d === 'function') d(); return; }
       demonter = typeof d === 'function' ? d : null;
       app.dataset.route=location.hash; app.dataset.pret='1';
+      terminerEcranBarre(app,h);
       afficherLMS(app,cibleUnite,h.startsWith('#/etape/'));
     } catch (err) {
       if (quitte || moi !== jeton) return;
@@ -72,10 +75,12 @@ async function naviguer() {
         console.warn('[socle] connexion interrompue', h, err.message);
         app.innerHTML = `<main class="contenu"><div class="carte panne"><h2>La connexion a été interrompue.</h2><p class="discret" style="margin-top:8px">Vérifiez le réseau, puis réessayez : votre progression est gardée sur cet appareil.</p><button type="button" class="btn btn-primaire" style="margin-top:16px" data-reessayer>Réessayer</button></div></main>`;
         app.querySelector('[data-reessayer]').addEventListener('click', () => naviguer());
+        terminerEcranBarre(app,h);
         return;
       }
       console.error('[socle] écran', h, err);
       app.innerHTML = `<main class="contenu"><div class="carte panne"><h2>Cet écran n'a pas pu s'ouvrir.</h2><p class="discret" style="margin-top:8px">Rechargez la page : votre progression est gardée sur cet appareil.</p><a class="btn btn-secondaire" style="margin-top:16px" href="#/">Revenir à l'accueil</a></div></main>`;
+      terminerEcranBarre(app,h);
     }
     return;
   }

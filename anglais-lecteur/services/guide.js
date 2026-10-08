@@ -35,12 +35,17 @@ export async function dire(sequence, opts = {}) {
   return r;
 }
 
-/** Programme la voix d'arrivée de l'étape. Le lecteur l'appelle ; rien à faire côté activité. */
-export function planifier(sequence) {
+/** Retient la voix de l'écran sans la démarrer (présentation dans la barre LMS). */
+export function preparer(sequence) {
   clearTimeout(minuterie);
   courant = sequence && (Array.isArray(sequence) ? sequence : [sequence]);
   bloque = false;
   notifier();
+}
+
+/** Programme la voix d'arrivée de l'étape. Le lecteur l'appelle ; rien à faire côté activité. */
+export function planifier(sequence) {
+  preparer(sequence);
   if (!courant || !courant.length || coupe) return;
   minuterie = setTimeout(() => { dire(courant); }, DELAI_MS);
 }
@@ -66,4 +71,4 @@ export function basculer() {
 export function estCoupe() { return coupe; }
 export function surChangement(f) { abonnes.add(f); return () => abonnes.delete(f); }
 
-export const guide = { dire, planifier, arreter, oublier, rejouer, basculer, estCoupe, etat, surChangement };
+export const guide = { dire, preparer, planifier, arreter, oublier, rejouer, basculer, estCoupe, etat, surChangement };

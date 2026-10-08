@@ -327,7 +327,7 @@ export default function GuideFormation({
          repliée. On essaie quatre dispositions dans l'ordre de préférence et on
          garde la PREMIÈRE qui ne recouvre rien ; sinon la moins gênante, en
          version repliée pour que ce qui reste couvert soit le plus petit. */
-      const hautMin = 44 + marge
+      const hautMin = 56 + marge
       const bas = cadre.height - marge
 
       const options = (replie: boolean) => {
@@ -484,7 +484,7 @@ export default function GuideFormation({
         data-guide="accroche"
         className="absolute rounded-2xl px-3.5 py-3 text-white"
         style={{
-          top: 52,
+          top: 64,
           right: 10,
           zIndex: 92,
           maxWidth: 260,
@@ -667,7 +667,7 @@ export default function GuideFormation({
                   style={{
                     width: 20,
                     height: 20,
-                    fontSize: 10.5,
+                    fontSize: 11,
                     background: faites.has(e.id) ? VERT : "#e8e2d8",
                     color: faites.has(e.id) ? "#fff" : "#7d6e5e",
                   }}
@@ -718,7 +718,7 @@ export default function GuideFormation({
             >
               <span
                 className="mb-1.5 flex items-center gap-2 font-extrabold uppercase"
-                style={{ fontSize: 10.5, letterSpacing: ".07em", color: VERT_F }}
+                style={{ fontSize: 11, letterSpacing: ".07em", color: VERT_F }}
               >
                 <span
                   aria-hidden
@@ -727,7 +727,7 @@ export default function GuideFormation({
                     width: 17,
                     height: 17,
                     flexShrink: 0,
-                    fontSize: 10,
+                    fontSize: 11,
                     color: "#fff",
                     background: faite ? VERT : "#fff",
                     boxShadow: `inset 0 0 0 2px ${faite ? VERT : VERT_BORD}`,

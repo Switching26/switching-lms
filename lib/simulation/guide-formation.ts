@@ -102,7 +102,7 @@ export const ETAPES_GUIDE: EtapeGuide[] = [
     id: "accueil",
     titre: "Bienvenue dans l’atelier",
     texte:
-      "Cette formation ne se regarde pas, elle se <b>pratique</b>. Chaque chapitre vous met devant un vrai tableur, avec une consigne et un geste à faire.",
+      "Cette formation se <b>pratique</b>. Chaque chapitre vous met devant le logiciel, avec une consigne et un geste à faire.",
     retenir:
       "Objectif de ce guide : savoir <b>où cliquer</b> pour naviguer, prendre des notes, ouvrir un support, demander de l’aide et lire vos résultats, sans jamais rester bloqué.",
     tache:
@@ -130,7 +130,7 @@ export const ETAPES_GUIDE: EtapeGuide[] = [
     id: "ressources",
     titre: "Les supports, sans quitter l’atelier",
     texte:
-      "Le bouton <b>Ressource pédagogique téléchargeable</b> réunit les documents rattachés à ce chapitre, puis ceux de toute la formation. Ils s’ouvrent par-dessus l’atelier.",
+      "Le bouton <b>Documents</b>, dans la barre du haut, réunit les documents rattachés à ce chapitre, puis ceux de toute la formation. Ils s’ouvrent par-dessus l’atelier.",
     retenir:
       "À retenir : consulter un support ne vous fait <b>jamais perdre votre place</b>. Vous pouvez le lire à l’écran ou le télécharger pour le garder hors ligne.",
     tache: "Ouvrez le panneau, puis ouvrez un document et refermez-le.",
@@ -138,7 +138,7 @@ export const ETAPES_GUIDE: EtapeGuide[] = [
     cible: '[data-control="sim-ressources"]',
     exigeCible: true,
     pad: 8,
-    valide: (r) => estOuvert(r, "sim-ressources", "Ressource pédagogique téléchargeable"),
+    valide: (r) => estOuvert(r, "sim-ressources", "Documents"),
   },
 
   {
@@ -147,7 +147,7 @@ export const ETAPES_GUIDE: EtapeGuide[] = [
     texte:
       "Le bouton <b>Notes</b> ouvre un bloc-notes propre à ce chapitre. Il s’enregistre tout seul : aucun bouton à chercher.",
     retenir:
-      "À retenir : la note reste attachée au chapitre et vous la <b>retrouvez à la session suivante</b>. Le point vert sur le bouton signale un chapitre qui porte déjà une note.",
+      "À retenir : la note reste attachée au chapitre et vous la <b>retrouvez à la session suivante</b>. Le bouton Notes reste accessible dans la barre du haut.",
     tache: "Ouvrez <b>Notes</b> et écrivez une phrase que vous voudrez relire plus tard.",
     reussite: "Le bloc-notes est ouvert : ce que vous y écrivez vous suivra.",
     cible: '[data-control="sim-notes"]',
@@ -164,9 +164,9 @@ export const ETAPES_GUIDE: EtapeGuide[] = [
     retenir:
       "À retenir : la ligne <b>Attendu</b> sous la consigne dit à quoi on reconnaît que c’est réussi. La consigne dit quoi faire, <b>Attendu</b> dit quand c’est fait.",
     tache:
-      "Repérez le badge en début de consigne, puis faites le geste demandé dans la feuille de calcul.",
+      "Repérez le badge en début de consigne, puis faites le geste demandé dans le logiciel.",
     reussite: "Vous savez lire ce qu’une étape attend de vous.",
-    cible: '[data-control="sim-badge-etape"]',
+    cible: '[data-control="sim-badge-etape"], [data-immersion-atelier]:not(:has([data-control="sim-badge-etape"])) [data-control="sim-cockpit"]',
     toucher: "[data-bandeau-consigne]",
     placement: "haut",
     pad: 6,
@@ -176,13 +176,13 @@ export const ETAPES_GUIDE: EtapeGuide[] = [
     id: "demonstration",
     titre: "La démonstration : le geste joué devant vous",
     texte:
-      "Bloqué ? L’atelier fait le geste <b>à votre place</b>, à l’écran : le repère se pose sur la bonne cellule, la formule s’écrit caractère par caractère, le résultat apparaît. Le bouton se propose de lui-même après quelques essais infructueux.",
+      "Bloqué ? L’atelier fait le geste <b>devant vous</b>, à l’écran : le repère désigne la commande, le geste se joue et le résultat apparaît. Le bouton se propose de lui-même après quelques essais infructueux.",
     retenir:
       "À retenir : la démonstration <b>ne vous prend pas la main</b>. Vous pouvez la revoir autant de fois que nécessaire, puis reprendre là où vous en étiez.",
     tache:
-      "Sur un écran de lecture, le bouton <b>Voir le geste</b> lance la démonstration. Sur un exercice, <b>Montrez-moi</b> apparaît quand vous butez.",
+      "Dans la bande sous le logiciel, <b>Voir le geste</b> lance la démonstration d’un écran de lecture. Sur un exercice, <b>Montrez-moi</b> apparaît quand vous butez.",
     reussite: "Vous savez la déclencher et la rejouer : c’est le filet de sécurité de la formation.",
-    cible: '[data-control="sim-montrer"]',
+    cible: '[data-control="sim-montrer"], [data-control="sim-revoir-demo"], [data-control="sim-revoir-geste"], [data-bandeau-consigne]:not(:has([data-control="sim-montrer"], [data-control="sim-revoir-demo"], [data-control="sim-revoir-geste"])), [data-immersion-atelier]:not(:has([data-bandeau-consigne])) [data-control="sim-cockpit"]',
     eviter: ["[data-zone-grille]"],
     placement: "haut",
     pad: 6,
@@ -198,7 +198,7 @@ export const ETAPES_GUIDE: EtapeGuide[] = [
       "À retenir : indices et démonstrations existent en <b>leçon et en exercice</b>. Ils disparaissent en évaluation, et c’est la seule vraie différence entre les deux régimes.",
     tache: "Quand un exercice vous résiste, ouvrez d’abord l’indice avant de demander la démonstration.",
     reussite: "Vous savez demander de l’aide sans qu’on vous donne la solution.",
-    cible: '[data-control="sim-indice"]',
+    cible: '[data-control="sim-indice"], [data-bandeau-consigne]:not(:has([data-control="sim-indice"])), [data-immersion-atelier]:not(:has([data-bandeau-consigne])) [data-control="sim-cockpit"]',
     placement: "haut",
     pad: 6,
     valide: (r) => !existe(r, '[data-control="sim-indice"]'),
@@ -227,7 +227,7 @@ export const ETAPES_GUIDE: EtapeGuide[] = [
       "À retenir : une évaluation ratée ne demande pas un nouvel exercice, elle dit <b>quelle leçon rouvrir</b>. Le bilan ne donne aucune correction : la réponse reste dans la leçon.",
     tache: "À la fin d’une évaluation, suivez les renvois du bilan plutôt que de repasser l’épreuve tout de suite.",
     reussite: "Vous savez quoi faire d’une note : rouvrir la bonne leçon.",
-    cible: '[data-control="sim-bilan-reviser"]',
+    cible: '[data-control="sim-bilan-reviser"], [data-immersion-atelier]:not(:has([data-control="sim-bilan-reviser"])) [data-control="sim-progression"]',
     toucher: '[data-control="sim-bilan-renvoi"]',
     pad: 8,
   },
@@ -238,8 +238,8 @@ export const ETAPES_GUIDE: EtapeGuide[] = [
     texte:
       "Fermez l’onglet en plein milieu d’un chapitre : au retour, vous repartez à l’étape où vous en étiez, avec votre feuille de calcul telle que vous l’aviez laissée. Une évaluation, elle, se repasse en entier.",
     retenir:
-      "À retenir : la progression avance toute seule. Le compteur d’étapes, les segments à côté et le sommaire <b>Leçons</b> sont vos trois repères d’avancement.",
-    tache: "Regardez le compteur d’étapes en haut à droite : c’est votre position dans le chapitre.",
+      "À retenir : la progression avance toute seule. Le compteur <b>Étape n sur N</b> près du titre, la fine ligne sous la barre et la liste <b>Leçons</b> sont vos repères d’avancement.",
+    tache: "Regardez le compteur près du titre du chapitre, dans la barre du haut : il donne votre étape actuelle.",
     reussite: "Vous avez fait le tour. Le bouton <b>Guide</b> reste là pour rouvrir ce parcours.",
     cible: '[data-control="sim-progression"]',
     placement: "bas",

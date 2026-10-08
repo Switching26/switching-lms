@@ -333,7 +333,7 @@ export default function EcranTropPetit({
         data-control="atelier-voir-lecons"
         onClick={ouvrirLecons}
         className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl text-[13.5px] font-semibold text-white transition-transform active:scale-[0.98]"
-        style={{ background: "var(--partner-primary, #4F46E5)" }}
+        style={{ background: "var(--lesson-brand-accent)" }}
       >
         <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
           <path d="M4 6h16M4 12h16M4 18h10" />
@@ -346,8 +346,8 @@ export default function EcranTropPetit({
           type="button"
           data-control="atelier-accueil"
           onClick={onAccueil}
-          className="mt-1 inline-flex min-h-[40px] w-full items-center justify-center text-[13px] font-semibold"
-          style={{ color: "var(--partner-primary, #4F46E5)" }}
+          className="mt-1 inline-flex min-h-[44px] w-full items-center justify-center text-[13px] font-semibold"
+          style={{ color: "var(--lesson-brand-accent)" }}
         >
           Revenir à l&apos;accueil
         </button>

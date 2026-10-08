@@ -92,7 +92,7 @@ export function BoutonImmersion({ controle, sombre = false }: { controle?: Retur
   const mode = controle ?? contexte
   if (!mode) return null
   const Icone = mode.active ? Minimize2 : Maximize2
-  return <button ref={mode.bouton} type="button" className={`lms-agrandir${sombre ? " lms-agrandir-sombre" : ""}`} data-control="formation-agrandir" aria-pressed={mode.active} title={mode.active ? "Réduire (Échap)" : "Agrandir la formation"} onClick={mode.basculer}>
-    <Icone size={15} aria-hidden="true" /><span>{mode.active ? "Réduire" : "Agrandir"}</span>
+  return <button ref={mode.bouton} type="button" className={`lms-agrandir lms-bar-button lms-bar-icon${sombre ? " lms-agrandir-sombre" : ""}`} data-control="formation-agrandir" aria-label={mode.active ? "Réduire" : "Agrandir"} aria-pressed={mode.active} title={mode.active ? "Réduire" : "Agrandir"} onClick={mode.basculer}>
+    <Icone size={18} aria-hidden="true" />
   </button>
 }

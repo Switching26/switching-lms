@@ -1,6 +1,8 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react"
+import { useState, useEffect, useRef, useCallback, useMemo, type ComponentProps } from "react"
+import dynamic from "next/dynamic"
+import type { CommandeLecteurAnglais, EtatLecteurAnglais, PropsBarreAnglais } from "@/lib/anglais/barre-contrat"
 import { useRouter } from "next/navigation"
 import SimulationChapter from "@/components/simulation/SimulationChapter"
 import EcranTropPetit, { useVerdictEcranAtelier } from "@/components/simulation/EcranTropPetit"
@@ -26,6 +28,11 @@ import CadranFormation, {
 } from "@/components/learner/CadranFormation"
 
 import { lessonKind, type LessonMetadata } from "@/lib/lessons/model"
+
+// Le contrat optionnel est déjà typé ici ; AnglaisChapter le relaie dans le
+// lot Anglais. Même composant chargé à la demande, même iframe persistante.
+type LecteurAnglaisProps = ComponentProps<typeof import("@/components/anglais/AnglaisChapter").default> & PropsBarreAnglais
+const LecteurAnglais = dynamic<LecteurAnglaisProps>(() => import("@/components/anglais/AnglaisChapter"), { ssr: false })
 
 /* ═══════════ HELPERS ═══════════ */
 
@@ -245,6 +252,12 @@ export default function FormationPlayer({
   const fermerVisionneuse = useCallback(() => setDocConsulte(null), [])
   // Contenu des notes par chapitre (préchargé serveur, mis à jour au fil de la saisie)
   const [notesMap, setNotesMap] = useState<Record<string, string>>(initialNotes || {})
+  const [etatAnglais, setEtatAnglais] = useState<{ chapitre: string; etat: EtatLecteurAnglais } | null>(null)
+  const [commandeAnglais, setCommandeAnglais] = useState<{ chapitre: string; envoi: NonNullable<PropsBarreAnglais["commandeLecteur"]> } | null>(null)
+  const commanderAnglais = (commande: CommandeLecteurAnglais) => setCommandeAnglais(avant => ({
+    chapitre: chapters[activeIndex]?.id || "",
+    envoi: { n: (avant?.envoi.n || 0) + 1, commande },
+  }))
   const router = useRouter()
 
   /**
@@ -638,6 +651,7 @@ export default function FormationPlayer({
   )
 
   const toutTermine = !preview && chapters.length > 0 && chapters.every((c) => !!completedMap[c.id])
+  const lecteurAnglais = kind === "anglais" && etatAnglais?.chapitre === active?.id ? etatAnglais?.etat : null
 
   return (
     <>
@@ -678,6 +692,21 @@ export default function FormationPlayer({
         index={active ? (displayNumberMap[active.id] ?? 1) : 1}
         total={chapters.length}
         progression={progressPercent}
+        titreLecteur={lecteurAnglais?.titre}
+        moduleLecteur={lecteurAnglais?.sequence}
+        etapeAnglais={lecteurAnglais?.etape}
+        son={kind === "anglais" ? {
+          disponible: !!lecteurAnglais?.voix.disponible,
+          active: lecteurAnglais?.voix.active ?? true,
+          enLecture: !!lecteurAnglais?.voix.enLecture,
+          rejouer: () => commanderAnglais({ type: "anglais:commande", action: "voix:rejouer" }),
+          arreter: () => commanderAnglais({ type: "anglais:commande", action: "voix:arreter" }),
+          basculer: () => commanderAnglais({ type: "anglais:commande", action: lecteurAnglais?.voix.active === false ? "voix:activer" : "voix:couper" }),
+        } : undefined}
+        outils={lecteurAnglais ? [
+          ...(lecteurAnglais.retourLecon ? [{ id: "retour-lecon", libelle: "Revenir à la leçon", executer: () => commanderAnglais({ type: "anglais:commande", action: "retour-lecon" }) }] : []),
+          ...lecteurAnglais.outils.filter(outil => outil.id !== "notes" && outil.id !== "ressources").map(outil => ({ ...outil, executer: () => commanderAnglais({ type: "anglais:commande", action: "outil", id: outil.id }) })),
+        ] : undefined}
         sommaire={sommaireCadran}
         positionCourante={
           hasVideo(active) && active?.videoDuration
@@ -752,7 +781,9 @@ export default function FormationPlayer({
         />}
 
         {kind === "anglais" && active && (
-          <SimulationChapter key={active.id} chapterId={active.id} app="ANGLAIS" preview={!!preview}
+          <LecteurAnglais key={active.id} chapterId={active.id} preview={!!preview}
+            onEtatLecteur={etat => setEtatAnglais({ chapitre: active.id, etat })}
+            commandeLecteur={commandeAnglais?.chapitre === active.id ? commandeAnglais.envoi : null}
             onNaviguer={id => { const chapitre = chapters.find(ch => ch.id === id); if (chapitre) handleSelectChapter(chapitre) }}
             onCompleted={() => handleChapterCompleted(active.id)}
             onPrecedent={prevChapter ? () => handleSelectChapter(prevChapter) : undefined}
@@ -786,7 +817,7 @@ export default function FormationPlayer({
                   en dessous, et la bande porte celui du chapitre. Le répéter
                   affichait trois fois le même intitulé sur un seul écran. */}
               <div className="min-w-0">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-warm-400">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-warm-400">
                   Quiz · {active.exercises[0]?.questions?.length || 0} question
                   {(active.exercises[0]?.questions?.length || 0) > 1 ? "s" : ""} · essais illimités
                 </p>
@@ -817,7 +848,7 @@ export default function FormationPlayer({
                 </div>
                 <div className="min-w-0">
                   <h3 className="truncate font-display text-[14px] font-semibold text-primary">{pdfActif.name}</h3>
-                  <p className="text-[10px] uppercase tracking-wider text-warm-400">Document</p>
+                  <p className="text-[11px] uppercase tracking-wider text-warm-400">Document</p>
                 </div>
               </div>
               <ActionsDocument

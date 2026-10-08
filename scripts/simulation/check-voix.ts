@@ -405,9 +405,15 @@ for (const p of PLAYERS) {
 {
   const shell = sansCommentaires(readFileSync(join(RACINE, "components/simulation/AtelierShell.tsx"), "utf8"))
   if (!/useGuideVocal\(/.test(shell)) rouge("le châssis ne monte pas le guide vocal")
-  if (!/data-control="sim-voix"/.test(shell)) rouge("le châssis ne rend pas la commande d'écoute")
-  if (!/data-control="sim-voix-couper"/.test(shell)) rouge("le châssis ne rend pas la coupure définitive")
-  if (!/data-voix/.test(shell)) rouge("les commandes de la voix ne sont pas exemptées de l'arrêt sur geste")
+  const barre = sansCommentaires(readFileSync(join(RACINE, "components/learner/barre/BarreCommune.tsx"), "utf8"))
+  if (!/<BarreCommune\s+atelier\b/.test(shell)) rouge("le châssis ne branche pas la barre commune en mode atelier")
+  for (const [prop, action] of [["rejouer", "rejouer"], ["arreter", "arreter"], ["basculer", "basculerCoupure"]]) {
+    if (!new RegExp(prop + ":\\s*voix\\." + action).test(shell)) rouge("la barre n'est pas raccordée à la commande " + action)
+  }
+  if (!/data-control=\{p\.atelier\s*\?\s*"sim-voix"/.test(barre)) rouge("la barre ne rend pas la commande d'écoute de l'atelier")
+  if (!/data-control=\{p\.atelier\s*\?\s*"sim-voix-couper"/.test(barre)) rouge("la barre ne rend pas la coupure définitive de l'atelier")
+  if (!/className="lms-bar-sound"\s+data-voix/.test(barre)) rouge("les commandes de la voix ne sont pas exemptées de l'arrêt sur geste")
+
 }
 dire(`  ${PLAYERS.length} players + le châssis`)
 

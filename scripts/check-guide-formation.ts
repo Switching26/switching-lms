@@ -1,9 +1,9 @@
 /**
  * Contrôles anti-régression du guide interactif de la formation.
  *
- * Sans navigateur et sans base : le fichier d'étapes est du TypeScript pur, et
- * le reste est de l'analyse statique des sources. C'est ce qui permet de le
- * lancer à chaque modification, au même titre que `check-ressources.ts`.
+ * Sans base ni serveur Next : règles pures puis vrai châssis React dans un
+ * Chrome privé sans fenêtre. Toutes les requêtes externes sont bloquées.
+ * Utilise esbuild et le playwright-core de l'outillage CLI installé.
  *
  * Ce que ces contrôles empêchent, concrètement :
  *  - qu'un corrigé se glisse dans un texte du guide ;
@@ -17,7 +17,10 @@
 
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
-import { ETAPES_GUIDE, etapesDisponibles, cleGuidePour, VERSION_GUIDE } from "../lib/simulation/guide-formation"
+import { execFileSync } from "node:child_process"
+import { createRequire } from "node:module"
+import { build } from "esbuild"
+import { ETAPES_GUIDE, etapesDisponibles, cleGuidePour, VERSION_GUIDE, type EtapeGuide } from "../lib/simulation/guide-formation"
 
 const RACINE = join(__dirname, "..")
 const lire = (p: string) => readFileSync(join(RACINE, p), "utf8")
@@ -63,7 +66,7 @@ function motEntier(mots: string[]): RegExp {
 const SOURCE_GUIDE = sansCommentaires(lire("components/simulation/GuideFormation.tsx"))
 const SOURCE_GUIDE_BRUT = lire("components/simulation/GuideFormation.tsx")
 const SOURCE_ETAPES = sansCommentaires(lire("lib/simulation/guide-formation.ts"))
-const SOURCE_PLAYER = lire("components/simulation/SimulationPlayer.tsx")
+
 
 /* ── 1. Aucun secret de correction ────────────────────────────────────────── */
 verifier("aucun corrigé dans les textes du guide", () => {
@@ -127,31 +130,7 @@ verifier("le guide ne peut rien muter", () => {
   return `${declarees.length} props, 2 rappels inertes`
 })
 
-/* ── 3. Chaque cible existe vraiment dans le cockpit ──────────────────────── */
-verifier("toutes les cibles existent dans les sources du cockpit", () => {
-  const sources = [
-    SOURCE_PLAYER,
-    lire("components/simulation/BilanFin.tsx"),
-    lire("components/simulation/PanneauRessources.tsx"),
-  ].join("\n")
-  const manquantes: string[] = []
-  for (const e of ETAPES_GUIDE) {
-    const cibles = [e.cible, e.toucher, ...(e.eviter ?? [])].filter(Boolean) as string[]
-    for (const sel of cibles) {
-      const parControle = sel.match(/\[data-control="([^"]+)"\]/)
-      const parAttribut = sel.match(/^\[([a-z-]+)\]$/)
-      if (parControle) {
-        if (!sources.includes(`data-control="${parControle[1]}"`)) manquantes.push(`${e.id} → ${sel}`)
-      } else if (parAttribut) {
-        if (!sources.includes(`${parAttribut[1]}=""`)) manquantes.push(`${e.id} → ${sel}`)
-      } else {
-        manquantes.push(`${e.id} → ${sel} (forme de sélecteur non contrôlable)`)
-      }
-    }
-  }
-  exiger(manquantes.length === 0, `cible absente du cockpit : ${manquantes.join(", ")}`)
-  return "ancrage vérifié sur data-control réels"
-})
+// Les ancres sont vérifiées sur le DOM rendu, à la fin du contrôle.
 
 /* ── 4. Étapes bien formées ───────────────────────────────────────────────── */
 verifier("étapes bien formées", () => {
@@ -241,12 +220,7 @@ verifier("aucune cible tactile sous 44 × 44", () => {
   }
   exiger(fautifs.length === 0, `cible trop petite : ${fautifs.join(", ")}`)
 
-  /* Le bouton qui OUVRE le guide vit dans le cockpit, pas dans ce composant. */
-  const iGuide = SOURCE_PLAYER.indexOf('data-control="sim-guide"')
-  exiger(iGuide > 0, "bouton sim-guide introuvable dans le player")
-  const blocGuide = SOURCE_PLAYER.slice(iGuide, iGuide + 1200)
-  exiger(/height:\s*44/.test(blocGuide), "le bouton Guide ne fait pas 44 px de haut")
-  exiger(/minWidth:\s*44/.test(blocGuide), "le bouton Guide ne fait pas 44 px de large")
+  // Le bouton du cockpit est mesuré dans le navigateur, avec la vraie barre.
 
   /* Les pastilles de progression ne doivent PAS être des boutons : à dix
      étapes, dix cibles de 44 px ne tiennent pas dans le pied, et les réduire
@@ -258,7 +232,7 @@ verifier("aucune cible tactile sous 44 × 44", () => {
   exiger(!/<button[^>]*$/.test(avant), "les pastilles sont redevenues des boutons")
   exiger(/aria-hidden/.test(SOURCE_GUIDE_BRUT.slice(iPastille, iPastille + 200)), "pastille non masquée aux lecteurs d'écran")
 
-  return `${boutons.length} boutons du guide + celui du cockpit, tous ≥ 44 px ; progression non cliquable`
+  return `${boutons.length} boutons du guide, dimensions déclarées ≥ 44 px ; progression non cliquable`
 })
 
 /* ── 6 bis. Accessibilité du dialogue ─────────────────────────────────────── */
@@ -319,26 +293,7 @@ verifier("clé de stockage versionnée et cloisonnée", () => {
   return a
 })
 
-/* ── 10. Le player monte bien le guide, et le bouton est là ───────────────── */
-verifier("branchement dans le cockpit", () => {
-  exiger(SOURCE_PLAYER.includes("<GuideFormation"), "GuideFormation n'est pas monté")
-  exiger(SOURCE_PLAYER.includes('data-control="sim-guide"'), "le bouton Guide est absent de la barre")
-  exiger(
-    /aria-label="Guide de la formation"/.test(SOURCE_PLAYER),
-    "le bouton Guide n'a pas de libellé accessible",
-  )
-  // Le bouton ne doit rien faire d'autre qu'ouvrir/fermer.
-  const bloc = SOURCE_PLAYER.slice(
-    SOURCE_PLAYER.indexOf('data-control="sim-guide"'),
-    SOURCE_PLAYER.indexOf('data-control="sim-guide"') + 900,
-  )
-  exiger(/onClick=\{\(\) => setGuideOuvert\(\(v\) => !v\)\}/.test(bloc), "le bouton Guide fait autre chose qu'ouvrir/fermer")
-  // Les étapes déclarent des ancres ajoutées au player : elles doivent y être.
-  for (const ancre of ["sim-badge-etape", "sim-indice", "sim-cockpit", "sim-progression"]) {
-    exiger(SOURCE_PLAYER.includes(`data-control="${ancre}"`), `ancre ${ancre} absente du player`)
-  }
-  return "bouton, ancres et montage en place"
-})
+// Le branchement est exercé par un clic réel, avec AtelierShell et son guide.
 
 /* ── 11. Le fichier d'étapes reste pur ────────────────────────────────────── */
 verifier("le fichier d'étapes reste sans effet de bord", () => {
@@ -347,13 +302,124 @@ verifier("le fichier d'étapes reste sans effet de bord", () => {
   return "données pures, testables hors navigateur"
 })
 
-/* ── Rapport ──────────────────────────────────────────────────────────────── */
-console.log("\n═══ check-guide-formation ═══\n")
-verts.forEach((v) => console.log("  " + v))
-if (echecs.length) {
-  console.log("")
-  echecs.forEach((e) => console.log("  " + e))
-  console.log(`\n${verts.length}/${verts.length + echecs.length} contrôles au vert.\n`)
-  process.exit(1)
+/** Pas de serveur Next ni de base : le vrai châssis React, rendu dans Chrome. */
+async function verifierRendu() {
+  const requireLocal = createRequire(join(RACINE, "package.json"))
+  // Utilise l'outillage QA installé, sans dépendance applicative ni chemin Mac.
+  const npmGlobal = execFileSync("npm", ["root", "-g"], { encoding: "utf8" }).trim()
+  const { chromium } = requireLocal(process.env.PLAYWRIGHT_CORE_MODULE || join(npmGlobal, "@playwright/cli/node_modules/playwright-core"))
+  const source = `
+    import React from "react";
+    import { createRoot } from "react-dom/client";
+    import AtelierShell from "@/components/simulation/AtelierShell";
+    import { useImmersion, ContexteImmersion } from "@/components/learner/useImmersion";
+    import { ETAPES_GUIDE } from "@/lib/simulation/guide-formation";
+    const rien = () => {};
+    const consigne = {
+      texte: "Repérez les commandes du logiciel.", nature: "action", lecture: false,
+      aDemonstration: true, demoJouable: true, attendu: "Le geste demandé", reponse: null,
+      aide: "Un repère utile", aideVisible: false, aideAncree: false, indiceDisponible: true,
+      evaluationNotee: false, relais: 0, relaisActif: false, verdict: null, aplomb: null,
+      panneJuge: null, passageEnCours: false, aideProposee: true, demonstration: false,
+      demoFinie: false, demoRejouable: false, index: 0, total: 3, reculPossible: false,
+      onMontrer: rien, onDebloquer: rien, onRejouerDemo: rien, onIndice: rien,
+      onSuivant: rien, onReculer: rien
+    };
+    function Banc() {
+      const immersion = useImmersion();
+      return <ContexteImmersion.Provider value={immersion}>
+        <div ref={immersion.cadre} style={{height:"100vh"}}>
+          <AtelierShell chapterId="guide-fixture" mode="LESSON" evaluationNotee={false}
+            filModule="Module de contrôle" filChapitre="Commandes du châssis" index={0} total={3}
+            relais={0} introVue preview pleinCadre consigne={consigne}
+            sommaire={[{id:"guide-fixture",titre:"Leçon de contrôle",module:"Module",genre:"lecon",termine:false}]}
+            onNaviguer={rien} onNote={rien} note="" afficherRessources onQuitter={rien}>
+            <div data-zone-grille="" style={{flex:1,minHeight:200}}>Surface du logiciel</div>
+          </AtelierShell>
+        </div>
+      </ContexteImmersion.Provider>
+    }
+    window.__etapesGuide = ETAPES_GUIDE;
+    createRoot(document.getElementById("root")).render(<Banc />);
+  `
+  const bundle = await build({
+    stdin: { contents: source, resolveDir: RACINE, loader: "tsx" },
+    bundle: true, write: false, platform: "browser", format: "iife",
+    jsx: "automatic", tsconfig: join(RACINE, "tsconfig.json"),
+    define: { "process.env.NODE_ENV": '"production"' },
+  })
+  const navigateur = await chromium.launch({ channel: "chrome", headless: true, args: ["--mute-audio"] })
+  try {
+    const page = await navigateur.newPage({ viewport: { width: 1440, height: 900 } })
+    const erreurs: string[] = []
+    page.on("pageerror", (e: Error) => erreurs.push(e.message))
+    await page.route("**/*", (route: { abort: () => Promise<void> }) => route.abort())
+    await page.setContent('<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0"><div id="root"></div></body></html>')
+    await page.addStyleTag({ content: lire("app/fluid.css") + lire("app/lessons.css") })
+    await page.addScriptTag({ content: bundle.outputFiles[0].text })
+    await page.locator('[data-control="sim-guide"]').waitFor()
+    const ancres = await page.evaluate(() => {
+      const racine = document.querySelector("[data-immersion-atelier]")!
+      const etapes = (window as unknown as { __etapesGuide: EtapeGuide[] }).__etapesGuide
+      return etapes.filter(e => e.cible).map(e => {
+        const el = racine.querySelector(e.cible!) as HTMLElement | null
+        const rect = el?.getBoundingClientRect()
+        return { id: e.id, present: !!el, visible: !!rect && rect.width > 0 && rect.height > 0 }
+      })
+    })
+    verifier("toutes les cibles existent dans le DOM du vrai châssis", () => {
+      const manquantes = ancres.filter((e: {present:boolean;visible:boolean}) => !e.present || !e.visible)
+      exiger(ancres.length === ETAPES_GUIDE.filter(e => e.cible).length, "des étapes n'ont pas été contrôlées")
+      exiger(manquantes.length === 0, "cible absente ou invisible : " + manquantes.map((e: {id:string}) => e.id).join(", "))
+      return `${ancres.length} ancres visibles, y compris les replis des aides contextuelles`
+    })
+    await page.locator('[data-control="sim-guide"]').click()
+    await page.locator('[data-guide="carte"]').waitFor()
+    const mesures = await page.evaluate(() => Array.from(document.querySelectorAll<HTMLButtonElement>(".lms-common-bar button, [data-guide=carte] button")).filter(e => e.offsetHeight && getComputedStyle(e).display !== "none").map(e => ({
+      nom: e.getAttribute("aria-label") || e.textContent?.trim(), largeur: e.offsetWidth, hauteur: e.offsetHeight
+    })))
+    verifier("cibles de la barre et du guide réellement ≥ 44 × 44", () => {
+      const petites = mesures.filter((m: {largeur:number;hauteur:number}) => m.largeur < 44 || m.hauteur < 44)
+      exiger(mesures.length >= 8, "trop peu de boutons mesurés")
+      exiger(petites.length === 0, "cibles trop petites : " + JSON.stringify(petites))
+      return `${mesures.length} boutons mesurés avec les styles réels`
+    })
+    const parcoursVerifie = ancres.every((e: {present:boolean;visible:boolean}) => e.present && e.visible)
+    if (parcoursVerifie) {
+      for (let i = 0; i < ETAPES_GUIDE.length; i++) {
+        if (i) await page.locator('[data-control="guide-suivant"]').click()
+        const etape = ETAPES_GUIDE[i]
+        await page.waitForFunction((titre: string) => document.querySelector("#guide-titre")?.textContent === titre, etape.titre)
+        if (!etape.cible) continue
+        await page.waitForFunction(({ cible, pad }: { cible:string; pad:number }) => {
+          const racine = document.querySelector<HTMLElement>("[data-immersion-atelier]")!
+          const el = racine.querySelector<HTMLElement>(cible)!
+          const spot = racine.querySelector<HTMLElement>('[data-guide="projecteur"]')!
+          if (!el || !spot) return false
+          const r = racine.getBoundingClientRect(), e = el.getBoundingClientRect(), s = spot.getBoundingClientRect()
+          return Math.abs(s.width - e.width - pad * 2) < 1 && Math.abs(s.height - e.height - pad * 2) < 1
+            && Math.abs(s.left - (e.left - pad + racine.scrollLeft)) < 1
+            && Math.abs(s.top - (e.top - pad + racine.scrollTop)) < 1 && r.width > 0
+        }, { cible: etape.cible, pad: etape.pad ?? 6 }, { timeout:10000 })
+      }
+    }
+    await page.locator('[data-control="guide-fermer"]').click()
+    await page.locator('[data-guide="carte"]').waitFor({ state: "detached" })
+    verifier("branchement réel du guide depuis la barre", () => {
+      exiger(erreurs.length === 0, erreurs.join("; "))
+      return parcoursVerifie
+        ? `${ETAPES_GUIDE.length} étapes parcourues ; projecteur aligné sur chaque cible ; ouverture/fermeture réelles ; aucun appel réseau`
+        : "ouverture/fermeture réelles ; parcours interrompu car une cible manque"
+    })
+  } finally {
+    await navigateur.close()
+  }
 }
-console.log(`\n${verts.length}/${verts.length} contrôles au vert.\n`)
+
+function resultat() {
+  console.log("\n" + verts.map(s => "  " + s).join("\n"))
+  if (echecs.length) console.error("\n" + echecs.map(s => "  " + s).join("\n"))
+  console.log(`\n${verts.length}/${verts.length + echecs.length} contrôles au vert.\n`)
+  process.exitCode = echecs.length ? 1 : 0
+}
+verifierRendu().catch((e: Error) => echecs.push("✗ harnais rendu : " + e.message)).finally(resultat)

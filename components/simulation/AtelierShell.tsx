@@ -1,8 +1,8 @@
 "use client"
-import LessonList, { LessonIcon } from "@/components/learner/LessonList"
+import LessonList from "@/components/learner/LessonList"
 import { useLessonPanel } from "@/components/learner/useLessonPanel"
 import type { LessonMetadata } from "@/lib/lessons/model"
-import { BoutonImmersion } from "@/components/learner/useImmersion"
+
 
 /**
  * LE CHÂSSIS DE L'ATELIER — ce que voit l'apprenant, quelle que soit l'app.
@@ -44,12 +44,13 @@ import {
   type ReactNode,
   type RefObject,
 } from "react"
-import PanneauRessources, { LIBELLE_RESSOURCES } from "./PanneauRessources"
+import PanneauRessources from "./PanneauRessources"
+import BarreCommune from "@/components/learner/barre/BarreCommune"
 import GuideFormation from "./GuideFormation"
 import { useGuideVocal } from "./hooks/useGuideVocal"
 import { dureeLisible, estimatedSimulationMinutes } from "@/lib/simulation/duree"
 import type { LearnerDocument } from "@/lib/learner-files"
-import { C, voileGuide } from "@/lib/simulation/couleurs"
+import { C } from "@/lib/simulation/couleurs"
 
 /* ═══════════ BALISAGE DES CONSIGNES ═══════════ */
 
@@ -137,80 +138,7 @@ export type EntreeSommaire = LessonMetadata & {
   secondes?: number
 }
 
-/* ═══════════ CIBLES TACTILES DU COCKPIT ═══════════ */
 
-/**
- * LA BOÎTE DU BOUTON FAIT 44 px, SA PASTILLE VISIBLE EN GARDE 28.
- *
- * Le LMS impose 44 px de cible tactile. Les contrôles du cockpit mesuraient
- * 30 × 28 sur téléphone, où leur libellé disparaît et où il ne reste que
- * l'icône — c'est précisément là que la cible compte le plus. Les agrandir
- * visuellement aurait épaissi une barre haute de 44 px déjà pleine.
- *
- * La solution était déjà dans ce fichier, écrite pour le bouton du guide : le
- * BOUTON occupe toute la hauteur de la barre et 44 px de large, sans fond ; le
- * fond est porté par un `<span>` intérieur, qui dessine seul ce que l'apprenant
- * voit. La barre ne change pas d'allure, la cible devient réglementaire.
- *
- * ⚠️ Mesurer LARGEUR ET HAUTEUR en contrôle. Un test qui ne vérifiait que la
- * hauteur a laissé passer des pastilles de 18 × 44 px lors de la QA du guide.
- */
-const CIBLE_COCKPIT: React.CSSProperties = {
-  height: 44,
-  minWidth: 44,
-  padding: 0,
-  background: "none",
-}
-
-/** Le fond visible d'un contrôle du cockpit, selon qu'il est actif ou non. */
-function pastilleCockpit(actif: boolean): React.CSSProperties {
-  return {
-    height: 28,
-    background: actif ? "#fff" : "rgba(255,255,255,.09)",
-    color: actif ? C.encre : "#DCE6E1",
-    fontSize: 11.5,
-    fontWeight: actif ? 600 : 400,
-  }
-}
-
-/**
- * Les trois états du guide vocal, dessinés en SVG inline.
- *
- * `currentColor` et aucun fichier : un pictogramme servi depuis `public/` ne
- * l'est pas de façon fiable en standalone (piège 0c), et il faudrait le
- * recolorer à la main pour chaque application. Même parti pris que les icônes du
- * ruban.
- */
-function IconeVoix({ variante }: { variante: "haut-parleur" | "coupe" | "stop" }) {
-  const commun = {
-    width: 13,
-    height: 13,
-    viewBox: "0 0 16 16",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 1.5,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    "aria-hidden": true,
-  }
-  if (variante === "stop") {
-    return (
-      <svg {...commun}>
-        <rect x="4" y="4" width="8" height="8" rx="1.2" fill="currentColor" stroke="none" />
-      </svg>
-    )
-  }
-  return (
-    <svg {...commun}>
-      <path d="M8.5 3 5 6H2.5v4H5l3.5 3V3Z" />
-      {variante === "coupe" ? (
-        <path d="m11 6.5 3 3m0-3-3 3" />
-      ) : (
-        <path d="M11 6c.7.6.7 3.4 0 4" />
-      )}
-    </svg>
-  )
-}
 
 /* ═══════════ LA BANDE DE CONSIGNE ═══════════ */
 
@@ -491,7 +419,7 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
           <span
             className="mb-1.5 inline-flex items-center gap-1.5 rounded-md uppercase"
             style={{
-              fontSize: 9.5,
+              fontSize: 11,
               fontWeight: 800,
               letterSpacing: ".07em",
               padding: "4px 8px",
@@ -819,7 +747,7 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
             <span className="sm:hidden">Précédent</span>
             <span
               aria-hidden
-              className="rounded px-1.5 py-0.5 text-[10.5px] font-bold"
+              className="rounded px-1.5 py-0.5 text-[11px] font-bold"
               style={{ background: "#F0EDE6", color: "#6b6862" }}
             >
               {c.index} / {c.total}
@@ -1137,264 +1065,30 @@ export default function AtelierShell({
       }
       style={pleinCadre ? undefined : { borderRadius: 16 }}
     >
-      {/* Le focus du champ de note portait `focus:border-emerald-600`. Une
-          classe Tailwind ne peut pas lire la couleur de l'application, et la
-          feuille compilée n'est de toute façon pas garantie sur le banc : la
-          règle passe donc en style embarqué, comme celles du guide. */}
-      <style>{`.sim-focus-accent:focus { border-color: ${C.notes} }`}</style>
-      {/* Cockpit : une seule barre haute qui porte le repérage et les commandes.
-          Avant, deux bandeaux se superposaient (en-tête ivoire pâle + barre de
-          titre Excel) et la progression tenait dans un « 1 / 8 » gris de 12 px.
-          Le mode évaluation se signalait par un mot beige : il colore désormais
-          toute la barre. */}
-      <div
-        data-control="sim-cockpit"
-        className="flex flex-shrink-0 items-center gap-2 px-2 sm:gap-3 sm:px-3"
-        style={{
-          height: 44,
-          // En évaluation notée la barre passe à l'ambre du mode examen : c'est
-          // une information, elle ne suit pas l'application.
-          background: evaluationNotee ? "#3A2410" : C.encre,
-          color: "#fff",
-          fontSize: 12,
+      {/* Le bloc-notes suit l'accent calculé de l'organisme. */}
+      <style>{`.sim-focus-accent:focus { border-color: var(--lesson-brand-accent) }`}</style>
+      <BarreCommune
+        atelier
+        module={filModule}
+        titre={filChapitre}
+        compteur={{ rang: Math.min(index + 1, total), total, unite: "Étape" }}
+        progression={{ etapes: total, courant: index, accent: C.accent }}
+        evaluationNotee={evaluationNotee}
+        leconsOuvertes={panneau === "lecons"}
+        onLecons={() => setPanneau(panneau === "lecons" ? null : "lecons")}
+        onNotes={onNote ? () => setPanneau(panneau === "notes" ? null : "notes") : undefined}
+        notesOuvertes={panneau === "notes"}
+        onDocuments={afficherRessources ? () => setPanneau(panneau === "ressources" ? null : "ressources") : undefined}
+        documentsOuverts={panneau === "ressources"}
+        son={{
+          disponible: voix.disponible && voix.etapeSonore, active: !voix.coupee, enLecture: voix.enLecture,
+          rejouer: voix.rejouer, arreter: voix.arreter, basculer: voix.basculerCoupure,
         }}
-      >
-        {sommaire && sommaire.length > 0 && (
-          <button
-            type="button"
-            data-control="sim-sommaire"
-            onClick={() => setPanneau((p) => (p === "lecons" ? null : "lecons"))}
-            aria-label="Toutes les leçons"
-            // Bascule : sans cet état, ni un lecteur d'écran ni un contrôle
-            // automatique ne savent si le panneau est ouvert.
-            aria-pressed={panneau === "lecons"}
-            className="lms-lesson-command"
-          ><LessonIcon kind="list" size={16}/><span>Leçons</span>
-          </button>
-        )}
-        {onNote && (
-          <button
-            type="button"
-            data-control="sim-notes"
-            onClick={() => setPanneau((p) => (p === "notes" ? null : "notes"))}
-            aria-label="Mes notes"
-            aria-pressed={panneau === "notes"}
-            className="flex flex-shrink-0 items-center justify-center"
-            style={CIBLE_COCKPIT}
-          >
-            <span
-              className="flex items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
-              style={pastilleCockpit(panneau === "notes")}
-            >
-              <span aria-hidden>✎</span>
-              <span className="hidden sm:inline">Notes</span>
-              {note && note.trim() !== "" && (
-                <span aria-hidden style={{ width: 5, height: 5, borderRadius: 9, background: C.clair }} />
-              )}
-            </span>
-          </button>
-        )}
-        {afficherRessources && (
-          <button
-            type="button"
-            data-control="sim-ressources"
-            onClick={() => setPanneau((p) => (p === "ressources" ? null : "ressources"))}
-            aria-label={LIBELLE_RESSOURCES}
-            title={LIBELLE_RESSOURCES}
-            aria-expanded={panneau === "ressources"}
-            aria-controls={idPanneauRessources}
-            className="flex flex-shrink-0 items-center justify-center"
-            style={CIBLE_COCKPIT}
-          >
-            <span
-              className="flex items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
-              style={pastilleCockpit(panneau === "ressources")}
-            >
-              {/* Icône dessinée plutôt qu'un glyphe : les caractères de document
-                  ne sont pas rendus de la même façon d'un système à l'autre,
-                  alors que ce bouton n'a QUE son icône sous 1024 px. */}
-              <svg aria-hidden width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M14 3v5h5M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 11v5m0 0l-2-2m2 2l2-2" />
-              </svg>
-              {/* Le libellé exact ne tient qu'à partir du grand écran : à 640 px,
-                  il écraserait le fil d'Ariane, seule information dont l'apprenant
-                  a besoin en permanence. En dessous, il reste porté par
-                  `aria-label` et `title`. */}
-              <span className="hidden lg:inline">{LIBELLE_RESSOURCES}</span>
-            </span>
-          </button>
-        )}
-        <div className="min-w-0 flex-1 truncate text-left sm:text-center" style={{ color: "#8FA49C" }}>
-          {evaluationNotee && (
-            <span
-              className="mr-2 rounded-full"
-              style={{ background: "#C6902A", color: "#231604", fontSize: 9.5, fontWeight: 800, padding: "2px 7px", letterSpacing: ".08em" }}
-            >
-              ÉVALUATION NOTÉE
-            </span>
-          )}
-          {/* Sur téléphone la barre ne peut pas tout porter : le module cède la
-              place au titre du chapitre, la seule information dont l'apprenant a
-              besoin en permanence. */}
-          {filModule && filModule !== filChapitre && (
-            <span className="hidden sm:inline">{filModule}&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-          )}
-          <b style={{ color: "#fff", fontWeight: 600 }}>{filChapitre}</b>
-        </div>
-        {/* Progression : segments quand le chapitre est court (on voit le chemin
-            entier), barre continue au-delà — vingt segments ne se lisent plus. */}
-        {total <= 14 ? (
-          <div className="hidden flex-shrink-0 items-center gap-[3px] sm:flex" aria-hidden>
-            {Array.from({ length: total }, (_, i) => (
-              <span
-                // La clé du segment courant embarque le compteur de relais : elle
-                // change à chaque avancée, ce qui rejoue son animation.
-                key={i === index ? `cur${relais}` : i}
-                style={{
-                  display: "block",
-                  width: 13,
-                  height: 4,
-                  borderRadius: 9,
-                  background: i < index ? C.clair : i === index ? "#fff" : "rgba(255,255,255,.16)",
-                  transition: "background-color .3s ease",
-                  animation: i === index && relais ? "sim-seg-pop .5s cubic-bezier(.2,.9,.2,1) both" : undefined,
-                }}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="hidden flex-shrink-0 sm:block" aria-hidden style={{ width: 96, height: 4, borderRadius: 9, background: "rgba(255,255,255,.16)" }}>
-            <span style={{ display: "block", height: "100%", borderRadius: 9, background: C.clair, width: `${Math.round((index / Math.max(1, total)) * 100)}%` }} />
-          </div>
-        )}
-        <span
-          data-control="sim-progression"
-          className="flex-shrink-0 tabular-nums"
-          style={{ color: "#8FA49C" }}
-        >
-          {Math.min(index + 1, total)}/{total}
-        </span>
-        {/* ── Guide vocal ──────────────────────────────────────────────────────
-            Deux contrôles seulement, et jamais rendus quand le chapitre n'a pas
-            de voix : le premier écoute ou arrête, le second coupe pour de bon.
-
-            Ils vivent dans un `[data-voix]` : c'est ce qui les exempte de la
-            règle « l'apprenant agit, la voix se tait ». Sans cette enveloppe, le
-            bouton « Réécouter » s'arrêterait lui-même au moment du clic. */}
-        {voix.disponible && (
-          <span data-voix className="flex flex-shrink-0 items-center">
-            {!voix.coupee && (voix.enLecture || voix.etapeSonore) && (
-              <button
-                type="button"
-                data-control="sim-voix"
-                onClick={voix.enLecture ? voix.arreter : voix.rejouer}
-                aria-label={
-                  voix.enLecture
-                    ? "Arrêter la lecture à voix haute"
-                    : voix.bloquee
-                      ? "Activer le son"
-                      : "Réécouter la consigne"
-                }
-                title={
-                  voix.enLecture
-                    ? "Arrêter la lecture"
-                    : voix.bloquee
-                      ? "Activer le son"
-                      : "Réécouter la consigne"
-                }
-                className="flex flex-shrink-0 items-center justify-center"
-                style={CIBLE_COCKPIT}
-              >
-                <span
-                  className="flex items-center gap-1.5 rounded-lg px-2.5"
-                  style={pastilleCockpit(voix.enLecture)}
-                >
-                  <IconeVoix variante={voix.enLecture ? "stop" : "haut-parleur"} />
-                  <span className="hidden sm:inline">
-                    {voix.enLecture ? "Stop" : voix.bloquee ? "Activer" : "Écouter"}
-                  </span>
-                </span>
-              </button>
-            )}
-            <button
-              type="button"
-              data-control="sim-voix-couper"
-              onClick={voix.basculerCoupure}
-              aria-pressed={voix.coupee}
-              aria-label={voix.coupee ? "Réactiver le guide vocal" : "Couper le guide vocal"}
-              title={
-                voix.coupee
-                  ? "Réactiver le guide vocal"
-                  : "Couper le guide vocal (le choix est mémorisé)"
-              }
-              className="flex flex-shrink-0 items-center justify-center"
-              style={CIBLE_COCKPIT}
-            >
-              <span
-                className="flex items-center justify-center rounded-lg"
-                style={{ ...pastilleCockpit(false), width: 28, opacity: voix.coupee ? 1 : 0.75 }}
-              >
-                <IconeVoix variante={voix.coupee ? "coupe" : "haut-parleur"} />
-              </span>
-            </button>
-          </span>
-        )}
-        {/* Guide de la formation. Il vit ICI plutôt que dans la navigation du
-            LMS : c'est dans l'atelier qu'on se demande comment revoir une
-            démonstration, pas sur la page d'accueil. Sous 640 px le libellé
-            cède la place au fil d'Ariane, le `aria-label` le porte seul. */}
-        {/* Le BOUTON fait 44 px de haut et de large — toute la hauteur de la
-            barre — tandis que sa pastille visible en garde 28, comme les autres
-            contrôles du cockpit. La cible tactile est donc réglementaire sans
-            que la barre change d'allure : c'est le fond intérieur qui dessine le
-            bouton, pas sa boîte. */}
-        <button
-          type="button"
-          data-control="sim-guide"
-          ref={boutonGuideRef}
-          onClick={() => setGuideOuvert((v) => !v)}
-          aria-pressed={guideOuvert}
-          aria-label="Guide de la formation"
-          title="Guide de la formation"
-          className="flex flex-shrink-0 items-center justify-center"
-          style={{ height: 44, minWidth: 44, padding: 0, background: "none" }}
-        >
-          <span
-            className="flex items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
-            style={{
-              height: 28,
-              fontSize: 11.5,
-              background: guideOuvert ? "#fff" : voileGuide(0.15),
-              color: guideOuvert ? C.encre : C.tresClair,
-              fontWeight: guideOuvert ? 600 : 400,
-              boxShadow: guideOuvert ? undefined : `inset 0 0 0 1px ${voileGuide(0.35)}`,
-            }}
-          >
-            <span aria-hidden>?</span>
-            <span className="hidden sm:inline">Guide</span>
-          </span>
-        </button>
-        <BoutonImmersion sombre />
-        {onQuitter && (
-          <button
-            type="button"
-            data-control="sim-quitter"
-            onClick={onQuitter}
-            title="Quitter l'atelier"
-            aria-label="Quitter l'atelier"
-            className="flex flex-shrink-0 items-center justify-center"
-            style={CIBLE_COCKPIT}
-          >
-            <span
-              className="flex items-center justify-center rounded-lg"
-              style={{ width: 28, height: 28, background: "rgba(255,255,255,.07)", color: "#CFDAD5", fontSize: 13 }}
-            >
-              ✕
-            </span>
-          </button>
-        )}
-      </div>
+        onGuide={() => setGuideOuvert(!guideOuvert)}
+        guideOuvert={guideOuvert}
+        guideRef={boutonGuideRef}
+        onQuitter={onQuitter}
+      />
 
       {children}
 
@@ -1414,7 +1108,7 @@ export default function AtelierShell({
           role="presentation"
           onClick={() => setPanneau(null)}
           className="absolute inset-0"
-          style={{ top: 44, background: "rgba(8,17,14,.5)", zIndex: 60 }}
+          style={{ top: 56, background: "rgba(8,17,14,.5)", zIndex: 60 }}
         />
       )}
       <button type="button" tabIndex={-1} aria-label="Fermer les leçons" aria-hidden={panneau !== "lecons"} data-lesson-veil="" data-open={panneau === "lecons"} className="lms-lesson-veil" onClick={() => setPanneau(null)}/>
@@ -1429,7 +1123,7 @@ export default function AtelierShell({
           aria-hidden={panneau !== "notes"}
           className="absolute bottom-0 right-0 flex flex-col bg-white shadow-2xl"
           style={{
-            top: 44,
+            top: 56,
             width: "min(340px, 84%)",
             zIndex: 70,
             transform: panneau === "notes" ? "translateX(0)" : "translateX(101%)",
@@ -1443,7 +1137,7 @@ export default function AtelierShell({
               type="button"
               onClick={() => setPanneau(null)}
               aria-label="Fermer"
-              className="rounded-lg bg-warm-100 px-2 py-1 text-[12px] text-warm-600"
+              className="lms-panel-close rounded-lg bg-warm-100 text-[12px] text-warm-600"
             >
               ✕
             </button>
@@ -1461,11 +1155,11 @@ export default function AtelierShell({
               style={{ minHeight: 170, resize: "vertical" }}
             />
             <p className="mt-2 flex items-center gap-1.5 text-[11.5px] text-warm-400">
-              <span aria-hidden style={{ width: 6, height: 6, borderRadius: 9, background: C.accent }} />
+              <span aria-hidden style={{ width: 6, height: 6, borderRadius: 9, background: "var(--lesson-brand-accent)" }} />
               Enregistré automatiquement
             </p>
             {notesHref && (
-              <a href={notesHref} className="mt-3 inline-block text-[12.5px] font-semibold" style={{ color: C.souligne }}>
+              <a href={notesHref} className="mt-3 inline-flex min-h-11 items-center text-[12.5px] font-semibold" style={{ color: "var(--lesson-brand-accent)" }}>
                 Voir toutes mes notes →
               </a>
             )}

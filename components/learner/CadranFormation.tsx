@@ -22,11 +22,11 @@
  *   · son compteur compte des étapes ; ici on compte des chapitres.
  * Les faire cohabiter demanderait d'élargir `ConsigneAtelier` et le badge de
  * nature, donc de modifier un fichier que trois lots d'application se
- * partagent en ce moment. La mutualisation reste souhaitable — elle est
- * signalée, pas faite.
+ * partagent. La barre de commandes est commune ; les bandes gardent leur
+ * vocabulaire propre au contenu.
  *
  * En revanche tout ce qui pouvait être repris SANS modification l'est :
- * `PanneauRessources`, `DocumentActions`, `PdfViewer`, `dureeLisible`.
+ * `BarreCommune`, `PanneauRessources`, `DocumentActions`, `PdfViewer`.
  *
  * ⚠️ Ce composant ne calcule RIEN. Comme le châssis de l'atelier, il ne reçoit
  * que du texte, des booléens et des gestes : c'est ce qui garantit qu'il ne
@@ -36,16 +36,16 @@
 
 import { createContext, useContext, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react"
 import { createPortal } from "react-dom"
-import PanneauRessources, { LIBELLE_RESSOURCES } from "@/components/simulation/PanneauRessources"
-import { dureeLisible } from "@/lib/simulation/duree"
+import PanneauRessources from "@/components/simulation/PanneauRessources"
 import type { LearnerDocument } from "@/lib/learner-files"
 import { filtrerDocuments } from "@/lib/learner-files"
 import { LigneDocument } from "@/components/learner/DocumentActions"
 import PdfViewer from "@/components/learner/PdfViewer"
 import SlidingTrack from "@/components/ui/SlidingTrack"
-import { BoutonImmersion, useImmersion } from "./useImmersion"
+import { useImmersion } from "./useImmersion"
+import BarreCommune, { type ActionBarre, type SonBarre } from "./barre/BarreCommune"
 
-import LessonList, { LessonIcon } from "./LessonList"
+import LessonList from "./LessonList"
 import { useLessonPanel, useSmallLessonScreen } from "./useLessonPanel"
 import type { LessonMetadata } from "@/lib/lessons/model"
 
@@ -111,6 +111,11 @@ type Props = {
   total: number
   /** Part des chapitres terminés, 0-100, pour la jauge du cockpit. */
   progression: number
+  son?: SonBarre
+  outils?: ActionBarre[]
+  etapeAnglais?: { rang: number; total: number } | null
+  titreLecteur?: string
+  moduleLecteur?: string
 
   /* — Panneaux — */
   sommaire: EntreeCadran[]
@@ -167,10 +172,7 @@ type Props = {
 
 /* ═══════════ CONSTANTES VISUELLES ═══════════ */
 
-const COCKPIT = 44
-
-/** Encre du cockpit. L'accent, lui, suit l'organisme (`--partner-primary`). */
-const FOND_COCKPIT = "#151B2B"
+const COCKPIT = 56
 /** La salle. Le noir du simulateur, refroidi pour un contenu vidéo. */
 const FOND_SALLE = "#0E1218"
 
@@ -183,38 +185,13 @@ const NATURE: Record<GenreChapitre, { badge: string; icone: string; teinte: stri
   atelier: { badge: "Atelier", icone: "✋", teinte: "#107C41", fond: "#E7F3EB", filet: "#107C41" },
 }
 
-/** Durée en `m:ss` — la position de lecture se compare à une barre de vidéo. */
-function mmssCourt(secondes: number): string {
-  const v = Math.max(0, Math.round(secondes))
-  return `${Math.floor(v / 60)}:${String(v % 60).padStart(2, "0")}`
-}
 
-/** Cible tactile du cockpit : 44 px de boîte, pastille visible de 28. */
-const CIBLE_COCKPIT: React.CSSProperties = {
-  height: COCKPIT,
-  minWidth: COCKPIT,
-  padding: 0,
-  background: "none",
-}
 
-function pastilleCockpit(actif: boolean): React.CSSProperties {
-  return {
-    height: 28,
-    fontSize: 11.5,
-    background: actif ? "#fff" : "rgba(255,255,255,.07)",
-    color: actif ? FOND_COCKPIT : "#CBD3E4",
-    fontWeight: actif ? 600 : 400,
-  }
-}
+
 
 /* ═══════════ COMPOSANT ═══════════ */
 
 export default function CadranFormation(p: Props) {
-  const dureeDeclaree = p.dureeAfficheeMinutes != null && p.dureeAfficheeMinutes > 0
-  const secondesFormation = dureeDeclaree
-    ? p.dureeAfficheeMinutes! * 60
-    : p.sommaire.reduce((t, e) => t + e.secondes, 0)
-  const metaFormation = `${p.total} chapitre${p.total > 1 ? "s" : ""}${secondesFormation > 0 ? ` · ${dureeLisible(secondesFormation)}` : ""}`
   const [immersif, setImmersif] = useState(false)
   const anglais = p.genre === "anglais"
   const apercuAnglais = anglais && !p.pleinCadre
@@ -244,8 +221,23 @@ export default function CadranFormation(p: Props) {
   const leconsModales = immersion.active || (anglais && immersif) || petitEcran
   const leconsRef = useLessonPanel(panneau === "lecons", leconsModales, () => setPanneau(null))
   const [replie, setReplie] = useState(false)
-  useEffect(() => { if (anglais && window.innerWidth > 760 && window.innerWidth <= 1100) setReplie(true) }, [anglais])
-  const [onglet, setOnglet] = useState<"lecons" | "notes" | "documents" | "description">("lecons")
+  // Préférence locale commune aux lecteurs classiques ; aucun enregistrement métier.
+  useEffect(() => { try { setReplie(localStorage.getItem("lms-player-lecons-repliees") === "1") } catch {} }, [])
+  const basculerListe = () => {
+    if (leconsModales) { setPanneau(panneau === "lecons" ? null : "lecons"); return }
+    setReplie(avant => {
+      try { localStorage.setItem("lms-player-lecons-repliees", avant ? "0" : "1") } catch {}
+      return !avant
+    })
+  }
+  const fermerListe = () => {
+    setPanneau(null)
+    if (!leconsModales) {
+      setReplie(true)
+      try { localStorage.setItem("lms-player-lecons-repliees", "1") } catch {}
+    }
+  }
+  const [onglet, setOnglet] = useState<"notes" | "documents" | "description">("description")
   const [documentOuvert, setDocumentOuvert] = useState<LearnerDocument | null>(null)
   const documents = filtrerDocuments([...(p.documentsChapitre || []), ...(p.documentsFormation || [])]).filter((doc, i, all) => all.findIndex((other) => other.id === doc.id) === i)
   const idRessources = useId()
@@ -262,7 +254,7 @@ export default function CadranFormation(p: Props) {
   // Le portail n'existe qu'après l'hydratation : `document` est absent au rendu
   // serveur. Même contrat que le conteneur d'atelier.
   const [monte, setMonte] = useState(false)
-  useEffect(() => { setMonte(true); if (window.innerWidth >= 761) setOnglet(p.onNote ? "notes" : "description") }, [])
+  useEffect(() => { setMonte(true) }, [])
 
   /*
    * La page cesse de défiler tant que le cadran est à l'écran.
@@ -286,7 +278,7 @@ export default function CadranFormation(p: Props) {
    * Référence stable : sans elle, chaque rendu du cadran ferait re-rendre tout
    * ce qui consomme le contexte — dont l'hôte HLS persistant.
    */
-  const commandes = useMemo<CommandesCadran>(() => ({ ouvrirLecons: () => { setReplie(false); setPanneau("lecons"); setOnglet("lecons") }, ouvrirNotes: () => setPanneau("notes"), ouvrirRessources: () => setPanneau("ressources"), immersion: setImmersif }), [])
+  const commandes = useMemo<CommandesCadran>(() => ({ ouvrirLecons: () => { setReplie(false); setPanneau("lecons") }, ouvrirNotes: () => setPanneau("notes"), ouvrirRessources: () => setPanneau("ressources"), immersion: setImmersif }), [])
 
   const carte = (
     <ContexteCadran.Provider value={commandes}>
@@ -301,12 +293,22 @@ export default function CadranFormation(p: Props) {
       data-immersion-panel-open={panneau ? "" : undefined}
       data-lecons-ouvertes={panneau === "lecons" ? "" : undefined}
     >
-      <div className="lms-reader-toolbar">
-        <button type="button" className="lms-lesson-command" onClick={() => leconsModales ? setPanneau(panneau === "lecons" ? null : "lecons") : setReplie(!replie)} aria-expanded={leconsModales ? panneau === "lecons" : !replie}><LessonIcon kind="list" size={16}/>Leçons</button>
-        <span>{p.filModule ? `${p.filModule} · ` : ""}{p.index} / {p.total}</span>
-        {p.onQuitter && <button type="button" onClick={p.onQuitter} aria-label="Retour à mes formations">Mes formations</button>}
-        <BoutonImmersion controle={immersion} />
-      </div>
+      <BarreCommune
+        module={p.moduleLecteur || p.filModule}
+        titre={p.titreLecteur || p.filChapitre}
+        compteur={p.etapeAnglais ? { ...p.etapeAnglais, unite: "Étape" } : { rang: p.index, total: p.total, unite: "Chapitre" }}
+        progression={{ pourcentage: p.progression }}
+        leconsOuvertes={leconsModales ? panneau === "lecons" : !replie}
+        onLecons={basculerListe}
+        son={p.son}
+        outils={p.outils}
+        onNotes={p.onNote ? () => setPanneau(panneau === "notes" ? null : "notes") : undefined}
+        notesOuvertes={panneau === "notes"}
+        onDocuments={() => setPanneau(panneau === "ressources" ? null : "ressources")}
+        documentsOuverts={panneau === "ressources"}
+        immersion={immersion}
+        onQuitter={p.onQuitter}
+      />
 
       {/* La salle. `flex-1 min-h-0` : c'est elle qui absorbe la place restante,
           et c'est ce qui rend le débordement structurellement impossible. */}
@@ -346,21 +348,13 @@ export default function CadranFormation(p: Props) {
       <div className="lms-reader-band"><BandeChapitre {...p} description={null} contenu={null} /></div>
       <div className="lms-reader-details">
         <SlidingTrack className="lms-reader-tabs" activeKey={onglet} label="Contenu de la leçon" role="tablist">
-          <button className="lms-chapters-tab" role="tab" aria-selected={onglet === "lecons"} onClick={() => setOnglet("lecons")}>Chapitres</button>
+
           {p.onNote && <button role="tab" aria-selected={onglet === "notes"} onClick={() => setOnglet("notes")}>Notes</button>}
           <button role="tab" aria-selected={onglet === "documents"} onClick={() => setOnglet("documents")}>Documents</button>
           <button role="tab" aria-selected={onglet === "description"} onClick={() => setOnglet("description")}>À propos</button>
         </SlidingTrack>
         <div className="lms-reader-tab-content" role="tabpanel">
-          {onglet === "lecons" && <>
-            <div className="lms-reader-mobile-chapters">
-              {dureeDeclaree && <p className="px-2 py-2 text-sm text-ink-50">{metaFormation}</p>}
-              <Sommaire entrees={p.sommaire} courant={p.chapterId} position={p.positionCourante ?? null} onNaviguer={p.onNaviguer} masquerDureesSections={dureeDeclaree} />
-            </div>
-            <div className="lms-reader-desktop-default">
-              {p.onNote ? <textarea aria-label="Mes notes de la leçon" value={p.note ?? ""} onChange={(e) => p.onNote?.(e.target.value)} placeholder="Écrivez ici ce que vous voulez retenir de ce chapitre…" /> : <p className="whitespace-pre-line">{p.description || p.contenu || "Aucune description pour cette leçon."}</p>}
-            </div>
-          </>}
+
           {onglet === "notes" && <>
             <textarea aria-label="Mes notes de la leçon" value={p.note ?? ""} onChange={(e) => p.onNote?.(e.target.value)} placeholder="Écrivez ici ce que vous voulez retenir de ce chapitre…" />
             <p className="mt-2 text-xs">Enregistré automatiquement</p>
@@ -421,7 +415,7 @@ export default function CadranFormation(p: Props) {
 
       <button type="button" tabIndex={-1} aria-label="Fermer les leçons" aria-hidden={!(leconsModales && panneau === "lecons")} data-lesson-veil="" data-open={leconsModales && panneau === "lecons"} className="lms-lesson-veil" onClick={() => setPanneau(null)}/>
       <aside ref={leconsRef} aria-label="Toutes les leçons" role={leconsModales?"dialog":undefined} aria-modal={leconsModales && panneau === "lecons"?true:undefined} aria-hidden={leconsModales ? panneau !== "lecons" : replie} data-modal={leconsModales} data-open={panneau === "lecons"} className={`lms-reader-sidebar lms-lesson-panel ${replie ? "lms-reader-sidebar-collapsed" : ""}`}>
-        <LessonList entrees={p.sommaire} courant={p.chapterId} anglais={anglais} active={leconsModales?panneau === "lecons":!replie} title={p.formationTitle} minutes={p.dureeAfficheeMinutes} onClose={() => {setPanneau(null);if(!leconsModales)setReplie(true)}} onNaviguer={id => {setPanneau(null);p.onNaviguer(id)}}/>
+        <LessonList entrees={p.sommaire} courant={p.chapterId} anglais={anglais} active={leconsModales?panneau === "lecons":!replie} title={p.formationTitle} minutes={p.dureeAfficheeMinutes} onClose={fermerListe} onNaviguer={id => {setPanneau(null);p.onNaviguer(id)}}/>
       </aside>
 
       {p.onNote && (
@@ -448,18 +442,18 @@ export default function CadranFormation(p: Props) {
               value={p.note ?? ""}
               onChange={(e) => p.onNote?.(e.target.value)}
               placeholder="Écrivez ici ce que vous voulez retenir de ce chapitre…"
-              className="w-full rounded-xl border border-border p-3 text-[13px] leading-relaxed text-ink outline-none focus:border-emerald-600"
+              className="w-full rounded-xl border border-border p-3 text-[13px] leading-relaxed text-ink outline-none lms-note-focus"
               style={{ minHeight: 170, resize: "vertical" }}
             />
             <p className="mt-2 flex items-center gap-1.5 text-[11.5px] text-warm-400">
-              <span aria-hidden style={{ width: 6, height: 6, borderRadius: 9, background: "#107C41" }} />
+              <span aria-hidden style={{ width: 6, height: 6, borderRadius: 9, background: "var(--lesson-brand-accent)" }} />
               Enregistré automatiquement
             </p>
             {p.notesHref && (
               <a
                 href={p.notesHref}
                 className="mt-1 inline-flex min-h-[44px] items-center text-[12.5px] font-semibold"
-                style={{ color: "var(--partner-primary, #4F46E5)" }}
+                style={{ color: "var(--lesson-brand-accent)" }}
               >
                 Voir toutes mes notes →
               </a>
@@ -468,7 +462,7 @@ export default function CadranFormation(p: Props) {
         </aside>
       )}
 
-      {(p.afficherRessources || anglais) && (
+      {(
         <PanneauRessources
           id={idRessources}
           ouvert={panneau === "ressources"}
@@ -519,175 +513,6 @@ export default function CadranFormation(p: Props) {
   )
 }
 
-/* ═══════════ COCKPIT ═══════════ */
-
-function Cockpit({
-  filModule,
-  filChapitre,
-  index,
-  total,
-  progression,
-  sommaire,
-  note,
-  onNote,
-  afficherRessources,
-  onQuitter,
-  panneau,
-  setPanneau,
-  idRessources,
-}: Props & {
-  panneau: "lecons" | "notes" | "ressources" | null
-  setPanneau: (v: "lecons" | "notes" | "ressources" | null) => void
-  idRessources: string
-}) {
-  return (
-    <div
-      data-control="cad-cockpit"
-      className="flex flex-shrink-0 items-center gap-2 px-2 sm:gap-3 sm:px-3"
-      style={{ height: COCKPIT, background: FOND_COCKPIT, color: "#fff", fontSize: 12 }}
-    >
-      {sommaire.length > 0 && (
-        <button
-          type="button"
-          data-control="cad-sommaire"
-          onClick={() => setPanneau(panneau === "lecons" ? null : "lecons")}
-          aria-label="Toutes les leçons"
-          aria-pressed={panneau === "lecons"}
-          className="flex flex-shrink-0 items-center justify-center"
-          style={CIBLE_COCKPIT}
-        >
-          <span
-            className="flex items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
-            style={pastilleCockpit(panneau === "lecons")}
-          >
-            <span aria-hidden>☰</span>
-            <span className="hidden sm:inline">Leçons</span>
-          </span>
-        </button>
-      )}
-
-      {onNote && (
-        <button
-          type="button"
-          data-control="cad-notes"
-          onClick={() => setPanneau(panneau === "notes" ? null : "notes")}
-          aria-label="Mes notes"
-          aria-pressed={panneau === "notes"}
-          className="flex flex-shrink-0 items-center justify-center"
-          style={CIBLE_COCKPIT}
-        >
-          <span
-            className="flex items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
-            style={pastilleCockpit(panneau === "notes")}
-          >
-            <span aria-hidden>✎</span>
-            <span className="hidden sm:inline">Notes</span>
-            {note && note.trim() !== "" && (
-              <span aria-hidden style={{ width: 5, height: 5, borderRadius: 9, background: "#4ED08A" }} />
-            )}
-          </span>
-        </button>
-      )}
-
-      {afficherRessources && (
-        <button
-          type="button"
-          data-control="cad-ressources"
-          onClick={() => setPanneau(panneau === "ressources" ? null : "ressources")}
-          aria-label={LIBELLE_RESSOURCES}
-          title={LIBELLE_RESSOURCES}
-          aria-expanded={panneau === "ressources"}
-          aria-controls={idRessources}
-          className="flex flex-shrink-0 items-center justify-center"
-          style={CIBLE_COCKPIT}
-        >
-          <span
-            className="flex items-center gap-1.5 rounded-lg px-2.5 sm:px-3"
-            style={pastilleCockpit(panneau === "ressources")}
-          >
-            {/* Icône dessinée : les glyphes de document ne se rendent pas de la
-                même façon d'un système à l'autre, et ce bouton n'a QUE son
-                icône sous 1024 px. */}
-            <svg aria-hidden width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M14 3v5h5M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 11v5m0 0l-2-2m2 2l2-2" />
-            </svg>
-            <span className="hidden lg:inline">{LIBELLE_RESSOURCES}</span>
-          </span>
-        </button>
-      )}
-
-      {/* Fil d'Ariane. Sur téléphone le module cède la place au titre du
-          chapitre, seule information dont l'apprenant a besoin en permanence. */}
-      <div className="min-w-0 flex-1 truncate text-left sm:text-center" style={{ color: "#8B93A8" }}>
-        {filModule && filModule !== filChapitre && (
-          <span className="hidden sm:inline">{filModule}&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        )}
-        <b style={{ color: "#fff", fontWeight: 600 }}>{filChapitre}</b>
-      </div>
-
-      {/* Segments quand la formation est courte — on voit le chemin entier —,
-          barre continue au-delà : vingt segments ne se lisent plus. */}
-      {total <= 14 ? (
-        <div className="hidden flex-shrink-0 items-center gap-[3px] sm:flex" aria-hidden>
-          {Array.from({ length: total }, (_, i) => (
-            <span
-              key={i}
-              style={{
-                display: "block",
-                width: 13,
-                height: 4,
-                borderRadius: 9,
-                background: i < index - 1 ? "#4ED08A" : i === index - 1 ? "#fff" : "rgba(255,255,255,.16)",
-                transition: "background-color .3s ease",
-              }}
-            />
-          ))}
-        </div>
-      ) : (
-        <div
-          className="hidden flex-shrink-0 sm:block"
-          aria-hidden
-          style={{ width: 96, height: 4, borderRadius: 9, background: "rgba(255,255,255,.16)" }}
-        >
-          <span
-            style={{
-              display: "block",
-              height: "100%",
-              borderRadius: 9,
-              background: "#4ED08A",
-              width: `${Math.max(0, Math.min(100, progression))}%`,
-              transition: "width .4s ease",
-            }}
-          />
-        </div>
-      )}
-
-      <span data-control="cad-progression" className="flex-shrink-0 tabular-nums" style={{ color: "#8B93A8" }}>
-        {index}/{total}
-      </span>
-
-      {onQuitter && (
-        <button
-          type="button"
-          data-control="cad-quitter"
-          onClick={onQuitter}
-          title="Quitter la formation"
-          aria-label="Quitter la formation"
-          className="flex flex-shrink-0 items-center justify-center"
-          style={CIBLE_COCKPIT}
-        >
-          <span
-            className="flex items-center justify-center rounded-lg"
-            style={{ width: 28, height: 28, background: "rgba(255,255,255,.07)", color: "#C3CAD8", fontSize: 13 }}
-          >
-            ✕
-          </span>
-        </button>
-      )}
-    </div>
-  )
-}
 
 /* ═══════════ BANDE DE CONSIGNE ═══════════ */
 
@@ -878,15 +703,4 @@ function EnTetePanneau({
       </button>
     </div>
   )
-}
-
-/**
- * Sommaire de la formation.
- *
- * Groupé par section, et seul le groupe du chapitre ouvert est déplié : sur une
- * formation de plusieurs dizaines de chapitres, tout ouvrir d'entrée noie
- * l'information. Chaque ligne fait 44 px : le sommaire EST la navigation.
- */
-function Sommaire({entrees,courant,onNaviguer}: {entrees: EntreeCadran[];courant: string;onNaviguer: (id:string)=>void;position: {vu:number;total:number}|null;masquerDureesSections?:boolean}) {
-  return <LessonList entrees={entrees} courant={courant} onNaviguer={onNaviguer} anglais={entrees.some(e=>e.genre === "anglais")}/>
 }

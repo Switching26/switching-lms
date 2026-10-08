@@ -1,7 +1,7 @@
 "use client"
 
 /**
- * Panneau « Ressource pédagogique téléchargeable » de l'atelier.
+ * Panneau « Documents », partagé entre le cours et l'atelier.
  *
  * Il n'expose QUE des documents déjà présents en base — pièces jointes du
  * chapitre courant (`Attachment`) puis de la formation (`FormationAttachment`),
@@ -9,7 +9,7 @@
  * Aucune requête n'est faite ici : rien à charger, rien à inventer.
  *
  * Géométrie reprise à l'identique du panneau « Mes notes » : superposé depuis
- * `top: 44`, il ne pousse jamais le contenu — la règle « l'atelier ne défile
+ * `top: 56`, il ne pousse jamais le contenu — la règle « l'atelier ne défile
  * jamais » tient donc panneau ouvert.
  */
 
@@ -20,7 +20,7 @@ import PdfViewer from "@/components/learner/PdfViewer"
 import { C } from "@/lib/simulation/couleurs"
 
 /** Libellé exact demandé, employé tel quel en titre et en `aria-label`. */
-export const LIBELLE_RESSOURCES = "Ressource pédagogique téléchargeable"
+export const LIBELLE_RESSOURCES = "Documents"
 
 type Props = {
   /** Identifiant du panneau, cible du `aria-controls` du bouton du cockpit. */
@@ -71,7 +71,7 @@ export default function PanneauRessources({
       aria-hidden={!ouvert}
       className="absolute bottom-0 right-0 flex flex-col bg-white shadow-2xl"
       style={{
-        top: 44,
+        top: 56,
         // Un peu plus large que « Mes notes » (340) : un nom de document et sa
         // taille tiennent sur une ligne. Toujours plus étroit que « Leçons »
         // (460), la feuille de calcul restant l'écran de travail.
@@ -95,7 +95,7 @@ export default function PanneauRessources({
           type="button"
           onClick={onFermer}
           aria-label="Fermer"
-          className="res-focus flex-shrink-0 rounded-lg bg-warm-100 px-2 py-1 text-[12px] text-warm-600"
+          className="res-focus flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-warm-100 text-[12px] text-warm-600"
         >
           ✕
         </button>

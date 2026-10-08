@@ -1,12 +1,18 @@
 /** Contrôle des écrans de lecture équipés d'une démonstration. */
 import * as fs from "fs"
 import * as path from "path"
+import { fileURLToPath } from "node:url"
 import { planDemonstration } from "@/lib/simulation/demonstration"
 import type { SimulationScenario } from "@/lib/simulation/types"
 
-const DIR = "/Users/switchingformation/checkos/work/switching-lms/scripts/simulation/scenarios"
+const DIR = fileURLToPath(new URL("./scenarios/", import.meta.url))
 let ok = 0
 const soucis: string[] = []
+let erreursCible = 0
+function signalerCibleIntrouvable(message: string) {
+  soucis.push(message)
+  erreursCible++
+}
 
 for (const f of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort()) {
   const sc: SimulationScenario = JSON.parse(fs.readFileSync(path.join(DIR, f), "utf8"))
@@ -26,7 +32,7 @@ for (const f of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort()) {
     if (!st.montrer) continue
     const plans = st.montrer.map(planDemonstration)
     const vides = plans.filter((p: any) => !p || p.gestes.length === 0).length
-    if (vides) { soucis.push(`${f} ${st.id} — ${vides} action(s) sans plan`); continue }
+    if (vides) { signalerCibleIntrouvable(`${f} ${st.id} — ${vides} action(s) sans plan`); continue }
     // Un champ mal nommé (`col` au lieu de `column`) produit un plan d'apparence
     // valide dont la cible vaut « undefined » — la grille tournait alors en
     // boucle et figeait la page entière. On relit donc chaque cible résolue.
@@ -40,7 +46,7 @@ for (const f of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort()) {
           : c.k === "dom" ? c.sel
           : "clavier"
         if (val === undefined || val === null || String(val).includes("undefined")) {
-          soucis.push(`${f} ${st.id} — cible incomplète (${c.k}) : champ d'action mal nommé ?`)
+          signalerCibleIntrouvable(`${f} ${st.id} — cible incomplète (${c.k}) : champ d'action mal nommé ?`)
         }
       }
     }
@@ -51,10 +57,10 @@ for (const f of fs.readdirSync(DIR).filter((n) => n.endsWith(".json")).sort()) {
       if (a.range) refs.push(...a.range.split(":"))
       if (a.target && /^[A-Z]+\d+$/i.test(a.target)) refs.push(a.target)
       for (const r of refs) {
-        if (!(r.toUpperCase() in cells)) soucis.push(`${f} ${st.id} — ${r} absente du classeur`)
+        if (!(r.toUpperCase() in cells)) signalerCibleIntrouvable(`${f} ${st.id} — ${r} absente du classeur`)
       }
       if (a.type === "SELECT_SHEET" && !noms.includes(a.name)) {
-        soucis.push(`${f} ${st.id} — feuille « ${a.name} » inconnue (${noms.join(", ")})`)
+        signalerCibleIntrouvable(`${f} ${st.id} — feuille « ${a.name} » inconnue (${noms.join(", ")})`)
       }
     }
     // NOTE : la contrainte « pas de démonstration quand le classeur est masqué »
@@ -97,3 +103,5 @@ if (muets.length) {
 console.log(`\n${ok} écrans de lecture avec démonstration vérifiée`)
 if (soucis.length) { console.log(`\n${soucis.length} point(s) à corriger :`); soucis.forEach((s) => console.log("  ·", s)) }
 else console.log("aucune cible dans le vide")
+// Seules les règles dures rougissent le contrôle ; les avertissements restent informatifs.
+if (muets.length || erreursCible) process.exitCode = 1

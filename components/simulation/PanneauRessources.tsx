@@ -1,7 +1,7 @@
 "use client"
 
 /**
- * Panneau « Ressource pédagogique téléchargeable » de l'atelier.
+ * Panneau « Documents », partagé entre le cours et l'atelier.
  *
  * Il n'expose QUE des documents déjà présents en base — pièces jointes du
  * chapitre courant (`Attachment`) puis de la formation (`FormationAttachment`),
@@ -9,18 +9,17 @@
  * Aucune requête n'est faite ici : rien à charger, rien à inventer.
  *
  * Géométrie reprise à l'identique du panneau « Mes notes » : superposé depuis
- * `top: 44`, il ne pousse jamais le contenu — la règle « l'atelier ne défile
+ * `top: 56`, il ne pousse jamais le contenu — la règle « l'atelier ne défile
  * jamais » tient donc panneau ouvert.
  */
 
 import { useCallback, useMemo, useState } from "react"
 import { dedupeDocuments, type LearnerDocument } from "@/lib/learner-files"
-import { LigneDocument, type EtatConsultation } from "@/components/learner/DocumentActions"
+import { ACCENT_DOCUMENT, LigneDocument, type EtatConsultation } from "@/components/learner/DocumentActions"
 import PdfViewer from "@/components/learner/PdfViewer"
-import { C } from "@/lib/simulation/couleurs"
 
 /** Libellé exact demandé, employé tel quel en titre et en `aria-label`. */
-export const LIBELLE_RESSOURCES = "Ressource pédagogique téléchargeable"
+export const LIBELLE_RESSOURCES = "Documents"
 
 type Props = {
   /** Identifiant du panneau, cible du `aria-controls` du bouton du cockpit. */
@@ -71,7 +70,7 @@ export default function PanneauRessources({
       aria-hidden={!ouvert}
       className="absolute bottom-0 right-0 flex flex-col bg-white shadow-2xl"
       style={{
-        top: 44,
+        top: 56,
         // Un peu plus large que « Mes notes » (340) : un nom de document et sa
         // taille tiennent sur une ligne. Toujours plus étroit que « Leçons »
         // (460), la feuille de calcul restant l'écran de travail.
@@ -86,7 +85,7 @@ export default function PanneauRessources({
           dans la feuille compilée servie au banc. Règle du player : toute
           nouveauté visuelle passe en style embarqué. */}
       <style>{`
-        .res-focus:focus-visible { outline: 2px solid ${C.accent}; outline-offset: 2px; border-radius: 10px; }
+        .res-focus:not(:disabled):focus-visible { outline: 2px solid ${ACCENT_DOCUMENT}; outline-offset: 2px; border-radius: 10px; }
       `}</style>
 
       <div className="flex flex-shrink-0 items-center gap-2 border-b border-border bg-warm-50 px-3 py-2.5">
@@ -95,7 +94,7 @@ export default function PanneauRessources({
           type="button"
           onClick={onFermer}
           aria-label="Fermer"
-          className="res-focus flex-shrink-0 rounded-lg bg-warm-100 px-2 py-1 text-[12px] text-warm-600"
+          className="res-focus flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-warm-100 text-[12px] text-warm-600"
         >
           ✕
         </button>
@@ -135,8 +134,8 @@ export default function PanneauRessources({
         {documentsHref && (
           <a
             href={documentsHref}
-            className="res-focus mt-1 inline-block text-[12.5px] font-semibold"
-            style={{ color: C.accent }}
+            className="res-focus mt-1 inline-flex min-h-11 items-center text-[12.5px] font-semibold"
+            style={{ color: ACCENT_DOCUMENT }}
           >
             Voir tous mes documents →
           </a>
@@ -162,7 +161,7 @@ function Section({
 }) {
   return (
     <section className="mb-3">
-      <h5 className="mb-2 flex items-baseline gap-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-warm-400">
+      <h5 className="mb-2 flex items-baseline gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-warm-400">
         {titre}
         {nombre > 0 && <span className="tabular-nums font-normal">· {nombre}</span>}
       </h5>

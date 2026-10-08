@@ -28,6 +28,10 @@ import {
 
 const ICONE = "h-[18px] w-[18px]"
 
+/** L'atelier fournit son accent ; ailleurs, les documents suivent l'organisme. */
+export const ACCENT_DOCUMENT = "var(--sim-accent, var(--lesson-brand-accent))"
+export const FOND_DOCUMENT = `color-mix(in srgb, ${ACCENT_DOCUMENT} 8%, white)`
+
 function IconeOeil() {
   return (
     <svg className={ICONE} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden>
@@ -55,17 +59,15 @@ function Rotor() {
     <span
       aria-hidden
       className="h-[17px] w-[17px] animate-spin rounded-full border-2 border-warm-200"
-      style={{ borderTopColor: "#7d6e5e" }}
+      style={{ borderTopColor: ACCENT_DOCUMENT }}
     />
   )
 }
 
-/** Style commun aux deux boutons — vert « document », jamais la couleur du partenaire. */
+/** Style commun aux deux boutons, y compris au survol et au clavier. */
 const BOUTON =
-  "relative inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl " +
-  "transition-colors hover:bg-[#eaf4ee] focus-visible:outline focus-visible:outline-2 " +
-  "focus-visible:outline-offset-[-2px] focus-visible:outline-[#107C41] focus-visible:bg-[#eaf4ee] " +
-  "disabled:cursor-not-allowed disabled:text-warm-400 disabled:hover:bg-transparent"
+  "lms-document-action relative inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl " +
+  "transition-colors disabled:cursor-not-allowed disabled:text-warm-400"
 
 export type EtatConsultation = "chargement" | "erreur" | null
 
@@ -88,6 +90,10 @@ export function ActionsDocument({
 
   return (
     <div className="flex flex-shrink-0 items-center gap-0.5">
+      <style>{`
+        .lms-document-action:not(:disabled):is(:hover, :focus-visible) { background: ${FOND_DOCUMENT}; }
+        .lms-document-action:not(:disabled):focus-visible { outline: 2px solid ${ACCENT_DOCUMENT}; outline-offset: -2px; }
+      `}</style>
       <button
         type="button"
         data-action="consulter"
@@ -100,7 +106,7 @@ export function ActionsDocument({
           if (ouvrable) onConsulter(doc)
         }}
         className={BOUTON}
-        style={ouvrable ? { color: etat === "erreur" ? "#e11d48" : "#107C41" } : undefined}
+        style={ouvrable ? { color: etat === "erreur" ? "#e11d48" : ACCENT_DOCUMENT } : undefined}
       >
         {etat === "chargement" ? <Rotor /> : etat === "erreur" ? (
           <span aria-hidden className="text-[15px] font-extrabold leading-none">!</span>
@@ -121,7 +127,7 @@ export function ActionsDocument({
           title={libelleDl}
           onClick={(e) => e.stopPropagation()}
           className={BOUTON}
-          style={{ color: "#107C41" }}
+          style={{ color: ACCENT_DOCUMENT }}
         >
           <IconeFleche />
         </a>
@@ -173,8 +179,8 @@ export function LigneDocument({
     >
       <span
         aria-hidden
-        className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-[9.5px] font-extrabold"
-        style={ouvrable ? { background: "#eaf4ee", color: "#107C41" } : { background: "#efece5", color: "#9a938a" }}
+        className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-[11px] font-extrabold"
+        style={ouvrable ? { background: FOND_DOCUMENT, color: ACCENT_DOCUMENT } : { background: "#efece5", color: "#9a938a" }}
       >
         {type && type.length <= 4 ? type : "DOC"}
       </span>

@@ -24,9 +24,10 @@
  *    capture d'écran. On retire notre bouton, pas la possibilité physique.
  */
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react"
 import { createPortal } from "react-dom"
 import { toApiFileUrl, typeDeFichier, tailleLisible, type LearnerDocument } from "@/lib/learner-files"
+import { ACCENT_DOCUMENT } from "@/components/learner/DocumentActions"
 
 /** Au-delà, on considère que le document ne viendra pas (réseau, 403, 404). */
 const DELAI_CHARGEMENT_MS = 15_000
@@ -45,19 +46,28 @@ export default function PdfViewer({
   const [monte, setMonte] = useState(false)
   const [charge, setCharge] = useState(false)
   const [echec, setEchec] = useState(false)
+  const [accent, setAccent] = useState<string | null>(null)
+  const accentSourceRef = useRef<HTMLSpanElement>(null)
   const boiteRef = useRef<HTMLDivElement>(null)
   const declencheurRef = useRef<HTMLElement | null>(null)
 
   // `document` n'existe pas au rendu serveur.
   useEffect(() => setMonte(true), [])
 
-  const ouvert = monte && !!doc
+  const ouvert = monte && !!doc && !!accent
 
   // Mémorise QUI a ouvert, pour lui rendre le focus à la fermeture. Se lit au
   // moment de l'ouverture : après, le focus a déjà bougé dans la boîte.
   useEffect(() => {
-    if (!doc) return
+    if (!doc) {
+      setAccent(null)
+      return
+    }
     declencheurRef.current = document.activeElement as HTMLElement | null
+    // Le portail vers body perd les variables de l'atelier. Ce témoin reste
+    // dans le cours / l'atelier : sa couleur calculée est transportée au portail.
+    const source = accentSourceRef.current
+    if (source) setAccent(getComputedStyle(source).color)
     setCharge(false)
     setEchec(false)
   }, [doc])
@@ -96,6 +106,7 @@ export default function PdfViewer({
   useEffect(() => {
     if (!ouvert) return
     const boite = boiteRef.current
+    const cible = declencheurRef.current
     const modifies: HTMLElement[] = []
     Array.from(document.body.children).forEach((el) => {
       const noeud = el as HTMLElement
@@ -104,15 +115,17 @@ export default function PdfViewer({
       noeud.setAttribute("inert", "")
       modifies.push(noeud)
     })
-    return () => modifies.forEach((n) => n.removeAttribute("inert"))
+    return () => {
+      modifies.forEach((n) => n.removeAttribute("inert"))
+      // Le focus ne peut revenir qu'APRÈS la levée d'inert ; un timer pouvait
+      // s'exécuter avant ce nettoyage et laisser le focus sur le corps.
+      cible?.focus?.({ preventScroll: true })
+      if (declencheurRef.current === cible) declencheurRef.current = null
+    }
   }, [ouvert])
 
   const fermer = useCallback(() => {
-    const cible = declencheurRef.current
-    declencheurRef.current = null
     onClose()
-    // Après le démontage, sinon le focus retombe en tête de document.
-    window.setTimeout(() => cible?.focus?.({ preventScroll: true }), 0)
   }, [onClose])
 
   useEffect(() => {
@@ -133,15 +146,22 @@ export default function PdfViewer({
     if (ouvert) boiteRef.current?.focus({ preventScroll: true })
   }, [ouvert])
 
-  if (!ouvert || !doc) return null
+  const sourceAccent = <span ref={accentSourceRef} hidden aria-hidden style={{ color: ACCENT_DOCUMENT }} />
+  if (!ouvert || !doc) return sourceAccent
 
   const href = toApiFileUrl(doc.fileUrl)
   const type = typeDeFichier(doc.fileUrl)
   const taille = tailleLisible(doc.fileSize)
   const meta = [type, taille].filter(Boolean).join(" · ")
 
-  return createPortal(
-    <div className="lms-document-overlay fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-6">
+  return <>{sourceAccent}{createPortal(
+    <div
+      className="lms-document-overlay fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-6"
+      style={{ "--document-accent": accent } as CSSProperties}
+    >
+      <style>{`
+        .lms-document-overlay button:focus-visible { outline: 2px solid var(--document-accent); outline-offset: -2px; }
+      `}</style>
       <div
         role="presentation"
         onClick={fermer}
@@ -161,7 +181,7 @@ export default function PdfViewer({
           <span
             aria-hidden
             className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-[11px] font-semibold"
-            style={{ background: "var(--lms-soft)", color: "var(--lms-accent)" }}
+            style={{ background: "color-mix(in srgb, var(--document-accent) 8%, white)", color: "var(--document-accent)" }}
           >
             {type && type.length <= 4 ? type : "DOC"}
           </span>
@@ -176,7 +196,7 @@ export default function PdfViewer({
             data-action="fermer-visionneuse"
             onClick={fermer}
             aria-label="Fermer la visionneuse"
-            className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-warm-100 text-[15px] text-warm-600 transition-colors hover:bg-warm-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#107C41]"
+            className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-warm-100 text-[15px] text-warm-600 transition-colors hover:bg-warm-200"
           >
             ✕
           </button>
@@ -188,7 +208,7 @@ export default function PdfViewer({
               <span
                 aria-hidden
                 className="h-7 w-7 animate-spin rounded-full border-2 border-warm-300"
-                style={{ borderTopColor: "#107C41" }}
+                style={{ borderTopColor: "var(--document-accent)" }}
               />
               <p className="text-[12.5px]">Ouverture du document…</p>
             </div>
@@ -207,7 +227,7 @@ export default function PdfViewer({
                   setCharge(false)
                 }}
                 className="rounded-xl px-4 py-2.5 text-[13px] font-semibold text-white"
-                style={{ background: "#107C41" }}
+                style={{ background: "var(--document-accent)", minHeight: 44 }}
               >
                 Réessayer
               </button>
@@ -232,5 +252,5 @@ export default function PdfViewer({
       </div>
     </div>,
     document.body,
-  )
+  )}</>
 }

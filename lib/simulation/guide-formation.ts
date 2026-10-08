@@ -182,7 +182,7 @@ export const ETAPES_GUIDE: EtapeGuide[] = [
     tache:
       "Dans la bande sous le logiciel, <b>Voir le geste</b> lance la démonstration d’un écran de lecture. Sur un exercice, <b>Montrez-moi</b> apparaît quand vous butez.",
     reussite: "Vous savez la déclencher et la rejouer : c’est le filet de sécurité de la formation.",
-    cible: '[data-control="sim-montrer"], [data-control="sim-revoir-demo"], [data-control="sim-revoir-geste"], [data-bandeau-consigne]:not(:has([data-control="sim-montrer"], [data-control="sim-revoir-demo"], [data-control="sim-revoir-geste"])), [data-immersion-atelier]:not(:has([data-bandeau-consigne])) [data-control="sim-cockpit"]',
+    cible: '[data-control="sim-montrer"], [data-control="sim-voir-geste"], [data-control="sim-revoir-demo"], [data-control="sim-revoir-geste"], [data-bandeau-consigne]:not(:has([data-control="sim-montrer"], [data-control="sim-voir-geste"], [data-control="sim-revoir-demo"], [data-control="sim-revoir-geste"])), [data-immersion-atelier]:not(:has([data-bandeau-consigne])) [data-control="sim-cockpit"]',
     eviter: ["[data-zone-grille]"],
     placement: "haut",
     pad: 6,

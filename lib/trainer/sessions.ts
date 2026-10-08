@@ -117,7 +117,7 @@ export async function updateSession(trainerId: string, sessionId: string, input:
     const notificationChanged = changedFields.some(field => field !== "note")
     const data: Prisma.TrainerSessionUpdateManyMutationInput = { ...values,
       cancelledAt: next.status === "CANCELLED" ? before.cancelledAt ?? new Date() : null,
-      ...(scheduleChanged ? { reminderSentAt: null } : {}),
+      ...(scheduleChanged ? { reminderSentAt: null, learnerReminderSentAt: null, trainerReminderSentAt: null } : {}),
       ...(notificationChanged ? { notifiedAt: null } : {}),
     }
     if (!(await tx.trainerSession.updateMany({ where, data })).count) throw new TrainerAccessError("Séance introuvable", 404)

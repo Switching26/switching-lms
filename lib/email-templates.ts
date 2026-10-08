@@ -82,7 +82,10 @@ export interface SessionMailSlot {
 }
 
 export interface SessionMailData extends SessionMailSlot {
+  audience: "learner" | "trainer"
+  learnerFirstName: string
   learnerName: string
+  trainerFirstName: string
   trainerName: string
   formationLabel: string
   before?: SessionMailSlot | null
@@ -115,6 +118,19 @@ export function trainerSessionEmail(type: SessionMailType, data: SessionMailData
     SESSION_CANCELLED: "Séance annulée",
     SESSION_REMINDER: "Rappel de votre séance",
   }
+  const trainer = data.audience === "trainer"
+  const greeting = trainer ? data.trainerFirstName : data.learnerFirstName
+  const introductions: Record<SessionMailType, string> = trainer ? {
+    SESSION_SCHEDULED: `Votre séance avec <strong>${e(data.learnerName)}</strong> est programmée.`,
+    SESSION_UPDATED: `Votre séance avec <strong>${e(data.learnerName)}</strong> a été modifiée. Voici l'ancien et le nouveau créneau.`,
+    SESSION_CANCELLED: `Votre séance avec <strong>${e(data.learnerName)}</strong> est annulée.`,
+    SESSION_REMINDER: `Votre séance avec <strong>${e(data.learnerName)}</strong> commence bientôt.`,
+  } : {
+    SESSION_SCHEDULED: `Votre formatrice <strong>${e(data.trainerName)}</strong> a programmé votre séance de visioconférence.`,
+    SESSION_UPDATED: `Votre formatrice <strong>${e(data.trainerName)}</strong> a modifié votre séance de visioconférence. Voici l'ancien et le nouveau créneau.`,
+    SESSION_CANCELLED: `Votre formatrice <strong>${e(data.trainerName)}</strong> a annulé votre séance de visioconférence.`,
+    SESSION_REMINDER: `Votre séance de visioconférence avec votre formatrice <strong>${e(data.trainerName)}</strong> commence bientôt.`,
+  }
   const line = (label: string, value: string) => `<p style="margin:0 0 4px;font-size:13px;color:#888;">${label}</p><p style="margin:0 0 14px;font-size:15px;color:#111;font-weight:600;overflow-wrap:anywhere;">${e(value)}</p>`
   // Defense in depth: malformed or non-HTTPS URLs never become links in email HTML.
   let visioUrl: string | null = null
@@ -136,7 +152,8 @@ export function trainerSessionEmail(type: SessionMailType, data: SessionMailData
     subject: `${subjects[type]} — ${data.learnerName} · ${sessionParisDate(data.startsAt)}`,
     html: layout(brand, `
       <h1 style="margin:0 0 16px;font-size:22px;color:#111;">${titles[type]}</h1>
-      <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">Bonjour, voici les informations de la séance de <strong>${e(data.learnerName)}</strong> avec <strong>${e(data.trainerName)}</strong>.</p>
+      <p style="margin:0 0 12px;color:#555;font-size:15px;line-height:1.6;">Bonjour ${e(greeting)},</p>
+      <p style="margin:0 0 20px;color:#555;font-size:15px;line-height:1.6;">${introductions[type]}</p>
       <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f7;border-radius:8px;margin:0 0 20px;"><tr><td style="padding:16px 20px;">
         ${line("Élève", data.learnerName)}
         ${line("Formatrice", data.trainerName)}

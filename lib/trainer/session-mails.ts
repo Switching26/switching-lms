@@ -37,26 +37,29 @@ function notificationType(before: TrainerSession | null, after: TrainerSession |
   return null
 }
 
-function recipients(learnerEmail: string, trainerEmail: string): string {
-  const unique = Array.from(new Set([learnerEmail.trim(), trainerEmail.trim()].map((value) => value.toLowerCase())))
-  if (unique.some((value) => !/^[^\s<>@,;]+@[^\s<>@,;]+\.[^\s<>@,;]+$/.test(value))) {
-    throw new Error("Invalid session recipient")
-  }
-  return unique.join(", ")
-}
+type SessionAudience = "learner" | "trainer"
+type ReminderAttempt = "complete" | "delivered" | "failed" | "skipped"
 
 async function deliver(tx: Prisma.TransactionClient, type: SessionMailType, session: TrainerSession,
-  assignment: NonNullable<Awaited<ReturnType<typeof mailContext>>>, before?: TrainerSession | null) {
+  assignment: NonNullable<Awaited<ReturnType<typeof mailContext>>>, audience: SessionAudience,
+  before?: TrainerSession | null) {
   const partner = await switchingPartner(tx)
   if (!partner) return false
-  const mail = trainerSessionEmail(type, { ...session, before,
-    learnerName: `${assignment.firstName} ${assignment.lastName}`,
-    trainerName: `${assignment.trainer.firstName} ${assignment.trainer.lastName}`,
-    formationLabel: assignment.formationLabel }, partner)
-  // A single Gmail submission addresses both people, even when learnerId is null.
-  // SESSION_* is excluded from the central trainer Bcc rule in lib/email.ts.
-  return sendEmail(recipients(assignment.email, assignment.trainer.email), mail.subject, mail.html,
-    assignment.trainer.id, type, partner)
+  const email = (audience === "learner" ? assignment.email : assignment.trainer.email).trim().toLowerCase()
+  try {
+    if (!/^[^\s<>@,;]+@[^\s<>@,;]+\.[^\s<>@,;]+$/.test(email)) throw new Error("Invalid session recipient")
+    const mail = trainerSessionEmail(type, { ...session, before, audience,
+      learnerFirstName: assignment.firstName, learnerName: `${assignment.firstName} ${assignment.lastName}`,
+      trainerFirstName: assignment.trainer.firstName,
+      trainerName: `${assignment.trainer.firstName} ${assignment.trainer.lastName}`,
+      formationLabel: assignment.formationLabel }, partner)
+    // One recipient per submission, no Cc/Bcc; SESSION_* bypasses the central trainer Bcc rule.
+    return await sendEmail(email, mail.subject, mail.html,
+      audience === "learner" ? assignment.learnerId : assignment.trainer.id, type, partner)
+  } catch {
+    console.error(`[SESSION_MAIL] ${audience} delivery failed`)
+    return false
+  }
 }
 
 /** Mutations belong to the socle; only the routes call this notification helper. */
@@ -77,7 +80,9 @@ export async function notifySessionChange(before: TrainerSession | null, after: 
       if (!owner) return skipped("unavailable")
       const assignment = await mailContext(tx, snapshot.assignmentId, owner)
       if (!assignment) return skipped("unavailable")
-      const sent = await deliver(tx, type, snapshot, assignment, before)
+      const learnerSent = await deliver(tx, type, snapshot, assignment, "learner", before)
+      const trainerSent = await deliver(tx, type, snapshot, assignment, "trainer", before)
+      const sent = learnerSent && trainerSent
       if (sent && after) await tx.trainerSession.update({ where: { id: after.id }, data: { notifiedAt: new Date() } })
       return { sent, skipped: false, ...(sent ? {} : { reason: "delivery_failed" as const }) }
     }, { maxWait: 10000, timeout: 60000 })
@@ -86,6 +91,34 @@ export async function notifySessionChange(before: TrainerSession | null, after: 
     console.error("[SESSION_MAIL] Notification failed")
     return { sent: false, skipped: false, reason: "delivery_failed" }
   }
+}
+
+/** Commit each recipient before attempting the next; row locks also serialize schedule mutations. */
+async function remindRecipient(id: string, audience: SessionAudience, now: Date, until: Date): Promise<ReminderAttempt> {
+  return prisma.$transaction(async (tx): Promise<ReminderAttempt> => {
+    const locks = await tx.$queryRaw<Array<{ locked: boolean }>>`SELECT pg_try_advisory_xact_lock(hashtext('trainer-session-mail-v2'), hashtext(${id})) AS locked`
+    if (!locks[0]?.locked) return "skipped"
+    await tx.$queryRaw`SELECT "id" FROM "TrainerSession" WHERE "id" = ${id} FOR UPDATE`
+    const session = await tx.trainerSession.findUnique({ where: { id },
+      include: { assignment: { select: { trainerId: true } } } })
+    if (!session || session.status !== "PLANNED" || session.cancelledAt || session.reminderSentAt ||
+      session.startsAt < now || session.startsAt > until) return "skipped"
+    if (session.learnerReminderSentAt && session.trainerReminderSentAt) {
+      await tx.trainerSession.update({ where: { id }, data: { reminderSentAt: new Date() } })
+      return "complete"
+    }
+    const field = audience === "learner" ? "learnerReminderSentAt" : "trainerReminderSentAt"
+    const otherField = audience === "learner" ? "trainerReminderSentAt" : "learnerReminderSentAt"
+    if (session[field]) return "skipped"
+    const assignment = await mailContext(tx, session.assignmentId, session.assignment.trainerId)
+    if (!assignment) return "skipped"
+    if (!await deliver(tx, "SESSION_REMINDER", session, assignment, audience)) return "failed"
+    const sentAt = new Date()
+    const data: Prisma.TrainerSessionUpdateInput = { [field]: sentAt,
+      ...(session[otherField] ? { reminderSentAt: sentAt } : {}) }
+    await tx.trainerSession.update({ where: { id }, data })
+    return session[otherField] ? "complete" : "delivered"
+  }, { maxWait: 10000, timeout: 60000 })
 }
 
 export async function runDueSessionReminders(now = new Date()) {
@@ -97,28 +130,18 @@ export async function runDueSessionReminders(now = new Date()) {
   })
   const result = { scanned: candidates.length, sent: 0, skipped: 0, failed: 0 }
   for (const candidate of candidates) {
-    try {
-      const notification = await prisma.$transaction(async (tx): Promise<SessionNotification> => {
-        const locks = await tx.$queryRaw<Array<{ locked: boolean }>>`SELECT pg_try_advisory_xact_lock(hashtext('trainer-session-mail-v2'), hashtext(${candidate.id})) AS locked`
-        if (!locks[0]?.locked) return skipped("busy")
-        await tx.$queryRaw`SELECT "id" FROM "TrainerSession" WHERE "id" = ${candidate.id} FOR UPDATE`
-        const session = await tx.trainerSession.findUnique({ where: { id: candidate.id },
-          include: { assignment: { select: { trainerId: true } } } })
-        if (!session || session.status !== "PLANNED" || session.cancelledAt || session.reminderSentAt ||
-          session.startsAt < now || session.startsAt > until) return skipped("not_due")
-        const assignment = await mailContext(tx, session.assignmentId, session.assignment.trainerId)
-        if (!assignment) return skipped("unavailable")
-        const sent = await deliver(tx, "SESSION_REMINDER", session, assignment)
-        if (sent) await tx.trainerSession.update({ where: { id: session.id }, data: { reminderSentAt: new Date() } })
-        return { sent, skipped: false, ...(sent ? {} : { reason: "delivery_failed" as const }) }
-      }, { maxWait: 10000, timeout: 60000 })
-      if (notification.sent) result.sent++
-      else if (notification.skipped) result.skipped++
-      else result.failed++
-    } catch {
-      result.failed++
-      console.error("[SESSION_REMINDER] Delivery failed")
+    const attempts: ReminderAttempt[] = []
+    for (const audience of ["learner", "trainer"] as const) {
+      try {
+        attempts.push(await remindRecipient(candidate.id, audience, now, until))
+      } catch {
+        attempts.push("failed")
+        console.error(`[SESSION_REMINDER] ${audience} delivery failed`)
+      }
     }
+    if (attempts.includes("complete")) result.sent++
+    else if (attempts.includes("failed")) result.failed++
+    else result.skipped++
   }
   return result
 }

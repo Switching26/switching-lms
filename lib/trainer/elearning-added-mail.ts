@@ -42,7 +42,6 @@ export function elearningAddedEmail(input: ElearningAddedMailInput) {
 <p style="margin:0 0 8px"><strong>Identifiant</strong><br>${e(input.learner.email)}</p>
 <p style="margin:0"><strong>Mot de passe</strong><br>${e(input.password)}</p></td></tr></table>
 <p style="margin:24px 0;text-align:center"><a href="${e(loginUrl)}" style="display:inline-block;padding:14px 24px;background-color:${color};color:#fff;font-size:16px;font-weight:600;text-decoration:none;border-radius:6px">Se connecter à la plateforme</a></p>
-<p>Ce bonus gratuit ne modifie pas vos heures de formation ni votre parcours CPF.</p>
 <p>Bien à vous,<br>L'équipe pédagogique</p>
 </td></tr><tr><td style="padding:20px 24px;text-align:center;background-color:#f9f9fb;color:#999;font-size:12px">Cet email a été envoyé par ${name}</td></tr>
 </table></td></tr></table></body></html>`,

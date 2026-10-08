@@ -18,6 +18,6 @@ export default async function TrainerLayout({ children }: { children: React.Reac
   const theme = brandTheme("#10ABAF", "#0F172A")
   return <div className="lms-plaquette trainer-space" style={theme}>
     <BrandTheme theme={theme} />
-    <TrainerShell name={`${trainer.firstName} ${trainer.lastName}`} email={trainer.email}>{children}</TrainerShell>
+    <TrainerShell name={`${trainer.firstName} ${trainer.lastName}`} email={trainer.email} impersonating={trainer.impersonating}>{children}</TrainerShell>
   </div>
 }

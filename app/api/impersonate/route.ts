@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
   // Determine redirect
   const redirectUrl = target.role === "LEARNER"
     ? "/learner/accueil"
-    : "/partner-admin/dashboard"
+    : target.role === "TRAINER" ? "/trainer" : "/partner-admin/dashboard"
 
   const res = NextResponse.json({ ok: true, redirectUrl })
 

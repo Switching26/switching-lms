@@ -47,7 +47,10 @@ export async function POST(req: Request) {
     // À l'inscription CRM, le bonus peut encore attendre le bouton de création d'accès.
     const createAccess = body.hasElearning && body.createElearningAccess !== false
     if (body.visioHours != null && (!Number.isInteger(body.visioHours) || body.visioHours <= 0 || body.visioHours > 10000)) throw new InputError("Durée des visios invalide")
-    const trainerId = text(body.trainerId, "trainerId", true)!
+    const requestedTrainerId = text(body.trainerId, "trainerId")
+    const trainerEmail = text(body.trainerEmail, "trainerEmail")?.toLowerCase() || null
+    if (!requestedTrainerId && !trainerEmail) throw new InputError("trainerId ou trainerEmail requis")
+    if (trainerEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trainerEmail)) throw new InputError("Champ invalide : trainerEmail")
     const requestedPartnerId = text(body.partnerId, "partnerId")
     const email = text(body.email, "email", true)!.toLowerCase()
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new InputError("Email invalide")
@@ -57,7 +60,7 @@ export async function POST(req: Request) {
     if (adminEndAt && adminEndAt < adminStartAt) throw new InputError("La fin précède le début administratif")
     const formationId = text(body.formationId, "formationId", createAccess)
     const data = {
-      crmBeneficiaireId: body.crmBeneficiaireId as number, trainerId, email,
+      crmBeneficiaireId: body.crmBeneficiaireId as number, email,
       firstName: text(body.firstName, "firstName", true)!, lastName: text(body.lastName, "lastName", true)!,
       formationLabel: text(body.formationLabel, "formationLabel", true)!,
       phone: text(body.phone, "phone"), civility: text(body.civility, "civility"),
@@ -69,21 +72,36 @@ export async function POST(req: Request) {
       await tx.$queryRaw`SELECT pg_advisory_xact_lock(hashtext(${`crm-trainer:${data.crmBeneficiaireId}`}))::text`
       const existing = await tx.trainerAssignment.findUnique({ where: { crmBeneficiaireId: data.crmBeneficiaireId },
         include: { learner: true, enrollment: { include: { formation: true } } } })
-      if (existing) {
-        if (existing.trainerId !== trainerId || existing.email.toLowerCase() !== email || existing.hasElearning !== data.hasElearning ||
-          (createAccess && existing.enrollmentId && existing.enrollment?.formationId !== formationId)) {
-          throw new InputError("Ce bénéficiaire possède déjà une attribution différente", 409)
-        }
-      }
       // The historical Switching CRM can omit partnerId; every explicit
       // organisation is validated against the trainer's CURRENT memberships.
       const switching = requestedPartnerId
         ? await tx.partner.findUnique({ where: { id: requestedPartnerId } })
         : await tx.partner.findUnique({ where: { slug: "switching" } })
+      if (!switching?.isActive) throw new InputError("Organisme visé introuvable ou inactif")
+      let trainerId = requestedTrainerId
+      if (trainerEmail) {
+        const matches = await tx.user.findMany({
+          where: { email: { equals: trainerEmail, mode: "insensitive" }, role: "TRAINER", isActive: true, archivedAt: null,
+            trainerPartners: { some: { partnerId: switching.id, partner: { isActive: true } } } },
+          select: { id: true }, take: 2,
+        })
+        if (!matches.length) throw new InputError("Aucun formateur actif rattaché à l'organisme visé pour trainerEmail")
+        if (matches.length > 1) throw new InputError("trainerEmail ambigu : plusieurs formateurs actifs dans l'organisme visé")
+        if (trainerId && trainerId !== matches[0].id) throw new InputError("trainerId et trainerEmail désignent des formateurs différents")
+        trainerId = matches[0].id
+      }
+      // One identifier is required above, and email resolution has now succeeded.
+      if (!trainerId) throw new InputError("trainerId ou trainerEmail requis")
       const trainer = await tx.user.findUnique({ where: { id: trainerId } })
       const membership = switching ? await tx.trainerPartner.findUnique({ where: { trainerId_partnerId: { trainerId, partnerId: switching.id } } }) : null
       if (!switching?.isActive || !trainer || trainer.role !== "TRAINER" || !trainer.isActive || trainer.archivedAt || !membership) {
         throw new InputError("Formatrice non rattachée à l'organisme visé")
+      }
+      if (existing) {
+        if (existing.trainerId !== trainerId || existing.email.toLowerCase() !== email || existing.hasElearning !== data.hasElearning ||
+          (createAccess && existing.enrollmentId && existing.enrollment?.formationId !== formationId)) {
+          throw new InputError("Ce bénéficiaire possède déjà une attribution différente", 409)
+        }
       }
       if (existing?.partnerId && existing.partnerId !== switching.id) throw new InputError("L'attribution existante appartient à un autre organisme", 409)
       if (existing) {
@@ -125,7 +143,7 @@ export async function POST(req: Request) {
       }
       const assignment = existing
         ? await tx.trainerAssignment.update({ where: { id: existing.id }, data: { learnerId, enrollmentId, partnerId: switching.id } })
-        : await tx.trainerAssignment.create({ data: { ...data, learnerId, enrollmentId, partnerId: switching.id } })
+        : await tx.trainerAssignment.create({ data: { ...data, trainerId, learnerId, enrollmentId, partnerId: switching.id } })
       return { assignment, created: !existing, accessCreated: Boolean(learnerId), password }
     }, { maxWait: 10000, timeout: 20000 })
     let trainerNotified = false

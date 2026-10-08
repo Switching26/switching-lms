@@ -153,7 +153,7 @@ export default function UsersTable({
   const statusFilter: StatusFilter = isPartnerAdmin ? partnerStatusFilter
     : requestedStatus === "active" || requestedStatus === "inactive" || requestedStatus === "archived" ? requestedStatus : "all"
   const requestedOrg = searchParams.get("organisme") || "all"
-  const orgFilter = requestedOrg === "internal" || requestedOrg === "partner" || partners?.some((p) => requestedOrg === `partner:${p.id}`)
+  const orgFilter = requestedOrg === "partner" || partners?.some((p) => requestedOrg === `partner:${p.id}`)
     ? requestedOrg : "all"
   const updateFilterUrl = (key: string, value: string) => {
     const url = new URL(window.location.href)
@@ -268,7 +268,6 @@ export default function UsersTable({
     if (isPartnerAdmin && u.role === "TRAINER") return false
     // Org filter (super admin only)
     if (!isPartnerAdmin) {
-      if (orgFilter === "internal" && (u.partnerId || (u.role === "TRAINER" && u.trainerPartners?.length))) return false
       if (orgFilter === "partner" && !u.partnerId && !(u.role === "TRAINER" && u.trainerPartners?.length)) return false
       if (orgFilter.startsWith("partner:") && u.partnerId !== orgFilter.slice(8) && !(u.role === "TRAINER" && u.trainerPartners?.some((p) => p.partnerId === orgFilter.slice(8)))) return false
     }
@@ -914,7 +913,7 @@ export default function UsersTable({
   const canViewSpace = (u: User) => {
     if (isArchived(u)) return false
     if (isPartnerAdmin) return u.role === "LEARNER"
-    return u.role === "LEARNER" || u.role === "PARTNER_ADMIN"
+    return u.role === "LEARNER" || u.role === "PARTNER_ADMIN" || u.role === "TRAINER"
   }
   const canSendLoginLink = (u: User) => u.isActive && !u.archivedAt && !neverLoggedIn(u)
 
@@ -951,7 +950,6 @@ export default function UsersTable({
                 style={{ minHeight: 44 }}
               >
                 <option value="all">Tous</option>
-                <option value="internal">Internes — sans organisme</option>
                 <option value="partner">Tous les organismes</option>
                 {[...(partners || [])].sort((a, b) => a.name.localeCompare(b.name, "fr")).map((p) => (
                   <option key={p.id} value={`partner:${p.id}`}>{p.name}</option>

@@ -19,14 +19,21 @@ export interface TrainerIdentity {
   email: string
   partnerId: string | null
   partnerIds: string[]
+  impersonating?: { name: string; email: string }
 }
 
 /** Server-only guard: recheck role/account in the database, not only the JWT. */
 export async function requireTrainer(): Promise<TrainerIdentity> {
   const session = await auth()
   if (!session?.user?.id) throw new TrainerAccessError("Non autorisé", 401)
-  if (String(session.user.role) !== "TRAINER" || session.user.realAdmin) {
+  if (String(session.user.role) !== "TRAINER") {
     throw new TrainerAccessError("Accès réservé aux formateurs", 403)
+  }
+  if (session.user.realAdmin && !await prisma.user.findFirst({
+    where: { id: session.user.realAdmin.userId, role: "SUPER_ADMIN", isActive: true, archivedAt: null },
+    select: { id: true },
+  })) {
+    throw new TrainerAccessError("Visualisation réservée au super-admin", 403)
   }
   const trainer = await prisma.user.findUnique({
     where: { id: session.user.id },
@@ -44,7 +51,8 @@ export async function requireTrainer(): Promise<TrainerIdentity> {
   }
   return { id: trainer.id, role: "TRAINER", firstName: trainer.firstName,
     lastName: trainer.lastName, email: trainer.email, partnerId: trainer.partnerId,
-    partnerIds: trainer.trainerPartners.map(row => row.partnerId) }
+    partnerIds: trainer.trainerPartners.map(row => row.partnerId),
+    impersonating: session.user.realAdmin ? session.user.impersonating : undefined }
 }
 
 export async function assertActiveTrainer(trainerId: string, db: Prisma.TransactionClient = prisma): Promise<void> {

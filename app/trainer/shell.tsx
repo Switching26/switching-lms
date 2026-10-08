@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { BookOpen, CalendarDays, ChevronRight, FileCheck2, Home, MessagesSquare, UsersRound } from "lucide-react"
+import ImpersonationBanner from "@/components/layout/ImpersonationBanner"
 
 const items = [
   { label: "Aujourd’hui", href: "/trainer", icon: Home },
@@ -13,8 +14,9 @@ const items = [
   { label: "Corrections", href: "/trainer/corrections", icon: FileCheck2 },
 ]
 
-export default function TrainerShell({ children, name, email }: {
+export default function TrainerShell({ children, name, email, impersonating }: {
   children: React.ReactNode; name: string; email: string
+  impersonating?: { name: string; email: string }
 }) {
   const pathname = usePathname()
   const [counts, setCounts] = useState<{ messages: number; corrections?: number }>({ messages: 0 })
@@ -66,7 +68,8 @@ export default function TrainerShell({ children, name, email }: {
       {!!count && <b className="trainer-nav-badge" aria-label={`${count} ${label === "Messages" ? "messages non lus" : "corrections en attente"}`}>{count}</b>}
     </Link>
   })
-  return <div className="min-h-screen">
+  return <div className="min-h-screen" style={impersonating ? { paddingTop: "40px", "--app-impersonation-offset": "40px" } as React.CSSProperties : undefined}>
+    {impersonating && <ImpersonationBanner name={impersonating.name} email={impersonating.email} />}
     <a className="trainer-skip" href="#trainer-main">Aller au contenu</a>
     <aside className="lms-side">{brand}<span className="lms-side-label">MON ESPACE</span>
       <nav className="lms-side-links" aria-label="Navigation formatrice ordinateur">{links}</nav>

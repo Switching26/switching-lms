@@ -12,6 +12,7 @@ export default function LessonList({entrees,courant,onNaviguer,active=true,angla
   entrees:LessonEntry[];courant:string;onNaviguer:(id:string)=>void;active?:boolean;anglais?:boolean;title?:string;minutes?:number|null;onClose?:()=>void;position?:ReactNode
 }) {
   const uid=useId(), listRef=useRef<HTMLDivElement>(null), inputRef=useRef<HTMLInputElement>(null)
+  const centerPending=useRef(true)
   const [query,setQuery]=useState(''),[selected,setSelected]=useState(0),[opened,setOpened]=useState<Set<string>>(new Set())
   // La clé exclut la progression : ni heartbeat ni validation ne retokenisent le catalogue.
   const catalogueKey=JSON.stringify(entrees.map((e,index)=>({id:e.id,title:e.titre,module:e.module||'Chapitres',theme:e.searchTheme||'',index,group:e.sectionId||e.module||'Chapitres'})))
@@ -24,13 +25,16 @@ export default function LessonList({entrees,courant,onNaviguer,active=true,angla
   const searching=!!query.trim(), selectedIndex=Math.min(selected,Math.max(0,results.length-1))
   const done=entrees.filter(e=>e.termine).length,percent=entrees.length?Math.round(done/entrees.length*100):0
   const duration=(minutes??entrees[0]?.formationMinutes)?(minutes??entrees[0]?.formationMinutes)!*60:entrees.reduce((n,e)=>n+(e.secondes||0),0)
-  useEffect(()=>{if(!active)return;setQuery('');setSelected(0);if(currentGroup)setOpened(o=>new Set(o).add(currentGroup))},[active,courant,currentGroup])
+  useEffect(()=>{if(!active)return;centerPending.current=true;setQuery('');setSelected(0);if(currentGroup)setOpened(o=>new Set(o).add(currentGroup))},[active,courant,currentGroup])
   useEffect(()=>{
     if(!active||searching)return
     const list=listRef.current,el=list?.querySelector<HTMLElement>('[aria-current=step]')
-    if(!list||!el)return
+    if(!list||!el||!el.offsetHeight)return
     const rect=el.getBoundingClientRect(),box=list.getBoundingClientRect()
-    if(rect.bottom>box.bottom||rect.top<box.top)list.scrollTop+=rect.top-box.top-80
+    // Centrer à l'ouverture / au changement de chapitre, sans déplacer une liste
+    // déjà lisible à chaque module que l'apprenant déplie.
+    if(centerPending.current||rect.bottom>box.bottom||rect.top<box.top)list.scrollTop+=rect.top-box.top-(box.height-rect.height)/2
+    centerPending.current=false
   },[active,courant,opened,searching])
   const clear=()=>{setQuery('');setSelected(0)}
   function mark(text:string){const qs=tokens(query);return text.split(new RegExp('([\\p{L}\\p{N}]+)', 'u')).map((w,i)=>query&&qs.some(q=>wordScore(q,normalize(w))>=.53)?<mark key={i}>{w}</mark>:w)}

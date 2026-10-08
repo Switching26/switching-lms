@@ -25,6 +25,15 @@ export function etat() {
   return { coupe, enLecture: enLecture('guide'), bloque, disponible: Boolean(courant?.some(s => info(typeof s === 'string' ? s : s.ref || s.id))) };
 }
 
+/** Le relais est importé avant chargerEtat : relire ensuite la préférence sauvegardée. */
+export function rechargerPreference() {
+  const preference = Boolean(lire('guide-coupe', false));
+  if (preference === coupe) return;
+  coupe = preference;
+  if (coupe) arreter();
+  notifier();
+}
+
 export async function dire(sequence, opts = {}) {
   clearTimeout(minuterie);
   if (coupe || !sequence) return 'coupe';
@@ -71,4 +80,4 @@ export function basculer() {
 export function estCoupe() { return coupe; }
 export function surChangement(f) { abonnes.add(f); return () => abonnes.delete(f); }
 
-export const guide = { dire, preparer, planifier, arreter, oublier, rejouer, basculer, estCoupe, etat, surChangement };
+export const guide = { dire, preparer, rechargerPreference, planifier, arreter, oublier, rejouer, basculer, estCoupe, etat, surChangement };

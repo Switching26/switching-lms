@@ -28,6 +28,7 @@ export function commencerEcranBarre() {
 
 export function configurerBarre(configuration) {
   if (!modeLMS) return;
+  guide.rechargerPreference();
   ecran = configuration;
   publier();
 }
@@ -35,11 +36,11 @@ export function configurerBarre(configuration) {
 // Bilans, carnet, révisions, écrans indisponibles : aucun contexte d'étape ne fuit.
 export function terminerEcranBarre(racine, route) {
   if (!modeLMS) return;
-  if (!ecran) ecran = {
+  if (!ecran) configurerBarre({
     titre: racine.querySelector('h1, h2')?.textContent.trim() || 'Leçon d’anglais',
     retourLecon: route !== '#/lecon' && route !== '#/bilan-final',
-  };
-  publier();
+  });
+  else publier();
 }
 
 if (modeLMS) {

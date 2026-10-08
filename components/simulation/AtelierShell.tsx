@@ -419,7 +419,7 @@ function BandeConsigne({ c }: { c: ConsigneAtelier }) {
           <span
             className="mb-1.5 inline-flex items-center gap-1.5 rounded-md uppercase"
             style={{
-              fontSize: 9.5,
+              fontSize: 11,
               fontWeight: 800,
               letterSpacing: ".07em",
               padding: "4px 8px",

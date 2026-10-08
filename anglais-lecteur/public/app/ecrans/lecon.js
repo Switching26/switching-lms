@@ -9,6 +9,7 @@ import { revisions } from '../../services/revisions.js';
 import { icones } from '../../services/icones.js';
 import { voix } from '../../services/voix.js';
 import { guide } from '../../services/guide.js';
+import { configurerBarre } from '../../services/barre-lms.js';
 import { lire, ecrire } from '../../services/stockage.js';
 import { vignetteEtape } from '../vignettes.js';
 import { ressourcesUnite, ressourcesHTML, brancherMots } from '../mots-a-retenir.js';
@@ -113,6 +114,12 @@ export async function afficher(racine) {
   let ouvertureTimer;
   const sequence = L.voix_ouverture?.sequence || [];
   const btn = zone.querySelector('[data-ouverture]');
+  let desabonnerGuide;
+  if (modeLMS) {
+    configurerBarre({ titre: L.titre?.fr || L.titre || '', retourLecon: false, avantCommandeVoix: () => clearTimeout(ouvertureTimer) });
+    guide.preparer(sequence);
+    desabonnerGuide = guide.surChangement((g) => { btn.querySelector('[data-ouverture-texte]').textContent = g.enLecture ? 'Arrêter' : 'Écouter la présentation'; });
+  }
   if (sequence.some((s) => voix.info(s.id))) {
     btn.hidden = false;
     const jouer = () => { btn.querySelector('[data-ouverture-texte]').textContent = 'Arrêter'; guide.dire(sequence).then(() => { btn.querySelector('[data-ouverture-texte]').textContent = 'Écouter la présentation'; }); };
@@ -121,5 +128,5 @@ export async function afficher(racine) {
   }
   const couper = (ev) => { if (!ev.target.closest('[data-voix]')) guide.arreter(); };
   zone.addEventListener('pointerdown', couper, true);
-  return () => { clearTimeout(ouvertureTimer); guide.arreter(); couperMots(); zone.removeEventListener('pointerdown', couper, true); };
+  return () => { clearTimeout(ouvertureTimer); desabonnerGuide?.(); guide.arreter(); couperMots(); zone.removeEventListener('pointerdown', couper, true); };
 }

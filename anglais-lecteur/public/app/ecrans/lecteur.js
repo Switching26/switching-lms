@@ -12,6 +12,7 @@ import { script, scriptOptionnel, segment, rafraichirScript } from '../../servic
 import * as progression from '../../services/progression.js';
 import { icones } from '../../services/icones.js';
 import { ouvrirComparaison } from './comparaison.js';
+import { configurerBarre } from '../../services/barre-lms.js';
 
 const { audio, guide, micro, voix, visuels, stockage, retour } = services;
 // Les notes personnelles n'existent pas dans l'aperçu du LMS. Ce paramètre
@@ -106,6 +107,11 @@ export async function afficher(racine, id) {
   });
   // Appui long ou double action inutiles : un second bouton explicite coupe définitivement.
   btnGuide.addEventListener('contextmenu', (ev) => { ev.preventDefault(); guide.basculer(); });
+  configurerBarre({
+    sequence: sequence?.titre || '', titre: etape.titre || donnees?.titre || '',
+    etape: { rang: etape.rang, total: l.etapes.length }, retourLecon: true,
+    outils: unite() === 'U01' ? [{ id: 'comparer', libelle: "Comparer avec Reflex'English", executer: () => ouvrirComparaison(etape, donnees) }] : [],
+  });
   guide.planifier(donnees?.voix_consigne || null);
   majGuide(guide.etat());
 

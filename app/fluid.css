@@ -451,10 +451,20 @@
 .lms-bar-menu-action>span { flex:1; }
 .lms-bar-menu-action small { display:block; color:#6b787d; font-size:11.5px; line-height:1.4; margin-top:3px; }
 .lms-bar-menu hr { border:0; border-top:1px solid #e7ebeb; margin:6px 2px; }
-.lms-bar-switch { width:29px; height:17px; flex-shrink:0; border-radius:20px; background:#bbc5c8; position:relative; }
-.lms-bar-switch::after { content:''; width:13px; height:13px; position:absolute; top:2px; left:2px; border-radius:50%; background:#fff; }
-.lms-bar-switch[data-on=true] { background:var(--lesson-brand-accent); }
-.lms-bar-switch[data-on=true]::after { left:14px; }
+.lms-bar-sound-menu { width:300px; border:0; border-radius:16px; box-shadow:0 14px 44px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.04); }
+.lms-bar-menu-heading { font-size:11px; font-weight:650; color:#627177; text-transform:uppercase; letter-spacing:.7px; padding:8px 10px 6px; }
+.lms-common-bar .lms-bar-sound-menu .lms-bar-menu-action { gap:12px; min-height:52px; padding:6px 10px; border-radius:11px; }
+.lms-bar-sound-menu .lms-bar-menu-action:hover { background:#f3f5f5; }
+.lms-bar-sound-menu .lms-bar-menu-action>span { font-size:14px; font-weight:550; line-height:1.3; }
+.lms-bar-sound-menu .lms-bar-menu-action small { font-size:12px; font-weight:400; color:#627177; line-height:inherit; margin-top:0; }
+.lms-bar-sound-menu .lms-bar-menu-action>.lms-bar-menu-icon { flex:0 0 34px; width:34px; height:34px; border-radius:10px; background:#eef1f1; display:grid; place-items:center; }
+.lms-bar-menu-icon>svg { width:17px; height:17px; stroke-width:1.8; }
+.lms-bar-sound-menu hr { border-top-color:#eef1f1; margin:4px 6px; }
+.lms-bar-switch { width:42px; height:26px; flex-shrink:0; border-radius:13px; background:#c9d1d2; position:relative; transition:background .2s; }
+.lms-bar-switch::after { content:''; width:20px; height:20px; position:absolute; top:3px; left:3px; border-radius:50%; background:#fff; box-shadow:0 1px 3px #00000033; transition:transform .2s; }
+.lms-bar-switch[data-on=true] { background:#202c30; }
+.lms-bar-switch[data-on=true]::after { transform:translateX(16px); }
+.lms-bar-sound-backdrop,.lms-bar-sheet-grab { display:none; }
 .lms-common-bar .lms-bar-mobile-actions { display:none; }
 .lms-bar-progress { position:absolute; bottom:-1px; left:0; right:0; height:3px; display:flex; gap:3px; background:#e8ecec; }
 .lms-bar-progress>i:not(.lms-bar-progress-fill) { flex:1; background:#e3e8e8; }
@@ -504,6 +514,10 @@
  .lms-bar-title strong { white-space:normal; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; line-height:16px; max-height:32px; }
  .lms-bar-menu { position:fixed; top:calc(var(--app-nav-height,72px) + var(--app-impersonation-offset,0px) + 64px); right:12px; }
  .anglais-immersif .lms-bar-menu { top:64px; }
+ .lms-common-bar .lms-bar-sound-backdrop { display:block; position:fixed; inset:0; z-index:60; padding:0; border:0; border-radius:0; background:rgba(18,26,28,.32); }
+ .lms-bar-sound-menu,.anglais-immersif .lms-bar-sound-menu { position:fixed; top:auto; bottom:0; left:0; right:0; width:auto; max-width:none; border-radius:22px 22px 0 0; padding:8px 10px calc(26px + env(safe-area-inset-bottom)); box-shadow:0 -10px 40px rgba(0,0,0,.15); animation:lms-sound-sheet .26s cubic-bezier(.22,1,.36,1); }
+ .lms-bar-sheet-grab { display:block; width:38px; height:5px; border-radius:3px; background:#d5dbdc; margin:4px auto 8px; }
+ .lms-common-bar .lms-bar-sound-menu .lms-bar-menu-action { min-height:56px; }
  [data-cadran-portail]:not(.anglais-portail-immersif) { bottom:calc(86px + env(safe-area-inset-bottom)) !important; }
  .lms-reader>.lms-reader-sidebar.lms-lesson-panel[data-modal=true] { position:fixed; inset:0; width:100%; max-width:none; height:100dvh; z-index:70; }
  .lms-reader>.lms-lesson-veil { position:fixed; inset:0; }
@@ -511,3 +525,5 @@
  .lms-reader:has([data-control=atelier-trop-petit]) .lms-reader-band { display:none; }
  .lms-reader:has([data-control=atelier-trop-petit]) .lms-reader-details { display:none; }
 }
+@keyframes lms-sound-sheet { from { transform:translateY(40px); opacity:0; } }
+@media(prefers-reduced-motion:reduce) { .lms-bar-sound-menu { animation:none; } .lms-bar-switch,.lms-bar-switch::after { transition:none; } }

@@ -86,11 +86,15 @@ export default function BarreCommune(p: Props) {
     </div>
     {son && <div className="lms-bar-sound" data-voix="">
       <button ref={sonRef} type="button" className="lms-bar-button" data-control="voix-menu" aria-label={son.active ? "Son" : "Son coupé"} aria-expanded={menu === "son"} aria-controls={`${id}-son`} aria-haspopup="menu" onClick={() => setMenu(menu === "son" ? null : "son")}><Voix/><span>{son.active ? "Son" : "Son coupé"}</span></button>
-      {menu === "son" && <div id={`${id}-son`} className="lms-bar-menu" role="menu" aria-label="Son">
-        <button type="button" role="menuitem" className="lms-bar-menu-action" data-control={p.atelier ? "sim-voix" : "cad-voix"} disabled={!son.disponible || (!son.active && !son.enLecture)} onClick={son.enLecture ? son.arreter : son.rejouer}>{son.enLecture ? <StopCircle/> : <Play/>}<span>{son.enLecture ? "Arrêter la lecture" : "Réécouter la consigne"}<small>{son.disponible ? "La consigne de cette étape" : "Pas de voix sur cet écran"}</small></span></button>
+      {menu === "son" && <>
+      <button type="button" className="lms-bar-sound-backdrop" aria-label="Fermer le menu Son" tabIndex={-1} onClick={fermer}/>
+      <div id={`${id}-son`} className="lms-bar-menu lms-bar-sound-menu" role="menu" aria-label="Son">
+        <div className="lms-bar-sheet-grab" aria-hidden="true"/>
+        <div className="lms-bar-menu-heading">Guide vocal</div>
+        <button type="button" role="menuitem" className="lms-bar-menu-action" data-control={p.atelier ? "sim-voix" : "cad-voix"} disabled={!son.disponible || (!son.active && !son.enLecture)} onClick={son.enLecture ? son.arreter : son.rejouer}><span className="lms-bar-menu-icon" aria-hidden="true">{son.enLecture ? <StopCircle/> : <Play/>}</span><span>{son.enLecture ? "Arrêter la lecture" : "Réécouter la consigne"}<small>{son.disponible ? "La consigne de cette étape" : "Pas de voix sur cet écran"}</small></span></button>
         <hr/>
-        <button type="button" role="menuitemcheckbox" aria-checked={son.active} className="lms-bar-menu-action" data-control={p.atelier ? "sim-voix-couper" : "cad-voix-couper"} onClick={son.basculer}><Voix/><span>Lire chaque consigne<small>{son.active ? "Activé" : "Coupé"} · votre choix est mémorisé</small></span><i className="lms-bar-switch" data-on={son.active}/></button>
-      </div>}
+        <button type="button" role="menuitemcheckbox" aria-checked={son.active} className="lms-bar-menu-action" data-control={p.atelier ? "sim-voix-couper" : "cad-voix-couper"} onClick={son.basculer}><span className="lms-bar-menu-icon" aria-hidden="true"><Voix/></span><span>Lire chaque consigne<small>{son.active ? "Activé" : "Coupé"} · votre choix est mémorisé</small></span><i className="lms-bar-switch" data-on={son.active}/></button>
+      </div></>}
     </div>}
     <div className="lms-bar-desktop-actions">{boutonsPanneaux()}<span className="lms-bar-separator"/><BoutonImmersion controle={p.immersion}/>{p.onQuitter && <button type="button" className="lms-bar-button lms-bar-icon" data-control={control("quitter")} aria-label="Quitter" title="Quitter" onClick={p.onQuitter}><X/></button>}</div>
     <div className={`lms-bar-more${outils.length ? " lms-bar-more-outils" : ""}`}>

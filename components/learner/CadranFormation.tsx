@@ -38,10 +38,6 @@ import { createContext, useContext, useEffect, useId, useMemo, useRef, useState,
 import { createPortal } from "react-dom"
 import PanneauRessources from "@/components/simulation/PanneauRessources"
 import type { LearnerDocument } from "@/lib/learner-files"
-import { filtrerDocuments } from "@/lib/learner-files"
-import { LigneDocument } from "@/components/learner/DocumentActions"
-import PdfViewer from "@/components/learner/PdfViewer"
-import SlidingTrack from "@/components/ui/SlidingTrack"
 import { useImmersion } from "./useImmersion"
 import BarreCommune, { type ActionBarre, type SonBarre } from "./barre/BarreCommune"
 
@@ -139,7 +135,7 @@ type Props = {
   genre: GenreChapitre
   titre: string
   description?: string | null
-  /** Texte long du chapitre, affiché sous la description dans le bloc plafonné. */
+  /** Texte long du chapitre, affiché sous sa description lorsqu'il existe. */
   contenu?: string | null
   /** Critère de réussite. Il vit HORS du bloc plafonné : jamais sous le pli. */
   attendu: ReactNode
@@ -237,9 +233,8 @@ export default function CadranFormation(p: Props) {
       try { localStorage.setItem("lms-player-lecons-repliees", "1") } catch {}
     }
   }
-  const [onglet, setOnglet] = useState<"notes" | "documents" | "description">("description")
-  const [documentOuvert, setDocumentOuvert] = useState<LearnerDocument | null>(null)
-  const documents = filtrerDocuments([...(p.documentsChapitre || []), ...(p.documentsFormation || [])]).filter((doc, i, all) => all.findIndex((other) => other.id === doc.id) === i)
+  const description = p.description?.trim() ? p.description : null
+  const contenu = p.contenu?.trim() ? p.contenu : null
   const idRessources = useId()
 
   useEffect(() => {
@@ -346,30 +341,13 @@ export default function CadranFormation(p: Props) {
       </div>
 
       <div className="lms-reader-band"><BandeChapitre {...p} description={null} contenu={null} /></div>
-      <div className="lms-reader-details">
-        <SlidingTrack className="lms-reader-tabs" activeKey={onglet} label="Contenu de la leçon" role="tablist">
-
-          {p.onNote && <button role="tab" aria-selected={onglet === "notes"} onClick={() => setOnglet("notes")}>Notes</button>}
-          <button role="tab" aria-selected={onglet === "documents"} onClick={() => setOnglet("documents")}>Documents</button>
-          <button role="tab" aria-selected={onglet === "description"} onClick={() => setOnglet("description")}>À propos</button>
-        </SlidingTrack>
-        <div className="lms-reader-tab-content" role="tabpanel">
-
-          {onglet === "notes" && <>
-            <textarea aria-label="Mes notes de la leçon" value={p.note ?? ""} onChange={(e) => p.onNote?.(e.target.value)} placeholder="Écrivez ici ce que vous voulez retenir de ce chapitre…" />
-            <p className="mt-2 text-xs">Enregistré automatiquement</p>
-            {p.notesHref && <a className="inline-flex min-h-11 items-center text-sm" href={p.notesHref}>Voir toutes mes notes →</a>}
-          </>}
-          {onglet === "documents" && <>
-            {documents.length ? documents.map((doc) => <LigneDocument key={doc.id} doc={doc} onConsulter={setDocumentOuvert} />) : <p>Aucun document disponible.</p>}
-            {p.documentsHref && <a className="ml-3 inline-flex min-h-11 items-center text-sm" href={p.documentsHref}>Tous mes documents →</a>}
-          </>}
-          {onglet === "description" && <>
-            <p className="whitespace-pre-line">{p.description || "Aucune description pour cette leçon."}</p>
-            {p.contenu && <p className="mt-3 whitespace-pre-wrap">{p.contenu}</p>}
-          </>}
+      {(description || contenu) && (
+        <div className="lms-reader-details">
+          <h3>À propos</h3>
+          {description && <p className="whitespace-pre-line">{description}</p>}
+          {contenu && <p className={description ? "mt-3 whitespace-pre-wrap" : "whitespace-pre-wrap"}>{contenu}</p>}
         </div>
-      </div>
+      )}
 
       <div className="lms-reader-footer">
         <button
@@ -400,8 +378,6 @@ export default function CadranFormation(p: Props) {
         </button>
 
       </div>
-
-      <PdfViewer doc={documentOuvert} onClose={() => setDocumentOuvert(null)} />
 
       {/* ── Panneaux ─────────────────────────────────────────────────────── */}
       {panneau && panneau !== "lecons" && (
